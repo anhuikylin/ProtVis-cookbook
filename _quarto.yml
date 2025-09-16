@@ -1,86 +1,102 @@
-project: 
-  type: book
+project:
+  type: website
 
-book: 
-  page-navigation: true
-  title: "NOAA quarto book" 
-  site-url: "https://nmfs-opensci.github.io/NOAA-quarto-book" 
-  repo-url: "https://github.com/nmfs-opensci/NOAA-quarto-book"
+website:
+  title: "Protvis cookbook"
+  site-url: "https://github.com/xuebinzhang-lab/ProtVis"
+  repo-url: "https://github.com/xuebinzhang-lab/ProtVis"
   repo-actions: [edit, source, issue]
-  favicon: assets/favicon.ico
-  downloads: [pdf, docx]
-  search: true
-  author:
-    - name: Jane Doe
-      affiliations:
-        - name: NOAA Fisheres
-          department: Northwest Fisheries Science Center
-    - name: Eva Nováková
-      institute: test
-      affiliations:
-        - name: NOAA Fisheries
-          department: West Coast Regional Office
-          institute: test
-    - name: Matti Meikäläinen
-      affiliations:
-        - name: NOAA Fisheries
-          department: Southwest Fisheries Science Center
-  chapters:
-    - index.qmd
-    - content/setup.qmd
-    - content/add-content.qmd
-    - content/customizing.qmd
-    - content/rendering.qmd
-    - content/figures_and_tables.qmd
-    - content/code.qmd
-    - content/adding-refs.qmd
-    - content/references.qmd
-
-  page-footer:
-    right: "This page is built with [Quarto](https://quarto.org/)."
-    left: "&copy; CC-1.0"
-  
+  page-navigation: true
+  favicon: images/favicon.ico
   sidebar:
-    background: "#D9E3E4"
-    logo: "https://raw.githubusercontent.com/nmfs-opensci/assets/main/logo/nmfs-opensci-logo3.png"
-    favicon: images/favicon.ico
+    background: "#FCD581"
+    logo: "https://github.com/xuebinzhang-lab/ProtVis"
     pinned: true
     align: center
-    tools: 
+    tools:
+      - icon: github
+        href: https://github.com/xuebinzhang-lab/ProtVis/xuebinzhang-lab/ProtVis
+        text: "Open Science"
       - icon: globe
-        href: https://nmfs-opensci.github.io
-        text: "NMFS Open Science"
     style: "docked"
     search: true
-    collapse-level: 1
-
-bibliography: [content/references.bib]
-
-execute:
-  echo: false
-  code-overflow: wrap
-
-format:
-  titlepage-pdf:
-    documentclass: scrbook
-    classoption: ["oneside", "open=any"]
-    titlepage: "plain"
-    keep-tex: true
-  docx:
+    author:
+    - name: Fei Liang
+      institute: test
+      affiliations:
+        - name: Henan University
+          department: State Key Laboratory of Crop Stress Adaptation and Improvement
     toc: true
     toc-depth: 2
-    reference-doc: template.docx
-    always_allow_html: true
+    collapse-level: 1
+    contents:
+      - href: index.qmd
+        text: Home
+      - href: content/introduce.qmd
+        text: Introduce
+      - href: content/installation.qmd
+        text: Installation
+      - href: content/Project_init/Project_init.qmd
+        text: Project init
+      - href: content/data_import/data_import.qmd
+        text: Data Import
+      - href: content/Pre_processing/Pre_processing.qmd
+        text: Pre-processing
+        contents:
+        - href: content/Pre_processing/correct_noise.qmd
+          text: Correct Noise
+        - href: content/Pre_processing/data_transformed.qmd
+          text: Data Transformed
+        - href: content/Pre_processing/data_imputation.qmd
+          text: Data Imputation
+        - href: content/Pre_processing/data_normalization.qmd
+          text: Data Normalization
+      - href: content/Downstream_analysis/Downstream_analysis.qmd
+        text: Downstream Analysis
+        contents:
+        - href: content/Downstream_analysis/Overview.qmd
+          text: Overview
+        - href: content/Downstream_analysis/DEP_analysis.qmd
+          text: DEP Analysis
+        - href: content/Downstream_analysis/Enrichment_analysis.qmd
+          text: Enrichment Analysis
+      - href: content/Multi_omics_data/Multi_omics_data.qmd
+        text: Multi-omics Data
+        contents:
+        - href: content/Multi_omics_data/Expression_Profile.qmd
+          text: Expression Profile
+        - href: content/Multi_omics_data/Nine_Quadrant.qmd
+          text: Nine Quadrant
+        - href: content/Multi_omics_data/venn.qmd
+          text: Venn
+      - href: content/Release_data.qmd
+        text: Release Data
+      - href: content/Toolkits.qmd
+        text: Toolkits
+        contents:
+        - href: content/Toolkits/Protein_Extract.qmd
+          text: Protein Extract
+        - href: content/Toolkits/Background_Make.qmd
+          text: Background Make
+        - href: content/Toolkits/Protein_Links.qmd
+          text: Protein Links
+        - href: content/Toolkits/Boxplot.qmd
+          text: Boxplot
+          
+          
+        
+          
+          
+format:
   html:
-    theme: [cosmo, assets/theme.scss] 
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
     toc: true
-    toc-depth: 3
+    toc-depth: 2
+    toc-title: "Contents"
 
-filters:
-  - assets/include-files.lua
-  - quarto
-
-# Comment next 2 lines if the PDF is having trouble
-metadata-files:
-  - _frontmatter.yml
- 
+page-footer:
+  right: "This page is built with [Quarto](https://quarto.org/)"
+left: "&copy; CC-1.0"
