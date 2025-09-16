@@ -7,6 +7,76 @@
     "text": "Add images to this folder"
   },
   {
+    "objectID": "content/introduce.html",
+    "href": "content/introduce.html",
+    "title": "introduce",
+    "section": "",
+    "text": "ProtVis is a powerful proteomics analysis software designed to provide researchers with an intuitive and efficient tool for protein data analysis. It offers versatile data import options, including formats such as txt, csv, and excel. ProtVis supports differential expression analysis (e.g., limma, t-test) and provides various data normalization methods (e.g., log2, quantile). Additionally, it features dimensionality reduction techniques such as PCA, t-SNE, and UMAP, enabling users to visually explore the structure of their data.\nFurthermore, ProtVis integrates k-means clustering, GO/KEGG enrichment analysis, and GSEA analysis, allowing for an in-depth exploration of the biological functions of proteins and their relationships with pathways. For proteomics research focused on post-translational modifications, ProtVis offers visualization and annotation tools, as well as support for the analysis of protein secondary and tertiary structures.\nThe software supports batch processing and allows for the export of analysis results in formats such as PDF, CSV, and Excel. With its open-source and extensible nature, users can customize and expand the software according to their specific needs. ProtVis simplifies complex analysis workflows through its user-friendly Shiny interface, making it an ideal tool for proteomics research and multi-omics data integration.",
+    "crumbs": [
+      "Introduce"
+    ]
+  },
+  {
+    "objectID": "content/installation.html",
+    "href": "content/installation.html",
+    "title": "Installation",
+    "section": "",
+    "text": "To install ProtVis from GitHub, run the following command in your R environment:",
+    "crumbs": [
+      "Installation"
+    ]
+  },
+  {
+    "objectID": "content/installation.html#method-1-load-the-package-and-run",
+    "href": "content/installation.html#method-1-load-the-package-and-run",
+    "title": "Installation",
+    "section": "Method 1: Load the package and run",
+    "text": "Method 1: Load the package and run\nlibrary(ProtVis)\nrun_ProtVis()",
+    "crumbs": [
+      "Installation"
+    ]
+  },
+  {
+    "objectID": "content/installation.html#method-2-directly-call-the-function",
+    "href": "content/installation.html#method-2-directly-call-the-function",
+    "title": "Installation",
+    "section": "Method 2: Directly call the function",
+    "text": "Method 2: Directly call the function\nProtVis::run_ProtVis()\nThis will open the interactive GUI for proteomics and PTM analysis.",
+    "crumbs": [
+      "Installation"
+    ]
+  },
+  {
+    "objectID": "content/Release_data.html",
+    "href": "content/Release_data.html",
+    "title": "Release Data",
+    "section": "",
+    "text": "In the process of data analysis using ProtVis, each step generates intermediate .rda files in the working directory. If users wish to view, export, or reuse the data from any specific step, the Release Data module provides an intuitive interface for exporting these .rda files into common tabular formats (e.g., CSV, Excel).\nThis guide outlines the steps to use this module effectively.",
+    "crumbs": [
+      "Release Data"
+    ]
+  },
+  {
+    "objectID": "content/Release_data.html#step-by-step-instructions",
+    "href": "content/Release_data.html#step-by-step-instructions",
+    "title": "Release Data",
+    "section": "Step-by-Step Instructions",
+    "text": "Step-by-Step Instructions\n\nStep 1: Set the Working Directory\nThe current working directory path is displayed at the top of the interface. Ensure that this path is correctly set to where your .rda files are stored.\n📌 Example:\n\n\nStep 2: Load .rda Files\nClick the LOAD .RDA FILES button to scan and display all available .rda files under the current working directory.\n\n\nStep 3: Select Files to Export\nCheck one or more .rda files that you want to export.\nFor example:\n- ✅ Step1_project_init.rda\n- ✅ Step2_remove_unreliable_peptide.rda\nThese files contain intermediate data from various analysis stages such as project initialization, data cleaning, noise correction, etc.\n\n\nStep 4: Choose Output Format\nSelect the desired export format from the dropdown menu: - csv (Comma-Separated Values) - tsv (Tab-Separated Values) - xlsx (Excel format)\n\n\nStep 5: Export the Data\nClick the EXPORT button to download the selected .rda files in the chosen format. This makes it easier to inspect the intermediate data or share it with collaborators.",
+    "crumbs": [
+      "Release Data"
+    ]
+  },
+  {
+    "objectID": "content/Release_data.html#module-screenshot",
+    "href": "content/Release_data.html#module-screenshot",
+    "title": "Release Data",
+    "section": "Module Screenshot",
+    "text": "Module Screenshot\n\n\n✅ Tip: Exported .xlsx or .csv files can be opened with Excel, R, Python, or any spreadsheet viewer for further analysis or review.",
+    "crumbs": [
+      "Release Data"
+    ]
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Protvis cookbook",
