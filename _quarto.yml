@@ -3,8 +3,8 @@ project:
 
 website:
   title: "Protvis cookbook"
-  site-url: "https://github.com/xuebinzhang-lab/ProtVis"
-  repo-url: "https://github.com/xuebinzhang-lab/ProtVis"
+  site-url: "https://anhuikylin.github.io/ProtVis-cookbook"
+  repo-url: "https://github.com/anhuikylin/ProtVis-cookbook"
   repo-actions: [edit, source, issue]
   page-navigation: true
   favicon: images/favicon.ico
@@ -71,7 +71,7 @@ website:
           text: Venn
       - href: content/Release_data.qmd
         text: Release Data
-      - href: content/Toolkits.qmd
+      - href: content/Toolkits/Toolkits.qmd
         text: Toolkits
         contents:
         - href: content/Toolkits/Protein_Extract.qmd
