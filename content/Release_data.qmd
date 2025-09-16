@@ -1,0 +1,40 @@
+---
+title: "Release Data"
+format: html
+---
+
+In the process of data analysis using **ProtVis**, each step generates intermediate `.rda` files in the working directory. If users wish to view, export, or reuse the data from any specific step, the **Release Data** module provides an intuitive interface for exporting these `.rda` files into common tabular formats (e.g., CSV, Excel).
+
+This guide outlines the steps to use this module effectively.
+
+## Step-by-Step Instructions
+
+### **Step 1**: Set the Working Directory  
+The current working directory path is displayed at the top of the interface. Ensure that this path is correctly set to where your `.rda` files are stored.  
+📌 Example:  
+
+### **Step 2**: Load `.rda` Files  
+Click the **LOAD .RDA FILES** button to scan and display all available `.rda` files under the current working directory.
+
+### **Step 3**: Select Files to Export  
+Check one or more `.rda` files that you want to export.  
+For example:  
+- ✅ `Step1_project_init.rda`  
+- ✅ `Step2_remove_unreliable_peptide.rda`
+
+These files contain intermediate data from various analysis stages such as project initialization, data cleaning, noise correction, etc.
+
+### **Step 4**: Choose Output Format  
+Select the desired export format from the dropdown menu:
+- `csv` (Comma-Separated Values)
+- `tsv` (Tab-Separated Values)
+- `xlsx` (Excel format)
+
+### **Step 5**: Export the Data  
+Click the **EXPORT** button to download the selected `.rda` files in the chosen format. This makes it easier to inspect the intermediate data or share it with collaborators.
+
+## Module Screenshot
+
+![](https://pic1.imgdb.cn/item/68c813acc5157e1a8807cb04.png)
+
+> ✅ **Tip**: Exported `.xlsx` or `.csv` files can be opened with Excel, R, Python, or any spreadsheet viewer for further analysis or review.

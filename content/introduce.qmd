@@ -1,0 +1,12 @@
+---
+title: "introduce"
+format: html
+---
+
+ProtVis is a powerful proteomics analysis software designed to provide researchers with an intuitive and efficient tool for protein data analysis. It offers versatile data import options, including formats such as txt, csv, and excel. ProtVis supports differential expression analysis (e.g., limma, t-test) and provides various data normalization methods (e.g., log2, quantile). Additionally, it features dimensionality reduction techniques such as PCA, t-SNE, and UMAP, enabling users to visually explore the structure of their data.
+
+Furthermore, ProtVis integrates k-means clustering, GO/KEGG enrichment analysis, and GSEA analysis, allowing for an in-depth exploration of the biological functions of proteins and their relationships with pathways. For proteomics research focused on post-translational modifications, ProtVis offers visualization and annotation tools, as well as support for the analysis of protein secondary and tertiary structures.
+
+The software supports batch processing and allows for the export of analysis results in formats such as PDF, CSV, and Excel. With its open-source and extensible nature, users can customize and expand the software according to their specific needs. ProtVis simplifies complex analysis workflows through its user-friendly Shiny interface, making it an ideal tool for proteomics research and multi-omics data integration.
+
+![](https://pic1.imgdb.cn/item/68c77173c5157e1a880327ae.png)

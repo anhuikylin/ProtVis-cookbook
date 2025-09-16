@@ -1,0 +1,29 @@
+---
+title: "Installation"
+format: html
+---
+
+To install **ProtVis** from GitHub, run the following command in your R environment:
+
+``` r
+devtools::install_github("xuebinzhang-lab/ProtVis")
+```
+
+# Launch the Application
+
+After successful installation, you can launch ProtVis using one of the following methods:
+
+## Method 1: Load the package and run
+
+``` r
+library(ProtVis)
+run_ProtVis()
+```
+
+## Method 2: Directly call the function
+
+``` r
+ProtVis::run_ProtVis()
+```
+
+This will open the interactive GUI for proteomics and PTM analysis.
