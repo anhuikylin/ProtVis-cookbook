@@ -1,1 +1,1 @@
-Sitemap: https://github.com/xuebinzhang-lab/ProtVis/sitemap.xml
+Sitemap: https://github.com/anhuikylin/ProtVis-cookbook/blob/gh-pages/sitemap.xml
