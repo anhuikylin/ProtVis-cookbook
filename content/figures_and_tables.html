@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Protvis cookbook</title>
+<title>Figures and Tables – Protvis cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,28 +20,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./content/introduce.qmd" rel="next">
-<link href="./images/favicon.ico" rel="icon">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1aa083842d64898d76c6803ecd50f2cc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1aa083842d64898d76c6803ecd50f2cc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -83,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Home</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Figures and Tables</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -97,7 +131,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
-      <a href="./index.html" class="sidebar-logo-link">
+      <a href="../index.html" class="sidebar-logo-link">
       <img src="https://github.com/xuebinzhang-lab/ProtVis" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
       <img src="https://github.com/xuebinzhang-lab/ProtVis" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
@@ -115,37 +149,37 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/introduce.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/introduce.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduce</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/installation.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/installation.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Installation</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Project_init/Project_init.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Project_init/Project_init.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Project init</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/data_import/data_import.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/data_import/data_import.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Import</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./content/Pre_processing/Pre_processing.qmd" class="sidebar-item-text sidebar-link">
+            <a href="../content/Pre_processing/Pre_processing.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Pre-processing</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -154,25 +188,25 @@ ul.task-list li input[type="checkbox"] {
       <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Pre_processing/correct_noise.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Pre_processing/correct_noise.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Correct Noise</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Pre_processing/data_transformed.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Pre_processing/data_transformed.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Transformed</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Pre_processing/data_imputation.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Pre_processing/data_imputation.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Imputation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Pre_processing/data_normalization.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Pre_processing/data_normalization.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Normalization</span></a>
   </div>
 </li>
@@ -180,7 +214,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./content/Downstream_analysis/Downstream_analysis.qmd" class="sidebar-item-text sidebar-link">
+            <a href="../content/Downstream_analysis/Downstream_analysis.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Downstream Analysis</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -189,19 +223,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Downstream_analysis/Overview.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Downstream_analysis/Overview.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Downstream_analysis/DEP_analysis.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Downstream_analysis/DEP_analysis.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">DEP Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Downstream_analysis/Enrichment_analysis.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Downstream_analysis/Enrichment_analysis.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Enrichment Analysis</span></a>
   </div>
 </li>
@@ -209,7 +243,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./content/Multi_omics_data/Multi_omics_data.qmd" class="sidebar-item-text sidebar-link">
+            <a href="../content/Multi_omics_data/Multi_omics_data.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multi-omics Data</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -218,19 +252,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Multi_omics_data/Expression_Profile.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Multi_omics_data/Expression_Profile.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Expression Profile</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Multi_omics_data/Nine_Quadrant.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Multi_omics_data/Nine_Quadrant.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Nine Quadrant</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Multi_omics_data/venn.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Multi_omics_data/venn.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Venn</span></a>
   </div>
 </li>
@@ -238,13 +272,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Release_data.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Release_data.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Release Data</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./content/Toolkits.qmd" class="sidebar-item-text sidebar-link">
+            <a href="../content/Toolkits.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Toolkits</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -253,25 +287,25 @@ ul.task-list li input[type="checkbox"] {
       <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/Protein_Extract.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Toolkits/Protein_Extract.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Protein Extract</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/Background_Make.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Toolkits/Background_Make.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Background Make</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/Protein_Links.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Toolkits/Protein_Links.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Protein Links</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/Boxplot.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Toolkits/Boxplot.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Boxplot</span></a>
   </div>
 </li>
@@ -287,20 +321,143 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Contents</h2>
    
   <ul class="collapse">
-  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary">Executive Summary</a></li>
+  <li><a href="#code" id="toc-code" class="nav-link active" data-scroll-target="#code">Code</a></li>
+  <li><a href="#including-plots" id="toc-including-plots" class="nav-link" data-scroll-target="#including-plots">Including Plots</a></li>
+  <li><a href="#including-tables" id="toc-including-tables" class="nav-link" data-scroll-target="#including-tables">Including Tables</a></li>
   </ul>
-<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/xuebinzhang-lab/ProtVis/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/xuebinzhang-lab/ProtVis/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/xuebinzhang-lab/ProtVis/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/xuebinzhang-lab/ProtVis/edit/main/content/figures_and_tables.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/xuebinzhang-lab/ProtVis/blob/main/content/figures_and_tables.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/xuebinzhang-lab/ProtVis/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Figures and Tables</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="executive-summary" class="level1 unnumbered">
-<h1 class="unnumbered">Executive Summary</h1>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer commodo gravida justo consectetur condimentum. Proin eget felis non nunc tristique malesuada vel ut tortor. Vivamus lacinia aliquet lorem in congue. In hac habitasse platea dictumst. Etiam non felis iaculis, efficitur libero in, porta nunc. Sed sit amet nisi non justo scelerisque feugiat. Pellentesque porta consectetur sapien, porttitor iaculis ligula fermentum ac. Pellentesque fermentum elementum lacus non tempus. Aenean eu leo lobortis, vulputate mi at, varius sapien. In congue consectetur ultricies. Maecenas volutpat facilisis arcu, eget sodales tellus consequat nec. Integer ullamcorper ex nec leo aliquam tempus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc dui massa, facilisis at aliquet eu, malesuada vel neque. Donec fermentum elit eu tortor euismod, sed mollis lacus blandit.</p>
-<p>New paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer commodo gravida justo consectetur condimentum. Proin eget felis non nunc tristique malesuada vel ut tortor. Vivamus lacinia aliquet lorem in congue. In hac habitasse platea dictumst. Etiam non felis iaculis, efficitur libero in, porta nunc. Sed sit amet nisi non justo scelerisque feugiat. Pellentesque porta consectetur sapien, porttitor iaculis ligula fermentum ac. Pellentesque fermentum elementum lacus non tempus. Aenean eu leo lobortis, vulputate mi at, varius sapien. In congue consectetur ultricies. Maecenas volutpat facilisis arcu, eget sodales tellus consequat nec. Integer ullamcorper ex nec leo aliquam tempus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc dui massa, facilisis at aliquet eu, malesuada vel neque. Donec fermentum elit eu tortor euismod, sed mollis lacus blandit.</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">Code</h2>
+<p>You can embed an R code chunk like this:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     speed           dist       
+ Min.   : 4.0   Min.   :  2.00  
+ 1st Qu.:12.0   1st Qu.: 26.00  
+ Median :15.0   Median : 36.00  
+ Mean   :15.4   Mean   : 42.98  
+ 3rd Qu.:19.0   3rd Qu.: 56.00  
+ Max.   :25.0   Max.   :120.00  </code></pre>
+</div>
+</div>
+</section>
+<section id="including-plots" class="level2">
+<h2 class="anchored" data-anchor-id="including-plots">Including Plots</h2>
+<p>You can also embed plots and reference them, like so <a href="#fig-pressure" class="quarto-xref">Figure&nbsp;1</a>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-pressure" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pressure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures_and_tables_files/figure-html/fig-pressure-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pressure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Plot of pressure
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+</section>
+<section id="including-tables" class="level2">
+<h2 class="anchored" data-anchor-id="including-tables">Including Tables</h2>
+<p>You can also embed tables and reference them with <a href="#tbl-iris" class="quarto-xref">Table&nbsp;1</a>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(iris))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tbl-iris" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-iris-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Iris Data
+</figcaption>
+<div aria-describedby="tbl-iris-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Sepal.Length</th>
+<th style="text-align: right;">Sepal.Width</th>
+<th style="text-align: right;">Petal.Length</th>
+<th style="text-align: right;">Petal.Width</th>
+<th style="text-align: left;">Species</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">5.1</td>
+<td style="text-align: right;">3.5</td>
+<td style="text-align: right;">1.4</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">setosa</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4.9</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">1.4</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">setosa</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4.7</td>
+<td style="text-align: right;">3.2</td>
+<td style="text-align: right;">1.3</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">setosa</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4.6</td>
+<td style="text-align: right;">3.1</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">setosa</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">3.6</td>
+<td style="text-align: right;">1.4</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">setosa</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5.4</td>
+<td style="text-align: right;">3.9</td>
+<td style="text-align: right;">1.7</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: left;">setosa</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
 
 
 </section>
@@ -706,18 +863,9 @@ ul.task-list li input[type="checkbox"] {
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./content/introduce.qmd" class="pagination-link" aria-label="Introduce">
-        <span class="nav-page-text">Introduce</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/xuebinzhang-lab/ProtVis/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/xuebinzhang-lab/ProtVis/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/xuebinzhang-lab/ProtVis/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/xuebinzhang-lab/ProtVis/edit/main/content/figures_and_tables.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/xuebinzhang-lab/ProtVis/blob/main/content/figures_and_tables.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/xuebinzhang-lab/ProtVis/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

@@ -1,661 +1,201 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
+    "objectID": "images/Readme.html",
+    "href": "images/Readme.html",
     "title": "Protvis cookbook",
     "section": "",
-    "text": "This is a Quarto website showcasing the Protvis Cookbook.\nHere’s the list of key features for ProtVis, as titles only:\n\nData Import\nData Cleaning\nData Normalization\nDifferential Expression Analysis\nDimensionality Reduction\nPathway Analysis\nGSEA\nMultiomic analysis\nPost-translational Modifications (PTMs)",
+    "text": "Add images to this folder"
+  },
+  {
+    "objectID": "content/customizing.html",
+    "href": "content/customizing.html",
+    "title": "Customization",
+    "section": "",
+    "text": "Quarto allow many bells and whistles to make nice output. Read the documentation here Quarto documentation."
+  },
+  {
+    "objectID": "content/customizing.html#quarto-documentation",
+    "href": "content/customizing.html#quarto-documentation",
+    "title": "Customization",
+    "section": "",
+    "text": "Quarto allow many bells and whistles to make nice output. Read the documentation here Quarto documentation."
+  },
+  {
+    "objectID": "content/customizing.html#examples",
+    "href": "content/customizing.html#examples",
+    "title": "Customization",
+    "section": "Examples",
+    "text": "Examples\nLooking at other people’s Quarto code is a great way to figure out how to do stuff. Most will have a link to a GitHub repo where you can see the raw code. Look for a link to edit page or see source code. This will usually be on the right. Or look for the GitHub icon somewhere.\n\nQuarto gallery\nnmfs-openscapes\nFaye lab manual\nquarto-titlepages Note the link to edit is broken. Go to repo and look in documentation directory."
+  },
+  {
+    "objectID": "content/rendering.html",
+    "href": "content/rendering.html",
+    "title": "Rendering",
+    "section": "",
+    "text": "The repo includes a GitHub Action that will render (build) the website automatically when you make changes to the files. It will be pushed to the gh-pages branch.\nBut when you are developing your content, you will want to render it locally."
+  },
+  {
+    "objectID": "content/rendering.html#step-1.-make-sure-you-have-a-recent-rstudio",
+    "href": "content/rendering.html#step-1.-make-sure-you-have-a-recent-rstudio",
+    "title": "Rendering",
+    "section": "Step 1. Make sure you have a recent RStudio",
+    "text": "Step 1. Make sure you have a recent RStudio\nHave you updated RStudio since about August 2022? No? Then update to a newer version of RStudio. In general, you want to keep RStudio updated and it is required to have a recent version to use Quarto."
+  },
+  {
+    "objectID": "content/rendering.html#step-2.-clone-and-create-rstudio-project",
+    "href": "content/rendering.html#step-2.-clone-and-create-rstudio-project",
+    "title": "Rendering",
+    "section": "Step 2. Clone and create RStudio project",
+    "text": "Step 2. Clone and create RStudio project\nFirst, clone the repo onto your local computer. How? You can click File &gt; New Project and then select “Version Control”. Paste in the url of the repository. That will clone the repo on to your local computer. When you make changes, you will need to push those up."
+  },
+  {
+    "objectID": "content/rendering.html#step-3.-render-within-rstudio",
+    "href": "content/rendering.html#step-3.-render-within-rstudio",
+    "title": "Rendering",
+    "section": "Step 3. Render within RStudio",
+    "text": "Step 3. Render within RStudio\nRStudio will recognize that this is a Quarto project by the presence of the _quarto.yml file and will see the “Build” tab. Click the “Render website” button to render to the _site folder.\nPreviewing: You can either click index.html in the _site folder and specify “preview in browser” or set up RStudio to preview to the viewer panel. To do the latter, go to Tools &gt; Global Options &gt; R Markdown. Then select “Show output preview in: Viewer panel”."
+  },
+  {
+    "objectID": "content/code.html",
+    "href": "content/code.html",
+    "title": "Rendering with Code",
+    "section": "",
+    "text": "You can have code (R, Python or Julia) in your qmd file. You will need to have these installed on your local computer, but presumably you do already if you are adding code to your qmd files.\nx &lt;- c(5, 15, 25, 35, 45, 55)\ny &lt;- c(5, 20, 14, 32, 22, 38)\nlm(x ~ y)\n\n\nCall:\nlm(formula = x ~ y)\n\nCoefficients:\n(Intercept)            y  \n      1.056        1.326"
+  },
+  {
+    "objectID": "content/code.html#modify-the-github-action",
+    "href": "content/code.html#modify-the-github-action",
+    "title": "Rendering with Code",
+    "section": "Modify the GitHub Action",
+    "text": "Modify the GitHub Action\nYou will need to change the GitHub Action in .github/workflows to install these and any needed packages in order for GitHub to be able to render your webpage. The GitHub Action install R since I used that in code.qmd. If you use Python or Julia instead, then you will need to update the GitHub Action to install those.\nIf getting the GitHub Action to work is too much hassle (and that definitely happens), you can alway render locally and publish to the gh-pages branch. If you do this, make sure to delete or rename the GitHub Action to something like\nrender-and-publish.old_yml\nso GitHub does not keep trying to run it. Nothing bad will happen if you don’t do this, but if you are not using the action (because it keeps failing), then you don’t need GitHub to run it."
+  },
+  {
+    "objectID": "content/code.html#render-locally-and-publish-to-gh-pages-branch",
+    "href": "content/code.html#render-locally-and-publish-to-gh-pages-branch",
+    "title": "Rendering with Code",
+    "section": "Render locally and publish to gh-pages branch",
+    "text": "Render locally and publish to gh-pages branch\nTo render locally and push up to the gh-pages branch, open a terminal window and then cd to the directory with the Quarto project. Type this in the terminal:\nquarto render gh-pages"
+  },
+  {
+    "objectID": "content/adding-refs.html",
+    "href": "content/adding-refs.html",
+    "title": "References",
+    "section": "",
+    "text": "Quarto has powerful references functionality. You can easily insert citations from Zotero libraries that you maintain in the cloud (on Zotero). This allows the whole team to update the library and you can sync up to that library. Read about this on the Quarto documentation on citations. Google youtube videos on this also to see it in action.\nAdd a .bib file in to your project or add a linked Zotero library via RStudio in Visual mode with Tools &gt; Project Options… &gt; R Markdown &gt; select custom libraries from the Zotero dropdown.\nThe you can type @ and you will see a dropdown of the references in your libraries. You can then select the ones to add. If you don’t see the one you need, you can paste in the DOI and it will be added to your references file (with all the info). The references will be added to your references section of your book automatically.\nSee the references.qmd file for how to include the references.\n\n@ansley1981 will produce @ansley1981\n[@ansley1981] will produce [@ansley1981]."
+  },
+  {
+    "objectID": "content/setup.html",
+    "href": "content/setup.html",
+    "title": "Set-up",
+    "section": "",
+    "text": "This is a template for a simple Quarto book output to html, PDF or docx format. It includes a GitHub Action that will build the website automatically when you make changes to the files. The NOAA palette and fonts has been added to theme.scss. The webpage will be on the gh-pages branch. Serving the website files from this branch is a common way to keep all the website files from cluttering your main branch.\nThe GitHub Action installs R so you can have R code in your qmd or Rmd files. Note, you do not need to make changes to your Rmd files unless your need Quarto features like cross-references."
+  },
+  {
+    "objectID": "content/setup.html#github-set-up",
+    "href": "content/setup.html#github-set-up",
+    "title": "Set-up",
+    "section": "GitHub Set-up",
+    "text": "GitHub Set-up\n\nClick the green “use template” button to make a repository with this content. Make sure to make your repo public (since GitHub Pages doesn’t work on private repos unless you have a paid account) and check box to include all the branches (so that you get the gh-pages branch). \nTurn on GitHub Pages under Settings &gt; Pages . You will set pages to be made from the gh-pages branch and root directory. \nTurn on GitHub Actions under Settings &gt; Actions &gt; General \nEdit the repo description and Readme to add a link to the webpage. When you edit the description, you will see the link url in the url box or you can click on the Actions tab or the Settings &gt; Pages page to find the url."
+  },
+  {
+    "objectID": "content/acknowledgements.html",
+    "href": "content/acknowledgements.html",
+    "title": "Acknowledgments",
+    "section": "",
+    "text": "This repo and GitHub Action was based on the tutorial by Openscapes quarto-website-tutorial by Julia Lowndes and Stefanie Butland."
+  },
+  {
+    "objectID": "content/publishing.html",
+    "href": "content/publishing.html",
+    "title": "Publishing",
+    "section": "",
+    "text": "To get your Quarto webpage to show up with the url\nyou have a few steps."
+  },
+  {
+    "objectID": "content/publishing.html#turn-on-github-pages-for-your-repo",
+    "href": "content/publishing.html#turn-on-github-pages-for-your-repo",
+    "title": "Publishing",
+    "section": "Turn on GitHub Pages for your repo",
+    "text": "Turn on GitHub Pages for your repo\n\nTurn on GitHub Pages under Settings &gt; Pages . You will set pages to be made from the gh-pages branch and the root directory.\nTurn on GitHub Actions under Settings &gt; Actions &gt; General\n\nThe GitHub Action will automatically recreate your website when you push to GitHub after you do the initial gh-pages set-up"
+  },
+  {
+    "objectID": "content/publishing.html#do-your-first-publish-to-gh-pages",
+    "href": "content/publishing.html#do-your-first-publish-to-gh-pages",
+    "title": "Publishing",
+    "section": "Do your first publish to gh-pages",
+    "text": "Do your first publish to gh-pages\nThe first time you publish to gh-pages, you need to do so locally.\n\nOn your local computer, open a terminal window and cd to your repo directory. Here is what that cd command looks like for me. You command will look different because your local repo will be somewhere else on your computer.\n\ncd ~/Documents/GitHub/NOAA-quarto-simple\n\nPublish to the gh-pages. In the terminal type\n\nquarto publish gh-pages\nThis is going to render your webpage and then push the _site contents to the gh-pages branch."
+  },
+  {
+    "objectID": "content/publishing.html#dont-like-using-gh-pages",
+    "href": "content/publishing.html#dont-like-using-gh-pages",
+    "title": "Publishing",
+    "section": "Don’t like using gh-pages?",
+    "text": "Don’t like using gh-pages?\nIn some cases, you don’t want your website on the gh-pages branch. For example, if you are creating releases and you want the website pages archived in that release, then you won’t want your website pages on the gh-pages branch.\nHere are the changes you need to make if you to avoid gh-pages branch.\n\nAt the top of _quarto.yml add the following:\n\nproject: \n  type: website\n  output-dir: docs\n\nOn GitHub under Settings &gt; Pages set pages to be made from the main branch and the docs directory.\nMake sure docs is not listed in .gitignore\nPublish the site the first time locally using quarto publish from the terminal\nChange the GitHub Action because you can’t use quarto publish gh-pages. You’ll need to push to the main branch yourself (in the GitHub Action)\n\non:\n  push:\n    branches: main\n\nname: Render and Publish\n\njobs:\n  build-deploy:\n    runs-on: ubuntu-latest\n    env:\n      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}\n\n    steps:\n      - name: Check out repository\n        uses: actions/checkout@v2 \n        \n      - name: Set up R (needed for Rmd)\n        uses: r-lib/actions/setup-r@v2\n\n      - name: Install packages (needed for Rmd)\n        run: Rscript -e 'install.packages(c(\"rmarkdown\", \"knitr\", \"jsonlite\"))'\n\n      - name: Set up Quarto\n        uses: quarto-dev/quarto-actions/setup@v2\n        with:\n          # To install LaTeX to build PDF book \n          # tinytex: true \n          # uncomment below and fill to pin a version\n          # version: 0.9.600\n      \n      - name: Render Quarto Project\n        uses: quarto-dev/quarto-actions/render@v2\n        with:\n          to: html\n\n      - name: Set up Git\n        run: |\n          git config --local user.email \"actions@github.com\"\n          git config --local user.name \"GitHub Actions\"\n\n      - name: Commit all changes and push\n        run: |\n          git add -A && git commit -m 'Build site' || echo \"No changes to commit\"\n          git push origin || echo \"No changes to commit\""
+  },
+  {
+    "objectID": "content/add-content.html",
+    "href": "content/add-content.html",
+    "title": "Customize",
+    "section": "",
+    "text": "Edit the qmd or md files in the content folder. qmd files can include code (R, Python, Julia) and lots of Quarto markdown bells and whistles (like call-outs, cross-references, auto-citations and much more).\nEach page should start with\n---\ntitle: your title\n---\nand the first header will be the 2nd level, so ##. Note, there are situations where you leave off\n---\ntitle: your title\n---\nand start the qmd file with a level header #, but if using the default title yaml (in the --- fence) is a good habit since it makes it easy for Quarto convert your qmd file to other formats (like into a presentation)."
+  },
+  {
+    "objectID": "content/add-content.html#edit-and-add-your-pages",
+    "href": "content/add-content.html#edit-and-add-your-pages",
+    "title": "Customize",
+    "section": "",
+    "text": "Edit the qmd or md files in the content folder. qmd files can include code (R, Python, Julia) and lots of Quarto markdown bells and whistles (like call-outs, cross-references, auto-citations and much more).\nEach page should start with\n---\ntitle: your title\n---\nand the first header will be the 2nd level, so ##. Note, there are situations where you leave off\n---\ntitle: your title\n---\nand start the qmd file with a level header #, but if using the default title yaml (in the --- fence) is a good habit since it makes it easy for Quarto convert your qmd file to other formats (like into a presentation)."
+  },
+  {
+    "objectID": "content/add-content.html#add-your-pages-the-project",
+    "href": "content/add-content.html#add-your-pages-the-project",
+    "title": "Customize",
+    "section": "Add your pages the project",
+    "text": "Add your pages the project\n\nAdd the files to _quarto.yml"
+  },
+  {
+    "objectID": "content/references.html",
+    "href": "content/references.html",
+    "title": "References",
+    "section": "",
+    "text": "References"
+  },
+  {
+    "objectID": "content/figures_and_tables.html",
+    "href": "content/figures_and_tables.html",
+    "title": "Figures and Tables",
+    "section": "",
+    "text": "Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com."
+  },
+  {
+    "objectID": "content/figures_and_tables.html#code",
+    "href": "content/figures_and_tables.html#code",
+    "title": "Figures and Tables",
+    "section": "Code",
+    "text": "Code\nYou can embed an R code chunk like this:\n\nsummary(cars)\n\n     speed           dist       \n Min.   : 4.0   Min.   :  2.00  \n 1st Qu.:12.0   1st Qu.: 26.00  \n Median :15.0   Median : 36.00  \n Mean   :15.4   Mean   : 42.98  \n 3rd Qu.:19.0   3rd Qu.: 56.00  \n Max.   :25.0   Max.   :120.00"
+  },
+  {
+    "objectID": "content/figures_and_tables.html#including-plots",
+    "href": "content/figures_and_tables.html#including-plots",
+    "title": "Figures and Tables",
+    "section": "Including Plots",
+    "text": "Including Plots\nYou can also embed plots and reference them, like so Figure 1.\n\n\n\n\n\n\n\n\nFigure 1: Plot of pressure\n\n\n\n\n\nNote that the echo = FALSE parameter was added to the code chunk to prevent printing of the R code that generated the plot."
+  },
+  {
+    "objectID": "content/figures_and_tables.html#including-tables",
+    "href": "content/figures_and_tables.html#including-tables",
+    "title": "Figures and Tables",
+    "section": "Including Tables",
+    "text": "Including Tables\nYou can also embed tables and reference them with Table 1.\n\nlibrary(knitr)\nkable(head(iris))\n\n\n\nTable 1: Iris Data\n\n\n\n\n\n\nSepal.Length\nSepal.Width\nPetal.Length\nPetal.Width\nSpecies\n\n\n\n\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n5.0\n3.6\n1.4\n0.2\nsetosa\n\n\n5.4\n3.9\n1.7\n0.4\nsetosa"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Executive Summary",
+    "section": "",
+    "text": "Executive Summary\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer commodo gravida justo consectetur condimentum. Proin eget felis non nunc tristique malesuada vel ut tortor. Vivamus lacinia aliquet lorem in congue. In hac habitasse platea dictumst. Etiam non felis iaculis, efficitur libero in, porta nunc. Sed sit amet nisi non justo scelerisque feugiat. Pellentesque porta consectetur sapien, porttitor iaculis ligula fermentum ac. Pellentesque fermentum elementum lacus non tempus. Aenean eu leo lobortis, vulputate mi at, varius sapien. In congue consectetur ultricies. Maecenas volutpat facilisis arcu, eget sodales tellus consequat nec. Integer ullamcorper ex nec leo aliquam tempus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc dui massa, facilisis at aliquet eu, malesuada vel neque. Donec fermentum elit eu tortor euismod, sed mollis lacus blandit.\nNew paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer commodo gravida justo consectetur condimentum. Proin eget felis non nunc tristique malesuada vel ut tortor. Vivamus lacinia aliquet lorem in congue. In hac habitasse platea dictumst. Etiam non felis iaculis, efficitur libero in, porta nunc. Sed sit amet nisi non justo scelerisque feugiat. Pellentesque porta consectetur sapien, porttitor iaculis ligula fermentum ac. Pellentesque fermentum elementum lacus non tempus. Aenean eu leo lobortis, vulputate mi at, varius sapien. In congue consectetur ultricies. Maecenas volutpat facilisis arcu, eget sodales tellus consequat nec. Integer ullamcorper ex nec leo aliquam tempus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc dui massa, facilisis at aliquet eu, malesuada vel neque. Donec fermentum elit eu tortor euismod, sed mollis lacus blandit.",
     "crumbs": [
       "Home"
-    ]
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
-  },
-  {
-    "objectID": "content/introduce.html",
-    "href": "content/introduce.html",
-    "title": "introduce",
-    "section": "",
-    "text": "ProtVis is a powerful proteomics analysis software designed to provide researchers with an intuitive and efficient tool for protein data analysis. It offers versatile data import options, including formats such as txt, csv, and excel. ProtVis supports differential expression analysis (e.g., limma, t-test) and provides various data normalization methods (e.g., log2, quantile). Additionally, it features dimensionality reduction techniques such as PCA, t-SNE, and UMAP, enabling users to visually explore the structure of their data.\nFurthermore, ProtVis integrates k-means clustering, GO/KEGG enrichment analysis, and GSEA analysis, allowing for an in-depth exploration of the biological functions of proteins and their relationships with pathways. For proteomics research focused on post-translational modifications, ProtVis offers visualization and annotation tools, as well as support for the analysis of protein secondary and tertiary structures.\nThe software supports batch processing and allows for the export of analysis results in formats such as PDF, CSV, and Excel. With its open-source and extensible nature, users can customize and expand the software according to their specific needs. ProtVis simplifies complex analysis workflows through its user-friendly Shiny interface, making it an ideal tool for proteomics research and multi-omics data integration.",
-    "crumbs": [
-      "Introduce"
-    ]
-  },
-  {
-    "objectID": "content/installation.html",
-    "href": "content/installation.html",
-    "title": "Installation",
-    "section": "",
-    "text": "To install ProtVis from GitHub, run the following command in your R environment:",
-    "crumbs": [
-      "Installation"
-    ]
-  },
-  {
-    "objectID": "content/data_import/data_import.html",
-    "href": "content/data_import/data_import.html",
-    "title": "Data Import",
-    "section": "",
-    "text": "Based on the selected data source from the previous step, the interface will automatically redirect to the corresponding page.\nIf the analysis is interrupted, you can resume it at any time by clicking the Load Data button (after completing the first step of setting the working directory).\nOnce the data is successfully loaded, the right panel will display both the sample information and the expression matrix.",
-    "crumbs": [
-      "Data Import"
-    ]
-  },
-  {
-    "objectID": "content/Project_init/Project_init.html",
-    "href": "content/Project_init/Project_init.html",
-    "title": "Project Init",
-    "section": "",
-    "text": "Follow the steps below to initialize a new ProtVis project:\n\nSet the global working directory\nThis is where all intermediate and result files will be stored.\nUpload sample information\nThe file should contain metadata such as sample names, groups, conditions, etc.\nUpload proteomics data\nThis can be:\n\nRaw files (e.g., Raw)\nOr processed data exported from tools such as MaxQuant, ProteomeDiscoverer, Skyline, Mascot, or OpenMS.\n\nSelect the data source\nChoose the appropriate format or software that matches your uploaded data.\nClick the PROJECT INIT button\nThis will trigger the initialization process.",
-    "crumbs": [
-      "Project init"
-    ]
-  },
-  {
-    "objectID": "content/data_import/data_import.html#data-loading",
-    "href": "content/data_import/data_import.html#data-loading",
-    "title": "Data Import",
-    "section": "",
-    "text": "Based on the selected data source from the previous step, the interface will automatically redirect to the corresponding page.\nIf the analysis is interrupted, you can resume it at any time by clicking the Load Data button (after completing the first step of setting the working directory).\nOnce the data is successfully loaded, the right panel will display both the sample information and the expression matrix.",
-    "crumbs": [
-      "Data Import"
-    ]
-  },
-  {
-    "objectID": "content/data_import/data_import.html#data-preprocessing",
-    "href": "content/data_import/data_import.html#data-preprocessing",
-    "title": "Data Import",
-    "section": "Data Preprocessing",
-    "text": "Data Preprocessing\nAfter loading, the protein data undergoes preprocessing by filtering out unreliable peptides.\n\nAvailable Filtering Methods\nThere are three filtering strategies available. You may select one or combine them as needed:\n\nRemove peptides identified only by site\nExcludes peptides identified solely by site-specific modifications, which may lack confident sequence-level evidence.\nRemove potential contaminant peptides\nFilters out peptides that are likely derived from common contaminants (e.g., keratin, trypsin).\nRemove reverse peptides\nRemoves reverse (decoy) peptides used for estimating the false discovery rate (FDR) during database searching.\n\n\n\nExecution and Reporting\n\nClick the REMOVE button to apply the selected filters.\n\nClick the REPORT button to view the preprocessing summary for each selected filtering method.\n\n\n\n\nPeptide filtering interface",
-    "crumbs": [
-      "Data Import"
-    ]
-  },
-  {
-    "objectID": "content/installation.html#install-protvis",
-    "href": "content/installation.html#install-protvis",
-    "title": "installation",
-    "section": "",
-    "text": "To install ProtVis from GitHub, run the following command in your R environment:\ndevtools::install_github(\"xuebinzhang-lab/ProtVis\")",
-    "crumbs": [
-      "Installation"
-    ]
-  },
-  {
-    "objectID": "content/installation.html#method-1-load-the-package-and-run",
-    "href": "content/installation.html#method-1-load-the-package-and-run",
-    "title": "Installation",
-    "section": "Method 1: Load the package and run",
-    "text": "Method 1: Load the package and run\nlibrary(ProtVis)\nrun_ProtVis()",
-    "crumbs": [
-      "Installation"
-    ]
-  },
-  {
-    "objectID": "content/installation.html#method-2-directly-call-the-function",
-    "href": "content/installation.html#method-2-directly-call-the-function",
-    "title": "Installation",
-    "section": "Method 2: Directly call the function",
-    "text": "Method 2: Directly call the function\nProtVis::run_ProtVis()\nThis will open the interactive GUI for proteomics and PTM analysis.",
-    "crumbs": [
-      "Installation"
-    ]
-  },
-  {
-    "objectID": "content/Project_init/Project_init.html#initialize-project",
-    "href": "content/Project_init/Project_init.html#initialize-project",
-    "title": "Project Init",
-    "section": "",
-    "text": "Follow the steps below to initialize a new ProtVis project:\n\nSet the global working directory\nThis is where all intermediate and result files will be stored.\nUpload sample information\nThe file should contain metadata such as sample names, groups, conditions, etc.\nUpload proteomics data\nThis can be:\n\nRaw files (e.g., Raw)\nOr processed data exported from tools such as MaxQuant, ProteomeDiscoverer, Skyline, Mascot, or OpenMS.\n\nSelect the data source\nChoose the appropriate format or software that matches your uploaded data.\nClick the PROJECT INIT button\nThis will trigger the initialization process.",
-    "crumbs": [
-      "Project init"
-    ]
-  },
-  {
-    "objectID": "content/Project_init/Project_init.html#output",
-    "href": "content/Project_init/Project_init.html#output",
-    "title": "Project Init",
-    "section": "Output",
-    "text": "Output\nAfter clicking PROJECT INIT, a file named Step1_project_init.rda will be generated in your working directory.\n\nThis file stores your project metadata and input data structure, and will be used for all subsequent analysis steps.\n\n\n\n\n\nProject Init Interface",
-    "crumbs": [
-      "Project init"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/correct_noise.html",
-    "href": "content/Pre_processing/correct_noise.html",
-    "title": "Correct Noise",
-    "section": "",
-    "text": "This module standardizes sample naming and reduces potential noise in the expression matrix for downstream analyses.\n\nStep 1: Load the results from the previous step.\n\nStep 2: Enable Rename Columns to rename the expression matrix columns based on the sample information.\n\nStep 3: Enable Correct Noise. For biological replicates, if a protein is not detected in more than half of the samples, it is considered potential noise and its intensities across all replicates will be set to NA.\nOtherwise, missing values are imputed using the mean of the available values within the replicate group.",
-    "crumbs": [
-      "Pre-processing",
-      "Correct Noise"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/correct_noise.html#overview",
-    "href": "content/Pre_processing/correct_noise.html#overview",
-    "title": "Correct Noise",
-    "section": "",
-    "text": "This module standardizes sample naming and reduces potential noise in the expression matrix for downstream analyses.\n\nStep 1: Load the results from the previous step.\n\nStep 2: Enable Rename Columns to rename the expression matrix columns based on the sample information.\n\nStep 3: Enable Correct Noise. For biological replicates, if a protein is not detected in more than half of the samples, it is considered potential noise and its intensities across all replicates will be set to NA.\nOtherwise, missing values are imputed using the mean of the available values within the replicate group.",
-    "crumbs": [
-      "Pre-processing",
-      "Correct Noise"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/correct_noise.html#interface",
-    "href": "content/Pre_processing/correct_noise.html#interface",
-    "title": "Correct Noise",
-    "section": "Interface",
-    "text": "Interface\n\n\n\nCorrect Noise – main panel\n\n\n\n\n\nCorrect Noise – options and preview",
-    "crumbs": [
-      "Pre-processing",
-      "Correct Noise"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/correct_noise.html#options",
-    "href": "content/Pre_processing/correct_noise.html#options",
-    "title": "Correct Noise",
-    "section": "Options",
-    "text": "Options\n\nRename Columns\nRenames expression matrix columns using the metadata in the sample information table to ensure consistent sample labels.\nCorrect Noise\nApplies replicate-aware filtering and imputation:\n\nNoise Rule: If #non-detected &gt; 50% of biological replicates for a protein, mark the entire protein as noise → set all intensities to NA.\nImputation Rule: If the protein does not meet the noise rule, impute remaining missing values with the mean of observed values (within the same biological replicate group).",
-    "crumbs": [
-      "Pre-processing",
-      "Correct Noise"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/correct_noise.html#notes",
-    "href": "content/Pre_processing/correct_noise.html#notes",
-    "title": "Correct Noise",
-    "section": "Notes",
-    "text": "Notes\n\n“Not detected” typically refers to missing intensity (e.g., NA / absent after import).\n\nApplying noise correction before differential analysis can improve robustness and interpretability.\n\nColumn renaming should precede noise correction to avoid ambiguity in replicate grouping.",
-    "crumbs": [
-      "Pre-processing",
-      "Correct Noise"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/correct_noise.html#output",
-    "href": "content/Pre_processing/correct_noise.html#output",
-    "title": "Correct Noise",
-    "section": "Output",
-    "text": "Output\nAfter processing, a file named Step3_correct_noise.rda will be generated in your working directory.\nThis file will be used as the input for the subsequent analysis steps.",
-    "crumbs": [
-      "Pre-processing",
-      "Correct Noise"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/data_transformed.html",
-    "href": "content/Pre_processing/data_transformed.html",
-    "title": "Data Transformed",
-    "section": "",
-    "text": "In proteomics, quantitative data often spans several orders of magnitude, exhibiting a right-skewed distribution and heteroscedasticity—where variance increases with mean intensity. Applying a logarithmic transformation (commonly log10 or log2) compresses high values, expands low values, and stabilizes variance, making the data more normally distributed. This improves the reliability of statistical analyses such as t-tests and linear models. Additionally, log transformation prevents high-abundance proteins from dominating visualizations, enhancing comparability across proteins of different abundance levels. It is often used in conjunction with normalization to correct for batch effects and sample loading variability.",
-    "crumbs": [
-      "Pre-processing",
-      "Data Transformed"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/data_transformed.html#step-by-step-instructions",
-    "href": "content/Pre_processing/data_transformed.html#step-by-step-instructions",
-    "title": "Data Transformed",
-    "section": "Step-by-Step Instructions",
-    "text": "Step-by-Step Instructions\nStep 1: Load the input data.\nStep 2: Choose a data transformation method. Supported options include:\n\n\"None\"\n\"log10\"\n\"log2\"\n\"Standardization\"\n\"Z-Score\"\n\"scale\"\n\"center\"\n\"scale-center\"\n\nStep 3: Click the EXPORT DATA button. This will generate a file named Step4_data_transformed.rda in your working directory for use in downstream analysis.",
-    "crumbs": [
-      "Pre-processing",
-      "Data Transformed"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/data_imputation.html",
-    "href": "content/Pre_processing/data_imputation.html",
-    "title": "Data Imputation",
-    "section": "",
-    "text": "Imputing missing values after data transformation in proteomics aims to compensate for values lost due to low abundance or technical limitations. This ensures that important proteins are not excluded from analysis, maintains the integrity and accuracy of statistical tests and visualizations, and enhances the overall robustness of the analysis.",
-    "crumbs": [
-      "Pre-processing",
-      "Data Imputation"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/data_imputation.html#step-by-step-instructions",
-    "href": "content/Pre_processing/data_imputation.html#step-by-step-instructions",
-    "title": "Data Imputation",
-    "section": "Step-by-Step Instructions",
-    "text": "Step-by-Step Instructions\nStep 1: Load the input data.\nStep 2: Click the VISUALIZE MISSING VALUES button. A plot showing the distribution of missing values in the original dataset will be displayed on the right panel.\nStep 3: Select an imputation method. Available options include: \"kNN\", \"RF\" (Random Forest), \"Mean\", \"Median\", \"Zero\", and \"Minimum\". Configure the corresponding parameters if needed.\nStep 4: Click the RUN IMPUTATION button to perform the imputation. The right panel will update to show a plot of the data after imputation.\nStep 5: Adjust the plot settings and download the final visualization as needed.\nA file named Step5_data_imputation.rda will be generated in your working directory, which can be used for downstream analysis.",
-    "crumbs": [
-      "Pre-processing",
-      "Data Imputation"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/data_normalization.html",
-    "href": "content/Pre_processing/data_normalization.html",
-    "title": "Data Normalization",
-    "section": "",
-    "text": "Data normalization in proteomics aims to eliminate systematic errors caused by non-biological factors such as differences in sample loading, instrument variability, or batch effects. By doing so, it ensures that protein expression levels across samples are comparable. This process improves the accuracy of differential analysis, reduces false positives, and helps ensure that the results truly reflect biological variations.",
-    "crumbs": [
-      "Pre-processing",
-      "Data Normalization"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/data_normalization.html#step-by-step-instructions",
-    "href": "content/Pre_processing/data_normalization.html#step-by-step-instructions",
-    "title": "Data Normalization",
-    "section": "Step-by-Step Instructions",
-    "text": "Step-by-Step Instructions\nStep 1: Load the input data. A plot showing the data before normalization will be displayed on the right panel.\nStep 2: Click the RUN NORMALIZATION button. The right panel will update to show the plot after normalization.\nA file named Step6_data_normalization.rda will be generated in your working directory, which can be used for downstream analysis.",
-    "crumbs": [
-      "Pre-processing",
-      "Data Normalization"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/Pre_processing.html",
-    "href": "content/Pre_processing/Pre_processing.html",
-    "title": "Pre-processing",
-    "section": "",
-    "text": "In proteomics data analysis, pre-processing is a crucial step that prepares raw intensity data for reliable and reproducible downstream analysis. It aims to reduce technical noise, correct systematic biases, and fill in missing values while preserving true biological variation. The key components of this step—noise correction, data transformation, missing value imputation, and normalization—together ensure that the input data is clean, comparable across samples, and statistically suitable for further exploration such as clustering, differential expression analysis, and functional enrichment.",
-    "crumbs": [
-      "Pre-processing"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/Pre_processing.html#correct-noise",
-    "href": "content/Pre_processing/Pre_processing.html#correct-noise",
-    "title": "Pre-processing",
-    "section": "🔧 1. Correct Noise",
-    "text": "🔧 1. Correct Noise\nPurpose:\nTo eliminate non-biological “noise” signals caused by instrumental errors, background signals, or peak detection artifacts.\nThis step helps remove low-quality or interfering data, thereby improving the signal-to-noise ratio (SNR) for downstream analysis.\nCommon methods include background subtraction, baseline correction, peak smoothing, and mass drift adjustment.",
-    "crumbs": [
-      "Pre-processing"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/Pre_processing.html#data-transformation",
-    "href": "content/Pre_processing/Pre_processing.html#data-transformation",
-    "title": "Pre-processing",
-    "section": "🔄 2. Data Transformation",
-    "text": "🔄 2. Data Transformation\nPurpose:\nTo apply log transformation or standardization to raw intensity values, in order to reduce heteroscedasticity, normalize the distribution, and make the data more suitable for statistical analysis.\nThis is essential for many statistical tests (e.g., t-tests, linear models), and it prevents high-abundance proteins from dominating the results by bringing all measurements onto a comparable scale.",
-    "crumbs": [
-      "Pre-processing"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/Pre_processing.html#data-imputation",
-    "href": "content/Pre_processing/Pre_processing.html#data-imputation",
-    "title": "Pre-processing",
-    "section": "🔳 3. Data Imputation",
-    "text": "🔳 3. Data Imputation\nPurpose:\nTo fill in missing values that result from low-abundance proteins, detection limits, or instrument variability.\nImputation prevents the loss of potentially important proteins and allows the use of statistical models, PCA, clustering, and other analyses without disruption due to missing data.",
-    "crumbs": [
-      "Pre-processing"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/Pre_processing.html#data-normalization",
-    "href": "content/Pre_processing/Pre_processing.html#data-normalization",
-    "title": "Pre-processing",
-    "section": "⚖️ 4. Data Normalization",
-    "text": "⚖️ 4. Data Normalization\nPurpose:\nTo eliminate systematic errors between samples caused by non-biological factors such as differences in sample loading, batch effects, or instrument drift.\nNormalization ensures comparability of protein expression across samples, improving the reliability of differential analysis and ensuring that results reflect true biological variation.",
-    "crumbs": [
-      "Pre-processing"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/Overview.html",
-    "href": "content/Downstream_analysis/Overview.html",
-    "title": "Overview",
-    "section": "",
-    "text": "The Overview module provides a high-level summary of the proteomics dataset, helping users assess data quality and overall structure before downstream analysis. It includes three core functions:",
-    "crumbs": [
-      "Downstream Analysis",
-      "Overview"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/Overview.html#step-by-step-instructions",
-    "href": "content/Downstream_analysis/Overview.html#step-by-step-instructions",
-    "title": "Overview",
-    "section": "Step-by-Step Instructions",
-    "text": "Step-by-Step Instructions\nStep 1: Load the input data.\nStep 2: Select a Correlation Method, then click the RUN CORRELATION button to generate a sample correlation heatmap.\nStep 3: Optionally check the Scale Data box, then click the RUN EXPRESSION button to generate a protein expression heatmap.\nStep 4: Choose a Dimensionality Reduction Method (e.g., PCA, PCoA, t-SNE, UMAP, or NMDS) to visualize the data structure before and after normalization.",
-    "crumbs": [
-      "Downstream Analysis",
-      "Overview"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/DEP_analysis.html",
-    "href": "content/Downstream_analysis/DEP_analysis.html",
-    "title": "DEP Analysis",
-    "section": "",
-    "text": "DEP (Differentially Expressed Proteins) refers to a group of proteins whose expression levels show statistically significant differences under two or more experimental conditions. They are the primary output of differential expression analysis and serve as key targets for downstream biological interpretation, pathway enrichment, and biomarker discovery.",
-    "crumbs": [
-      "Downstream Analysis",
-      "DEP Analysis"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/DEP_analysis.html#step-by-step-instructions",
-    "href": "content/Downstream_analysis/DEP_analysis.html#step-by-step-instructions",
-    "title": "DEP Analysis",
-    "section": "Step-by-Step Instructions",
-    "text": "Step-by-Step Instructions\nStep 1: Load the input data.\nStep 2: Upload or paste the comparison group information. Multiple group comparisons are supported.\nStep 3: In the DEP Result panel, multiple tabs will be generated automatically based on the number of comparison groups provided. Each tab will include:\n\nA differential expression table\nA volcano plot\nA heatmap\nA bar plot\n\nStep 4: In the visualization panel, you can adjust display parameters, such as fold change and FDR thresholds, clustering options, or color settings.\nYou can also download the result tables (CSV) or export images (PNG/PDF) of the plots for downstream analysis and reporting.",
-    "crumbs": [
-      "Downstream Analysis",
-      "DEP Analysis"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/Enrichment_analysis.html",
-    "href": "content/Downstream_analysis/Enrichment_analysis.html",
-    "title": "Enrichment Analysis",
-    "section": "",
-    "text": "GO and KEGG enrichment analyses are essential downstream steps in proteomics, aiming to uncover the biological meaning behind differentially expressed proteins.\nGO analysis classifies proteins into biological processes, molecular functions, and cellular components,\nwhile KEGG identifies the pathways these proteins participate in, such as metabolism, signaling, or disease-related pathways.\nTogether, they help interpret how protein-level changes translate into functional and mechanistic insights.\nThis module supports two types of workflows:",
-    "crumbs": [
-      "Downstream Analysis",
-      "Enrichment Analysis"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/Enrichment_analysis.html#method-1-enrichment-based-on-protvis-dep-result",
-    "href": "content/Downstream_analysis/Enrichment_analysis.html#method-1-enrichment-based-on-protvis-dep-result",
-    "title": "Enrichment Analysis",
-    "section": "🔹 Method 1: Enrichment Based on ProtVis DEP Result",
-    "text": "🔹 Method 1: Enrichment Based on ProtVis DEP Result\nUse this method if you have generated the Step7_DEP_result.rda file using ProtVis.\nStep 1: Set your working directory and click the LOAD DATA button.\nStep 2: The system will automatically display a Select DEP comparison dropdown based on the comparison groups in your data.\nStep 3: Upload the background file required for enrichment analysis.\nStep 4: Select the appropriate taxonomic group (e.g., human, mouse, maize) for functional annotation.\nStep 5: Check the desired analysis types: GO, KEGG, or both.\nStep 6: Click the ANALYSIS button to start the enrichment analysis for the selected comparison group.\nStep 7: In the result panel: - Adjust visualization parameters (e.g., top terms, p-value threshold, label size). - Download result tables (CSV) or plots (PNG/PDF) for downstream interpretation or publication.",
-    "crumbs": [
-      "Downstream Analysis",
-      "Enrichment Analysis"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/Enrichment_analysis.html#method-2-enrichment-based-on-custom-gene-list",
-    "href": "content/Downstream_analysis/Enrichment_analysis.html#method-2-enrichment-based-on-custom-gene-list",
-    "title": "Enrichment Analysis",
-    "section": "🔹 Method 2: Enrichment Based on Custom Gene List",
-    "text": "🔹 Method 2: Enrichment Based on Custom Gene List\nUse this method if you have a custom gene or protein list outside of the DEP results.\nStep 1: Click the Upload Gene List button to load your list.\nStep 2: Upload the corresponding background file that matches the gene ID type used in your list (e.g., UniProt, Entrez, Ensembl).\nStep 3: Select the appropriate taxonomic group.\nStep 4: Check the analysis type: GO, KEGG, or both.\nStep 5: Click the ANALYSIS button to start enrichment analysis based on your uploaded list.\nStep 6: Once complete, explore the enrichment results: - Interactive plots and tables - Parameter adjustment - Result export (CSV, PNG, PDF)\n\n\n✅ Tip: Ensure that the background file and gene/protein list use the same ID format and species. Inconsistent formats will result in failed or inaccurate enrichment results.",
-    "crumbs": [
-      "Downstream Analysis",
-      "Enrichment Analysis"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Expression_Profile.html",
-    "href": "content/Multi_omics_data/Expression_Profile.html",
-    "title": "Expression Profile",
-    "section": "",
-    "text": "Expression Profile analysis provides an overview of how protein expression levels vary across different samples or experimental conditions. By visualizing expression patterns—such as co-expression clusters or condition-specific expression trends—it helps identify biologically meaningful patterns, potential biomarkers, or proteins involved in shared regulatory mechanisms.\nThis module supports clustering-based visualization and customizable color schemes to explore dynamic expression profiles. The analysis workflow includes the following steps:\nStep 1: Upload the expression matrix (e.g., normalized protein abundance table).\nStep 2: Choose a clustering method, such as \"K-means\".\nStep 3: Select a color scheme via the Select Color option, and set the number of centers (i.e., clusters).\nStep 4: Click the RUN button to perform clustering and generate the expression profile visualization.\nStep 5: Adjust plotting parameters as needed (e.g., font size, label angle, cluster order), and download the final plot in your preferred format (e.g., PNG, PDF).",
-    "crumbs": [
-      "Multi-omics Data",
-      "Expression Profile"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html",
-    "title": "Nine Quadrant",
-    "section": "",
-    "text": "The Nine-Quadrant Plot is a visualization tool commonly used in multi-group comparisons to display differential expression patterns and trend consistency. It is especially prevalent in high-throughput data analyses such as proteomics, transcriptomics, and metabolomics.\nBy comparing log2 fold changes across two conditions or omics datasets, this plot helps identify: - Shared upregulated/downregulated features\n- Conflicting expression trends\n- Condition-specific responses",
-    "crumbs": [
-      "Multi-omics Data",
-      "Nine Quadrant"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#step-by-step-instructions",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html#step-by-step-instructions",
-    "title": "Nine Quadrant",
-    "section": "🔧 Step-by-Step Instructions",
-    "text": "🔧 Step-by-Step Instructions\nStep 2: Set the X-axis and Y-axis variables from the column headers (e.g., Log2FC_Omic1 as X and Log2FC_Omic2 as Y).\nStep 3: Define the log2 fold change cutoff (e.g., ±1). This value determines which data points are considered significantly up- or downregulated.\nStep 4: Choose a color scheme to highlight quadrants or point significance (e.g., red for Q1, blue for Q9, gray for Q5).\nStep 5: Set export parameters, such as: - Image resolution - Width/height - File format (PNG, PDF, SVG)\nStep 6: Click the RUN button to generate the plot, and then DOWNLOAD the result for use in reports or publications.",
-    "crumbs": [
-      "Multi-omics Data",
-      "Nine Quadrant"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#quadrant-interpretation",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html#quadrant-interpretation",
-    "title": "Nine Quadrant",
-    "section": "🧭 Quadrant Interpretation",
-    "text": "🧭 Quadrant Interpretation\n\n\n\n\n\n\n\n\nQuadrant\nMeaning\nBiological Interpretation\n\n\n\n\nQ1 (+, +)\nUpregulated in both groups\nConsistent upregulation; potentially stable response proteins\n\n\nQ9 (−, −)\nDownregulated in both groups\nConsistent downregulation; also indicative of stable responses\n\n\nQ5 (0, 0)\nNot significantly changed\nStable expression; non-responsive proteins\n\n\nQ2, Q3, Q4, Q6, Q7, Q8\nAsymmetrical or opposite changes\nMay be associated with specific treatment responses or opposing regulatory trends",
-    "crumbs": [
-      "Multi-omics Data",
-      "Nine Quadrant"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#step-1-upload-an-example-file",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html#step-1-upload-an-example-file",
-    "title": "Nine Quadrant",
-    "section": "📋 Step 1: Upload an Example File",
-    "text": "📋 Step 1: Upload an Example File\nYour input file should contain the following four columns:\n\n\n\nOmic1_ID\nLog2FC_Omic1\nOmic2_ID\nLog2FC_Omic2\n\n\n\n\nOmic1_0001\n2.46\nOmic2_0001\n-0.09\n\n\nOmic1_0002\n3.58\nOmic2_0002\n-0.69\n\n\nOmic1_0003\n3.81\nOmic2_0003\n-0.03\n\n\nOmic1_0004\n-4.67\nOmic2_0004\n-0.04\n\n\nOmic1_0005\n-5.21\nOmic2_0005\n0.02\n\n\nOmic1_0006\n3.39\nOmic2_0006\n-0.03\n\n\n\n\n💡 Note: The two datasets should contain matched identifiers and log2 fold changes.",
-    "crumbs": [
-      "Multi-omics Data",
-      "Nine Quadrant"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/venn.html",
-    "href": "content/Multi_omics_data/venn.html",
-    "title": "Venn Diagram",
-    "section": "",
-    "text": "Venn diagrams are useful visual tools for comparing multiple datasets (e.g., proteomic, transcriptomic, or metabolomic lists) to identify shared and unique elements. This module allows intuitive visualization of overlaps among 2 to 6 sets, supporting downstream interpretation such as core gene discovery or cross-platform comparison.\n\n\nVenn diagrams can highlight: - Common elements shared across multiple conditions or datasets - Specific elements unique to one group - Subset intersections that may represent interesting biological signatures (e.g., co-regulated or condition-specific proteins)\nThis module is ideal for cross-omics integration and candidate filtering based on shared presence or exclusivity.\n\n\n\nUpload a .csv file with column names representing sample groups (e.g., A, B, C, D, E), and each column containing corresponding gene or protein identifiers.\nExample (veen.csv):\n\n\n\nA\nB\nC\nD\nE\n\n\n\n\npmf0256\nLmgn000219\nLmgn000219\npmf0256\nmws4052\n\n\nmws0470\npmf0256\npmf0256\npme2527\nMWSmce461\n\n\nmws0192\npme3011\npme3011\nMWS1848\npme3033\n\n\n…\n…\n…\n…\n…\n\n\n\n\n\n\nStep 1: Upload the file - Click Browse and select your veen.csv file.\nStep 2: Customize Colors - Choose a color for each dataset (e.g., A–E) using hex codes or color pickers. - Each set will be shown with distinct borders and transparent fill.\nStep 3: Run the Analysis - Click the RUN button. - A Venn diagram will be automatically generated based on all intersections.\nStep 4: Download Results - Click the Download button to export the figure. - Supported formats include PNG, PDF, SVG, etc.\n\n\n\nThe central panel displays the resulting Venn diagram. Each number within the overlapping regions indicates the number of shared elements among those sets.\n\n\n\nVenn diagram\n\n\n\n✅ Tip: You can adjust set names (A, B, C…) in your CSV file header to better reflect sample or condition names in your study.",
-    "crumbs": [
-      "Multi-omics Data",
-      "Venn"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/venn.html#biological-significance",
-    "href": "content/Multi_omics_data/venn.html#biological-significance",
-    "title": "Venn Diagram",
-    "section": "",
-    "text": "Venn diagrams can highlight: - Common elements shared across multiple conditions or datasets - Specific elements unique to one group - Subset intersections that may represent interesting biological signatures (e.g., co-regulated or condition-specific proteins)\nThis module is ideal for cross-omics integration and candidate filtering based on shared presence or exclusivity.",
-    "crumbs": [
-      "Multi-omics Data",
-      "Venn"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/venn.html#example-input",
-    "href": "content/Multi_omics_data/venn.html#example-input",
-    "title": "Venn Diagram",
-    "section": "",
-    "text": "Upload a .csv file with column names representing sample groups (e.g., A, B, C, D, E), and each column containing corresponding gene or protein identifiers.\nExample (veen.csv):\n\n\n\nA\nB\nC\nD\nE\n\n\n\n\npmf0256\nLmgn000219\nLmgn000219\npmf0256\nmws4052\n\n\nmws0470\npmf0256\npmf0256\npme2527\nMWSmce461\n\n\nmws0192\npme3011\npme3011\nMWS1848\npme3033\n\n\n…\n…\n…\n…\n…",
-    "crumbs": [
-      "Multi-omics Data",
-      "Venn"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/venn.html#step-by-step-instructions",
-    "href": "content/Multi_omics_data/venn.html#step-by-step-instructions",
-    "title": "Venn Diagram",
-    "section": "",
-    "text": "Step 1: Upload the file - Click Browse and select your veen.csv file.\nStep 2: Customize Colors - Choose a color for each dataset (e.g., A–E) using hex codes or color pickers. - Each set will be shown with distinct borders and transparent fill.\nStep 3: Run the Analysis - Click the RUN button. - A Venn diagram will be automatically generated based on all intersections.\nStep 4: Download Results - Click the Download button to export the figure. - Supported formats include PNG, PDF, SVG, etc.",
-    "crumbs": [
-      "Multi-omics Data",
-      "Venn"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/venn.html#visualization-panel",
-    "href": "content/Multi_omics_data/venn.html#visualization-panel",
-    "title": "Venn Diagram",
-    "section": "",
-    "text": "The central panel displays the resulting Venn diagram. Each number within the overlapping regions indicates the number of shared elements among those sets.\n\n\n\nVenn diagram\n\n\n\n✅ Tip: You can adjust set names (A, B, C…) in your CSV file header to better reflect sample or condition names in your study.",
-    "crumbs": [
-      "Multi-omics Data",
-      "Venn"
-    ]
-  },
-  {
-    "objectID": "content/Release_data.html",
-    "href": "content/Release_data.html",
-    "title": "Release Data",
-    "section": "",
-    "text": "In the process of data analysis using ProtVis, each step generates intermediate .rda files in the working directory. If users wish to view, export, or reuse the data from any specific step, the Release Data module provides an intuitive interface for exporting these .rda files into common tabular formats (e.g., CSV, Excel).\nThis guide outlines the steps to use this module effectively.",
-    "crumbs": [
-      "Release Data"
-    ]
-  },
-  {
-    "objectID": "content/Release_data.html#step-by-step-instructions",
-    "href": "content/Release_data.html#step-by-step-instructions",
-    "title": "Release Data",
-    "section": "Step-by-Step Instructions",
-    "text": "Step-by-Step Instructions\n\nStep 1: Set the Working Directory\nThe current working directory path is displayed at the top of the interface. Ensure that this path is correctly set to where your .rda files are stored.\n📌 Example:\n\n\nStep 2: Load .rda Files\nClick the LOAD .RDA FILES button to scan and display all available .rda files under the current working directory.\n\n\nStep 3: Select Files to Export\nCheck one or more .rda files that you want to export.\nFor example:\n- ✅ Step1_project_init.rda\n- ✅ Step2_remove_unreliable_peptide.rda\nThese files contain intermediate data from various analysis stages such as project initialization, data cleaning, noise correction, etc.\n\n\nStep 4: Choose Output Format\nSelect the desired export format from the dropdown menu: - csv (Comma-Separated Values) - tsv (Tab-Separated Values) - xlsx (Excel format)\n\n\nStep 5: Export the Data\nClick the EXPORT button to download the selected .rda files in the chosen format. This makes it easier to inspect the intermediate data or share it with collaborators.",
-    "crumbs": [
-      "Release Data"
-    ]
-  },
-  {
-    "objectID": "content/Release_data.html#module-screenshot",
-    "href": "content/Release_data.html#module-screenshot",
-    "title": "Release Data",
-    "section": "Module Screenshot",
-    "text": "Module Screenshot\n\n\n✅ Tip: Exported .xlsx or .csv files can be opened with Excel, R, Python, or any spreadsheet viewer for further analysis or review.",
-    "crumbs": [
-      "Release Data"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Toolkits.html",
-    "href": "content/Toolkits/Toolkits.html",
-    "title": "Toolkits",
-    "section": "",
-    "text": "The Toolkits module in ProtVis offers a suite of utility tools for protein-level data extraction, structural annotation, and external linking. These tools assist users in post-analysis exploration, helping researchers dig deeper into protein function, structure, and expression."
-  },
-  {
-    "objectID": "content/Toolkits/Toolkits.html#introduction",
-    "href": "content/Toolkits/Toolkits.html#introduction",
-    "title": "Toolkits",
-    "section": "",
-    "text": "The Toolkits module in ProtVis offers a suite of utility tools for protein-level data extraction, structural annotation, and external linking. These tools assist users in post-analysis exploration, helping researchers dig deeper into protein function, structure, and expression."
-  },
-  {
-    "objectID": "content/Toolkits/Toolkits.html#protein-extract",
-    "href": "content/Toolkits/Toolkits.html#protein-extract",
-    "title": "Toolkits",
-    "section": "🧪 Protein Extract",
-    "text": "🧪 Protein Extract\nPurpose:\nExtract protein sequences based on a list of gene identifiers.\nFeatures: - Input gene IDs (e.g., from DEG, GO/KEGG results, or manual selection). - Retrieve corresponding protein sequences from the internal annotation database.\nUse Case: Ideal for preparing FASTA files for downstream structure prediction, motif analysis, or epitope mapping."
-  },
-  {
-    "objectID": "content/Toolkits/Toolkits.html#protein-links",
-    "href": "content/Toolkits/Toolkits.html#protein-links",
-    "title": "Toolkits",
-    "section": "🔗 Protein Links",
-    "text": "🔗 Protein Links\nPurpose:\nGenerate dynamic links from protein identifiers or sequences to external annotation and structure tools.\nSupported Destinations:\n\nUniProt: protein function, domain, GO annotations\n\nInterProScan: domain and motif annotation\n\nSwiss-Model: 3D structure modeling\n\nInput Type: - Gene ID - Protein sequence (FASTA format)\nUse Case: For functional and structural exploration via external resources without leaving the app interface."
-  },
-  {
-    "objectID": "content/Toolkits/Toolkits.html#protein-structure",
-    "href": "content/Toolkits/Toolkits.html#protein-structure",
-    "title": "Toolkits",
-    "section": "🧬 Protein Structure",
-    "text": "🧬 Protein Structure\nPurpose:\nVisualize structural features of proteins such as: - Helices, sheets, turns (secondary structure) - Domains - Sites of modification or interaction\nData Sources: - UniProt annotation - Predicted models from Swiss-Model or AlphaFold\nUse Case: Understand the spatial arrangement of proteins and pinpoint regions of interest (e.g., phosphorylation sites, mutations, etc.)."
-  },
-  {
-    "objectID": "content/Toolkits/Toolkits.html#boxplot",
-    "href": "content/Toolkits/Toolkits.html#boxplot",
-    "title": "Toolkits",
-    "section": "📊 Boxplot",
-    "text": "📊 Boxplot\nPurpose:\nVisualize protein abundance or intensity across conditions or groups.\nFeatures: - Select one or multiple proteins - Customize colors, themes, labels - Display statistical annotations (t-test, ANOVA p-values)\nUse Case: Used in publication figures or presentations to highlight biologically important proteins."
-  },
-  {
-    "objectID": "content/Toolkits/Toolkits.html#screenshot",
-    "href": "content/Toolkits/Toolkits.html#screenshot",
-    "title": "Toolkits",
-    "section": "Screenshot",
-    "text": "Screenshot"
-  },
-  {
-    "objectID": "content/Toolkits/Toolkits.html#summary",
-    "href": "content/Toolkits/Toolkits.html#summary",
-    "title": "Toolkits",
-    "section": "Summary",
-    "text": "Summary\n\n\n\n\n\n\n\nTool\nFunction\n\n\n\n\nProtein Extract\nExtract protein sequences using gene IDs\n\n\nProtein Links\nRedirect to UniProt, InterProScan, or Swiss-Model for annotation/structure\n\n\nProtein Structure\nDisplay domains and structural features\n\n\nBoxplot\nVisualize expression distribution for selected proteins\n\n\n\nTogether, these tools significantly improve biological interpretation and facilitate protein-focused exploration in ProtVis."
-  },
-  {
-    "objectID": "content/Toolkits/Protein_Extract.html",
-    "href": "content/Toolkits/Protein_Extract.html",
-    "title": "Protein Extract",
-    "section": "",
-    "text": "1. Upload FASTA File\nClick the Browse… button to select a reference protein FASTA file and upload it. Once uploaded successfully, “Upload complete” will be displayed.\n\n\n2. Enter Protein IDs\nChoose a method to input protein IDs:\n\nManual Input: Paste protein IDs line by line in the text box.\n\nFile Upload: Upload a text file (.txt, .csv, or .tsv) containing protein IDs.\n\n\n\n3. Execute Extraction\nClick the Extract Proteins button to start searching and extracting matching proteins from the FASTA file.\n\n\n4. View Extraction Results\nAfter extraction, the following four result views will be available:\n\nMatched Sequences: Summary statistics and list of matched protein IDs.\n\nSequence Table: Tabular details including protein ID, length, and sequence.\n\nFASTA Viewer: Matched sequences in standard FASTA format.\n\nUnmatched IDs: List of protein IDs that were not matched in the FASTA file.\n\n\n\n5. Download Results\nClick the Download Results button to package and download all the result files as a .zip archive to your local machine.",
-    "crumbs": [
-      "Toolkits",
-      "Protein Extract"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Background_Make.html",
-    "href": "content/Toolkits/Background_Make.html",
-    "title": "Background Make",
-    "section": "",
-    "text": "This module is designed to generate GO background and KEGG background files required for functional enrichment analysis based on Eggnog annotation output.\neggnog (http://eggnog-mapper.embl.de/)\n\n\n\nClick the Browse… button to upload the annotation result file in .csv or .xlsx format (usually generated by Eggnog-mapper). After a successful upload, the message “Upload complete” will be displayed.\n\n\n\n\nClick the green Check File button. The system will check whether the file contains the following required columns:\n\nquery\nGOs\nKEGG_Pathway\n\nIf the format is correct, you will see a ✅ File format check passed! message.\n\n\n\n\nEnter the separator between protein ID and transcript ID. The default is an underscore _.\nExample:\nIf the protein ID is Zm00001eb321680_T001, entering _ will extract the gene ID Zm00001eb321680.\n\n\n\n\nClick the Make Background button. The system will:\n\nExtract GO IDs from the GOs column and convert them to their functional descriptions\nExtract KO numbers from the KEGG_Pathway column and convert them to pathway names\n\nThe resulting GO background table and KEGG background table will be displayed in the right-side table panels.\n\n\n\n\nClick the Download button to export both GO and KEGG background tables as a .xlsx file, which includes:\n\nSheet1: GO_background\nSheet2: KEGG_background\n\nThese can be used for downstream differential protein enrichment analysis.",
-    "crumbs": [
-      "Toolkits",
-      "Background Make"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Background_Make.html#background-make-module-overview",
-    "href": "content/Toolkits/Background_Make.html#background-make-module-overview",
-    "title": "Background Make",
-    "section": "",
-    "text": "This module is designed to generate GO background and KEGG background files required for functional enrichment analysis based on Eggnog annotation output.\neggnog (http://eggnog-mapper.embl.de/)\n\n\n\nClick the Browse… button to upload the annotation result file in .csv or .xlsx format (usually generated by Eggnog-mapper). After a successful upload, the message “Upload complete” will be displayed.\n\n\n\n\nClick the green Check File button. The system will check whether the file contains the following required columns:\n\nquery\nGOs\nKEGG_Pathway\n\nIf the format is correct, you will see a ✅ File format check passed! message.\n\n\n\n\nEnter the separator between protein ID and transcript ID. The default is an underscore _.\nExample:\nIf the protein ID is Zm00001eb321680_T001, entering _ will extract the gene ID Zm00001eb321680.\n\n\n\n\nClick the Make Background button. The system will:\n\nExtract GO IDs from the GOs column and convert them to their functional descriptions\nExtract KO numbers from the KEGG_Pathway column and convert them to pathway names\n\nThe resulting GO background table and KEGG background table will be displayed in the right-side table panels.\n\n\n\n\nClick the Download button to export both GO and KEGG background tables as a .xlsx file, which includes:\n\nSheet1: GO_background\nSheet2: KEGG_background\n\nThese can be used for downstream differential protein enrichment analysis.",
-    "crumbs": [
-      "Toolkits",
-      "Background Make"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Protein_Links.html",
-    "href": "content/Toolkits/Protein_Links.html",
-    "title": "Protein Links",
-    "section": "",
-    "text": "This module allows users to query the corresponding UniProt entry based on a Gene ID or Protein Sequence, and quickly access commonly used protein annotation and structural prediction tools:\n\nUniProt: Comprehensive protein information database\n\nInterPro: Protein domain annotation platform\n\nSwiss-Model: Tertiary structure prediction platform\n\nIf the UniProt ID is not provided, users can input a protein sequence, and the system will automatically identify the most likely UniProt entry using local BLASTP.\n\n\n\nInput a standard Gene ID (e.g., AT5G22800) or UniProt ID (e.g., P12345) into the text box.\nThe system will automatically query the UniProt API to retrieve the corresponding protein entry.\n\n\n\n\n\nIf a valid ID is not provided, you can paste a protein primary sequence (e.g., MASTR...).\nThe system will perform a local BLASTP search using both SwissProt and TrEMBL databases to identify the best matching UniProt entry.\n⚠️ Note: This feature requires pre-downloaded UniProt databases and correctly configured paths (see below).\n\n\n\n\n\nSwissProt database path: High-quality manually curated UniProt database\nExample: G:/blastdb/UniProt/uniprot_sprot\nTrEMBL database path: Automatically annotated UniProt database\nExample: G:/blastdb/UniProt/uniprot_trembl\nBLASTp executable path: Local BLAST executable file path\nExample: F:/NCBI/blast-2.17.0+/bin/blastp.exe\n\nClick Run BLASTP to start the sequence alignment.\n\n\n\n\nOnce a UniProt ID is identified, the system will generate buttons linking to:\n\nUniProt: View general protein information\n\n\n\nInterPro: View domain annotations (Pfam, SMART, etc.)\n\nSwiss-Model: Access tertiary structure modeling\n\n\nClick the buttons to navigate to the corresponding protein page.\n\n\n\n\nIf a valid UniProt ID cannot be determined, the following message will appear:\nNo UniProt ID found. Please check your input.\nPlease ensure the Gene ID or sequence is valid and that the database paths are correctly set.\n\n\n\n\n\nIt is recommended to input a standard Gene ID (e.g., TAIR, ENSEMBL, LOC) or a UniProt Accession;\nSequence-based BLAST is intended as a fallback and depends on the completeness and accuracy of local BLAST databases;\nRegular updates of local databases are recommended to ensure high BLAST matching success rates.",
-    "crumbs": [
-      "Toolkits",
-      "Protein Links"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Protein_Links.html#protein-links-module-overview",
-    "href": "content/Toolkits/Protein_Links.html#protein-links-module-overview",
-    "title": "Protein Links",
-    "section": "",
-    "text": "This module allows users to query the corresponding UniProt entry based on a Gene ID or Protein Sequence, and quickly access commonly used protein annotation and structural prediction tools:\n\nUniProt: Comprehensive protein information database\n\nInterPro: Protein domain annotation platform\n\nSwiss-Model: Tertiary structure prediction platform\n\nIf the UniProt ID is not provided, users can input a protein sequence, and the system will automatically identify the most likely UniProt entry using local BLASTP.\n\n\n\nInput a standard Gene ID (e.g., AT5G22800) or UniProt ID (e.g., P12345) into the text box.\nThe system will automatically query the UniProt API to retrieve the corresponding protein entry.\n\n\n\n\n\nIf a valid ID is not provided, you can paste a protein primary sequence (e.g., MASTR...).\nThe system will perform a local BLASTP search using both SwissProt and TrEMBL databases to identify the best matching UniProt entry.\n⚠️ Note: This feature requires pre-downloaded UniProt databases and correctly configured paths (see below).\n\n\n\n\n\nSwissProt database path: High-quality manually curated UniProt database\nExample: G:/blastdb/UniProt/uniprot_sprot\nTrEMBL database path: Automatically annotated UniProt database\nExample: G:/blastdb/UniProt/uniprot_trembl\nBLASTp executable path: Local BLAST executable file path\nExample: F:/NCBI/blast-2.17.0+/bin/blastp.exe\n\nClick Run BLASTP to start the sequence alignment.\n\n\n\n\nOnce a UniProt ID is identified, the system will generate buttons linking to:\n\nUniProt: View general protein information\n\n\n\nInterPro: View domain annotations (Pfam, SMART, etc.)\n\nSwiss-Model: Access tertiary structure modeling\n\n\nClick the buttons to navigate to the corresponding protein page.\n\n\n\n\nIf a valid UniProt ID cannot be determined, the following message will appear:\nNo UniProt ID found. Please check your input.\nPlease ensure the Gene ID or sequence is valid and that the database paths are correctly set.\n\n\n\n\n\nIt is recommended to input a standard Gene ID (e.g., TAIR, ENSEMBL, LOC) or a UniProt Accession;\nSequence-based BLAST is intended as a fallback and depends on the completeness and accuracy of local BLAST databases;\nRegular updates of local databases are recommended to ensure high BLAST matching success rates.",
-    "crumbs": [
-      "Toolkits",
-      "Protein Links"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Boxplot.html",
-    "href": "content/Toolkits/Boxplot.html",
-    "title": "Boxplot",
-    "section": "",
-    "text": "The Boxplot module provides a user-friendly interface for visualizing differences between multiple experimental groups through box plots. It supports Excel file upload, dynamic group selection, statistical comparison, and customization of plot styles and themes.\n\n\n\nClick Browse… to upload an .xlsx file. The uploaded file should be in wide format, where each column represents a group.\nOnce the upload is successful, the status will show “Upload complete”.\n\n\n\n\nAfter upload, the interface will automatically extract column names:\n\nSelect groups: Choose which groups to display in the boxplot.\nSelect comparisons: Choose which groups to statistically compare (supports pairwise t-tests).\n\n\n\n\n\nYou can manually customize axis labels:\n\nX-axis label: Default is “Group”\nY-axis label: Default is “Value”\n\n\n\n\n\nCustomize plot appearance:\n\nGroup Colors: Automatically generates a color selector for each group.\nBox width: Controls the width of the box elements.\nPoint size: Controls the size of scattered data points.\nBox line color: Color of the box outlines (default: black).\n\n\n\n\n\nChoose a ggplot2 theme to control plot background and aesthetics:\n\nminimal, classic, light, bw, dark, grey\n\n\n\n\n\nBoxplots include statistical annotations using t-test by default.\n\nPairwise comparisons are shown with p-values above boxes.\nStatistical labels use ggpubr::stat_compare_means.\n\n\n\n\n\nDownload the current plot as PDF:\n\nSet plot height and width (in inches)\nClick Download Plot (PDF) to save the figure.",
-    "crumbs": [
-      "Toolkits",
-      "Boxplot"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Boxplot.html#boxplot-module-introduction",
-    "href": "content/Toolkits/Boxplot.html#boxplot-module-introduction",
-    "title": "Boxplot",
-    "section": "",
-    "text": "The Boxplot module provides a user-friendly interface for visualizing differences between multiple experimental groups through box plots. It supports Excel file upload, dynamic group selection, statistical comparison, and customization of plot styles and themes.\n\n\n\nClick Browse… to upload an .xlsx file. The uploaded file should be in wide format, where each column represents a group.\nOnce the upload is successful, the status will show “Upload complete”.\n\n\n\n\nAfter upload, the interface will automatically extract column names:\n\nSelect groups: Choose which groups to display in the boxplot.\nSelect comparisons: Choose which groups to statistically compare (supports pairwise t-tests).\n\n\n\n\n\nYou can manually customize axis labels:\n\nX-axis label: Default is “Group”\nY-axis label: Default is “Value”\n\n\n\n\n\nCustomize plot appearance:\n\nGroup Colors: Automatically generates a color selector for each group.\nBox width: Controls the width of the box elements.\nPoint size: Controls the size of scattered data points.\nBox line color: Color of the box outlines (default: black).\n\n\n\n\n\nChoose a ggplot2 theme to control plot background and aesthetics:\n\nminimal, classic, light, bw, dark, grey\n\n\n\n\n\nBoxplots include statistical annotations using t-test by default.\n\nPairwise comparisons are shown with p-values above boxes.\nStatistical labels use ggpubr::stat_compare_means.\n\n\n\n\n\nDownload the current plot as PDF:\n\nSet plot height and width (in inches)\nClick Download Plot (PDF) to save the figure.",
-    "crumbs": [
-      "Toolkits",
-      "Boxplot"
     ]
   }
 ]
