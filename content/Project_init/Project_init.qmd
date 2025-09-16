@@ -1,0 +1,37 @@
+---
+title: "Project Init"
+format: html
+---
+
+## ️ Initialize Project
+
+Follow the steps below to initialize a new ProtVis project:
+
+1. **Set the global working directory**  
+   This is where all intermediate and result files will be stored.
+
+2. **Upload sample information**  
+   The file should contain metadata such as sample names, groups, conditions, etc.
+
+3. **Upload proteomics data**  
+   This can be:
+   - Raw files (e.g., `Raw`)
+   - Or processed data exported from tools such as **MaxQuant**, **ProteomeDiscoverer**, **Skyline**, **Mascot**, or **OpenMS**.
+
+4. **Select the data source**  
+   Choose the appropriate format or software that matches your uploaded data.
+
+5. **Click the `PROJECT INIT` button**  
+   This will trigger the initialization process.
+
+---
+
+## Output
+
+After clicking **PROJECT INIT**, a file named `Step1_project_init.rda` will be generated in your working directory.
+
+> This file stores your project metadata and input data structure, and will be used for all subsequent analysis steps.
+
+---
+
+![Project Init Interface](https://pic1.imgdb.cn/item/68c6b0bbc5157e1a88012b74.png)

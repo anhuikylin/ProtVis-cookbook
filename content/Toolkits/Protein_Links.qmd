@@ -1,0 +1,91 @@
+---
+title: "Protein Links"
+format: html
+---
+
+## Protein Links Module Overview
+
+This module allows users to query the corresponding UniProt entry based on a **Gene ID** or **Protein Sequence**, and quickly access commonly used protein annotation and structural prediction tools:
+
+- **UniProt**: Comprehensive protein information database  
+- **InterPro**: Protein domain annotation platform  
+- **Swiss-Model**: Tertiary structure prediction platform  
+
+If the UniProt ID is not provided, users can input a protein sequence, and the system will automatically identify the most likely UniProt entry using local **BLASTP**.
+
+---
+
+
+### 1. Enter Gene ID or UniProt Accession
+
+Input a standard **Gene ID** (e.g., `AT5G22800`) or **UniProt ID** (e.g., `P12345`) into the text box.
+
+The system will automatically query the UniProt API to retrieve the corresponding protein entry.
+
+![](https://pic1.imgdb.cn/item/68c81cfcc5157e1a8807df37.png) 
+
+---
+
+### 2. Enter Protein Sequence (Optional)
+
+If a valid ID is not provided, you can paste a **protein primary sequence** (e.g., `MASTR...`).
+
+The system will perform a local **BLASTP** search using both **SwissProt** and **TrEMBL** databases to identify the best matching UniProt entry.
+
+⚠️ Note: This feature requires pre-downloaded UniProt databases and correctly configured paths (see below).
+
+---
+
+### 3. Configure Database Paths
+
+- **SwissProt database path**: High-quality manually curated UniProt database  
+  Example: `G:/blastdb/UniProt/uniprot_sprot`
+
+- **TrEMBL database path**: Automatically annotated UniProt database  
+  Example: `G:/blastdb/UniProt/uniprot_trembl`
+
+- **BLASTp executable path**: Local BLAST executable file path  
+  Example: `F:/NCBI/blast-2.17.0+/bin/blastp.exe`
+
+Click **Run BLASTP** to start the sequence alignment.
+
+---
+
+### 4. Quick Links
+
+Once a UniProt ID is identified, the system will generate buttons linking to:
+
+- <span style="color:blue">**UniProt**</span>: View general protein information  
+ 
+![](https://pic1.imgdb.cn/item/68c81d59c5157e1a8807e003.png)  
+
+- <span style="color:skyblue">**InterPro**</span>: View domain annotations (Pfam, SMART, etc.)  
+![](https://pic1.imgdb.cn/item/68c81d80c5157e1a8807e030.png)  
+
+- <span style="color:orange">**Swiss-Model**</span>: Access tertiary structure modeling  
+![](https://pic1.imgdb.cn/item/68c81d99c5157e1a8807e059.png)
+
+Click the buttons to navigate to the corresponding protein page.
+
+---
+
+### 5. Error Handling
+
+If a valid UniProt ID cannot be determined, the following message will appear:
+
+No UniProt ID found. Please check your input.
+
+
+Please ensure the Gene ID or sequence is valid and that the database paths are correctly set.
+
+---
+
+### Recommended Usage
+
+- It is recommended to input a standard Gene ID (e.g., TAIR, ENSEMBL, LOC) or a UniProt Accession;
+- Sequence-based BLAST is intended as a fallback and depends on the completeness and accuracy of local BLAST databases;
+- Regular updates of local databases are recommended to ensure high BLAST matching success rates.
+
+---
+
+

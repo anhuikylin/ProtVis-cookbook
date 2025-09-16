@@ -1,0 +1,22 @@
+---
+title: "Overview"
+format: html
+---
+
+The **Overview** module provides a high-level summary of the proteomics dataset, helping users assess data quality and overall structure before downstream analysis. It includes three core functions:
+
+- Evaluating **sample correlations** through heatmaps to detect technical consistency, biological replicates, or potential batch effects.  
+- Exploring **protein expression patterns** via expression heatmaps to identify group-specific signals or clustering tendencies.  
+- Visualizing **dimensionality reduction results**—including methods like **PCA**, **PCoA**, **t-SNE**, **UMAP**, and **NMDS**—to examine data structure and the effects of normalization.
+
+## Step-by-Step Instructions
+
+**Step 1**: Load the input data.
+
+**Step 2**: Select a **Correlation Method**, then click the **RUN CORRELATION** button to generate a **sample correlation heatmap**.
+
+**Step 3**: Optionally check the **Scale Data** box, then click the **RUN EXPRESSION** button to generate a **protein expression heatmap**.
+
+**Step 4**: Choose a **Dimensionality Reduction Method** (e.g., PCA, PCoA, t-SNE, UMAP, or NMDS) to visualize the data structure **before and after normalization**.
+
+![](https://pic1.imgdb.cn/item/68c7e499c5157e1a8807360c.png)

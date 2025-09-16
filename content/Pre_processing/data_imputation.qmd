@@ -1,0 +1,22 @@
+---
+title: "Data Imputation"
+format: html
+---
+
+Imputing missing values after data transformation in proteomics aims to compensate for values lost due to low abundance or technical limitations. This ensures that important proteins are not excluded from analysis, maintains the integrity and accuracy of statistical tests and visualizations, and enhances the overall robustness of the analysis.
+
+## Step-by-Step Instructions
+
+**Step 1**: Load the input data.
+
+**Step 2**: Click the **VISUALIZE MISSING VALUES** button. A plot showing the distribution of missing values in the original dataset will be displayed on the right panel.
+
+**Step 3**: Select an imputation method. Available options include: `"kNN"`, `"RF"` (Random Forest), `"Mean"`, `"Median"`, `"Zero"`, and `"Minimum"`. Configure the corresponding parameters if needed.
+
+**Step 4**: Click the **RUN IMPUTATION** button to perform the imputation. The right panel will update to show a plot of the data after imputation.
+
+**Step 5**: Adjust the plot settings and download the final visualization as needed.
+
+A file named `Step5_data_imputation.rda` will be generated in your working directory, which can be used for downstream analysis.
+
+![](https://pic1.imgdb.cn/item/68c7db45c5157e1a8806da75.png)

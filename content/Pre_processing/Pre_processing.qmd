@@ -1,0 +1,38 @@
+---
+title: "Pre-processing"
+format: html
+---
+
+In proteomics data analysis, **pre-processing** is a crucial step that prepares raw intensity data for reliable and reproducible downstream analysis. It aims to reduce technical noise, correct systematic biases, and fill in missing values while preserving true biological variation. The key components of this step—**noise correction**, **data transformation**, **missing value imputation**, and **normalization**—together ensure that the input data is clean, comparable across samples, and statistically suitable for further exploration such as clustering, differential expression analysis, and functional enrichment.
+
+
+## 🔧 1. Correct Noise
+
+**Purpose**:  
+To eliminate non-biological “noise” signals caused by instrumental errors, background signals, or peak detection artifacts.  
+This step helps remove low-quality or interfering data, thereby improving the **signal-to-noise ratio (SNR)** for downstream analysis.  
+Common methods include **background subtraction**, **baseline correction**, **peak smoothing**, and **mass drift adjustment**.
+
+---
+
+## 🔄 2. Data Transformation
+
+**Purpose**:  
+To apply **log transformation** or **standardization** to raw intensity values, in order to reduce **heteroscedasticity**, normalize the distribution, and make the data more suitable for statistical analysis.  
+This is essential for many statistical tests (e.g., *t*-tests, linear models), and it prevents **high-abundance proteins** from dominating the results by bringing all measurements onto a comparable scale.
+
+---
+
+## 🔳 3. Data Imputation
+
+**Purpose**:  
+To fill in **missing values** that result from low-abundance proteins, detection limits, or instrument variability.  
+Imputation prevents the loss of potentially important proteins and allows the use of **statistical models**, **PCA**, **clustering**, and other analyses without disruption due to missing data.
+
+---
+
+## ⚖️ 4. Data Normalization
+
+**Purpose**:  
+To eliminate **systematic errors** between samples caused by non-biological factors such as **differences in sample loading**, **batch effects**, or **instrument drift**.  
+Normalization ensures comparability of protein expression across samples, improving the **reliability of differential analysis** and ensuring that results reflect true biological variation.

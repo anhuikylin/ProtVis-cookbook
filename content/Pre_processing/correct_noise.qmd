@@ -1,0 +1,49 @@
+---
+title: "Correct Noise"
+format: html
+---
+
+## Overview
+
+This module standardizes sample naming and reduces potential noise in the expression matrix for downstream analyses.
+
+- **Step 1**: Load the results from the previous step.  
+- **Step 2**: Enable **Rename Columns** to rename the expression matrix columns based on the sample information.  
+- **Step 3**: Enable **Correct Noise**. For biological replicates, if a protein is **not detected in more than half** of the samples, it is considered potential noise and its intensities across **all** replicates will be set to **NA**.  
+  Otherwise, missing values are imputed using the **mean of the available values** within the replicate group.
+
+---
+
+## Interface
+
+![Correct Noise – main panel](https://pic1.imgdb.cn/item/68c78534c5157e1a8803a44e.png)
+
+![Correct Noise – options and preview](https://pic1.imgdb.cn/item/68c78713c5157e1a8803a999.png)
+
+---
+
+## Options
+
+- **Rename Columns**  
+  Renames expression matrix columns using the metadata in the sample information table to ensure consistent sample labels.
+
+- **Correct Noise**  
+  Applies replicate-aware filtering and imputation:
+  - **Noise Rule**: If `#non-detected > 50%` of biological replicates for a protein, mark the **entire protein** as noise → set all intensities to `NA`.
+  - **Imputation Rule**: If the protein does **not** meet the noise rule, impute remaining missing values with the **mean of observed values** (within the same biological replicate group).
+
+---
+
+## Output
+
+After processing, a file named **`Step3_correct_noise.rda`** will be generated in your **working directory**.  
+This file will be used as the input for the subsequent analysis steps.
+
+---
+
+## Notes
+
+- “Not detected” typically refers to **missing intensity** (e.g., `NA` / absent after import).  
+- Applying noise correction before differential analysis can improve robustness and interpretability.  
+- Column renaming should precede noise correction to avoid ambiguity in replicate grouping.
+

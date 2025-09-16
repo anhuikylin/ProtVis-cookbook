@@ -1,0 +1,16 @@
+---
+title: "Data Normalization"
+format: html
+---
+
+Data normalization in proteomics aims to eliminate systematic errors caused by non-biological factors such as differences in sample loading, instrument variability, or batch effects. By doing so, it ensures that protein expression levels across samples are comparable. This process improves the accuracy of differential analysis, reduces false positives, and helps ensure that the results truly reflect biological variations.
+
+## Step-by-Step Instructions
+
+**Step 1**: Load the input data. A plot showing the data **before normalization** will be displayed on the right panel.
+
+**Step 2**: Click the **RUN NORMALIZATION** button. The right panel will update to show the plot **after normalization**.
+
+A file named `Step6_data_normalization.rda` will be generated in your working directory, which can be used for downstream analysis.
+
+![](https://pic1.imgdb.cn/item/68c7de80c5157e1a8806fccb.png)

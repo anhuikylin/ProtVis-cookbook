@@ -1,0 +1,35 @@
+---
+title: "Data Import"
+format: html
+---
+
+## Data Loading
+
+Based on the selected data source from the previous step, the interface will automatically redirect to the corresponding page.\
+If the analysis is interrupted, you can resume it at any time by clicking the **Load Data** button (after completing the first step of setting the working directory).
+
+Once the data is successfully loaded, the right panel will display both the **sample information** and the **expression matrix**.
+
+## Data Preprocessing
+
+After loading, the protein data undergoes preprocessing by filtering out unreliable peptides.
+
+### Available Filtering Methods
+
+There are three filtering strategies available. You may select one or combine them as needed:
+
+1.  **Remove peptides identified only by site**\
+    Excludes peptides identified solely by site-specific modifications, which may lack confident sequence-level evidence.
+
+2.  **Remove potential contaminant peptides**\
+    Filters out peptides that are likely derived from common contaminants (e.g., keratin, trypsin).
+
+3.  **Remove reverse peptides**\
+    Removes reverse (decoy) peptides used for estimating the false discovery rate (FDR) during database searching.
+
+### Execution and Reporting
+
+-   Click the **REMOVE** button to apply the selected filters.\
+-   Click the **REPORT** button to view the preprocessing summary for each selected filtering method.
+
+![Peptide filtering interface](https://pic1.imgdb.cn/item/68c772a0c5157e1a88032c8d.png)

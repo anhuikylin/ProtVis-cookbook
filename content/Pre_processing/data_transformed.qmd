@@ -1,0 +1,25 @@
+---
+title: "Data Transformed"
+format: html
+---
+
+In proteomics, quantitative data often spans several orders of magnitude, exhibiting a right-skewed distribution and heteroscedasticity—where variance increases with mean intensity. Applying a logarithmic transformation (commonly log10 or log2) compresses high values, expands low values, and stabilizes variance, making the data more normally distributed. This improves the reliability of statistical analyses such as *t*-tests and linear models. Additionally, log transformation prevents high-abundance proteins from dominating visualizations, enhancing comparability across proteins of different abundance levels. It is often used in conjunction with normalization to correct for batch effects and sample loading variability.
+
+## Step-by-Step Instructions
+
+**Step 1**: Load the input data.
+
+**Step 2**: Choose a data transformation method. Supported options include:
+
+- `"None"`
+- `"log10"`
+- `"log2"`
+- `"Standardization"`
+- `"Z-Score"`
+- `"scale"`
+- `"center"`
+- `"scale-center"`
+
+**Step 3**: Click the **EXPORT DATA** button. This will generate a file named `Step4_data_transformed.rda` in your working directory for use in downstream analysis.
+
+![](https://pic1.imgdb.cn/item/68c7d757c5157e1a88069c9b.png)

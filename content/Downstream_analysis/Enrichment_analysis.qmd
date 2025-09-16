@@ -1,0 +1,60 @@
+---
+title: "Enrichment Analysis"
+format: html
+---
+
+GO and KEGG enrichment analyses are essential downstream steps in proteomics, aiming to uncover the biological meaning behind differentially expressed proteins.  
+GO analysis classifies proteins into **biological processes**, **molecular functions**, and **cellular components**,  
+while KEGG identifies the **pathways** these proteins participate in, such as **metabolism**, **signaling**, or **disease-related pathways**.  
+Together, they help interpret how protein-level changes translate into functional and mechanistic insights.
+
+This module supports two types of workflows:
+
+---
+
+## 🔹 Method 1: Enrichment Based on ProtVis DEP Result
+
+Use this method if you have generated the `Step7_DEP_result.rda` file using ProtVis.
+
+**Step 1**: Set your **working directory** and click the **LOAD DATA** button.
+
+**Step 2**: The system will automatically display a **Select DEP comparison** dropdown based on the comparison groups in your data.
+
+**Step 3**: Upload the **background file** required for enrichment analysis.
+
+**Step 4**: Select the appropriate **taxonomic group** (e.g., human, mouse, maize) for functional annotation.
+
+**Step 5**: Check the desired analysis types: **GO**, **KEGG**, or both.
+
+**Step 6**: Click the **ANALYSIS** button to start the enrichment analysis for the selected comparison group.
+
+**Step 7**: In the result panel:
+- Adjust **visualization parameters** (e.g., top terms, p-value threshold, label size).
+- **Download** result **tables (CSV)** or **plots (PNG/PDF)** for downstream interpretation or publication.
+
+---
+
+## 🔹 Method 2: Enrichment Based on Custom Gene List
+
+Use this method if you have a custom gene or protein list outside of the DEP results.
+
+**Step 1**: Click the **Upload Gene List** button to load your list.
+
+**Step 2**: Upload the corresponding **background file** that matches the gene ID type used in your list (e.g., UniProt, Entrez, Ensembl).
+
+**Step 3**: Select the appropriate **taxonomic group**.
+
+**Step 4**: Check the analysis type: **GO**, **KEGG**, or both.
+
+**Step 5**: Click the **ANALYSIS** button to start enrichment analysis based on your uploaded list.
+
+**Step 6**: Once complete, explore the enrichment results:
+- Interactive plots and tables
+- Parameter adjustment
+- Result export (CSV, PNG, PDF)
+
+---
+
+> ✅ **Tip**: Ensure that the background file and gene/protein list use the same ID format and species. Inconsistent formats will result in failed or inaccurate enrichment results.
+
+![](https://pic1.imgdb.cn/item/68c7fbebc5157e1a88079521.png)

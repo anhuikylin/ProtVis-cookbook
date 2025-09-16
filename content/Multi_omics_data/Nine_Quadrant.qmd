@@ -1,0 +1,56 @@
+---
+title: "Nine Quadrant"
+format: html
+---
+
+The **Nine-Quadrant Plot** is a visualization tool commonly used in multi-group comparisons to display differential expression patterns and trend consistency. It is especially prevalent in high-throughput data analyses such as **proteomics**, **transcriptomics**, and **metabolomics**.
+
+By comparing log2 fold changes across two conditions or omics datasets, this plot helps identify: - Shared upregulated/downregulated features\
+- Conflicting expression trends\
+- Condition-specific responses
+
+------------------------------------------------------------------------
+
+## 🧭 Quadrant Interpretation
+
+| Quadrant | Meaning | Biological Interpretation |
+|----------------|----------------|-----------------------------------------|
+| Q1 (+, +) | Upregulated in both groups | Consistent upregulation; potentially stable response proteins |
+| Q9 (−, −) | Downregulated in both groups | Consistent downregulation; also indicative of stable responses |
+| Q5 (0, 0) | Not significantly changed | Stable expression; non-responsive proteins |
+| Q2, Q3, Q4, Q6, Q7, Q8 | Asymmetrical or opposite changes | May be associated with specific treatment responses or opposing regulatory trends |
+
+------------------------------------------------------------------------
+
+## 📋 Step 1: Upload an Example File
+
+Your input file should contain the following four columns:
+
+| Omic1_ID   | Log2FC_Omic1 | Omic2_ID   | Log2FC_Omic2 |
+|------------|--------------|------------|--------------|
+| Omic1_0001 | 2.46         | Omic2_0001 | -0.09        |
+| Omic1_0002 | 3.58         | Omic2_0002 | -0.69        |
+| Omic1_0003 | 3.81         | Omic2_0003 | -0.03        |
+| Omic1_0004 | -4.67        | Omic2_0004 | -0.04        |
+| Omic1_0005 | -5.21        | Omic2_0005 | 0.02         |
+| Omic1_0006 | 3.39         | Omic2_0006 | -0.03        |
+
+> 💡 **Note**: The two datasets should contain matched identifiers and log2 fold changes.
+
+------------------------------------------------------------------------
+
+## 🔧 Step-by-Step Instructions
+
+**Step 2**: Set the **X-axis** and **Y-axis** variables from the column headers (e.g., `Log2FC_Omic1` as X and `Log2FC_Omic2` as Y).
+
+**Step 3**: Define the **log2 fold change cutoff** (e.g., ±1). This value determines which data points are considered significantly up- or downregulated.
+
+**Step 4**: Choose a **color scheme** to highlight quadrants or point significance (e.g., red for Q1, blue for Q9, gray for Q5).
+
+**Step 5**: Set **export parameters**, such as: - Image resolution - Width/height - File format (PNG, PDF, SVG)
+
+**Step 6**: Click the **RUN** button to generate the plot, and then **DOWNLOAD** the result for use in reports or publications.
+
+------------------------------------------------------------------------
+
+![](https://pic1.imgdb.cn/item/68c806ecc5157e1a8807b4b7.png)

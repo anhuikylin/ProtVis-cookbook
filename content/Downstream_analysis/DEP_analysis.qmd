@@ -1,0 +1,24 @@
+---
+title: "DEP Analysis"
+format: html
+---
+
+**DEP (Differentially Expressed Proteins)** refers to a group of proteins whose expression levels show statistically significant differences under two or more experimental conditions. They are the primary output of differential expression analysis and serve as key targets for downstream biological interpretation, pathway enrichment, and biomarker discovery.
+
+## Step-by-Step Instructions
+
+**Step 1**: Load the input data.
+
+**Step 2**: Upload or paste the **comparison group information**. Multiple group comparisons are supported.
+
+**Step 3**: In the **DEP Result** panel, multiple tabs will be generated automatically based on the number of comparison groups provided. Each tab will include:
+
+- A **differential expression table**
+- A **volcano plot**
+- A **heatmap**
+- A **bar plot**
+
+**Step 4**: In the **visualization panel**, you can **adjust display parameters**, such as fold change and FDR thresholds, clustering options, or color settings.  
+You can also **download the result tables (CSV)** or **export images (PNG/PDF)** of the plots for downstream analysis and reporting.
+
+![](https://pic1.imgdb.cn/item/68c7f831c5157e1a88078793.png)

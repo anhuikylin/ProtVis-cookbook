@@ -1,0 +1,20 @@
+---
+title: "Expression Profile"
+format: html
+---
+
+**Expression Profile analysis** provides an overview of how protein expression levels vary across different samples or experimental conditions. By visualizing expression patterns—such as co-expression clusters or condition-specific expression trends—it helps identify biologically meaningful patterns, potential biomarkers, or proteins involved in shared regulatory mechanisms.
+
+This module supports clustering-based visualization and customizable color schemes to explore dynamic expression profiles. The analysis workflow includes the following steps:
+
+**Step 1**: Upload the **expression matrix** (e.g., normalized protein abundance table).
+
+**Step 2**: **Choose a clustering method**, such as `"K-means"`.
+
+**Step 3**: Select a **color scheme** via the **Select Color** option, and set the number of **centers** (i.e., clusters).
+
+**Step 4**: Click the **RUN** button to perform clustering and generate the expression profile visualization.
+
+**Step 5**: Adjust plotting parameters as needed (e.g., font size, label angle, cluster order), and **download the final plot** in your preferred format (e.g., PNG, PDF).
+
+![](https://pic1.imgdb.cn/item/68c8039cc5157e1a8807ab27.png)
