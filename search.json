@@ -587,56 +587,80 @@
     "href": "content/Toolkits/Toolkits.html",
     "title": "Toolkits",
     "section": "",
-    "text": "The Toolkits module in ProtVis offers a suite of utility tools for protein-level data extraction, structural annotation, and external linking. These tools assist users in post-analysis exploration, helping researchers dig deeper into protein function, structure, and expression."
+    "text": "The Toolkits module in ProtVis offers a suite of utility tools for protein-level data extraction, structural annotation, and external linking. These tools assist users in post-analysis exploration, helping researchers dig deeper into protein function, structure, and expression.",
+    "crumbs": [
+      "Toolkits"
+    ]
   },
   {
     "objectID": "content/Toolkits/Toolkits.html#introduction",
     "href": "content/Toolkits/Toolkits.html#introduction",
     "title": "Toolkits",
     "section": "",
-    "text": "The Toolkits module in ProtVis offers a suite of utility tools for protein-level data extraction, structural annotation, and external linking. These tools assist users in post-analysis exploration, helping researchers dig deeper into protein function, structure, and expression."
+    "text": "The Toolkits module in ProtVis offers a suite of utility tools for protein-level data extraction, structural annotation, and external linking. These tools assist users in post-analysis exploration, helping researchers dig deeper into protein function, structure, and expression.",
+    "crumbs": [
+      "Toolkits"
+    ]
   },
   {
     "objectID": "content/Toolkits/Toolkits.html#protein-extract",
     "href": "content/Toolkits/Toolkits.html#protein-extract",
     "title": "Toolkits",
     "section": "🧪 Protein Extract",
-    "text": "🧪 Protein Extract\nPurpose:\nExtract protein sequences based on a list of gene identifiers.\nFeatures: - Input gene IDs (e.g., from DEG, GO/KEGG results, or manual selection). - Retrieve corresponding protein sequences from the internal annotation database.\nUse Case: Ideal for preparing FASTA files for downstream structure prediction, motif analysis, or epitope mapping."
+    "text": "🧪 Protein Extract\nPurpose:\nExtract protein sequences based on a list of gene identifiers.\nFeatures: - Input gene IDs (e.g., from DEG, GO/KEGG results, or manual selection). - Retrieve corresponding protein sequences from the internal annotation database.\nUse Case: Ideal for preparing FASTA files for downstream structure prediction, motif analysis, or epitope mapping.",
+    "crumbs": [
+      "Toolkits"
+    ]
   },
   {
     "objectID": "content/Toolkits/Toolkits.html#protein-links",
     "href": "content/Toolkits/Toolkits.html#protein-links",
     "title": "Toolkits",
     "section": "🔗 Protein Links",
-    "text": "🔗 Protein Links\nPurpose:\nGenerate dynamic links from protein identifiers or sequences to external annotation and structure tools.\nSupported Destinations:\n\nUniProt: protein function, domain, GO annotations\n\nInterProScan: domain and motif annotation\n\nSwiss-Model: 3D structure modeling\n\nInput Type: - Gene ID - Protein sequence (FASTA format)\nUse Case: For functional and structural exploration via external resources without leaving the app interface."
+    "text": "🔗 Protein Links\nPurpose:\nGenerate dynamic links from protein identifiers or sequences to external annotation and structure tools.\nSupported Destinations:\n\nUniProt: protein function, domain, GO annotations\n\nInterProScan: domain and motif annotation\n\nSwiss-Model: 3D structure modeling\n\nInput Type: - Gene ID - Protein sequence (FASTA format)\nUse Case: For functional and structural exploration via external resources without leaving the app interface.",
+    "crumbs": [
+      "Toolkits"
+    ]
   },
   {
     "objectID": "content/Toolkits/Toolkits.html#protein-structure",
     "href": "content/Toolkits/Toolkits.html#protein-structure",
     "title": "Toolkits",
     "section": "🧬 Protein Structure",
-    "text": "🧬 Protein Structure\nPurpose:\nVisualize structural features of proteins such as: - Helices, sheets, turns (secondary structure) - Domains - Sites of modification or interaction\nData Sources: - UniProt annotation - Predicted models from Swiss-Model or AlphaFold\nUse Case: Understand the spatial arrangement of proteins and pinpoint regions of interest (e.g., phosphorylation sites, mutations, etc.)."
+    "text": "🧬 Protein Structure\nPurpose:\nVisualize structural features of proteins such as: - Helices, sheets, turns (secondary structure) - Domains - Sites of modification or interaction\nData Sources: - UniProt annotation - Predicted models from Swiss-Model or AlphaFold\nUse Case: Understand the spatial arrangement of proteins and pinpoint regions of interest (e.g., phosphorylation sites, mutations, etc.).",
+    "crumbs": [
+      "Toolkits"
+    ]
   },
   {
     "objectID": "content/Toolkits/Toolkits.html#boxplot",
     "href": "content/Toolkits/Toolkits.html#boxplot",
     "title": "Toolkits",
     "section": "📊 Boxplot",
-    "text": "📊 Boxplot\nPurpose:\nVisualize protein abundance or intensity across conditions or groups.\nFeatures: - Select one or multiple proteins - Customize colors, themes, labels - Display statistical annotations (t-test, ANOVA p-values)\nUse Case: Used in publication figures or presentations to highlight biologically important proteins."
+    "text": "📊 Boxplot\nPurpose:\nVisualize protein abundance or intensity across conditions or groups.\nFeatures: - Select one or multiple proteins - Customize colors, themes, labels - Display statistical annotations (t-test, ANOVA p-values)\nUse Case: Used in publication figures or presentations to highlight biologically important proteins.",
+    "crumbs": [
+      "Toolkits"
+    ]
   },
   {
     "objectID": "content/Toolkits/Toolkits.html#screenshot",
     "href": "content/Toolkits/Toolkits.html#screenshot",
     "title": "Toolkits",
     "section": "Screenshot",
-    "text": "Screenshot"
+    "text": "Screenshot",
+    "crumbs": [
+      "Toolkits"
+    ]
   },
   {
     "objectID": "content/Toolkits/Toolkits.html#summary",
     "href": "content/Toolkits/Toolkits.html#summary",
     "title": "Toolkits",
     "section": "Summary",
-    "text": "Summary\n\n\n\n\n\n\n\nTool\nFunction\n\n\n\n\nProtein Extract\nExtract protein sequences using gene IDs\n\n\nProtein Links\nRedirect to UniProt, InterProScan, or Swiss-Model for annotation/structure\n\n\nProtein Structure\nDisplay domains and structural features\n\n\nBoxplot\nVisualize expression distribution for selected proteins\n\n\n\nTogether, these tools significantly improve biological interpretation and facilitate protein-focused exploration in ProtVis."
+    "text": "Summary\n\n\n\n\n\n\n\nTool\nFunction\n\n\n\n\nProtein Extract\nExtract protein sequences using gene IDs\n\n\nProtein Links\nRedirect to UniProt, InterProScan, or Swiss-Model for annotation/structure\n\n\nProtein Structure\nDisplay domains and structural features\n\n\nBoxplot\nVisualize expression distribution for selected proteins\n\n\n\nTogether, these tools significantly improve biological interpretation and facilitate protein-focused exploration in ProtVis.",
+    "crumbs": [
+      "Toolkits"
+    ]
   },
   {
     "objectID": "index.html",
