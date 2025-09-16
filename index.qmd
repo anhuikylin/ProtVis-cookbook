@@ -15,8 +15,3 @@ Here's the list of key features for ProtVis, as titles only:
 4.  **GSEA**
 4.  **Multiomic analysis**
 5.  **Post-translational Modifications (PTMs)**
-
-
-```{=openxml}
-<w:p><w:r><w:br w:type="page"/></w:r></w:p>
-```
