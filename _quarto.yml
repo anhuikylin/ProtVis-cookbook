@@ -10,7 +10,7 @@ website:
   favicon: images/favicon.ico
   sidebar:
     background: "#FCD581"
-    logo: "https://github.com/xuebinzhang-lab/ProtVis"
+    logo: "https://github.com/anhuikylin/ProtVis"
     pinned: true
     align: center
     tools:
@@ -60,6 +60,8 @@ website:
           text: DEP Analysis
         - href: content/Downstream_analysis/Enrichment_analysis.qmd
           text: Enrichment Analysis
+        - href: content/Downstream_analysis/GSEA.qmd
+          text: GSEA
       - href: content/Multi_omics_data/Multi_omics_data.qmd
         text: Multi-omics Data
         contents:
