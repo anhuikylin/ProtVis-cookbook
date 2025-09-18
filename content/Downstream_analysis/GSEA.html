@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Nine Quadrant – Protvis cookbook</title>
+<title>GSEA – Protvis cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -29,8 +29,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/Multi_omics_data/venn.html" rel="next">
-<link href="../../content/Multi_omics_data/Expression_Profile.html" rel="prev">
+<link href="../../content/Multi_omics_data/Multi_omics_data.html" rel="next">
+<link href="../../content/Downstream_analysis/Enrichment_analysis.html" rel="prev">
 <link href="../../images/favicon.ico" rel="icon">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -83,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Multi_omics_data/Multi_omics_data.html">Multi-omics Data</a></li><li class="breadcrumb-item"><a href="../../content/Multi_omics_data/Nine_Quadrant.html">Nine Quadrant</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Downstream_analysis/Downstream_analysis.html">Downstream Analysis</a></li><li class="breadcrumb-item"><a href="../../content/Downstream_analysis/GSEA.html">GSEA</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -181,11 +181,11 @@ ul.task-list li input[type="checkbox"] {
       <div class="sidebar-item-container"> 
             <a href="../../content/Downstream_analysis/Downstream_analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Downstream Analysis</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Downstream_analysis/Overview.html" class="sidebar-item-text sidebar-link">
@@ -206,7 +206,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/Downstream_analysis/GSEA.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Downstream_analysis/GSEA.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">GSEA</span></a>
   </div>
 </li>
@@ -216,11 +216,11 @@ ul.task-list li input[type="checkbox"] {
       <div class="sidebar-item-container"> 
             <a href="../../content/Multi_omics_data/Multi_omics_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multi-omics Data</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Multi_omics_data/Expression_Profile.html" class="sidebar-item-text sidebar-link">
@@ -229,7 +229,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/Multi_omics_data/Nine_Quadrant.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../content/Multi_omics_data/Nine_Quadrant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Nine Quadrant</span></a>
   </div>
 </li>
@@ -292,18 +292,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Contents</h2>
    
   <ul class="collapse">
-  <li><a href="#quadrant-interpretation" id="toc-quadrant-interpretation" class="nav-link active" data-scroll-target="#quadrant-interpretation">🧭 Quadrant Interpretation</a></li>
-  <li><a href="#step-1-upload-an-example-file" id="toc-step-1-upload-an-example-file" class="nav-link" data-scroll-target="#step-1-upload-an-example-file">📋 Step 1: Upload an Example File</a></li>
-  <li><a href="#step-by-step-instructions" id="toc-step-by-step-instructions" class="nav-link" data-scroll-target="#step-by-step-instructions">🔧 Step-by-Step Instructions</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section"></a></li>
+  <li><a href="#gsea" id="toc-gsea" class="nav-link" data-scroll-target="#gsea">GSEA</a></li>
   </ul>
-<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Multi_omics_data/Nine_Quadrant.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Multi_omics_data/Nine_Quadrant.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Downstream_analysis/GSEA.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Downstream_analysis/GSEA.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Multi_omics_data/Multi_omics_data.html">Multi-omics Data</a></li><li class="breadcrumb-item"><a href="../../content/Multi_omics_data/Nine_Quadrant.html">Nine Quadrant</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Downstream_analysis/Downstream_analysis.html">Downstream Analysis</a></li><li class="breadcrumb-item"><a href="../../content/Downstream_analysis/GSEA.html">GSEA</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Nine Quadrant</h1>
+<h1 class="title">GSEA</h1>
 </div>
 
 
@@ -320,118 +319,73 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The <strong>Nine-Quadrant Plot</strong> is a visualization tool commonly used in multi-group comparisons to display differential expression patterns and trend consistency. It is especially prevalent in high-throughput data analyses such as <strong>proteomics</strong>, <strong>transcriptomics</strong>, and <strong>metabolomics</strong>.</p>
-<p>By comparing log2 fold changes across two conditions or omics datasets, this plot helps identify: - Shared upregulated/downregulated features<br>
-- Conflicting expression trends<br>
-- Condition-specific responses</p>
-<hr>
-<section id="quadrant-interpretation" class="level2">
-<h2 class="anchored" data-anchor-id="quadrant-interpretation">🧭 Quadrant Interpretation</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 21%">
-<col style="width: 21%">
-<col style="width: 56%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Quadrant</th>
-<th>Meaning</th>
-<th>Biological Interpretation</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Q1 (+, +)</td>
-<td>Upregulated in both groups</td>
-<td>Consistent upregulation; potentially stable response proteins</td>
-</tr>
-<tr class="even">
-<td>Q9 (−, −)</td>
-<td>Downregulated in both groups</td>
-<td>Consistent downregulation; also indicative of stable responses</td>
-</tr>
-<tr class="odd">
-<td>Q5 (0, 0)</td>
-<td>Not significantly changed</td>
-<td>Stable expression; non-responsive proteins</td>
-</tr>
-<tr class="even">
-<td>Q2, Q3, Q4, Q6, Q7, Q8</td>
-<td>Asymmetrical or opposite changes</td>
-<td>May be associated with specific treatment responses or opposing regulatory trends</td>
-</tr>
-</tbody>
-</table>
-<hr>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
 </section>
-<section id="step-1-upload-an-example-file" class="level2">
-<h2 class="anchored" data-anchor-id="step-1-upload-an-example-file">📋 Step 1: Upload an Example File</h2>
-<p>Your input file should contain the following four columns:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Omic1_ID</th>
-<th>Log2FC_Omic1</th>
-<th>Omic2_ID</th>
-<th>Log2FC_Omic2</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Omic1_0001</td>
-<td>2.46</td>
-<td>Omic2_0001</td>
-<td>-0.09</td>
-</tr>
-<tr class="even">
-<td>Omic1_0002</td>
-<td>3.58</td>
-<td>Omic2_0002</td>
-<td>-0.69</td>
-</tr>
-<tr class="odd">
-<td>Omic1_0003</td>
-<td>3.81</td>
-<td>Omic2_0003</td>
-<td>-0.03</td>
-</tr>
-<tr class="even">
-<td>Omic1_0004</td>
-<td>-4.67</td>
-<td>Omic2_0004</td>
-<td>-0.04</td>
-</tr>
-<tr class="odd">
-<td>Omic1_0005</td>
-<td>-5.21</td>
-<td>Omic2_0005</td>
-<td>0.02</td>
-</tr>
-<tr class="even">
-<td>Omic1_0006</td>
-<td>3.39</td>
-<td>Omic2_0006</td>
-<td>-0.03</td>
-</tr>
-</tbody>
-</table>
-<blockquote class="blockquote">
-<p>💡 <strong>Note</strong>: The two datasets should contain matched identifiers and log2 fold changes.</p>
-</blockquote>
-<hr>
+<section id="gsea" class="level2">
+<h2 class="anchored" data-anchor-id="gsea">GSEA</h2>
+<p>The GSEA module allows users to perform Gene Set Enrichment Analysis based on expression matrices and KEGG pathway annotations. The interface includes expression data upload, parameter adjustment, visualization of top pathways, and enrichment curves.</p>
+<section id="feature-walkthrough" class="level3">
+<h3 class="anchored" data-anchor-id="feature-walkthrough">Feature Walkthrough</h3>
+<section id="upload-expression-matrix" class="level4">
+<h4 class="anchored" data-anchor-id="upload-expression-matrix">① Upload Expression Matrix</h4>
+<p>Click <strong>Browse…</strong> to upload the expression matrix file (<code>diff.anno.txt</code>). This file should contain gene identifiers and expression counts.</p>
 </section>
-<section id="step-by-step-instructions" class="level2">
-<h2 class="anchored" data-anchor-id="step-by-step-instructions">🔧 Step-by-Step Instructions</h2>
-<p><strong>Step 2</strong>: Set the <strong>X-axis</strong> and <strong>Y-axis</strong> variables from the column headers (e.g., <code>Log2FC_Omic1</code> as X and <code>Log2FC_Omic2</code> as Y).</p>
-<p><strong>Step 3</strong>: Define the <strong>log2 fold change cutoff</strong> (e.g., ±1). This value determines which data points are considered significantly up- or downregulated.</p>
-<p><strong>Step 4</strong>: Choose a <strong>color scheme</strong> to highlight quadrants or point significance (e.g., red for Q1, blue for Q9, gray for Q5).</p>
-<p><strong>Step 5</strong>: Set <strong>export parameters</strong>, such as: - Image resolution - Width/height - File format (PNG, PDF, SVG)</p>
-<p><strong>Step 6</strong>: Click the <strong>RUN</strong> button to generate the plot, and then <strong>DOWNLOAD</strong> the result for use in reports or publications.</p>
-<hr>
-<p><img src="https://pic1.imgdb.cn/item/68c806ecc5157e1a8807b4b7.png" class="img-fluid"></p>
+<section id="upload-group-information" class="level4">
+<h4 class="anchored" data-anchor-id="upload-group-information">② Upload Group Information</h4>
+<p>Click <strong>Browse…</strong> to upload the sample group file (<code>group.txt</code>). This file should map sample names to experimental groups.</p>
+</section>
+<section id="upload-ko-pathway-annotation" class="level4">
+<h4 class="anchored" data-anchor-id="upload-ko-pathway-annotation">③ Upload KO Pathway Annotation</h4>
+<p>Click <strong>Browse…</strong> to upload KEGG Orthology (KO) pathway information (<code>ko.background.txt</code>) with mappings from pathway IDs to gene lists.</p>
+</section>
+<section id="set-parameters" class="level4">
+<h4 class="anchored" data-anchor-id="set-parameters">④ Set Parameters</h4>
+<p>Adjust analysis parameters as needed:</p>
+<ul>
+<li><p><strong>minGSSize / maxGSSize</strong>: Minimum and maximum gene set size to be considered for enrichment.</p></li>
+<li><p><strong>Top X Pathways</strong>: Limit number of top pathways shown in the dotplot.</p></li>
+<li><p><strong>Show only significant</strong>: Filter for <code>p.adjust &lt; 0.05</code>.</p></li>
+<li><p><strong>Dotplot Sort By</strong>: Choose to sort results by Normalized Enrichment Score (NES) or adjusted p-value.</p></li>
+</ul>
+</section>
+<section id="select-pathway-for-enrichment-curve" class="level4">
+<h4 class="anchored" data-anchor-id="select-pathway-for-enrichment-curve">⑤ Select Pathway for Enrichment Curve</h4>
+<p>Once the top pathways are identified, use the dropdown menu to select a specific pathway for detailed enrichment curve plotting.</p>
+</section>
+<section id="run-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="run-analysis">⑥ Run Analysis</h4>
+<p>Click the <strong>Run Analysis</strong> button to execute the GSEA pipeline based on provided inputs.</p>
+<p><img src="https://pic1.imgdb.cn/item/68cb5d12c5157e1a8813b8ce.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="visualization-outputs" class="level3">
+<h3 class="anchored" data-anchor-id="visualization-outputs">Visualization Outputs</h3>
+<ul>
+<li><p><strong>GSEA Results Table</strong>: Displays enriched pathways with statistics like NES, p-value, p.adjust, q-value, rank, and core enrichment genes.</p></li>
+<li><p><strong>Top Pathways Dotplot</strong>: Shows enrichment summary of top-ranked pathways.</p></li>
+<li><p><strong>Enrichment Curve</strong>: Visualizes the running enrichment score and gene rank for a selected pathway.</p></li>
+</ul>
+</section>
+<section id="download-options" class="level3">
+<h3 class="anchored" data-anchor-id="download-options">Download Options</h3>
+<p>After analysis, results can be downloaded:</p>
+<ul>
+<li><p><strong>Download Results CSV</strong>: Full GSEA table.</p></li>
+<li><p><strong>Download Dotplot PDF</strong>: Visual of top enriched pathway.</p></li>
+<li><p><strong>Download Curve PDF</strong>: Enrichment curve of selected pathway.</p></li>
+</ul>
+</section>
+<section id="notes" class="level3">
+<h3 class="anchored" data-anchor-id="notes">Notes</h3>
+<ul>
+<li><p>Expression matrix and group file must be in tab-delimited <code>.txt</code> format.</p></li>
+<li><p>KO file should list pathway ID, description, and semicolon-separated gene list.</p></li>
+<li><p>Internally uses DESeq2 for differential expression and <code>clusterProfiler::GSEA()</code> for enrichment analysis.</p></li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -836,13 +790,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/Multi_omics_data/Expression_Profile.html" class="pagination-link" aria-label="Expression Profile">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Expression Profile</span>
+      <a href="../../content/Downstream_analysis/Enrichment_analysis.html" class="pagination-link" aria-label="Enrichment Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Enrichment Analysis</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/Multi_omics_data/venn.html" class="pagination-link" aria-label="Venn">
-        <span class="nav-page-text">Venn</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/Multi_omics_data/Multi_omics_data.html" class="pagination-link" aria-label="Multi-omics Data">
+        <span class="nav-page-text">Multi-omics Data</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -851,4 +805,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Multi_omics_data/Nine_Quadrant.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Multi_omics_data/Nine_Quadrant.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Downstream_analysis/GSEA.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Downstream_analysis/GSEA.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

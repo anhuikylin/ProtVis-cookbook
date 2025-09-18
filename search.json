@@ -307,6 +307,76 @@
     ]
   },
   {
+    "objectID": "content/Downstream_analysis/GSEA.html#gsea",
+    "href": "content/Downstream_analysis/GSEA.html#gsea",
+    "title": "GSEA",
+    "section": "GSEA",
+    "text": "GSEA\nThe GSEA module allows users to perform Gene Set Enrichment Analysis based on expression matrices and KEGG pathway annotations. The interface includes expression data upload, parameter adjustment, visualization of top pathways, and enrichment curves.\n\nFeature Walkthrough\n\n① Upload Expression Matrix\nClick Browse… to upload the expression matrix file (diff.anno.txt). This file should contain gene identifiers and expression counts.\n\n\n② Upload Group Information\nClick Browse… to upload the sample group file (group.txt). This file should map sample names to experimental groups.\n\n\n③ Upload KO Pathway Annotation\nClick Browse… to upload KEGG Orthology (KO) pathway information (ko.background.txt) with mappings from pathway IDs to gene lists.\n\n\n④ Set Parameters\nAdjust analysis parameters as needed:\n\nminGSSize / maxGSSize: Minimum and maximum gene set size to be considered for enrichment.\nTop X Pathways: Limit number of top pathways shown in the dotplot.\nShow only significant: Filter for p.adjust &lt; 0.05.\nDotplot Sort By: Choose to sort results by Normalized Enrichment Score (NES) or adjusted p-value.\n\n\n\n⑤ Select Pathway for Enrichment Curve\nOnce the top pathways are identified, use the dropdown menu to select a specific pathway for detailed enrichment curve plotting.\n\n\n⑥ Run Analysis\nClick the Run Analysis button to execute the GSEA pipeline based on provided inputs.\n\n\n\n\nVisualization Outputs\n\nGSEA Results Table: Displays enriched pathways with statistics like NES, p-value, p.adjust, q-value, rank, and core enrichment genes.\nTop Pathways Dotplot: Shows enrichment summary of top-ranked pathways.\nEnrichment Curve: Visualizes the running enrichment score and gene rank for a selected pathway.\n\n\n\nDownload Options\nAfter analysis, results can be downloaded:\n\nDownload Results CSV: Full GSEA table.\nDownload Dotplot PDF: Visual of top enriched pathway.\nDownload Curve PDF: Enrichment curve of selected pathway.\n\n\n\nNotes\n\nExpression matrix and group file must be in tab-delimited .txt format.\nKO file should list pathway ID, description, and semicolon-separated gene list.\nInternally uses DESeq2 for differential expression and clusterProfiler::GSEA() for enrichment analysis.",
+    "crumbs": [
+      "Downstream Analysis",
+      "GSEA"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html",
+    "href": "content/data_import/data_import.html",
+    "title": "Data Import",
+    "section": "",
+    "text": "Based on the selected data source from the previous step, the interface will automatically redirect to the corresponding page.\nIf the analysis is interrupted, you can resume it at any time by clicking the Load Data button (after completing the first step of setting the working directory).\nOnce the data is successfully loaded, the right panel will display both the sample information and the expression matrix.",
+    "crumbs": [
+      "Data Import"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#data-loading",
+    "href": "content/data_import/data_import.html#data-loading",
+    "title": "Data Import",
+    "section": "",
+    "text": "Based on the selected data source from the previous step, the interface will automatically redirect to the corresponding page.\nIf the analysis is interrupted, you can resume it at any time by clicking the Load Data button (after completing the first step of setting the working directory).\nOnce the data is successfully loaded, the right panel will display both the sample information and the expression matrix.",
+    "crumbs": [
+      "Data Import"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#data-preprocessing",
+    "href": "content/data_import/data_import.html#data-preprocessing",
+    "title": "Data Import",
+    "section": "Data Preprocessing",
+    "text": "Data Preprocessing\nAfter loading, the protein data undergoes preprocessing by filtering out unreliable peptides.\n\nAvailable Filtering Methods\nThere are three filtering strategies available. You may select one or combine them as needed:\n\nRemove peptides identified only by site\nExcludes peptides identified solely by site-specific modifications, which may lack confident sequence-level evidence.\nRemove potential contaminant peptides\nFilters out peptides that are likely derived from common contaminants (e.g., keratin, trypsin).\nRemove reverse peptides\nRemoves reverse (decoy) peptides used for estimating the false discovery rate (FDR) during database searching.\n\n\n\nExecution and Reporting\n\nClick the REMOVE button to apply the selected filters.\n\nClick the REPORT button to view the preprocessing summary for each selected filtering method.\n\n\n\n\nPeptide filtering interface",
+    "crumbs": [
+      "Data Import"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "content/Downstream_analysis/DEP_analysis.html",
+    "href": "content/Downstream_analysis/DEP_analysis.html",
+    "title": "DEP Analysis",
+    "section": "",
+    "text": "DEP (Differentially Expressed Proteins) refers to a group of proteins whose expression levels show statistically significant differences under two or more experimental conditions. They are the primary output of differential expression analysis and serve as key targets for downstream biological interpretation, pathway enrichment, and biomarker discovery.",
+    "crumbs": [
+      "Downstream Analysis",
+      "DEP Analysis"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/DEP_analysis.html#step-by-step-instructions",
+    "href": "content/Downstream_analysis/DEP_analysis.html#step-by-step-instructions",
+    "title": "DEP Analysis",
+    "section": "Step-by-Step Instructions",
+    "text": "Step-by-Step Instructions\nStep 1: Load the input data.\nStep 2: Upload or paste the comparison group information. Multiple group comparisons are supported.\nStep 3: In the DEP Result panel, multiple tabs will be generated automatically based on the number of comparison groups provided. Each tab will include:\n\nA differential expression table\nA volcano plot\nA heatmap\nA bar plot\n\nStep 4: In the visualization panel, you can adjust display parameters, such as fold change and FDR thresholds, clustering options, or color settings.\nYou can also download the result tables (CSV) or export images (PNG/PDF) of the plots for downstream analysis and reporting.",
+    "crumbs": [
+      "Downstream Analysis",
+      "DEP Analysis"
+    ]
+  },
+  {
     "objectID": "content/Downstream_analysis/Enrichment_analysis.html",
     "href": "content/Downstream_analysis/Enrichment_analysis.html",
     "title": "Enrichment Analysis",
@@ -337,65 +407,6 @@
     "crumbs": [
       "Downstream Analysis",
       "Enrichment Analysis"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/DEP_analysis.html",
-    "href": "content/Downstream_analysis/DEP_analysis.html",
-    "title": "DEP Analysis",
-    "section": "",
-    "text": "DEP (Differentially Expressed Proteins) refers to a group of proteins whose expression levels show statistically significant differences under two or more experimental conditions. They are the primary output of differential expression analysis and serve as key targets for downstream biological interpretation, pathway enrichment, and biomarker discovery.",
-    "crumbs": [
-      "Downstream Analysis",
-      "DEP Analysis"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/DEP_analysis.html#step-by-step-instructions",
-    "href": "content/Downstream_analysis/DEP_analysis.html#step-by-step-instructions",
-    "title": "DEP Analysis",
-    "section": "Step-by-Step Instructions",
-    "text": "Step-by-Step Instructions\nStep 1: Load the input data.\nStep 2: Upload or paste the comparison group information. Multiple group comparisons are supported.\nStep 3: In the DEP Result panel, multiple tabs will be generated automatically based on the number of comparison groups provided. Each tab will include:\n\nA differential expression table\nA volcano plot\nA heatmap\nA bar plot\n\nStep 4: In the visualization panel, you can adjust display parameters, such as fold change and FDR thresholds, clustering options, or color settings.\nYou can also download the result tables (CSV) or export images (PNG/PDF) of the plots for downstream analysis and reporting.",
-    "crumbs": [
-      "Downstream Analysis",
-      "DEP Analysis"
-    ]
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
-  },
-  {
-    "objectID": "content/data_import/data_import.html",
-    "href": "content/data_import/data_import.html",
-    "title": "Data Import",
-    "section": "",
-    "text": "Based on the selected data source from the previous step, the interface will automatically redirect to the corresponding page.\nIf the analysis is interrupted, you can resume it at any time by clicking the Load Data button (after completing the first step of setting the working directory).\nOnce the data is successfully loaded, the right panel will display both the sample information and the expression matrix.",
-    "crumbs": [
-      "Data Import"
-    ]
-  },
-  {
-    "objectID": "content/data_import/data_import.html#data-loading",
-    "href": "content/data_import/data_import.html#data-loading",
-    "title": "Data Import",
-    "section": "",
-    "text": "Based on the selected data source from the previous step, the interface will automatically redirect to the corresponding page.\nIf the analysis is interrupted, you can resume it at any time by clicking the Load Data button (after completing the first step of setting the working directory).\nOnce the data is successfully loaded, the right panel will display both the sample information and the expression matrix.",
-    "crumbs": [
-      "Data Import"
-    ]
-  },
-  {
-    "objectID": "content/data_import/data_import.html#data-preprocessing",
-    "href": "content/data_import/data_import.html#data-preprocessing",
-    "title": "Data Import",
-    "section": "Data Preprocessing",
-    "text": "Data Preprocessing\nAfter loading, the protein data undergoes preprocessing by filtering out unreliable peptides.\n\nAvailable Filtering Methods\nThere are three filtering strategies available. You may select one or combine them as needed:\n\nRemove peptides identified only by site\nExcludes peptides identified solely by site-specific modifications, which may lack confident sequence-level evidence.\nRemove potential contaminant peptides\nFilters out peptides that are likely derived from common contaminants (e.g., keratin, trypsin).\nRemove reverse peptides\nRemoves reverse (decoy) peptides used for estimating the false discovery rate (FDR) during database searching.\n\n\n\nExecution and Reporting\n\nClick the REMOVE button to apply the selected filters.\n\nClick the REPORT button to view the preprocessing summary for each selected filtering method.\n\n\n\n\nPeptide filtering interface",
-    "crumbs": [
-      "Data Import"
     ]
   },
   {
