@@ -1,0 +1,58 @@
+name: Materialize original ProtVis figures
+
+on:
+  push:
+    branches: [original-figures-materialize-run]
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out staging branch
+        uses: actions/checkout@v4
+        with:
+          ref: original-figures-materialize-run
+          fetch-depth: 0
+
+      - name: Reassemble and verify original SVG bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle="$RUNNER_TEMP/original-figures.b64"
+          archive="$RUNNER_TEMP/original-figures.tar.xz"
+          out="$RUNNER_TEMP/original-figures"
+          {
+            cat .original_asset_bundle/part.{001..008}
+            cat .original_asset_fix/part.009{a,b,c}
+            cat .original_asset_bundle/part.{010..013}
+            cat .original_asset_fix/part.014{a,b,c}
+            cat .original_asset_fix/part.015{a,b,c}
+            cat .original_asset_fix/part.016a
+          } > "$bundle"
+          base64 -d "$bundle" > "$archive"
+          echo "6d72d126f639cd58103eaf88ebc9092acafcf5385c319b6b6f75df410c84a47e  $archive" | sha256sum -c -
+          mkdir -p "$out"
+          tar -xJf "$archive" -C "$out"
+          echo "4287f9fdee6fa512a135bb42aa501448684257c9e934e8ef5293ffd6bce1c4c9  $out/protvis-overview-workflow.svg" | sha256sum -c -
+          echo "539761bb9ecbe55799d92144ad0f0ef4229c129d01bf33550b483010a94ebe05  $out/protvis-dataset-architecture.svg" | sha256sum -c -
+          echo "6206a0d99a37d841561cf6c7576251ca10f6f9004de8df21e9521b08743fe2b6  $out/protvis-checkpoint-recovery.svg" | sha256sum -c -
+          test "$(stat -c %s "$out/protvis-overview-workflow.svg")" = "786834"
+          test "$(stat -c %s "$out/protvis-dataset-architecture.svg")" = "727715"
+          test "$(stat -c %s "$out/protvis-checkpoint-recovery.svg")" = "364874"
+          mkdir -p .materialized-original-figures
+          cp "$out"/*.svg .materialized-original-figures/
+          sha256sum .materialized-original-figures/*.svg > .materialized-original-figures/SHA256SUMS
+
+      - name: Publish verified SVG blobs to staging branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .materialized-original-figures
+          git diff --cached --quiet && exit 0
+          git commit -m "stage: materialize verified original SVG figures"
+          git push origin HEAD:original-figures-materialize-run
