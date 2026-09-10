@@ -957,7 +957,7 @@
     "href": "content/reproducibility/checkpoints.html",
     "title": "Checkpoints & recovery",
     "section": "",
-    "text": "ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated ProtVis_dataset at a named stage.",
+    "text": "ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated ProtVis_dataset at a named stage.\n\n\n\n\n\n\nFigure 1: Checkpoint-aware analysis and recovery in ProtVis. Auto-saved validated stages support resuming interrupted analyses or restarting downstream analysis from a selected stage, while the interface design isolates node-level failures and preserves available checkpoints.\n\n\n\nThe schematic presents three complementary recovery ideas: validated stage checkpoints, selective downstream re-analysis from a saved state, and node-level error isolation so a failure does not require rebuilding the complete project from the beginning.",
     "crumbs": [
       "Reproducible workflow",
       "Checkpoints & recovery"
@@ -968,7 +968,7 @@
     "href": "content/reproducibility/checkpoints.html#checkpoint-model",
     "title": "Checkpoints & recovery",
     "section": "",
-    "text": "ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated ProtVis_dataset at a named stage.",
+    "text": "ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated ProtVis_dataset at a named stage.\n\n\n\n\n\n\nFigure 1: Checkpoint-aware analysis and recovery in ProtVis. Auto-saved validated stages support resuming interrupted analyses or restarting downstream analysis from a selected stage, while the interface design isolates node-level failures and preserves available checkpoints.\n\n\n\nThe schematic presents three complementary recovery ideas: validated stage checkpoints, selective downstream re-analysis from a saved state, and node-level error isolation so a failure does not require rebuilding the complete project from the beginning.",
     "crumbs": [
       "Reproducible workflow",
       "Checkpoints & recovery"
@@ -1057,6 +1057,16 @@
     ]
   },
   {
+    "objectID": "index.html#protvis-at-a-glance",
+    "href": "index.html#protvis-at-a-glance",
+    "title": "ProtVis Cookbook",
+    "section": "ProtVis at a glance",
+    "text": "ProtVis at a glance\nThe overview below shows how heterogeneous proteomics software outputs are brought into ProtVis_dataset, processed through a shared preprocessing and quality-control workflow, and connected to differential analysis, functional interpretation, multi-omics, WGCNA, and key-protein characterization.\n\n\n\n\n\n\nFigure 1: Overview Workflow in ProtVis. Heterogeneous proteomics software outputs enter a unified ProtVis_dataset workflow spanning preprocessing, data summary, downstream analysis, multi-omics integration, WGCNA, and key-protein characterization.\n\n\n\n\n\nHeterogeneous input\n\nImport MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, Mascot, or a user-defined matrix.\n\n\n\nTraceable data object\n\nCarry expression data, sample and protein metadata, annotations, results, imported files, parameters, and process history in ProtVis_dataset.\n\n\n\nProteomics preprocessing\n\nCorrect replicate-level noise, transform intensities, inspect missingness, impute missing values, and normalize samples.\n\n\n\nQC and statistics\n\nUse correlation, expression-pattern heatmaps, PCA/PCoA/t-SNE/UMAP/NMDS, proteomics QC, and limma-based differential abundance analysis.\n\n\n\nBiological interpretation\n\nContinue from DEP results into GO/KEGG enrichment, GSEA, Pathview, STRINGdb PPI, WGCNA, and co-enrichment.\n\n\n\nBeyond standard proteomics\n\nExplore metaproteomics, expression profiles, nine-quadrant integration, Venn analysis, PTMs, strict spectra, and protein structure utilities.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
     "objectID": "index.html#recommended-analysis-path",
     "href": "index.html#recommended-analysis-path",
     "title": "ProtVis Cookbook",
@@ -1081,7 +1091,7 @@
     "href": "content/reproducibility/ProtVis_dataset.html",
     "title": "ProtVis_dataset",
     "section": "",
-    "text": "ProtVis_dataset is an independent S4 class designed for proteomics. It does not inherit from mass_dataset and does not require the massdataset package. Its validity checks enforce exact alignment between expression columns and sample_info, and between expression rows and variable_info.\nThis architecture allows ProtVis to preserve one coherent scientific record while every module adds a new result or processing step.",
+    "text": "ProtVis_dataset is an independent S4 class designed for proteomics. It does not inherit from mass_dataset and does not require the massdataset package. Its validity checks enforce exact alignment between expression columns and sample_info, and between expression rows and variable_info.\nThis architecture allows ProtVis to preserve one coherent scientific record while every module adds a new result or processing step.\n\n\n\n\n\n\nFigure 1: Conceptual architecture of ProtVis_dataset. Expression data are linked to sample and variable metadata, annotation resources, analysis results, processing history, and provenance/extra files to support interoperability, reproducibility, and recoverability.\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe processing-function names shown in the schematic describe the conceptual workflow stages. The code examples in this chapter use the current exported ProtVis API, such as create_protvis_dataset().",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset"
@@ -1092,7 +1102,7 @@
     "href": "content/reproducibility/ProtVis_dataset.html#why-protvis-uses-a-project-object",
     "title": "ProtVis_dataset",
     "section": "",
-    "text": "ProtVis_dataset is an independent S4 class designed for proteomics. It does not inherit from mass_dataset and does not require the massdataset package. Its validity checks enforce exact alignment between expression columns and sample_info, and between expression rows and variable_info.\nThis architecture allows ProtVis to preserve one coherent scientific record while every module adds a new result or processing step.",
+    "text": "ProtVis_dataset is an independent S4 class designed for proteomics. It does not inherit from mass_dataset and does not require the massdataset package. Its validity checks enforce exact alignment between expression columns and sample_info, and between expression rows and variable_info.\nThis architecture allows ProtVis to preserve one coherent scientific record while every module adds a new result or processing step.\n\n\n\n\n\n\nFigure 1: Conceptual architecture of ProtVis_dataset. Expression data are linked to sample and variable metadata, annotation resources, analysis results, processing history, and provenance/extra files to support interoperability, reproducibility, and recoverability.\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe processing-function names shown in the schematic describe the conceptual workflow stages. The code examples in this chapter use the current exported ProtVis API, such as create_protvis_dataset().",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset"

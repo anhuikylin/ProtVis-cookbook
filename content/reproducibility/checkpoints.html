@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../../">
 <link href="../../content/Pre_processing/Pre_processing.html" rel="next">
 <link href="../../content/reproducibility/ProtVis_dataset.html" rel="prev">
-<link href="../../assets/favicon.ico" rel="icon">
+<link href="../../assets/protvis-favicon.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -680,6 +680,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="checkpoint-model" class="level2">
 <h2 class="anchored" data-anchor-id="checkpoint-model">Checkpoint model</h2>
 <p>ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated <code>ProtVis_dataset</code> at a named stage.</p>
+<div id="fig-protvis-checkpoint-recovery" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three-panel checkpoint and recovery schematic. Panel A shows data input, noise correction, transformation, imputation, normalization, and DEP analysis writing validated checkpoints into ProtVis_dataset, with an interrupted analysis resuming from a checkpoint. Panel B shows resume and reanalysis paths from saved stages. Panel C contrasts a conventional interrupted reactive workflow with ProtVis node-level error handling and retained checkpoints." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-protvis-checkpoint-recovery-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/protvis-checkpoint-recovery.avif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:98.0%" alt="Three-panel checkpoint and recovery schematic. Panel A shows data input, noise correction, transformation, imputation, normalization, and DEP analysis writing validated checkpoints into ProtVis_dataset, with an interrupted analysis resuming from a checkpoint. Panel B shows resume and reanalysis paths from saved stages. Panel C contrasts a conventional interrupted reactive workflow with ProtVis node-level error handling and retained checkpoints.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protvis-checkpoint-recovery-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Checkpoint-aware analysis and recovery in ProtVis. Auto-saved validated stages support resuming interrupted analyses or restarting downstream analysis from a selected stage, while the interface design isolates node-level failures and preserves available checkpoints.
+</figcaption>
+</figure>
+</div>
+<p>The schematic presents three complementary recovery ideas: validated stage checkpoints, selective downstream re-analysis from a saved state, and node-level error isolation so a failure does not require rebuilding the complete project from the beginning.</p>
 </section>
 <section id="save-a-checkpoint" class="level2">
 <h2 class="anchored" data-anchor-id="save-a-checkpoint">Save a checkpoint</h2>

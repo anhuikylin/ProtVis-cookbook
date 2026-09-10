@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../../">
 <link href="../../content/reproducibility/checkpoints.html" rel="next">
 <link href="../../content/data_import/data_import.html" rel="prev">
-<link href="../../assets/favicon.ico" rel="icon">
+<link href="../../assets/protvis-favicon.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -682,6 +682,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="why-protvis-uses-a-project-object">Why ProtVis uses a project object</h2>
 <p><code>ProtVis_dataset</code> is an independent S4 class designed for proteomics. It does <strong>not</strong> inherit from <code>mass_dataset</code> and does not require the <code>massdataset</code> package. Its validity checks enforce exact alignment between expression columns and <code>sample_info</code>, and between expression rows and <code>variable_info</code>.</p>
 <p>This architecture allows ProtVis to preserve one coherent scientific record while every module adds a new result or processing step.</p>
+<div id="fig-protvis-dataset-architecture" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Architecture of ProtVis_dataset centered on a protein-by-sample expression matrix. The object connects sample information, variable information, annotation lists, analysis results, processing information, and provenance or extra files, with interoperability, reproducibility, and recoverability shown as design goals." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-protvis-dataset-architecture-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/protvis-dataset-architecture.avif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:96.0%" alt="Architecture of ProtVis_dataset centered on a protein-by-sample expression matrix. The object connects sample information, variable information, annotation lists, analysis results, processing information, and provenance or extra files, with interoperability, reproducibility, and recoverability shown as design goals.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protvis-dataset-architecture-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Conceptual architecture of <code>ProtVis_dataset</code>. Expression data are linked to sample and variable metadata, annotation resources, analysis results, processing history, and provenance/extra files to support interoperability, reproducibility, and recoverability.
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The processing-function names shown in the schematic describe the conceptual workflow stages. The code examples in this chapter use the current exported ProtVis API, such as <code>create_protvis_dataset()</code>.</p>
+</div>
+</div>
 </section>
 <section id="core-components" class="level2">
 <h2 class="anchored" data-anchor-id="core-components">Core components</h2>

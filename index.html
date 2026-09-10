@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./content/introduce.html" rel="next">
-<link href="./assets/favicon.ico" rel="icon">
+<link href="./assets/protvis-favicon.svg" rel="icon" type="image/svg+xml">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -605,6 +605,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#from-quantitative-proteomes-to-biological-insight" id="toc-from-quantitative-proteomes-to-biological-insight" class="nav-link active" data-scroll-target="#from-quantitative-proteomes-to-biological-insight">From quantitative proteomes to biological insight</a></li>
+  <li><a href="#protvis-at-a-glance" id="toc-protvis-at-a-glance" class="nav-link" data-scroll-target="#protvis-at-a-glance">ProtVis at a glance</a></li>
   <li><a href="#recommended-analysis-path" id="toc-recommended-analysis-path" class="nav-link" data-scroll-target="#recommended-analysis-path">Recommended analysis path</a></li>
   <li><a href="#two-ways-to-learn-protvis" id="toc-two-ways-to-learn-protvis" class="nav-link" data-scroll-target="#two-ways-to-learn-protvis">Two ways to learn ProtVis</a></li>
   </ul>
@@ -656,6 +657,19 @@ ul.task-list li input[type="checkbox"] {
 <p>This edition is aligned to <strong>ProtVis 0.5.7 on the <code>dev</code> branch</strong>, reviewed on <strong>2026-09-10</strong>. ProtVis is under active development; the cookbook emphasizes stable concepts and explicitly identifies compatibility behavior where relevant.</p>
 </div>
 </div>
+<section id="protvis-at-a-glance" class="level2">
+<h2 class="anchored" data-anchor-id="protvis-at-a-glance">ProtVis at a glance</h2>
+<p>The overview below shows how heterogeneous proteomics software outputs are brought into <code>ProtVis_dataset</code>, processed through a shared preprocessing and quality-control workflow, and connected to differential analysis, functional interpretation, multi-omics, WGCNA, and key-protein characterization.</p>
+<div id="fig-protvis-overview-workflow" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Overview of the ProtVis workflow. MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, and user-defined matrices feed into ProtVis_dataset. The workflow includes noise correction, data transformation, missing-value imputation, normalization, data summary, differential abundance analysis, enrichment, GSEA, pathway analysis, multi-omics analysis, WGCNA, and key-protein functional and modification analyses.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-protvis-overview-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/protvis-overview-workflow.avif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%" alt="Overview of the ProtVis workflow. MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, and user-defined matrices feed into ProtVis_dataset. The workflow includes noise correction, data transformation, missing-value imputation, normalization, data summary, differential abundance analysis, enrichment, GSEA, pathway analysis, multi-omics analysis, WGCNA, and key-protein functional and modification analyses.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protvis-overview-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Overview Workflow in ProtVis. Heterogeneous proteomics software outputs enter a unified <code>ProtVis_dataset</code> workflow spanning preprocessing, data summary, downstream analysis, multi-omics integration, WGCNA, and key-protein characterization.
+</figcaption>
+</figure>
+</div>
 <div class="feature-grid">
 <div class="feature-card">
 <strong>Heterogeneous input</strong>
@@ -694,6 +708,7 @@ Explore metaproteomics, expression profiles, nine-quadrant integration, Venn ana
 </p>
 </div>
 </div>
+</section>
 <section id="recommended-analysis-path" class="level2">
 <h2 class="anchored" data-anchor-id="recommended-analysis-path">Recommended analysis path</h2>
 <ol type="1">
