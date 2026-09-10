@@ -9,6 +9,12 @@ description: "Understand the independent S4 object that carries data, metadata, 
 
 This architecture allows ProtVis to preserve one coherent scientific record while every module adds a new result or processing step.
 
+![Conceptual architecture of `ProtVis_dataset`. Expression data are linked to sample and variable metadata, annotation resources, analysis results, processing history, and provenance/extra files to support interoperability, reproducibility, and recoverability.](../../images/protvis-dataset-architecture.avif){#fig-protvis-dataset-architecture fig-alt="Architecture of ProtVis_dataset centered on a protein-by-sample expression matrix. The object connects sample information, variable information, annotation lists, analysis results, processing information, and provenance or extra files, with interoperability, reproducibility, and recoverability shown as design goals." width="96%" fig-align="center"}
+
+::: {.callout-note}
+The processing-function names shown in the schematic describe the conceptual workflow stages. The code examples in this chapter use the current exported ProtVis API, such as `create_protvis_dataset()`.
+:::
+
 ## Core components
 
 | Component | What it stores |
