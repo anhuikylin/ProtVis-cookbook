@@ -15,6 +15,27 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Materialize staged figure assets
+        if: ${{ hashFiles('.asset_stage/*') != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p images
+          cat .asset_stage/overview.* | tr -d '\n\r' | base64 --decode > images/protvis-overview-workflow.avif
+          cat .asset_stage/dataset.* | tr -d '\n\r' | base64 --decode > images/protvis-dataset-architecture.avif
+          cat .asset_stage/checkpoints.* | tr -d '\n\r' | base64 --decode > images/protvis-checkpoint-recovery.avif
+          test -s images/protvis-overview-workflow.avif
+          test -s images/protvis-dataset-architecture.avif
+          test -s images/protvis-checkpoint-recovery.avif
+          rm -rf .asset_stage
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "assets: materialize cookbook workflow figures"
+            git push origin HEAD:main
+          fi
+
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
