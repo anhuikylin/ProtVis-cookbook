@@ -1,0 +1,52 @@
+name: Materialize direct user SVG bundle
+
+on:
+  push:
+    branches: [direct-user-svg-stage]
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out staging branch
+        uses: actions/checkout@v4
+        with:
+          ref: direct-user-svg-stage
+          fetch-depth: 0
+
+      - name: Reassemble and verify uploaded SVGs
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle="$RUNNER_TEMP/direct-user-svg.b64"
+          archive="$RUNNER_TEMP/direct-user-svg.tar.xz"
+          out="$RUNNER_TEMP/direct-user-svg"
+          cat .direct_user_svg_bundle/part.{00..08} > "$bundle"
+          base64 -d "$bundle" > "$archive"
+          echo "023c032de7763a3f7ba28517e9ffeccce31c144a5674a16b21a78fbfe2748d5e  $archive" | sha256sum -c -
+          mkdir -p "$out"
+          tar -xJf "$archive" -C "$out"
+          echo "7f5cbb5818cc8a1813c7f3dae6afd0f761bbf6523741068bb420a96550c822e7  $out/Fig2.svg" | sha256sum -c -
+          echo "e392940e65599bd35e93fc29cfcd1ac0345229b90a274e4b3da239cd063e5c1a  $out/Fig3-2.svg" | sha256sum -c -
+          echo "0abdf9f73da04722d45396177518db9990fc31ef46592f042121632353c53f29  $out/Figure1.svg" | sha256sum -c -
+          test "$(stat -c %s "$out/Fig2.svg")" = "136217"
+          test "$(stat -c %s "$out/Fig3-2.svg")" = "107398"
+          test "$(stat -c %s "$out/Figure1.svg")" = "209141"
+          mkdir -p .materialized_direct_user_svg
+          cp "$out/Figure1.svg" .materialized_direct_user_svg/protvis-overview-workflow.svg
+          cp "$out/Fig2.svg" .materialized_direct_user_svg/protvis-dataset-architecture.svg
+          cp "$out/Fig3-2.svg" .materialized_direct_user_svg/protvis-checkpoint-recovery.svg
+
+      - name: Commit verified SVGs to staging
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .materialized_direct_user_svg
+          git diff --cached --quiet && exit 0
+          git commit -m "stage: materialize exact uploaded SVGs"
+          git push origin HEAD:direct-user-svg-stage
