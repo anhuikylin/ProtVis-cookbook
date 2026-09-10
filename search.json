@@ -1,372 +1,603 @@
 [
   {
-    "objectID": "images/Readme.html",
-    "href": "images/Readme.html",
-    "title": "Protvis cookbook",
+    "objectID": "content/Release_data.html",
+    "href": "content/Release_data.html",
+    "title": "Release data",
     "section": "",
-    "text": "Add images to this folder"
+    "text": "A reproducible ProtVis project should preserve more than final figures. At minimum, archive the quantitative matrix used for statistics, sample metadata, relevant protein annotations, differential/enrichment tables, parameter choices, process history, and a serialized ProtVis_dataset.",
+    "crumbs": [
+      "Release data"
+    ]
+  },
+  {
+    "objectID": "content/Release_data.html#what-should-be-released",
+    "href": "content/Release_data.html#what-should-be-released",
+    "title": "Release data",
+    "section": "",
+    "text": "A reproducible ProtVis project should preserve more than final figures. At minimum, archive the quantitative matrix used for statistics, sample metadata, relevant protein annotations, differential/enrichment tables, parameter choices, process history, and a serialized ProtVis_dataset.",
+    "crumbs": [
+      "Release data"
+    ]
+  },
+  {
+    "objectID": "content/Release_data.html#portable-export",
+    "href": "content/Release_data.html#portable-export",
+    "title": "Release data",
+    "section": "Portable export",
+    "text": "Portable export\nProgrammatically, a complete project can be exported with:\nexport_dir &lt;- export_protvis_dataset(\n  dataset,\n  directory = \"ProtVis_release\",\n  include_raw = FALSE\n)\nThe export contains ProtVis_dataset.rds, expression/sample/protein tables, annotation files, process history, stored analysis results, metadata JSON, and an HTML report. Set include_raw = TRUE when attached input files should also be copied and licensing/privacy rules permit it.",
+    "crumbs": [
+      "Release data"
+    ]
+  },
+  {
+    "objectID": "content/Release_data.html#manuscript-ready-package",
+    "href": "content/Release_data.html#manuscript-ready-package",
+    "title": "Release data",
+    "section": "Manuscript-ready package",
+    "text": "Manuscript-ready package\nFor a publication, keep a simple hierarchy such as:\nProtVis_release/\n  data/\n  metadata/\n  statistics/\n  enrichment/\n  figures/\n  methods/\n  ProtVis_dataset.rds\nDo not use screenshots as the only copy of a quantitative result. Export the table behind every key figure.\n\n\n\n\n\n\nTip\n\n\n\nRecord the ProtVis package version and the date of the final analysis. For actively developed software, a commit SHA or tagged release improves reproducibility further.",
+    "crumbs": [
+      "Release data"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/STRINGdb_PPI.html",
+    "href": "content/Toolkits/STRINGdb_PPI.html",
+    "title": "STRINGdb PPI",
+    "section": "",
+    "text": "The STRINGdb PPI toolkit connects a candidate protein list to known/predicted interaction evidence. It is most useful after DEP, enrichment, WGCNA or another analysis has already defined a biologically motivated candidate set.",
+    "crumbs": [
+      "Toolkits",
+      "STRINGdb PPI"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/STRINGdb_PPI.html#purpose",
+    "href": "content/Toolkits/STRINGdb_PPI.html#purpose",
+    "title": "STRINGdb PPI",
+    "section": "",
+    "text": "The STRINGdb PPI toolkit connects a candidate protein list to known/predicted interaction evidence. It is most useful after DEP, enrichment, WGCNA or another analysis has already defined a biologically motivated candidate set.",
+    "crumbs": [
+      "Toolkits",
+      "STRINGdb PPI"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/STRINGdb_PPI.html#recommended-workflow",
+    "href": "content/Toolkits/STRINGdb_PPI.html#recommended-workflow",
+    "title": "STRINGdb PPI",
+    "section": "Recommended workflow",
+    "text": "Recommended workflow\n\nPrepare a clean candidate ID list.\nSelect the correct organism/species setting.\nMap the identifiers to STRING-compatible IDs and review mapping success.\nBuild the interaction network using an appropriate confidence threshold.\nInspect disconnected proteins rather than silently dropping them.\nExport the mapped identifiers, interaction table and final network figure.",
+    "crumbs": [
+      "Toolkits",
+      "STRINGdb PPI"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/STRINGdb_PPI.html#interpretation",
+    "href": "content/Toolkits/STRINGdb_PPI.html#interpretation",
+    "title": "STRINGdb PPI",
+    "section": "Interpretation",
+    "text": "Interpretation\nSTRING integrates multiple evidence channels, and an edge does not necessarily indicate direct physical binding in your experimental system. Use the network to generate or organize hypotheses, then support key interactions with literature or experimental validation.",
+    "crumbs": [
+      "Toolkits",
+      "STRINGdb PPI"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Links.html",
+    "href": "content/Toolkits/Protein_Links.html",
+    "title": "Protein links",
+    "section": "",
+    "text": "Enter a gene identifier or UniProt accession. When a compatible identifier can be resolved, ProtVis provides direct links to resources such as UniProt, InterPro, and Swiss-Model.",
+    "crumbs": [
+      "Toolkits",
+      "Protein links"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Links.html#direct-identifier-lookup",
+    "href": "content/Toolkits/Protein_Links.html#direct-identifier-lookup",
+    "title": "Protein links",
+    "section": "",
+    "text": "Enter a gene identifier or UniProt accession. When a compatible identifier can be resolved, ProtVis provides direct links to resources such as UniProt, InterPro, and Swiss-Model.",
+    "crumbs": [
+      "Toolkits",
+      "Protein links"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Links.html#sequence-based-fallback",
+    "href": "content/Toolkits/Protein_Links.html#sequence-based-fallback",
+    "title": "Protein links",
+    "section": "Sequence-based fallback",
+    "text": "Sequence-based fallback\nIf an identifier is unavailable, the toolkit can use a protein sequence as a fallback and run local BLASTP against configured UniProt databases.\nLocal sequence search requires paths to:\n\na Swiss-Prot BLAST database;\na TrEMBL BLAST database;\nthe blastp executable.\n\nThe exact paths are machine-specific and should not be copied from another user’s computer.",
+    "crumbs": [
+      "Toolkits",
+      "Protein links"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Links.html#recommended-workflow",
+    "href": "content/Toolkits/Protein_Links.html#recommended-workflow",
+    "title": "Protein links",
+    "section": "Recommended workflow",
+    "text": "Recommended workflow\n\nPrefer a stable gene/UniProt identifier when available.\nUse sequence-based BLAST only when ID mapping fails.\nReview the best match, coverage and identity before accepting the mapping.\nOpen UniProt/InterPro/structure resources from the resolved accession.\nRecord the accession used in subsequent analysis.\n\n\n\n\n\n\n\nWarning\n\n\n\nThe top BLAST hit is not automatically an ortholog or the biologically correct mapping. Check species, sequence coverage, identity, domain structure and database annotation before transferring functional interpretation.",
+    "crumbs": [
+      "Toolkits",
+      "Protein links"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/DEG_Analyse.html",
+    "href": "content/Toolkits/DEG_Analyse.html",
+    "title": "DEG analyse",
+    "section": "",
+    "text": "The DEG Analyse toolkit is separate from ProtVis’s main DEP analysis. Use the main DEP module for normalized protein-abundance comparisons. Use DEG Analyse only when the supplied dataset matches the statistical assumptions and input format expected by the toolkit.",
+    "crumbs": [
+      "Toolkits",
+      "DEG analyse"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/DEG_Analyse.html#scope",
+    "href": "content/Toolkits/DEG_Analyse.html#scope",
+    "title": "DEG analyse",
+    "section": "",
+    "text": "The DEG Analyse toolkit is separate from ProtVis’s main DEP analysis. Use the main DEP module for normalized protein-abundance comparisons. Use DEG Analyse only when the supplied dataset matches the statistical assumptions and input format expected by the toolkit.",
+    "crumbs": [
+      "Toolkits",
+      "DEG analyse"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/DEG_Analyse.html#recommended-workflow",
+    "href": "content/Toolkits/DEG_Analyse.html#recommended-workflow",
+    "title": "DEG analyse",
+    "section": "Recommended workflow",
+    "text": "Recommended workflow\n\nConfirm whether the input represents raw counts, normalized continuous values, or another measurement type.\nProvide the required sample grouping information.\nRun the statistical model only after checking that its distributional assumptions match the input.\nInspect effect size, p-value and adjusted p-value together.\nExport the full result table before thresholding.\nState the model and threshold explicitly in downstream figures and Methods.\n\n\n\n\n\n\n\nImportant\n\n\n\nDo not use an RNA-seq count model on continuous proteomics intensities merely because both datasets have samples in columns. Data type determines the appropriate statistical model.",
+    "crumbs": [
+      "Toolkits",
+      "DEG analyse"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Stacked_Column.html",
+    "href": "content/Toolkits/Stacked_Column.html",
+    "title": "Stacked column",
+    "section": "",
+    "text": "The stacked-column utility is suited to composition-style data such as taxonomic categories, functional categories, pathway classes or other features whose contributions should be compared across samples.",
+    "crumbs": [
+      "Toolkits",
+      "Stacked column"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Stacked_Column.html#purpose",
+    "href": "content/Toolkits/Stacked_Column.html#purpose",
+    "title": "Stacked column",
+    "section": "",
+    "text": "The stacked-column utility is suited to composition-style data such as taxonomic categories, functional categories, pathway classes or other features whose contributions should be compared across samples.",
+    "crumbs": [
+      "Toolkits",
+      "Stacked column"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Stacked_Column.html#recommended-workflow",
+    "href": "content/Toolkits/Stacked_Column.html#recommended-workflow",
+    "title": "Stacked column",
+    "section": "Recommended workflow",
+    "text": "Recommended workflow\n\nPrepare a table with explicit sample/group labels, category labels and numeric values.\nDecide whether values should represent absolute abundance or proportions.\nAggregate rare categories into Other when a long legend would obscure the signal.\nGenerate the stacked-column plot.\nCheck that the category order and sample order support the biological comparison.\nExport the underlying summarized table together with the figure.\n\n\n\n\n\n\n\nTip\n\n\n\nFor relative-abundance plots, verify that each sample sums to the intended denominator after filtering. Removing categories before renormalization changes the apparent proportions.",
+    "crumbs": [
+      "Toolkits",
+      "Stacked column"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/SwissModel.html",
+    "href": "content/Toolkits/SwissModel.html",
+    "title": "SwissModel",
+    "section": "",
+    "text": "The current SwissModel module accepts:\n\na protein sequence;\na Swiss-Model API token.\n\nAn example sequence can be inserted from the interface to verify the workflow.",
+    "crumbs": [
+      "Toolkits",
+      "SwissModel"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/SwissModel.html#inputs",
+    "href": "content/Toolkits/SwissModel.html#inputs",
+    "title": "SwissModel",
+    "section": "",
+    "text": "The current SwissModel module accepts:\n\na protein sequence;\na Swiss-Model API token.\n\nAn example sequence can be inserted from the interface to verify the workflow.",
+    "crumbs": [
+      "Toolkits",
+      "SwissModel"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/SwissModel.html#workflow",
+    "href": "content/Toolkits/SwissModel.html#workflow",
+    "title": "SwissModel",
+    "section": "Workflow",
+    "text": "Workflow\n\nPaste the protein sequence.\nEnter a valid API token.\nClick Run.\nOpen the generated project link when available.\nReview Project Information and the Model Quality table.\nInspect PDB Information, the Ramachandran Plot, Residue Composition, and the interactive 3D Structure.\nDownload the project information, PDB file and model-quality results.",
+    "crumbs": [
+      "Toolkits",
+      "SwissModel"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/SwissModel.html#interpretation",
+    "href": "content/Toolkits/SwissModel.html#interpretation",
+    "title": "SwissModel",
+    "section": "Interpretation",
+    "text": "Interpretation\nModel quality should be assessed before structural conclusions are drawn. Pay particular attention to template support, global/local quality estimates, unresolved/disordered regions and stereochemical diagnostics.\n\n\n\n\n\n\nWarning\n\n\n\nDo not publish or share API tokens in screenshots, notebooks, repositories or exported project files. Treat the token as a credential.",
+    "crumbs": [
+      "Toolkits",
+      "SwissModel"
+    ]
   },
   {
     "objectID": "content/Toolkits/Protein_Extract.html",
     "href": "content/Toolkits/Protein_Extract.html",
-    "title": "Protein Extract",
+    "title": "Protein extract",
     "section": "",
-    "text": "1. Upload FASTA File\nClick the Browse… button to select a reference protein FASTA file and upload it. Once uploaded successfully, “Upload complete” will be displayed.\n\n\n2. Enter Protein IDs\nChoose a method to input protein IDs:\n\nManual Input: Paste protein IDs line by line in the text box.\n\nFile Upload: Upload a text file (.txt, .csv, or .tsv) containing protein IDs.\n\n\n\n3. Execute Extraction\nClick the Extract Proteins button to start searching and extracting matching proteins from the FASTA file.\n\n\n4. View Extraction Results\nAfter extraction, the following four result views will be available:\n\nMatched Sequences: Summary statistics and list of matched protein IDs.\n\nSequence Table: Tabular details including protein ID, length, and sequence.\n\nFASTA Viewer: Matched sequences in standard FASTA format.\n\nUnmatched IDs: List of protein IDs that were not matched in the FASTA file.\n\n\n\n5. Download Results\nClick the Download Results button to package and download all the result files as a .zip archive to your local machine.",
+    "text": "Upload a reference protein FASTA file and provide protein IDs either by pasting them line-by-line or by uploading a .txt, .csv, or .tsv list.",
     "crumbs": [
       "Toolkits",
-      "Protein Extract"
+      "Protein extract"
     ]
   },
   {
-    "objectID": "content/Toolkits/Background_Make.html",
-    "href": "content/Toolkits/Background_Make.html",
-    "title": "Background Make",
+    "objectID": "content/Toolkits/Protein_Extract.html#input",
+    "href": "content/Toolkits/Protein_Extract.html#input",
+    "title": "Protein extract",
     "section": "",
-    "text": "This module is designed to generate GO background and KEGG background files required for functional enrichment analysis based on Eggnog annotation output.\neggnog (http://eggnog-mapper.embl.de/)\n\n\n\nClick the Browse… button to upload the annotation result file in .csv or .xlsx format (usually generated by Eggnog-mapper). After a successful upload, the message “Upload complete” will be displayed.\n\n\n\n\nClick the green Check File button. The system will check whether the file contains the following required columns:\n\nquery\nGOs\nKEGG_Pathway\n\nIf the format is correct, you will see a ✅ File format check passed! message.\n\n\n\n\nEnter the separator between protein ID and transcript ID. The default is an underscore _.\nExample:\nIf the protein ID is Zm00001eb321680_T001, entering _ will extract the gene ID Zm00001eb321680.\n\n\n\n\nClick the Make Background button. The system will:\n\nExtract GO IDs from the GOs column and convert them to their functional descriptions\nExtract KO numbers from the KEGG_Pathway column and convert them to pathway names\n\nThe resulting GO background table and KEGG background table will be displayed in the right-side table panels.\n\n\n\n\nClick the Download button to export both GO and KEGG background tables as a .xlsx file, which includes:\n\nSheet1: GO_background\nSheet2: KEGG_background\n\nThese can be used for downstream differential protein enrichment analysis.",
+    "text": "Upload a reference protein FASTA file and provide protein IDs either by pasting them line-by-line or by uploading a .txt, .csv, or .tsv list.",
     "crumbs": [
       "Toolkits",
-      "Background Make"
+      "Protein extract"
     ]
   },
   {
-    "objectID": "content/Toolkits/Background_Make.html#background-make-module-overview",
-    "href": "content/Toolkits/Background_Make.html#background-make-module-overview",
-    "title": "Background Make",
-    "section": "",
-    "text": "This module is designed to generate GO background and KEGG background files required for functional enrichment analysis based on Eggnog annotation output.\neggnog (http://eggnog-mapper.embl.de/)\n\n\n\nClick the Browse… button to upload the annotation result file in .csv or .xlsx format (usually generated by Eggnog-mapper). After a successful upload, the message “Upload complete” will be displayed.\n\n\n\n\nClick the green Check File button. The system will check whether the file contains the following required columns:\n\nquery\nGOs\nKEGG_Pathway\n\nIf the format is correct, you will see a ✅ File format check passed! message.\n\n\n\n\nEnter the separator between protein ID and transcript ID. The default is an underscore _.\nExample:\nIf the protein ID is Zm00001eb321680_T001, entering _ will extract the gene ID Zm00001eb321680.\n\n\n\n\nClick the Make Background button. The system will:\n\nExtract GO IDs from the GOs column and convert them to their functional descriptions\nExtract KO numbers from the KEGG_Pathway column and convert them to pathway names\n\nThe resulting GO background table and KEGG background table will be displayed in the right-side table panels.\n\n\n\n\nClick the Download button to export both GO and KEGG background tables as a .xlsx file, which includes:\n\nSheet1: GO_background\nSheet2: KEGG_background\n\nThese can be used for downstream differential protein enrichment analysis.",
+    "objectID": "content/Toolkits/Protein_Extract.html#workflow",
+    "href": "content/Toolkits/Protein_Extract.html#workflow",
+    "title": "Protein extract",
+    "section": "Workflow",
+    "text": "Workflow\n\nUpload the reference FASTA.\nEnter or upload the target protein IDs.\nClick Extract Proteins.\nReview Matched Sequences, Sequence Table, FASTA Viewer, and Unmatched IDs.\nDownload the complete result package as a ZIP archive.",
     "crumbs": [
       "Toolkits",
-      "Background Make"
+      "Protein extract"
     ]
   },
   {
-    "objectID": "content/Toolkits/Boxplot.html",
-    "href": "content/Toolkits/Boxplot.html",
-    "title": "Boxplot",
-    "section": "",
-    "text": "The Boxplot module provides a user-friendly interface for visualizing differences between multiple experimental groups through box plots. It supports Excel file upload, dynamic group selection, statistical comparison, and customization of plot styles and themes.\n\n\n\nClick Browse… to upload an .xlsx file. The uploaded file should be in wide format, where each column represents a group.\nOnce the upload is successful, the status will show “Upload complete”.\n\n\n\n\nAfter upload, the interface will automatically extract column names:\n\nSelect groups: Choose which groups to display in the boxplot.\nSelect comparisons: Choose which groups to statistically compare (supports pairwise t-tests).\n\n\n\n\n\nYou can manually customize axis labels:\n\nX-axis label: Default is “Group”\nY-axis label: Default is “Value”\n\n\n\n\n\nCustomize plot appearance:\n\nGroup Colors: Automatically generates a color selector for each group.\nBox width: Controls the width of the box elements.\nPoint size: Controls the size of scattered data points.\nBox line color: Color of the box outlines (default: black).\n\n\n\n\n\nChoose a ggplot2 theme to control plot background and aesthetics:\n\nminimal, classic, light, bw, dark, grey\n\n\n\n\n\nBoxplots include statistical annotations using t-test by default.\n\nPairwise comparisons are shown with p-values above boxes.\nStatistical labels use ggpubr::stat_compare_means.\n\n\n\n\n\nDownload the current plot as PDF:\n\nSet plot height and width (in inches)\nClick Download Plot (PDF) to save the figure.",
+    "objectID": "content/Toolkits/Protein_Extract.html#quality-checks",
+    "href": "content/Toolkits/Protein_Extract.html#quality-checks",
+    "title": "Protein extract",
+    "section": "Quality checks",
+    "text": "Quality checks\nProtein extraction is exact only when the ID syntax in the target list matches the FASTA headers. If many expected proteins are reported as unmatched, inspect whether the FASTA uses transcript suffixes, database prefixes, version suffixes, or pipe-delimited headers.\n\n\n\n\n\n\nTip\n\n\n\nKeep the unmatched-ID list. It is useful for diagnosing annotation-version differences and prevents silent loss of candidates before downstream structure or enrichment analysis.",
     "crumbs": [
       "Toolkits",
-      "Boxplot"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Boxplot.html#boxplot-module-introduction",
-    "href": "content/Toolkits/Boxplot.html#boxplot-module-introduction",
-    "title": "Boxplot",
-    "section": "",
-    "text": "The Boxplot module provides a user-friendly interface for visualizing differences between multiple experimental groups through box plots. It supports Excel file upload, dynamic group selection, statistical comparison, and customization of plot styles and themes.\n\n\n\nClick Browse… to upload an .xlsx file. The uploaded file should be in wide format, where each column represents a group.\nOnce the upload is successful, the status will show “Upload complete”.\n\n\n\n\nAfter upload, the interface will automatically extract column names:\n\nSelect groups: Choose which groups to display in the boxplot.\nSelect comparisons: Choose which groups to statistically compare (supports pairwise t-tests).\n\n\n\n\n\nYou can manually customize axis labels:\n\nX-axis label: Default is “Group”\nY-axis label: Default is “Value”\n\n\n\n\n\nCustomize plot appearance:\n\nGroup Colors: Automatically generates a color selector for each group.\nBox width: Controls the width of the box elements.\nPoint size: Controls the size of scattered data points.\nBox line color: Color of the box outlines (default: black).\n\n\n\n\n\nChoose a ggplot2 theme to control plot background and aesthetics:\n\nminimal, classic, light, bw, dark, grey\n\n\n\n\n\nBoxplots include statistical annotations using t-test by default.\n\nPairwise comparisons are shown with p-values above boxes.\nStatistical labels use ggpubr::stat_compare_means.\n\n\n\n\n\nDownload the current plot as PDF:\n\nSet plot height and width (in inches)\nClick Download Plot (PDF) to save the figure.",
-    "crumbs": [
-      "Toolkits",
-      "Boxplot"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Expression_Profile.html",
-    "href": "content/Multi_omics_data/Expression_Profile.html",
-    "title": "Expression Profile",
-    "section": "",
-    "text": "Expression Profile analysis provides an overview of how protein expression levels vary across different samples or experimental conditions. By visualizing expression patterns—such as co-expression clusters or condition-specific expression trends—it helps identify biologically meaningful patterns, potential biomarkers, or proteins involved in shared regulatory mechanisms.\nThis module supports clustering-based visualization and customizable color schemes to explore dynamic expression profiles. The analysis workflow includes the following steps:\nStep 1: Upload the expression matrix (e.g., normalized protein abundance table).\nStep 2: Choose a clustering method, such as \"K-means\".\nStep 3: Select a color scheme via the Select Color option, and set the number of centers (i.e., clusters).\nStep 4: Click the RUN button to perform clustering and generate the expression profile visualization.\nStep 5: Adjust plotting parameters as needed (e.g., font size, label angle, cluster order), and download the final plot in your preferred format (e.g., PNG, PDF).",
-    "crumbs": [
-      "Multi-omics Data",
-      "Expression Profile"
-    ]
-  },
-  {
-    "objectID": "content/Project_init/Project_init.html",
-    "href": "content/Project_init/Project_init.html",
-    "title": "Project Init",
-    "section": "",
-    "text": "Follow the steps below to initialize a new ProtVis project:\n\nSet the global working directory\nThis is where all intermediate and result files will be stored.\nUpload sample information\nThe file should contain metadata such as sample names, groups, conditions, etc.\nUpload proteomics data\nThis can be:\n\nRaw files (e.g., Raw)\nOr processed data exported from tools such as MaxQuant, ProteomeDiscoverer, Skyline, Mascot, or OpenMS.\n\nSelect the data source\nChoose the appropriate format or software that matches your uploaded data.\nClick the PROJECT INIT button\nThis will trigger the initialization process.",
-    "crumbs": [
-      "Project init"
-    ]
-  },
-  {
-    "objectID": "content/Project_init/Project_init.html#initialize-project",
-    "href": "content/Project_init/Project_init.html#initialize-project",
-    "title": "Project Init",
-    "section": "",
-    "text": "Follow the steps below to initialize a new ProtVis project:\n\nSet the global working directory\nThis is where all intermediate and result files will be stored.\nUpload sample information\nThe file should contain metadata such as sample names, groups, conditions, etc.\nUpload proteomics data\nThis can be:\n\nRaw files (e.g., Raw)\nOr processed data exported from tools such as MaxQuant, ProteomeDiscoverer, Skyline, Mascot, or OpenMS.\n\nSelect the data source\nChoose the appropriate format or software that matches your uploaded data.\nClick the PROJECT INIT button\nThis will trigger the initialization process.",
-    "crumbs": [
-      "Project init"
-    ]
-  },
-  {
-    "objectID": "content/Project_init/Project_init.html#output",
-    "href": "content/Project_init/Project_init.html#output",
-    "title": "Project Init",
-    "section": "Output",
-    "text": "Output\nAfter clicking PROJECT INIT, a file named Step1_project_init.rda will be generated in your working directory.\n\nThis file stores your project metadata and input data structure, and will be used for all subsequent analysis steps.\n\n\n\n\n\nProject Init Interface",
-    "crumbs": [
-      "Project init"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/Enrichment_analysis.html",
-    "href": "content/Downstream_analysis/Enrichment_analysis.html",
-    "title": "Enrichment Analysis",
-    "section": "",
-    "text": "GO and KEGG enrichment analyses are essential downstream steps in proteomics, aiming to uncover the biological meaning behind differentially expressed proteins.\nGO analysis classifies proteins into biological processes, molecular functions, and cellular components,\nwhile KEGG identifies the pathways these proteins participate in, such as metabolism, signaling, or disease-related pathways.\nTogether, they help interpret how protein-level changes translate into functional and mechanistic insights.\nThis module supports two types of workflows:",
-    "crumbs": [
-      "Downstream Analysis",
-      "Enrichment Analysis"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/Enrichment_analysis.html#method-1-enrichment-based-on-protvis-dep-result",
-    "href": "content/Downstream_analysis/Enrichment_analysis.html#method-1-enrichment-based-on-protvis-dep-result",
-    "title": "Enrichment Analysis",
-    "section": "🔹 Method 1: Enrichment Based on ProtVis DEP Result",
-    "text": "🔹 Method 1: Enrichment Based on ProtVis DEP Result\nUse this method if you have generated the Step7_DEP_result.rda file using ProtVis.\nStep 1: Set your working directory and click the LOAD DATA button.\nStep 2: The system will automatically display a Select DEP comparison dropdown based on the comparison groups in your data.\nStep 3: Upload the background file required for enrichment analysis.\nStep 4: Select the appropriate taxonomic group (e.g., human, mouse, maize) for functional annotation.\nStep 5: Check the desired analysis types: GO, KEGG, or both.\nStep 6: Click the ANALYSIS button to start the enrichment analysis for the selected comparison group.\nStep 7: In the result panel: - Adjust visualization parameters (e.g., top terms, p-value threshold, label size). - Download result tables (CSV) or plots (PNG/PDF) for downstream interpretation or publication.",
-    "crumbs": [
-      "Downstream Analysis",
-      "Enrichment Analysis"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/Enrichment_analysis.html#method-2-enrichment-based-on-custom-gene-list",
-    "href": "content/Downstream_analysis/Enrichment_analysis.html#method-2-enrichment-based-on-custom-gene-list",
-    "title": "Enrichment Analysis",
-    "section": "🔹 Method 2: Enrichment Based on Custom Gene List",
-    "text": "🔹 Method 2: Enrichment Based on Custom Gene List\nUse this method if you have a custom gene or protein list outside of the DEP results.\nStep 1: Click the Upload Gene List button to load your list.\nStep 2: Upload the corresponding background file that matches the gene ID type used in your list (e.g., UniProt, Entrez, Ensembl).\nStep 3: Select the appropriate taxonomic group.\nStep 4: Check the analysis type: GO, KEGG, or both.\nStep 5: Click the ANALYSIS button to start enrichment analysis based on your uploaded list.\nStep 6: Once complete, explore the enrichment results: - Interactive plots and tables - Parameter adjustment - Result export (CSV, PNG, PDF)\n\n\n✅ Tip: Ensure that the background file and gene/protein list use the same ID format and species. Inconsistent formats will result in failed or inaccurate enrichment results.",
-    "crumbs": [
-      "Downstream Analysis",
-      "Enrichment Analysis"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/DEP_analysis.html",
-    "href": "content/Downstream_analysis/DEP_analysis.html",
-    "title": "DEP Analysis",
-    "section": "",
-    "text": "DEP (Differentially Expressed Proteins) refers to a group of proteins whose expression levels show statistically significant differences under two or more experimental conditions. They are the primary output of differential expression analysis and serve as key targets for downstream biological interpretation, pathway enrichment, and biomarker discovery.",
-    "crumbs": [
-      "Downstream Analysis",
-      "DEP Analysis"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/DEP_analysis.html#step-by-step-instructions",
-    "href": "content/Downstream_analysis/DEP_analysis.html#step-by-step-instructions",
-    "title": "DEP Analysis",
-    "section": "Step-by-Step Instructions",
-    "text": "Step-by-Step Instructions\nStep 1: Load the input data.\nStep 2: Upload or paste the comparison group information. Multiple group comparisons are supported.\nStep 3: In the DEP Result panel, multiple tabs will be generated automatically based on the number of comparison groups provided. Each tab will include:\n\nA differential expression table\nA volcano plot\nA heatmap\nA bar plot\n\nStep 4: In the visualization panel, you can adjust display parameters, such as fold change and FDR thresholds, clustering options, or color settings.\nYou can also download the result tables (CSV) or export images (PNG/PDF) of the plots for downstream analysis and reporting.",
-    "crumbs": [
-      "Downstream Analysis",
-      "DEP Analysis"
-    ]
-  },
-  {
-    "objectID": "content/data_import/data_import.html",
-    "href": "content/data_import/data_import.html",
-    "title": "Data Import",
-    "section": "",
-    "text": "Based on the selected data source from the previous step, the interface will automatically redirect to the corresponding page.\nIf the analysis is interrupted, you can resume it at any time by clicking the Load Data button (after completing the first step of setting the working directory).\nOnce the data is successfully loaded, the right panel will display both the sample information and the expression matrix.",
-    "crumbs": [
-      "Data Import"
-    ]
-  },
-  {
-    "objectID": "content/data_import/data_import.html#data-loading",
-    "href": "content/data_import/data_import.html#data-loading",
-    "title": "Data Import",
-    "section": "",
-    "text": "Based on the selected data source from the previous step, the interface will automatically redirect to the corresponding page.\nIf the analysis is interrupted, you can resume it at any time by clicking the Load Data button (after completing the first step of setting the working directory).\nOnce the data is successfully loaded, the right panel will display both the sample information and the expression matrix.",
-    "crumbs": [
-      "Data Import"
-    ]
-  },
-  {
-    "objectID": "content/data_import/data_import.html#data-preprocessing",
-    "href": "content/data_import/data_import.html#data-preprocessing",
-    "title": "Data Import",
-    "section": "Data Preprocessing",
-    "text": "Data Preprocessing\nAfter loading, the protein data undergoes preprocessing by filtering out unreliable peptides.\n\nAvailable Filtering Methods\nThere are three filtering strategies available. You may select one or combine them as needed:\n\nRemove peptides identified only by site\nExcludes peptides identified solely by site-specific modifications, which may lack confident sequence-level evidence.\nRemove potential contaminant peptides\nFilters out peptides that are likely derived from common contaminants (e.g., keratin, trypsin).\nRemove reverse peptides\nRemoves reverse (decoy) peptides used for estimating the false discovery rate (FDR) during database searching.\n\n\n\nExecution and Reporting\n\nClick the REMOVE button to apply the selected filters.\n\nClick the REPORT button to view the preprocessing summary for each selected filtering method.\n\n\n\n\nPeptide filtering interface",
-    "crumbs": [
-      "Data Import"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/data_transformed.html",
-    "href": "content/Pre_processing/data_transformed.html",
-    "title": "Data Transformed",
-    "section": "",
-    "text": "In proteomics, quantitative data often spans several orders of magnitude, exhibiting a right-skewed distribution and heteroscedasticity—where variance increases with mean intensity. Applying a logarithmic transformation (commonly log10 or log2) compresses high values, expands low values, and stabilizes variance, making the data more normally distributed. This improves the reliability of statistical analyses such as t-tests and linear models. Additionally, log transformation prevents high-abundance proteins from dominating visualizations, enhancing comparability across proteins of different abundance levels. It is often used in conjunction with normalization to correct for batch effects and sample loading variability.",
-    "crumbs": [
-      "Pre-processing",
-      "Data Transformed"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/data_transformed.html#step-by-step-instructions",
-    "href": "content/Pre_processing/data_transformed.html#step-by-step-instructions",
-    "title": "Data Transformed",
-    "section": "Step-by-Step Instructions",
-    "text": "Step-by-Step Instructions\nStep 1: Load the input data.\nStep 2: Choose a data transformation method. Supported options include:\n\n\"None\"\n\"log10\"\n\"log2\"\n\"Standardization\"\n\"Z-Score\"\n\"scale\"\n\"center\"\n\"scale-center\"\n\nStep 3: Click the EXPORT DATA button. This will generate a file named Step4_data_transformed.rda in your working directory for use in downstream analysis.",
-    "crumbs": [
-      "Pre-processing",
-      "Data Transformed"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/Pre_processing.html",
-    "href": "content/Pre_processing/Pre_processing.html",
-    "title": "Pre-processing",
-    "section": "",
-    "text": "In proteomics data analysis, pre-processing is a crucial step that prepares raw intensity data for reliable and reproducible downstream analysis. It aims to reduce technical noise, correct systematic biases, and fill in missing values while preserving true biological variation. The key components of this step—noise correction, data transformation, missing value imputation, and normalization—together ensure that the input data is clean, comparable across samples, and statistically suitable for further exploration such as clustering, differential expression analysis, and functional enrichment.",
-    "crumbs": [
-      "Pre-processing"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/Pre_processing.html#correct-noise",
-    "href": "content/Pre_processing/Pre_processing.html#correct-noise",
-    "title": "Pre-processing",
-    "section": "🔧 1. Correct Noise",
-    "text": "🔧 1. Correct Noise\nPurpose:\nTo eliminate non-biological “noise” signals caused by instrumental errors, background signals, or peak detection artifacts.\nThis step helps remove low-quality or interfering data, thereby improving the signal-to-noise ratio (SNR) for downstream analysis.\nCommon methods include background subtraction, baseline correction, peak smoothing, and mass drift adjustment.",
-    "crumbs": [
-      "Pre-processing"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/Pre_processing.html#data-transformation",
-    "href": "content/Pre_processing/Pre_processing.html#data-transformation",
-    "title": "Pre-processing",
-    "section": "🔄 2. Data Transformation",
-    "text": "🔄 2. Data Transformation\nPurpose:\nTo apply log transformation or standardization to raw intensity values, in order to reduce heteroscedasticity, normalize the distribution, and make the data more suitable for statistical analysis.\nThis is essential for many statistical tests (e.g., t-tests, linear models), and it prevents high-abundance proteins from dominating the results by bringing all measurements onto a comparable scale.",
-    "crumbs": [
-      "Pre-processing"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/Pre_processing.html#data-imputation",
-    "href": "content/Pre_processing/Pre_processing.html#data-imputation",
-    "title": "Pre-processing",
-    "section": "🔳 3. Data Imputation",
-    "text": "🔳 3. Data Imputation\nPurpose:\nTo fill in missing values that result from low-abundance proteins, detection limits, or instrument variability.\nImputation prevents the loss of potentially important proteins and allows the use of statistical models, PCA, clustering, and other analyses without disruption due to missing data.",
-    "crumbs": [
-      "Pre-processing"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/Pre_processing.html#data-normalization",
-    "href": "content/Pre_processing/Pre_processing.html#data-normalization",
-    "title": "Pre-processing",
-    "section": "⚖️ 4. Data Normalization",
-    "text": "⚖️ 4. Data Normalization\nPurpose:\nTo eliminate systematic errors between samples caused by non-biological factors such as differences in sample loading, batch effects, or instrument drift.\nNormalization ensures comparability of protein expression across samples, improving the reliability of differential analysis and ensuring that results reflect true biological variation.",
-    "crumbs": [
-      "Pre-processing"
+      "Protein extract"
     ]
   },
   {
     "objectID": "content/Pre_processing/correct_noise.html",
     "href": "content/Pre_processing/correct_noise.html",
-    "title": "Correct Noise",
+    "title": "Correct noise",
     "section": "",
-    "text": "This module standardizes sample naming and reduces potential noise in the expression matrix for downstream analyses.\n\nStep 1: Load the results from the previous step.\n\nStep 2: Enable Rename Columns to rename the expression matrix columns based on the sample information.\n\nStep 3: Enable Correct Noise. For biological replicates, if a protein is not detected in more than half of the samples, it is considered potential noise and its intensities across all replicates will be set to NA.\nOtherwise, missing values are imputed using the mean of the available values within the replicate group.",
+    "text": "The Correct Noise module loads the current ProtVis_dataset first. For older projects, it can fall back to Step2_remove_unreliable_peptide.rda.\nThe interface has two explicit operations: Rename Columns and Correct Noise.",
     "crumbs": [
       "Pre-processing",
-      "Correct Noise"
+      "Correct noise"
     ]
   },
   {
-    "objectID": "content/Pre_processing/correct_noise.html#overview",
-    "href": "content/Pre_processing/correct_noise.html#overview",
-    "title": "Correct Noise",
+    "objectID": "content/Pre_processing/correct_noise.html#what-the-module-does",
+    "href": "content/Pre_processing/correct_noise.html#what-the-module-does",
+    "title": "Correct noise",
     "section": "",
-    "text": "This module standardizes sample naming and reduces potential noise in the expression matrix for downstream analyses.\n\nStep 1: Load the results from the previous step.\n\nStep 2: Enable Rename Columns to rename the expression matrix columns based on the sample information.\n\nStep 3: Enable Correct Noise. For biological replicates, if a protein is not detected in more than half of the samples, it is considered potential noise and its intensities across all replicates will be set to NA.\nOtherwise, missing values are imputed using the mean of the available values within the replicate group.",
+    "text": "The Correct Noise module loads the current ProtVis_dataset first. For older projects, it can fall back to Step2_remove_unreliable_peptide.rda.\nThe interface has two explicit operations: Rename Columns and Correct Noise.",
     "crumbs": [
       "Pre-processing",
-      "Correct Noise"
+      "Correct noise"
     ]
   },
   {
-    "objectID": "content/Pre_processing/correct_noise.html#interface",
-    "href": "content/Pre_processing/correct_noise.html#interface",
-    "title": "Correct Noise",
-    "section": "Interface",
-    "text": "Interface\n\n\n\nCorrect Noise – main panel\n\n\n\n\n\nCorrect Noise – options and preview",
+    "objectID": "content/Pre_processing/correct_noise.html#step-1-rename-columns",
+    "href": "content/Pre_processing/correct_noise.html#step-1-rename-columns",
+    "title": "Correct noise",
+    "section": "Step 1: rename columns",
+    "text": "Step 1: rename columns\nProtVis maps quantitative column names through the sample-information table, using maxquant_id to recover the intended sample_id when a mapping is available. If a matrix already uses valid sample IDs, those names are retained. Final names are made unique before downstream joins and reshaping.\nThis step is important because replicate grouping and later statistical comparisons depend on stable sample names.",
     "crumbs": [
       "Pre-processing",
-      "Correct Noise"
+      "Correct noise"
     ]
   },
   {
-    "objectID": "content/Pre_processing/correct_noise.html#options",
-    "href": "content/Pre_processing/correct_noise.html#options",
-    "title": "Correct Noise",
-    "section": "Options",
-    "text": "Options\n\nRename Columns\nRenames expression matrix columns using the metadata in the sample information table to ensure consistent sample labels.\nCorrect Noise\nApplies replicate-aware filtering and imputation:\n\nNoise Rule: If #non-detected &gt; 50% of biological replicates for a protein, mark the entire protein as noise → set all intensities to NA.\nImputation Rule: If the protein does not meet the noise rule, impute remaining missing values with the mean of observed values (within the same biological replicate group).",
+    "objectID": "content/Pre_processing/correct_noise.html#step-2-correct-noise",
+    "href": "content/Pre_processing/correct_noise.html#step-2-correct-noise",
+    "title": "Correct noise",
+    "section": "Step 2: correct noise",
+    "text": "Step 2: correct noise\nFor datasets that use replicate suffixes _1, _2, and _3, ProtVis groups corresponding replicate columns and evaluates each protein within that group.\n\nIf at least two replicate measurements are non-zero, missing/zero cells are replaced using half of the sum of the non-zero replicate values.\nIf fewer than two non-zero replicates are present, the replicate-group values remain zero and are subsequently converted to NA.\nIf no recognizable replicate suffixes exist, ProtVis returns the validated matrix without applying replicate-level correction.\nDuplicate protein IDs are collapsed before the correction step to prevent many-to-many joins from expanding the table.\n\n\n\n\n\n\n\nNote\n\n\n\nThis behavior differs from the older cookbook description that referred to a generic “more than half missing” rule and mean imputation. The current source implements the replicate rule described above.",
     "crumbs": [
       "Pre-processing",
-      "Correct Noise"
+      "Correct noise"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/correct_noise.html#gui-workflow",
+    "href": "content/Pre_processing/correct_noise.html#gui-workflow",
+    "title": "Correct noise",
+    "section": "GUI workflow",
+    "text": "GUI workflow\n\nClick Load data.\nInspect Sample info and Expression Matrix.\nClick Rename Columns and review the renamed table.\nClick Correct Noise.\nInspect the corrected table before moving to transformation.",
+    "crumbs": [
+      "Pre-processing",
+      "Correct noise"
     ]
   },
   {
     "objectID": "content/Pre_processing/correct_noise.html#output",
     "href": "content/Pre_processing/correct_noise.html#output",
-    "title": "Correct Noise",
+    "title": "Correct noise",
     "section": "Output",
-    "text": "Output\nAfter processing, a file named Step3_correct_noise.rda will be generated in your working directory.\nThis file will be used as the input for the subsequent analysis steps.",
+    "text": "Output\nResults are saved into the active ProtVis_dataset. The compatibility stage file is:\nStep3_correct_noise.rda\nContinue with Data transformation.",
     "crumbs": [
       "Pre-processing",
-      "Correct Noise"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/correct_noise.html#notes",
-    "href": "content/Pre_processing/correct_noise.html#notes",
-    "title": "Correct Noise",
-    "section": "Notes",
-    "text": "Notes\n\n“Not detected” typically refers to missing intensity (e.g., NA / absent after import).\n\nApplying noise correction before differential analysis can improve robustness and interpretability.\n\nColumn renaming should precede noise correction to avoid ambiguity in replicate grouping.",
-    "crumbs": [
-      "Pre-processing",
-      "Correct Noise"
+      "Correct noise"
     ]
   },
   {
     "objectID": "content/Pre_processing/data_imputation.html",
     "href": "content/Pre_processing/data_imputation.html",
-    "title": "Data Imputation",
+    "title": "Data imputation",
     "section": "",
-    "text": "Imputing missing values after data transformation in proteomics aims to compensate for values lost due to low abundance or technical limitations. This ensures that important proteins are not excluded from analysis, maintains the integrity and accuracy of statistical tests and visualizations, and enhances the overall robustness of the analysis.",
+    "text": "Proteomics missingness can arise from abundance limits, identification uncertainty, stochastic sampling, or technical failures. ProtVis therefore keeps missing values as NA until the user explicitly chooses an imputation method.\nBefore imputation, the current module coerces quantitative columns to numeric, converts non-finite values to missing, and handles not-observed sentinels such as 0 and -8 as NA.",
     "crumbs": [
       "Pre-processing",
-      "Data Imputation"
+      "Data imputation"
     ]
   },
   {
-    "objectID": "content/Pre_processing/data_imputation.html#step-by-step-instructions",
-    "href": "content/Pre_processing/data_imputation.html#step-by-step-instructions",
-    "title": "Data Imputation",
-    "section": "Step-by-Step Instructions",
-    "text": "Step-by-Step Instructions\nStep 1: Load the input data.\nStep 2: Click the VISUALIZE MISSING VALUES button. A plot showing the distribution of missing values in the original dataset will be displayed on the right panel.\nStep 3: Select an imputation method. Available options include: \"kNN\", \"RF\" (Random Forest), \"Mean\", \"Median\", \"Zero\", and \"Minimum\". Configure the corresponding parameters if needed.\nStep 4: Click the RUN IMPUTATION button to perform the imputation. The right panel will update to show a plot of the data after imputation.\nStep 5: Adjust the plot settings and download the final visualization as needed.\nA file named Step5_data_imputation.rda will be generated in your working directory, which can be used for downstream analysis.",
-    "crumbs": [
-      "Pre-processing",
-      "Data Imputation"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/data_normalization.html",
-    "href": "content/Pre_processing/data_normalization.html",
-    "title": "Data Normalization",
+    "objectID": "content/Pre_processing/data_imputation.html#why-this-is-a-separate-step",
+    "href": "content/Pre_processing/data_imputation.html#why-this-is-a-separate-step",
+    "title": "Data imputation",
     "section": "",
-    "text": "Data normalization in proteomics aims to eliminate systematic errors caused by non-biological factors such as differences in sample loading, instrument variability, or batch effects. By doing so, it ensures that protein expression levels across samples are comparable. This process improves the accuracy of differential analysis, reduces false positives, and helps ensure that the results truly reflect biological variations.",
+    "text": "Proteomics missingness can arise from abundance limits, identification uncertainty, stochastic sampling, or technical failures. ProtVis therefore keeps missing values as NA until the user explicitly chooses an imputation method.\nBefore imputation, the current module coerces quantitative columns to numeric, converts non-finite values to missing, and handles not-observed sentinels such as 0 and -8 as NA.",
     "crumbs": [
       "Pre-processing",
-      "Data Normalization"
+      "Data imputation"
     ]
   },
   {
-    "objectID": "content/Pre_processing/data_normalization.html#step-by-step-instructions",
-    "href": "content/Pre_processing/data_normalization.html#step-by-step-instructions",
-    "title": "Data Normalization",
-    "section": "Step-by-Step Instructions",
-    "text": "Step-by-Step Instructions\nStep 1: Load the input data. A plot showing the data before normalization will be displayed on the right panel.\nStep 2: Click the RUN NORMALIZATION button. The right panel will update to show the plot after normalization.\nA file named Step6_data_normalization.rda will be generated in your working directory, which can be used for downstream analysis.",
+    "objectID": "content/Pre_processing/data_imputation.html#available-methods",
+    "href": "content/Pre_processing/data_imputation.html#available-methods",
+    "title": "Data imputation",
+    "section": "Available methods",
+    "text": "Available methods\nThe current GUI provides:\n\n\n\n\n\n\n\nMethod\nTypical use\n\n\n\n\nkNN\nLocal similarity-based imputation; current default\n\n\nRF\nRandom-forest based imputation\n\n\nMean\nColumn/feature mean strategy, useful mainly as a simple baseline\n\n\nMedian\nRobust central-value strategy\n\n\nZero\nExplicit zero filling; use only when zero has a valid interpretation\n\n\nMinimum\nLow-value replacement strategy\n\n\n\nMethod choice should be justified by the expected missingness mechanism and downstream analysis.",
     "crumbs": [
       "Pre-processing",
-      "Data Normalization"
+      "Data imputation"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_imputation.html#gui-workflow",
+    "href": "content/Pre_processing/data_imputation.html#gui-workflow",
+    "title": "Data imputation",
+    "section": "GUI workflow",
+    "text": "GUI workflow\n\nClick Load data.\nClick Visualize missing values before changing the matrix.\nInspect the original table and missingness visualization.\nSelect an imputation Method.\nClick Run imputation.\nCompare original and imputed distributions.\nDownload the diagnostic plots if they are part of the analysis record.\n\n\n\n\n\n\n\nImportantDefault does not mean universally correct\n\n\n\nkNN is the interface default, but no imputation method is optimal for every proteomics design. Report the selected method in the Methods section of a manuscript and preserve the pre-imputation data for auditability.",
+    "crumbs": [
+      "Pre-processing",
+      "Data imputation"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_imputation.html#output",
+    "href": "content/Pre_processing/data_imputation.html#output",
+    "title": "Data imputation",
+    "section": "Output",
+    "text": "Output\nThe imputed state is stored in the active project object and in:\nStep5_data_imputation.rda\nContinue with Data normalization.",
+    "crumbs": [
+      "Pre-processing",
+      "Data imputation"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/DEP_analysis.html",
+    "href": "content/Downstream_analysis/DEP_analysis.html",
+    "title": "DEP analysis",
+    "section": "",
+    "text": "The current DEP module uses limma (lmFit, contrasts, eBayes, topTable) on the normalized protein abundance matrix. Each row of the comparison table defines a Group1 versus Group2 contrast.",
+    "crumbs": [
+      "Downstream analysis",
+      "DEP analysis"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/DEP_analysis.html#statistical-model",
+    "href": "content/Downstream_analysis/DEP_analysis.html#statistical-model",
+    "title": "DEP analysis",
+    "section": "",
+    "text": "The current DEP module uses limma (lmFit, contrasts, eBayes, topTable) on the normalized protein abundance matrix. Each row of the comparison table defines a Group1 versus Group2 contrast.",
+    "crumbs": [
+      "Downstream analysis",
+      "DEP analysis"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/DEP_analysis.html#prepare-comparisons",
+    "href": "content/Downstream_analysis/DEP_analysis.html#prepare-comparisons",
+    "title": "DEP analysis",
+    "section": "Prepare comparisons",
+    "text": "Prepare comparisons\nProtVis accepts a comparison table with exactly two columns:\nGroup1,Group2\nControl,Treatment\nRoot,Shoot\nYou can upload .csv/.xlsx, paste a tab-delimited table, edit the built-in table, or use the demo comparison inferred from tissue/group metadata.\nThe group labels must exactly match values in the relevant sample_info grouping column.",
+    "crumbs": [
+      "Downstream analysis",
+      "DEP analysis"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/DEP_analysis.html#gui-workflow",
+    "href": "content/Downstream_analysis/DEP_analysis.html#gui-workflow",
+    "title": "DEP analysis",
+    "section": "GUI workflow",
+    "text": "GUI workflow\n\nClick LOAD DATA.\nConfirm Sample Info and Normalized Data.\nPrepare the CompareGroup table.\nClick RUN DEP.\nOpen each comparison tab to inspect the table, volcano plot, heatmap and DEP count summary.\nAdjust the display/significance thresholds and export the final figures/tables.",
+    "crumbs": [
+      "Downstream analysis",
+      "DEP analysis"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/DEP_analysis.html#current-significance-controls",
+    "href": "content/Downstream_analysis/DEP_analysis.html#current-significance-controls",
+    "title": "DEP analysis",
+    "section": "Current significance controls",
+    "text": "Current significance controls\nThe volcano panel currently starts with:\n\nlogFC threshold = 0.27 (approximately a 1.21-fold change on a log2 scale);\nP-value threshold = 0.05.\n\nThe displayed regulation classification uses logFC together with the raw limma P.Value. The limma result table also contains multiple-testing-adjusted statistics.\n\n\n\n\n\n\nImportantFor publication-grade inference\n\n\n\nIf your analysis plan requires FDR control, base the final biological claims and downstream ID list on the adjusted p-value column (for example adj.P.Val) rather than assuming the volcano panel’s raw P.Value threshold is an FDR threshold. Record the exact thresholds used in the manuscript Methods.",
+    "crumbs": [
+      "Downstream analysis",
+      "DEP analysis"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/DEP_analysis.html#dynamic-plots",
+    "href": "content/Downstream_analysis/DEP_analysis.html#dynamic-plots",
+    "title": "DEP analysis",
+    "section": "Dynamic plots",
+    "text": "Dynamic plots\nVolcano thresholds are reactive: changing them reclassifies proteins and keeps the DEP heatmap synchronized with the currently significant set. Heatmaps sanitize non-finite values only for plotting; this does not rewrite the differential-statistics table.",
+    "crumbs": [
+      "Downstream analysis",
+      "DEP analysis"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/DEP_analysis.html#output-and-downstream-handoff",
+    "href": "content/Downstream_analysis/DEP_analysis.html#output-and-downstream-handoff",
+    "title": "DEP analysis",
+    "section": "Output and downstream handoff",
+    "text": "Output and downstream handoff\nDEP results are attached to the active project object and are available to Enrichment analysis. The current enrichment loader checks the project object first and can also recover differential results from:\nStep7_differential_analysis.rda\nwith older filenames retained only as migration fallbacks.",
+    "crumbs": [
+      "Downstream analysis",
+      "DEP analysis"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Overview.html",
+    "href": "content/Downstream_analysis/Overview.html",
+    "title": "Overview & QC",
+    "section": "",
+    "text": "Use Overview before differential abundance analysis. It is the fastest way to catch sample swaps, strong batch effects, failed replicates, unexpected missingness, and normalization problems.\nThe current module can load both the imputed and normalized stages. When stage snapshots are unavailable but a valid ProtVis_dataset is active, ProtVis derives an imputed/centered overview from the current object and reports that fallback.",
+    "crumbs": [
+      "Downstream analysis",
+      "Overview & QC"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Overview.html#purpose",
+    "href": "content/Downstream_analysis/Overview.html#purpose",
+    "title": "Overview & QC",
+    "section": "",
+    "text": "Use Overview before differential abundance analysis. It is the fastest way to catch sample swaps, strong batch effects, failed replicates, unexpected missingness, and normalization problems.\nThe current module can load both the imputed and normalized stages. When stage snapshots are unavailable but a valid ProtVis_dataset is active, ProtVis derives an imputed/centered overview from the current object and reports that fallback.",
+    "crumbs": [
+      "Downstream analysis",
+      "Overview & QC"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Overview.html#correlation",
+    "href": "content/Downstream_analysis/Overview.html#correlation",
+    "title": "Overview & QC",
+    "section": "Correlation",
+    "text": "Correlation\nChoose Pearson, Spearman, or Kendall correlation, then configure clustering and whether correlation values/sample names are displayed. Use this panel to check whether biological replicates are more similar to each other than to unrelated groups.",
+    "crumbs": [
+      "Downstream analysis",
+      "Overview & QC"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Overview.html#expression-pattern",
+    "href": "content/Downstream_analysis/Overview.html#expression-pattern",
+    "title": "Overview & QC",
+    "section": "Expression pattern",
+    "text": "Expression pattern\nThe expression-pattern heatmap can focus on the top variable features and optionally scale by protein or sample. This is useful for a global view of coordinated abundance patterns, not as a replacement for formal differential testing.",
+    "crumbs": [
+      "Downstream analysis",
+      "Overview & QC"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Overview.html#dimensionality-reduction",
+    "href": "content/Downstream_analysis/Overview.html#dimensionality-reduction",
+    "title": "Overview & QC",
+    "section": "Dimensionality reduction",
+    "text": "Dimensionality reduction\nAvailable methods are:\n\nPCA\nPCoA\nt-SNE\nUMAP\nNMDS\n\nColor/ellipse grouping can use group, tissue, species, batch, or condition; point shape can be assigned independently. The default DR view uses tissue for color/95% confidence ellipses and species for point shape when those fields are available.\nProtVis displays dimensionality reduction before normalization and after normalization, enabling direct assessment of how preprocessing changed sample structure.",
+    "crumbs": [
+      "Downstream analysis",
+      "Overview & QC"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Overview.html#proteomics-qc",
+    "href": "content/Downstream_analysis/Overview.html#proteomics-qc",
+    "title": "Overview & QC",
+    "section": "Proteomics QC",
+    "text": "Proteomics QC\nThe QC panel summarizes and exports:\n\nsample total intensity;\nsample missing-value rate;\nintensity boxplots;\nintensity density;\nPCA based on variable features;\ncoefficient-of-variation distribution;\nthe normalized matrix.",
+    "crumbs": [
+      "Downstream analysis",
+      "Overview & QC"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Overview.html#what-to-look-for",
+    "href": "content/Downstream_analysis/Overview.html#what-to-look-for",
+    "title": "Overview & QC",
+    "section": "What to look for",
+    "text": "What to look for\nA healthy dataset does not need every replicate to overlap perfectly. Instead, look for consistency with the experimental design: replicate proximity, plausible separation of known groups, no isolated failed sample, comparable post-normalization distributions, and missingness that can be biologically/technically explained.\n\n\n\n\n\n\nWarning\n\n\n\nA visually attractive PCA is not proof that preprocessing is correct. If normalization creates a separation that contradicts known biology or removes a strong expected effect, revisit the preceding stages.",
+    "crumbs": [
+      "Downstream analysis",
+      "Overview & QC"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Pathview.html",
+    "href": "content/Downstream_analysis/Pathview.html",
+    "title": "Pathview",
+    "section": "",
+    "text": "The current Pathview module uses two CSV files.\n\n\nTwo columns:\nKO,logFC\nK00844,1.25\nK01810,-0.83\nKO identifiers are normalized to the Kxxxxx format.\n\n\n\nThree columns:\npathway,ko,Description\nmap00010,K00844,Glycolysis / Gluconeogenesis",
+    "crumbs": [
+      "Downstream analysis",
+      "Pathview"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Pathview.html#required-files",
+    "href": "content/Downstream_analysis/Pathview.html#required-files",
+    "title": "Pathview",
+    "section": "",
+    "text": "The current Pathview module uses two CSV files.\n\n\nTwo columns:\nKO,logFC\nK00844,1.25\nK01810,-0.83\nKO identifiers are normalized to the Kxxxxx format.\n\n\n\nThree columns:\npathway,ko,Description\nmap00010,K00844,Glycolysis / Gluconeogenesis",
+    "crumbs": [
+      "Downstream analysis",
+      "Pathview"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Pathview.html#gui-workflow",
+    "href": "content/Downstream_analysis/Pathview.html#gui-workflow",
+    "title": "Pathview",
+    "section": "GUI workflow",
+    "text": "GUI workflow\n\nUpload the KO/logFC file.\nUpload the pathway-to-KO annotation file.\nChoose Plant, Animals, Bacteria, Fungi, Eukaryotes, or Hsa.\nClick Run KEGG Enrichment.\nSelect an enriched pathway.\nClick Draw Selected Pathway.\n\nProtVis filters to valid KO identifiers, performs enrichment, then calls pathview with species = \"ko\" and native KEGG output. Multiple KO values mapping to the same node are summarized by the mean.",
+    "crumbs": [
+      "Downstream analysis",
+      "Pathview"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Pathview.html#output",
+    "href": "content/Downstream_analysis/Pathview.html#output",
+    "title": "Pathview",
+    "section": "Output",
+    "text": "Output\nThe native KEGG pathway is written as a PNG in the current working directory and shown in the interface together with a KO/logFC preview.\n\n\n\n\n\n\nNoteInternet access may be required\n\n\n\nPathview can require access to KEGG resources while generating the native pathway map. If enrichment succeeds but no PNG is generated, verify the KO IDs, selected pathway and network access.",
+    "crumbs": [
+      "Downstream analysis",
+      "Pathview"
     ]
   },
   {
@@ -374,212 +605,1245 @@
     "href": "content/installation.html",
     "title": "Installation",
     "section": "",
-    "text": "To install ProtVis from GitHub, run the following command in your R environment:",
+    "text": "ProtVis is an R package with a Shiny interface. Use a recent R installation and a writable R library. On Windows, installing packages from source may also require the matching Rtools release when a binary is unavailable.\n\n\n\n\n\n\nNote\n\n\n\nThis cookbook currently follows ProtVis 0.5.7 on the dev branch. The installation commands below therefore install @dev explicitly.",
     "crumbs": [
+      "Getting started",
       "Installation"
     ]
   },
   {
-    "objectID": "content/installation.html#method-1-load-the-package-and-run",
-    "href": "content/installation.html#method-1-load-the-package-and-run",
+    "objectID": "content/installation.html#requirements",
+    "href": "content/installation.html#requirements",
     "title": "Installation",
-    "section": "Method 1: Load the package and run",
-    "text": "Method 1: Load the package and run\nlibrary(ProtVis)\nrun_ProtVis()",
+    "section": "",
+    "text": "ProtVis is an R package with a Shiny interface. Use a recent R installation and a writable R library. On Windows, installing packages from source may also require the matching Rtools release when a binary is unavailable.\n\n\n\n\n\n\nNote\n\n\n\nThis cookbook currently follows ProtVis 0.5.7 on the dev branch. The installation commands below therefore install @dev explicitly.",
     "crumbs": [
+      "Getting started",
       "Installation"
     ]
   },
   {
-    "objectID": "content/installation.html#method-2-directly-call-the-function",
-    "href": "content/installation.html#method-2-directly-call-the-function",
+    "objectID": "content/installation.html#recommended-installation",
+    "href": "content/installation.html#recommended-installation",
     "title": "Installation",
-    "section": "Method 2: Directly call the function",
-    "text": "Method 2: Directly call the function\nProtVis::run_ProtVis()\nThis will open the interactive GUI for proteomics and PTM analysis.",
+    "section": "Recommended installation",
+    "text": "Recommended installation\nInstall pak once, then install ProtVis from GitHub:\noptions(repos = c(\n  CRAN = \"https://mirrors.tuna.tsinghua.edu.cn/CRAN/\"\n))\n\ninstall.packages(\"pak\")\npak::pak(\"xuebinzhang-lab/ProtVis@dev\")\nVerify the installed version:\npackageVersion(\"ProtVis\")",
     "crumbs": [
+      "Getting started",
       "Installation"
     ]
   },
   {
-    "objectID": "content/Downstream_analysis/Overview.html",
-    "href": "content/Downstream_analysis/Overview.html",
-    "title": "Overview",
+    "objectID": "content/installation.html#clean-update",
+    "href": "content/installation.html#clean-update",
+    "title": "Installation",
+    "section": "Clean update",
+    "text": "Clean update\nWhen an old installation is stale, locked, or its lazy-load database is corrupted, use the clean installer supplied by ProtVis:\nsource(\n  \"https://raw.githubusercontent.com/xuebinzhang-lab/ProtVis/dev/install_ProtVis.R\"\n)\nClose other R sessions that are currently using ProtVis before running a clean reinstall.",
+    "crumbs": [
+      "Getting started",
+      "Installation"
+    ]
+  },
+  {
+    "objectID": "content/installation.html#optional-wgcna-helper",
+    "href": "content/installation.html#optional-wgcna-helper",
+    "title": "Installation",
+    "section": "Optional WGCNA helper",
+    "text": "Optional WGCNA helper\nSome WGCNA workflows may use the optional helper package documented by ProtVis:\ninstall.packages(\"remotes\")\nremotes::install_github(\"ShawnWx2019/WGCNAShinyFun\", ref = \"master\")\nYou do not need this optional dependency to launch the core application.",
+    "crumbs": [
+      "Getting started",
+      "Installation"
+    ]
+  },
+  {
+    "objectID": "content/installation.html#launch-protvis",
+    "href": "content/installation.html#launch-protvis",
+    "title": "Installation",
+    "section": "Launch ProtVis",
+    "text": "Launch ProtVis\nlibrary(ProtVis)\nrun_ProtVis()\nor directly:\nProtVis::run_ProtVis()",
+    "crumbs": [
+      "Getting started",
+      "Installation"
+    ]
+  },
+  {
+    "objectID": "content/installation.html#first-launch-checklist",
+    "href": "content/installation.html#first-launch-checklist",
+    "title": "Installation",
+    "section": "First launch checklist",
+    "text": "First launch checklist\nAfter the application opens, confirm that you can see Homepage, Project init, Data input, Pre-processing, Downstream analysis, Multi-omics, PTM, Release data, Toolkits, and Help in the navigation bar.\nIf the app opens but an optional module reports a missing dependency, install that dependency and restart the R session. If the package itself fails to load after an update, prefer the clean installer above rather than repeatedly installing over a corrupted package directory.",
+    "crumbs": [
+      "Getting started",
+      "Installation"
+    ]
+  },
+  {
+    "objectID": "content/Project_init/Project_init.html",
+    "href": "content/Project_init/Project_init.html",
+    "title": "Project init",
     "section": "",
-    "text": "The Overview module provides a high-level summary of the proteomics dataset, helping users assess data quality and overall structure before downstream analysis. It includes three core functions:",
+    "text": "Project init establishes the analysis context shared by all later modules. It defines the output directory, sample metadata, quantitative expression data, and source type, then validates them and creates the first ProtVis_dataset.",
     "crumbs": [
-      "Downstream Analysis",
-      "Overview"
+      "Getting started",
+      "Project init"
     ]
   },
   {
-    "objectID": "content/Downstream_analysis/Overview.html#step-by-step-instructions",
-    "href": "content/Downstream_analysis/Overview.html#step-by-step-instructions",
-    "title": "Overview",
-    "section": "Step-by-Step Instructions",
-    "text": "Step-by-Step Instructions\nStep 1: Load the input data.\nStep 2: Select a Correlation Method, then click the RUN CORRELATION button to generate a sample correlation heatmap.\nStep 3: Optionally check the Scale Data box, then click the RUN EXPRESSION button to generate a protein expression heatmap.\nStep 4: Choose a Dimensionality Reduction Method (e.g., PCA, PCoA, t-SNE, UMAP, or NMDS) to visualize the data structure before and after normalization.",
-    "crumbs": [
-      "Downstream Analysis",
-      "Overview"
-    ]
-  },
-  {
-    "objectID": "content/Release_data.html",
-    "href": "content/Release_data.html",
-    "title": "Release Data",
+    "objectID": "content/Project_init/Project_init.html#purpose",
+    "href": "content/Project_init/Project_init.html#purpose",
+    "title": "Project init",
     "section": "",
-    "text": "In the process of data analysis using ProtVis, each step generates intermediate .rda files in the working directory. If users wish to view, export, or reuse the data from any specific step, the Release Data module provides an intuitive interface for exporting these .rda files into common tabular formats (e.g., CSV, Excel).\nThis guide outlines the steps to use this module effectively.",
+    "text": "Project init establishes the analysis context shared by all later modules. It defines the output directory, sample metadata, quantitative expression data, and source type, then validates them and creates the first ProtVis_dataset.",
     "crumbs": [
-      "Release Data"
+      "Getting started",
+      "Project init"
     ]
   },
   {
-    "objectID": "content/Release_data.html#step-by-step-instructions",
-    "href": "content/Release_data.html#step-by-step-instructions",
-    "title": "Release Data",
-    "section": "Step-by-Step Instructions",
-    "text": "Step-by-Step Instructions\n\nStep 1: Set the Working Directory\nThe current working directory path is displayed at the top of the interface. Ensure that this path is correctly set to where your .rda files are stored.\n📌 Example:\n\n\nStep 2: Load .rda Files\nClick the LOAD .RDA FILES button to scan and display all available .rda files under the current working directory.\n\n\nStep 3: Select Files to Export\nCheck one or more .rda files that you want to export.\nFor example:\n- ✅ Step1_project_init.rda\n- ✅ Step2_remove_unreliable_peptide.rda\nThese files contain intermediate data from various analysis stages such as project initialization, data cleaning, noise correction, etc.\n\n\nStep 4: Choose Output Format\nSelect the desired export format from the dropdown menu: - csv (Comma-Separated Values) - tsv (Tab-Separated Values) - xlsx (Excel format)\n\n\nStep 5: Export the Data\nClick the EXPORT button to download the selected .rda files in the chosen format. This makes it easier to inspect the intermediate data or share it with collaborators.",
+    "objectID": "content/Project_init/Project_init.html#inputs",
+    "href": "content/Project_init/Project_init.html#inputs",
+    "title": "Project init",
+    "section": "Inputs",
+    "text": "Inputs\nThe current interface accepts sample information and an expression matrix in .csv, .xlsx, or .xls format. It also provides bundled source-specific examples that can be loaded directly from the package.\nA practical sample-information table contains at least a unique sample identifier and experimental grouping information. ProtVis commonly uses the following fields when available:\n\n\n\n\n\n\n\nColumn\nPurpose\n\n\n\n\nsample_id\nUnique sample name used by downstream matrices and plots\n\n\nmaxquant_id\nOriginal source/export name used when sample columns must be mapped or renamed\n\n\ngroup\nExperimental group used for comparisons\n\n\ntissue\nOptional biological tissue; used by several demo and DR workflows\n\n\nspecies\nOptional species grouping or point-shape metadata\n\n\nbatch\nOptional batch grouping\n\n\ncondition\nOptional condition grouping\n\n\n\nThe expression matrix should contain a protein identifier plus numeric sample columns. Sample columns must be unambiguously alignable to sample_info.",
     "crumbs": [
-      "Release Data"
+      "Getting started",
+      "Project init"
     ]
   },
   {
-    "objectID": "content/Release_data.html#module-screenshot",
-    "href": "content/Release_data.html#module-screenshot",
-    "title": "Release Data",
-    "section": "Module Screenshot",
-    "text": "Module Screenshot\n\n\n✅ Tip: Exported .xlsx or .csv files can be opened with Excel, R, Python, or any spreadsheet viewer for further analysis or review.",
+    "objectID": "content/Project_init/Project_init.html#supported-source-selections",
+    "href": "content/Project_init/Project_init.html#supported-source-selections",
+    "title": "Project init",
+    "section": "Supported source selections",
+    "text": "Supported source selections\nThe current Project init menu includes Raw, MaxQuant, ProteomeDiscoverer / Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix.",
     "crumbs": [
-      "Release Data"
+      "Getting started",
+      "Project init"
+    ]
+  },
+  {
+    "objectID": "content/Project_init/Project_init.html#gui-workflow",
+    "href": "content/Project_init/Project_init.html#gui-workflow",
+    "title": "Project init",
+    "section": "GUI workflow",
+    "text": "GUI workflow\n\nClick Set working directory and choose a writable project directory.\nUpload Sample Information and inspect the preview.\nUpload the Expression Matrix, or select a Built-in example and click Load selected built-in example.\nChoose the matching Data source.\nConfirm that sample information and expression-matrix previews are correct.\nClick Project init.\n\nProtVis validates the sample/matrix relationship before creating the project object. A successful initialization also triggers an automatic portable export.",
+    "crumbs": [
+      "Getting started",
+      "Project init"
+    ]
+  },
+  {
+    "objectID": "content/Project_init/Project_init.html#outputs",
+    "href": "content/Project_init/Project_init.html#outputs",
+    "title": "Project init",
+    "section": "Outputs",
+    "text": "Outputs\nThe primary output is a validated ProtVis_dataset stored in the shared project state. The object receives a traceable name such as:\nProtVis_dataset__project_init__maxquant__v1\nFor compatibility with the stage-oriented workflow, ProtVis also writes:\nStep1_project_init.rda\nThe stage file contains one ProtVis_dataset, rather than separate unrelated workspace variables.\n\n\n\n\n\n\nTipUse the built-in examples first\n\n\n\nIf you are testing a fresh installation, load one of the bundled examples. This verifies Project init, sample alignment, source parsing, and output-directory permissions before you introduce your own data.",
+    "crumbs": [
+      "Getting started",
+      "Project init"
+    ]
+  },
+  {
+    "objectID": "content/Project_init/Project_init.html#common-validation-problems",
+    "href": "content/Project_init/Project_init.html#common-validation-problems",
+    "title": "Project init",
+    "section": "Common validation problems",
+    "text": "Common validation problems\nSample names do not match. Check sample_id, maxquant_id, and expression-matrix column names. Do not silently reorder samples outside ProtVis without recording the change.\nDuplicate protein IDs. Resolve duplicated identifiers before downstream statistics when the biological meaning of the duplicates is ambiguous. Source parsers may apply source-specific collapsing rules, but a user-defined matrix should be explicit.\nWorking directory cannot be selected. Choose a local directory you can write to. ProtVis normalizes the selected path and rejects inaccessible directories instead of proceeding with an invalid project location.",
+    "crumbs": [
+      "Getting started",
+      "Project init"
+    ]
+  },
+  {
+    "objectID": "content/PTM/PTM.html",
+    "href": "content/PTM/PTM.html",
+    "title": "PTM analysis",
+    "section": "",
+    "text": "The PTM section is intended for modification-centric proteomics workflows in which peptide/site-level evidence needs to be inspected separately from ordinary protein abundance analysis.\nBecause PTM search-engine exports differ substantially in site localization, peptide sequence, modification notation and protein mapping, always check that the selected source parser and input columns match the dataset that generated the evidence.",
+    "crumbs": [
+      "PTM",
+      "PTM analysis"
+    ]
+  },
+  {
+    "objectID": "content/PTM/PTM.html#scope",
+    "href": "content/PTM/PTM.html#scope",
+    "title": "PTM analysis",
+    "section": "",
+    "text": "The PTM section is intended for modification-centric proteomics workflows in which peptide/site-level evidence needs to be inspected separately from ordinary protein abundance analysis.\nBecause PTM search-engine exports differ substantially in site localization, peptide sequence, modification notation and protein mapping, always check that the selected source parser and input columns match the dataset that generated the evidence.",
+    "crumbs": [
+      "PTM",
+      "PTM analysis"
+    ]
+  },
+  {
+    "objectID": "content/PTM/PTM.html#recommended-workflow",
+    "href": "content/PTM/PTM.html#recommended-workflow",
+    "title": "PTM analysis",
+    "section": "Recommended workflow",
+    "text": "Recommended workflow\n\nComplete the standard project setup and source selection.\nOpen PTM and load the PTM-specific table expected by the module.\nVerify modified sequence/site notation and protein identifiers before filtering.\nApply localization/evidence filters appropriate to the experiment.\nInspect modification-level quantitative patterns separately from total protein abundance.\nExport the filtered evidence table used for every figure.",
+    "crumbs": [
+      "PTM",
+      "PTM analysis"
+    ]
+  },
+  {
+    "objectID": "content/PTM/PTM.html#biological-interpretation",
+    "href": "content/PTM/PTM.html#biological-interpretation",
+    "title": "PTM analysis",
+    "section": "Biological interpretation",
+    "text": "Biological interpretation\nA change at a phosphosite, acetylation site or other PTM can reflect altered modification occupancy, altered total protein abundance, or both. When possible, compare PTM abundance with the corresponding protein-level signal before assigning a regulatory interpretation.\n\n\n\n\n\n\nWarning\n\n\n\nDo not interpret a modified peptide as a unique site when the search result does not localize the modification confidently. Preserve the original localization evidence in the exported record.",
+    "crumbs": [
+      "PTM",
+      "PTM analysis"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Co_enrichment.html",
+    "href": "content/Multi_omics_data/Co_enrichment.html",
+    "title": "Co-enrichment",
+    "section": "",
+    "text": "Co-enrichment is useful when several contrasts, omics layers, tissues, or protein clusters have already been analyzed and you want to distinguish shared functional themes from condition-specific terms.",
+    "crumbs": [
+      "Multi-omics",
+      "Co-enrichment"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Co_enrichment.html#purpose",
+    "href": "content/Multi_omics_data/Co_enrichment.html#purpose",
+    "title": "Co-enrichment",
+    "section": "",
+    "text": "Co-enrichment is useful when several contrasts, omics layers, tissues, or protein clusters have already been analyzed and you want to distinguish shared functional themes from condition-specific terms.",
+    "crumbs": [
+      "Multi-omics",
+      "Co-enrichment"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Co_enrichment.html#recommended-inputs",
+    "href": "content/Multi_omics_data/Co_enrichment.html#recommended-inputs",
+    "title": "Co-enrichment",
+    "section": "Recommended inputs",
+    "text": "Recommended inputs\nUse enrichment result sets derived from compatible identifier/background systems. If two analyses used different gene universes or incompatible annotation versions, direct comparison of p-values can be misleading.",
+    "crumbs": [
+      "Multi-omics",
+      "Co-enrichment"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Co_enrichment.html#workflow",
+    "href": "content/Multi_omics_data/Co_enrichment.html#workflow",
+    "title": "Co-enrichment",
+    "section": "Workflow",
+    "text": "Workflow\n\nGenerate the individual enrichment results first.\nStandardize term identifiers and term descriptions.\nSelect the result sets to compare.\nRun the co-enrichment module.\nInspect shared and unique terms and their direction/strength where the module provides those metrics.\nExport the underlying comparison table rather than relying only on the figure.\n\n\n\n\n\n\n\nTip\n\n\n\nFor cross-experiment comparisons, term IDs are more reliable join keys than descriptions because descriptions can change between database versions.",
+    "crumbs": [
+      "Multi-omics",
+      "Co-enrichment"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Metaproteomics.html",
+    "href": "content/Multi_omics_data/Metaproteomics.html",
+    "title": "Metaproteomics",
+    "section": "",
+    "text": "The current metaproteomics module joins three CSV tables by ProteinID.\n\n\nProteinID,Control_1,Control_2,Treatment_1,Treatment_2\nP001,100,120,160,150\n\n\n\nRequired columns:\nProteinID,Phylum,Genus,Species\n\n\n\nRequired columns:\nProteinID,KO,Pathway,COG\nA built-in demo and downloadable demo tables are provided in the interface.",
+    "crumbs": [
+      "Multi-omics",
+      "Metaproteomics"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Metaproteomics.html#inputs",
+    "href": "content/Multi_omics_data/Metaproteomics.html#inputs",
+    "title": "Metaproteomics",
+    "section": "",
+    "text": "The current metaproteomics module joins three CSV tables by ProteinID.\n\n\nProteinID,Control_1,Control_2,Treatment_1,Treatment_2\nP001,100,120,160,150\n\n\n\nRequired columns:\nProteinID,Phylum,Genus,Species\n\n\n\nRequired columns:\nProteinID,KO,Pathway,COG\nA built-in demo and downloadable demo tables are provided in the interface.",
+    "crumbs": [
+      "Multi-omics",
+      "Metaproteomics"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Metaproteomics.html#analysis-settings",
+    "href": "content/Multi_omics_data/Metaproteomics.html#analysis-settings",
+    "title": "Metaproteomics",
+    "section": "Analysis settings",
+    "text": "Analysis settings\nChoose a taxonomic level (Phylum, Genus, Species) and a functional level (Pathway, KO, COG). You can switch between summed intensity and relative abundance and choose how many top categories are displayed.",
+    "crumbs": [
+      "Multi-omics",
+      "Metaproteomics"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Metaproteomics.html#outputs",
+    "href": "content/Multi_omics_data/Metaproteomics.html#outputs",
+    "title": "Metaproteomics",
+    "section": "Outputs",
+    "text": "Outputs\nThe module reports the number of proteins, taxa and functions and provides:\n\nmerged abundance/taxonomy/function table;\ntaxonomy composition plot;\nfunction composition plot;\ntaxon-function Sankey diagram;\ntaxon-function heatmap;\ndownloadable merged table.",
+    "crumbs": [
+      "Multi-omics",
+      "Metaproteomics"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Metaproteomics.html#group-labels",
+    "href": "content/Multi_omics_data/Metaproteomics.html#group-labels",
+    "title": "Metaproteomics",
+    "section": "Group labels",
+    "text": "Group labels\nIn the current module, sample names containing terms such as treat, case, or disease are assigned to Treatment; other samples default to Control for the display grouping. Use clear sample names when relying on this behavior.\n\n\n\n\n\n\nImportant\n\n\n\nTaxonomic and functional annotations can be many-to-many in real metaproteomes. Confirm how protein groups, shared peptides and ambiguous taxonomic assignments were handled upstream before interpreting summed compositions as organism-level abundance.",
+    "crumbs": [
+      "Multi-omics",
+      "Metaproteomics"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Expression_Profile.html",
+    "href": "content/Multi_omics_data/Expression_Profile.html",
+    "title": "Expression profile",
+    "section": "",
+    "text": "Expression-profile analysis is useful when the main question is not a single pairwise difference but a pattern across several samples, stages, tissues or conditions. Proteins with similar trajectories can be grouped into trend clusters and interpreted together.",
+    "crumbs": [
+      "Multi-omics",
+      "Expression profile"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Expression_Profile.html#purpose",
+    "href": "content/Multi_omics_data/Expression_Profile.html#purpose",
+    "title": "Expression profile",
+    "section": "",
+    "text": "Expression-profile analysis is useful when the main question is not a single pairwise difference but a pattern across several samples, stages, tissues or conditions. Proteins with similar trajectories can be grouped into trend clusters and interpreted together.",
+    "crumbs": [
+      "Multi-omics",
+      "Expression profile"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Expression_Profile.html#recommended-input",
+    "href": "content/Multi_omics_data/Expression_Profile.html#recommended-input",
+    "title": "Expression profile",
+    "section": "Recommended input",
+    "text": "Recommended input\nUse a normalized protein abundance matrix with stable protein IDs and samples in the intended biological order. If samples represent an ordered series, arrange them chronologically or biologically before clustering so the trend plot is interpretable.",
+    "crumbs": [
+      "Multi-omics",
+      "Expression profile"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Expression_Profile.html#workflow",
+    "href": "content/Multi_omics_data/Expression_Profile.html#workflow",
+    "title": "Expression profile",
+    "section": "Workflow",
+    "text": "Workflow\n\nLoad or upload the quantitative expression matrix required by the module.\nConfirm sample order and protein identifiers.\nChoose the clustering settings and number of clusters/centers.\nRun the expression-profile analysis.\nInspect whether clusters represent stable, increasing, decreasing, transient or condition-specific patterns.\nExport cluster membership before using cluster IDs for enrichment or network analysis.",
+    "crumbs": [
+      "Multi-omics",
+      "Expression profile"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Expression_Profile.html#interpretation",
+    "href": "content/Multi_omics_data/Expression_Profile.html#interpretation",
+    "title": "Expression profile",
+    "section": "Interpretation",
+    "text": "Interpretation\nChoose the number of clusters based on stability and biological interpretability rather than visual preference alone. Very large K values can split one coherent pattern into many small groups, whereas very small K values can merge distinct biological responses.\n\n\n\n\n\n\nNote\n\n\n\nTrend clustering is exploratory. A cluster does not by itself establish statistical significance for every protein it contains; use appropriate differential or time-series statistics when formal inference is required.",
+    "crumbs": [
+      "Multi-omics",
+      "Expression profile"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/checkpoints.html",
+    "href": "content/reproducibility/checkpoints.html",
+    "title": "Checkpoints & recovery",
+    "section": "",
+    "text": "ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated ProtVis_dataset at a named stage.",
+    "crumbs": [
+      "Reproducible workflow",
+      "Checkpoints & recovery"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/checkpoints.html#checkpoint-model",
+    "href": "content/reproducibility/checkpoints.html#checkpoint-model",
+    "title": "Checkpoints & recovery",
+    "section": "",
+    "text": "ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated ProtVis_dataset at a named stage.",
+    "crumbs": [
+      "Reproducible workflow",
+      "Checkpoints & recovery"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/checkpoints.html#save-a-checkpoint",
+    "href": "content/reproducibility/checkpoints.html#save-a-checkpoint",
+    "title": "Checkpoints & recovery",
+    "section": "Save a checkpoint",
+    "text": "Save a checkpoint\ncheckpoint &lt;- save_protvis_checkpoint(\n  dataset = ds,\n  directory = \"checkpoints\",\n  stage = \"normalization\",\n  keep = 20\n)\n\ncheckpoint\nCheckpoint files use names beginning with:\nprotvis_checkpoint_&lt;stage&gt;_...rds\nSaving is validated before a checkpoint is published, reducing the chance that a partial write replaces a usable analysis state.",
+    "crumbs": [
+      "Reproducible workflow",
+      "Checkpoints & recovery"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/checkpoints.html#list-checkpoints",
+    "href": "content/reproducibility/checkpoints.html#list-checkpoints",
+    "title": "Checkpoints & recovery",
+    "section": "List checkpoints",
+    "text": "List checkpoints\nlist_protvis_checkpoints(\"checkpoints\")\nThe returned table includes the file path, stage, creation time, size, MD5, and whether the checkpoint can be read.",
+    "crumbs": [
+      "Reproducible workflow",
+      "Checkpoints & recovery"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/checkpoints.html#restore-the-newest-checkpoint",
+    "href": "content/reproducibility/checkpoints.html#restore-the-newest-checkpoint",
+    "title": "Checkpoints & recovery",
+    "section": "Restore the newest checkpoint",
+    "text": "Restore the newest checkpoint\nrestored &lt;- restore_protvis_checkpoint(\n  \"checkpoints\",\n  version = \"latest\"\n)\nYou can request a stage as well:\nrestored &lt;- restore_protvis_checkpoint(\n  \"checkpoints\",\n  stage = \"differential_analysis\"\n)\nIf the exact requested stage is unavailable, ProtVis can select the newest readable checkpoint at or before that stage, allowing an interrupted workflow to resume from the closest valid state.",
+    "crumbs": [
+      "Reproducible workflow",
+      "Checkpoints & recovery"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/checkpoints.html#automatic-persistence",
+    "href": "content/reproducibility/checkpoints.html#automatic-persistence",
+    "title": "Checkpoints & recovery",
+    "section": "Automatic persistence",
+    "text": "Automatic persistence\nMany GUI stages persist the active object automatically. protvis_auto_export_dataset() writes a portable export bundle and records the latest output location in the dataset metadata.\nds &lt;- protvis_auto_export_dataset(\n  ds,\n  directory = getwd(),\n  include_raw = FALSE\n)",
+    "crumbs": [
+      "Reproducible workflow",
+      "Checkpoints & recovery"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/checkpoints.html#legacy-stage-files",
+    "href": "content/reproducibility/checkpoints.html#legacy-stage-files",
+    "title": "Checkpoints & recovery",
+    "section": "Legacy stage files",
+    "text": "Legacy stage files\nProtVis still reads historical stage files where needed. Current stage snapshots are written with exactly one ProtVis_dataset object; older workspaces that stored expression and sample objects separately can be migrated by the internal loading layer.\nCommon compatibility files include:\nStep1_project_init.rda\nStep2_remove_unreliable_peptide.rda\nStep3_correct_noise.rda\nStep4_data_transformed.rda\nStep5_data_imputation.rda\nStep6_data_normalization.rda\nStep7_differential_analysis.rda\n\n\n\n\n\n\nTipRecovery strategy\n\n\n\nFor long projects, keep the working directory together with the latest portable export and checkpoint directory. This gives you a human-readable export, a complete serialized project object, and stage-aware recovery options.",
+    "crumbs": [
+      "Reproducible workflow",
+      "Checkpoints & recovery"
+    ]
+  },
+  {
+    "objectID": "images/Readme.html",
+    "href": "images/Readme.html",
+    "title": "ProtVis Cookbook",
+    "section": "",
+    "text": "Add images to this folder"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ProtVis Cookbook",
+    "section": "",
+    "text": "ProtVis combines data import, preprocessing, quality control, statistical analysis, functional interpretation, multi-omics integration, PTM analysis, and publication-ready visualization in one interactive workflow. This cookbook follows the application in the same order that a real project is analyzed.\nStart with installation · Understand ProtVis_dataset · Run the full workflow",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#from-quantitative-proteomes-to-biological-insight",
+    "href": "index.html#from-quantitative-proteomes-to-biological-insight",
+    "title": "ProtVis Cookbook",
+    "section": "",
+    "text": "ProtVis combines data import, preprocessing, quality control, statistical analysis, functional interpretation, multi-omics integration, PTM analysis, and publication-ready visualization in one interactive workflow. This cookbook follows the application in the same order that a real project is analyzed.\nStart with installation · Understand ProtVis_dataset · Run the full workflow",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#recommended-analysis-path",
+    "href": "index.html#recommended-analysis-path",
+    "title": "ProtVis Cookbook",
+    "section": "Recommended analysis path",
+    "text": "Recommended analysis path\n\nInstall and launch ProtVis.\nProject init: choose the working directory, load sample metadata and an expression matrix or built-in example, then select the data source.\nData input: parse and validate the source-specific quantitative evidence.\nPre-processing: Correct Noise → Data Transformation → Data Imputation → Data Normalization.\nOverview: inspect sample correlations, expression patterns, dimensionality reduction, missingness, intensity distributions, PCA, and CV.\nDEP: define one or more Group1 versus Group2 comparisons and run differential abundance analysis.\nInterpretation: use GO/KEGG enrichment, GSEA, Pathview, PPI, WGCNA, and other downstream modules as appropriate.\nRelease/export: save portable project outputs and publication-ready tables and figures.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#two-ways-to-learn-protvis",
+    "href": "index.html#two-ways-to-learn-protvis",
+    "title": "ProtVis Cookbook",
+    "section": "Two ways to learn ProtVis",
+    "text": "Two ways to learn ProtVis\nGUI-first users can follow the chapter order in the sidebar. Each page explains prerequisites, the controls to use, expected outputs, and common failure points.\nReproducible-workflow users should also read ProtVis_dataset and Checkpoints & recovery. These chapters explain how ProtVis preserves analysis provenance and how projects can be resumed without rebuilding every previous step.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/ProtVis_dataset.html",
+    "href": "content/reproducibility/ProtVis_dataset.html",
+    "title": "ProtVis_dataset",
+    "section": "",
+    "text": "ProtVis_dataset is an independent S4 class designed for proteomics. It does not inherit from mass_dataset and does not require the massdataset package. Its validity checks enforce exact alignment between expression columns and sample_info, and between expression rows and variable_info.\nThis architecture allows ProtVis to preserve one coherent scientific record while every module adds a new result or processing step.",
+    "crumbs": [
+      "Reproducible workflow",
+      "ProtVis_dataset"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/ProtVis_dataset.html#why-protvis-uses-a-project-object",
+    "href": "content/reproducibility/ProtVis_dataset.html#why-protvis-uses-a-project-object",
+    "title": "ProtVis_dataset",
+    "section": "",
+    "text": "ProtVis_dataset is an independent S4 class designed for proteomics. It does not inherit from mass_dataset and does not require the massdataset package. Its validity checks enforce exact alignment between expression columns and sample_info, and between expression rows and variable_info.\nThis architecture allows ProtVis to preserve one coherent scientific record while every module adds a new result or processing step.",
+    "crumbs": [
+      "Reproducible workflow",
+      "ProtVis_dataset"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/ProtVis_dataset.html#core-components",
+    "href": "content/reproducibility/ProtVis_dataset.html#core-components",
+    "title": "ProtVis_dataset",
+    "section": "Core components",
+    "text": "Core components\n\n\n\n\n\n\n\nComponent\nWhat it stores\n\n\n\n\nexpression_data\nNumeric protein-by-sample abundance matrix\n\n\nsample_info\nSample identifiers and experimental metadata\n\n\nvariable_info\nProtein/feature metadata aligned to expression rows\n\n\nannotation\nFixed annotation schema with eggnog_output, GO_annotation, and KEGG_annotation\n\n\nanalysis_results\nStage-specific statistical and biological results\n\n\nprocess_info\nActive stage, parameters, messages, status and history\n\n\nmetadata\nProject-level information, source and object naming/version information\n\n\nother_files\nImported-file provenance and stored auxiliary resources\n\n\ncheckpoint_info\nCheckpoint/recovery and export metadata\n\n\n\nThe historical names annotation_table and ms2_data are not part of the current annotation model.",
+    "crumbs": [
+      "Reproducible workflow",
+      "ProtVis_dataset"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/ProtVis_dataset.html#create-a-dataset-programmatically",
+    "href": "content/reproducibility/ProtVis_dataset.html#create-a-dataset-programmatically",
+    "title": "ProtVis_dataset",
+    "section": "Create a dataset programmatically",
+    "text": "Create a dataset programmatically\nlibrary(ProtVis)\n\nexpr &lt;- data.frame(\n  S1 = c(10, 20, 30),\n  S2 = c(12, 18, 33),\n  row.names = c(\"P1\", \"P2\", \"P3\")\n)\n\nsamples &lt;- data.frame(\n  sample_id = c(\"S1\", \"S2\"),\n  group = c(\"Control\", \"Treatment\"),\n  row.names = c(\"S1\", \"S2\")\n)\n\nds &lt;- create_protvis_dataset(\n  expression_data = expr,\n  sample_info = samples,\n  metadata = list(source = \"User-defined matrix\")\n)\n\nvalidate_protvis_dataset(ds)\nFor day-to-day GUI use, Project init creates this object automatically.",
+    "crumbs": [
+      "Reproducible workflow",
+      "ProtVis_dataset"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/ProtVis_dataset.html#inspect-a-built-in-project",
+    "href": "content/reproducibility/ProtVis_dataset.html#inspect-a-built-in-project",
+    "title": "ProtVis_dataset",
+    "section": "Inspect a built-in project",
+    "text": "Inspect a built-in project\nlibrary(ProtVis)\n\nds &lt;- load_protvis_builtin_data(\n  source = \"DIA-NN\",\n  auto_export = FALSE\n)\n\nclass(ds)\nslotNames(ds)\ndim(ds$expression_data)\nhead(ds$sample_info)\nUse protvis_expression_matrix(ds) when you need an ID-first data frame suitable for UI boundaries or export.",
+    "crumbs": [
+      "Reproducible workflow",
+      "ProtVis_dataset"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/ProtVis_dataset.html#object-versions",
+    "href": "content/reproducibility/ProtVis_dataset.html#object-versions",
+    "title": "ProtVis_dataset",
+    "section": "Object versions",
+    "text": "Object versions\nProtVis analysis helpers create traceable object versions rather than overwriting an unnamed global object. Object names encode the project stage or method, for example transformation or differential-analysis versions. The object retains parameters and process history so results can be related back to their analytical context.",
+    "crumbs": [
+      "Reproducible workflow",
+      "ProtVis_dataset"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/ProtVis_dataset.html#annotation-schema",
+    "href": "content/reproducibility/ProtVis_dataset.html#annotation-schema",
+    "title": "ProtVis_dataset",
+    "section": "Annotation schema",
+    "text": "Annotation schema\nThe annotation slot always exposes the same three named data frames:\nnames(ds$annotation)\n# eggnog_output, GO_annotation, KEGG_annotation\nMissing annotation layers are represented as empty data frames rather than changing the object schema. This makes downstream code more predictable.",
+    "crumbs": [
+      "Reproducible workflow",
+      "ProtVis_dataset"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/ProtVis_dataset.html#export-a-portable-project",
+    "href": "content/reproducibility/ProtVis_dataset.html#export-a-portable-project",
+    "title": "ProtVis_dataset",
+    "section": "Export a portable project",
+    "text": "Export a portable project\nout &lt;- export_protvis_dataset(\n  ds,\n  directory = \"ProtVis_export\",\n  include_raw = FALSE\n)\n\nout\nThe export bundle contains the serialized ProtVis_dataset, expression and metadata tables, annotation tables, process history, serialized analysis results, a metadata JSON file, and an HTML report. If include_raw = TRUE, available attached source files are also copied.\n\n\n\n\n\n\nImportantTreat the object as the authoritative record\n\n\n\nStage .rda files are useful for compatibility and recovery, but new analyses should use the active ProtVis_dataset whenever possible. This prevents parameter, annotation, and provenance information from becoming detached from the quantitative matrix.",
+    "crumbs": [
+      "Reproducible workflow",
+      "ProtVis_dataset"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Multi_omics_data.html",
+    "href": "content/Multi_omics_data/Multi_omics_data.html",
+    "title": "Multi-omics",
+    "section": "",
+    "text": "The Multi-omics menu groups analyses that extend beyond a single DEP table:\n\n\n\n\n\n\n\nModule\nMain question\n\n\n\n\nExpression Profile\nWhich proteins share similar abundance trends?\n\n\nWGCNA\nWhich co-expression modules and hub proteins relate to traits?\n\n\nMetaproteomics\nHow do taxonomic and functional compositions change together?\n\n\nNine Quadrant\nHow do two quantitative contrasts/datasets agree or disagree?\n\n\nCo-enrichment\nWhich functional signals are shared or distinct across result sets?\n\n\nVenn\nWhich identifiers overlap among multiple sets?\n\n\n\nThese modules do not all require the same input type. Follow the dedicated page for each analysis rather than assuming the normalized matrix alone is sufficient.\n\n\n\n\n\n\nTip\n\n\n\nFor manuscript figures, use an integration module only when the biological question is genuinely cross-layer or network-oriented. A more complex plot is not automatically more informative than a well-supported DEP or enrichment result.",
+    "crumbs": [
+      "Multi-omics",
+      "Module overview"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Multi_omics_data.html#module-map",
+    "href": "content/Multi_omics_data/Multi_omics_data.html#module-map",
+    "title": "Multi-omics",
+    "section": "",
+    "text": "The Multi-omics menu groups analyses that extend beyond a single DEP table:\n\n\n\n\n\n\n\nModule\nMain question\n\n\n\n\nExpression Profile\nWhich proteins share similar abundance trends?\n\n\nWGCNA\nWhich co-expression modules and hub proteins relate to traits?\n\n\nMetaproteomics\nHow do taxonomic and functional compositions change together?\n\n\nNine Quadrant\nHow do two quantitative contrasts/datasets agree or disagree?\n\n\nCo-enrichment\nWhich functional signals are shared or distinct across result sets?\n\n\nVenn\nWhich identifiers overlap among multiple sets?\n\n\n\nThese modules do not all require the same input type. Follow the dedicated page for each analysis rather than assuming the normalized matrix alone is sufficient.\n\n\n\n\n\n\nTip\n\n\n\nFor manuscript figures, use an integration module only when the biological question is genuinely cross-layer or network-oriented. A more complex plot is not automatically more informative than a well-supported DEP or enrichment result.",
+    "crumbs": [
+      "Multi-omics",
+      "Module overview"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html",
+    "href": "content/Multi_omics_data/WGCNA.html",
+    "title": "WGCNA",
+    "section": "",
+    "text": "The current WGCNA module provides a complete sequence from data filtering to network interpretation:\nData cleaning → Filtering → Soft threshold → Module detection → Trait association → Interested module → Hub gene/protein → Cytoscape export\nAlthough some UI labels use “gene”, the module can analyze protein abundance matrices.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html#what-the-module-covers",
+    "href": "content/Multi_omics_data/WGCNA.html#what-the-module-covers",
+    "title": "WGCNA",
+    "section": "",
+    "text": "The current WGCNA module provides a complete sequence from data filtering to network interpretation:\nData cleaning → Filtering → Soft threshold → Module detection → Trait association → Interested module → Hub gene/protein → Cytoscape export\nAlthough some UI labels use “gene”, the module can analyze protein abundance matrices.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html#input",
+    "href": "content/Multi_omics_data/WGCNA.html#input",
+    "title": "WGCNA",
+    "section": "Input",
+    "text": "Input\nUpload a .txt, .tsv, or .csv expression matrix. The first column should contain feature IDs and the remaining columns should be samples. The format selector includes count, expected count, normalized count, peak area (metabolomics), and protein abundance.\nSelect an unsigned or signed network and the appropriate preprocessing/normalization mode for the supplied data.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html#filtering",
+    "href": "content/Multi_omics_data/WGCNA.html#filtering",
+    "title": "WGCNA",
+    "section": "Filtering",
+    "text": "Filtering\nThe first filter removes low-abundance features based on sample percentage and expression cutoff. The second filter ranks variability using MAD or Variance and retains the requested number of features.\nFiltering is especially important for proteomics because a network built from thousands of uninformative or extremely sparse proteins can be unstable and computationally expensive.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html#soft-threshold-selection",
+    "href": "content/Multi_omics_data/WGCNA.html#soft-threshold-selection",
+    "title": "WGCNA",
+    "section": "Soft-threshold selection",
+    "text": "Soft-threshold selection\nRun the soft-threshold analysis, review the scale-free topology fit, and either use the recommended power or specify a justified custom power. The default target displayed by the UI is an \\(R^2\\) cutoff of 0.8.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html#module-detection",
+    "href": "content/Multi_omics_data/WGCNA.html#module-detection",
+    "title": "WGCNA",
+    "section": "Module detection",
+    "text": "Module detection\nSet minimum module size, module merge/cut-tree height, and maximum block size, then run module detection. Export the protein-to-module table so every downstream claim can be traced back to module membership.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html#trait-association",
+    "href": "content/Multi_omics_data/WGCNA.html#trait-association",
+    "title": "WGCNA",
+    "section": "Trait association",
+    "text": "Trait association\nUpload trait data and run module-trait analysis. Check sample names carefully: trait rows/columns must correspond to the same samples represented in the expression matrix.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html#hub-proteins-and-cytoscape",
+    "href": "content/Multi_omics_data/WGCNA.html#hub-proteins-and-cytoscape",
+    "title": "WGCNA",
+    "section": "Hub proteins and Cytoscape",
+    "text": "Hub proteins and Cytoscape\nSelect a trait and module, set absolute kME/GS cutoffs, and run hub analysis. ProtVis can generate node and edge tables for Cytoscape using a user-defined network-weight threshold.\n\n\n\n\n\n\nWarning\n\n\n\nWGCNA requires enough samples to estimate correlations meaningfully. Very small proteomics experiments can produce visually convincing but unstable networks. Treat network topology cautiously when sample size is limited.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
     ]
   },
   {
     "objectID": "content/Multi_omics_data/Nine_Quadrant.html",
     "href": "content/Multi_omics_data/Nine_Quadrant.html",
-    "title": "Nine Quadrant",
+    "title": "Nine quadrant",
     "section": "",
-    "text": "The Nine-Quadrant Plot is a visualization tool commonly used in multi-group comparisons to display differential expression patterns and trend consistency. It is especially prevalent in high-throughput data analyses such as proteomics, transcriptomics, and metabolomics.\nBy comparing log2 fold changes across two conditions or omics datasets, this plot helps identify: - Shared upregulated/downregulated features\n- Conflicting expression trends\n- Condition-specific responses",
+    "text": "A nine-quadrant plot compares two effect estimates, usually log fold changes from matched contrasts. Thresholds on the x and y axes divide proteins/features into combinations such as concordant increase, concordant decrease, discordant response, or weak/no change.",
     "crumbs": [
-      "Multi-omics Data",
-      "Nine Quadrant"
+      "Multi-omics",
+      "Nine quadrant"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#quadrant-interpretation",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html#quadrant-interpretation",
-    "title": "Nine Quadrant",
-    "section": "🧭 Quadrant Interpretation",
-    "text": "🧭 Quadrant Interpretation\n\n\n\n\n\n\n\n\nQuadrant\nMeaning\nBiological Interpretation\n\n\n\n\nQ1 (+, +)\nUpregulated in both groups\nConsistent upregulation; potentially stable response proteins\n\n\nQ9 (−, −)\nDownregulated in both groups\nConsistent downregulation; also indicative of stable responses\n\n\nQ5 (0, 0)\nNot significantly changed\nStable expression; non-responsive proteins\n\n\nQ2, Q3, Q4, Q6, Q7, Q8\nAsymmetrical or opposite changes\nMay be associated with specific treatment responses or opposing regulatory trends",
+    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#purpose",
+    "href": "content/Multi_omics_data/Nine_Quadrant.html#purpose",
+    "title": "Nine quadrant",
+    "section": "",
+    "text": "A nine-quadrant plot compares two effect estimates, usually log fold changes from matched contrasts. Thresholds on the x and y axes divide proteins/features into combinations such as concordant increase, concordant decrease, discordant response, or weak/no change.",
     "crumbs": [
-      "Multi-omics Data",
-      "Nine Quadrant"
+      "Multi-omics",
+      "Nine quadrant"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#step-1-upload-an-example-file",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html#step-1-upload-an-example-file",
-    "title": "Nine Quadrant",
-    "section": "📋 Step 1: Upload an Example File",
-    "text": "📋 Step 1: Upload an Example File\nYour input file should contain the following four columns:\n\n\n\nOmic1_ID\nLog2FC_Omic1\nOmic2_ID\nLog2FC_Omic2\n\n\n\n\nOmic1_0001\n2.46\nOmic2_0001\n-0.09\n\n\nOmic1_0002\n3.58\nOmic2_0002\n-0.69\n\n\nOmic1_0003\n3.81\nOmic2_0003\n-0.03\n\n\nOmic1_0004\n-4.67\nOmic2_0004\n-0.04\n\n\nOmic1_0005\n-5.21\nOmic2_0005\n0.02\n\n\nOmic1_0006\n3.39\nOmic2_0006\n-0.03\n\n\n\n\n💡 Note: The two datasets should contain matched identifiers and log2 fold changes.",
+    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#recommended-workflow",
+    "href": "content/Multi_omics_data/Nine_Quadrant.html#recommended-workflow",
+    "title": "Nine quadrant",
+    "section": "Recommended workflow",
+    "text": "Recommended workflow\n\nPrepare two result tables that share a stable feature identifier.\nConfirm that both effect columns use the same direction convention (for example Treatment minus Control).\nMerge only on the intended identifier.\nSet biologically/statistically justified x- and y-axis thresholds.\nInspect concordant and discordant quadrants separately.\nExport the merged classification table together with the plot.\n\n\n\n\n\n\n\nWarning\n\n\n\nIf one contrast is A - B and the other is B - A, the apparent concordance will be reversed. Always verify contrast direction before interpreting quadrants.",
     "crumbs": [
-      "Multi-omics Data",
-      "Nine Quadrant"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#step-by-step-instructions",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html#step-by-step-instructions",
-    "title": "Nine Quadrant",
-    "section": "🔧 Step-by-Step Instructions",
-    "text": "🔧 Step-by-Step Instructions\nStep 2: Set the X-axis and Y-axis variables from the column headers (e.g., Log2FC_Omic1 as X and Log2FC_Omic2 as Y).\nStep 3: Define the log2 fold change cutoff (e.g., ±1). This value determines which data points are considered significantly up- or downregulated.\nStep 4: Choose a color scheme to highlight quadrants or point significance (e.g., red for Q1, blue for Q9, gray for Q5).\nStep 5: Set export parameters, such as: - Image resolution - Width/height - File format (PNG, PDF, SVG)\nStep 6: Click the RUN button to generate the plot, and then DOWNLOAD the result for use in reports or publications.",
-    "crumbs": [
-      "Multi-omics Data",
-      "Nine Quadrant"
+      "Multi-omics",
+      "Nine quadrant"
     ]
   },
   {
     "objectID": "content/Multi_omics_data/venn.html",
     "href": "content/Multi_omics_data/venn.html",
-    "title": "Venn Diagram",
+    "title": "Venn",
     "section": "",
-    "text": "Venn diagrams are useful visual tools for comparing multiple datasets (e.g., proteomic, transcriptomic, or metabolomic lists) to identify shared and unique elements. This module allows intuitive visualization of overlaps among 2 to 6 sets, supporting downstream interpretation such as core gene discovery or cross-platform comparison.\n\n\nVenn diagrams can highlight: - Common elements shared across multiple conditions or datasets - Specific elements unique to one group - Subset intersections that may represent interesting biological signatures (e.g., co-regulated or condition-specific proteins)\nThis module is ideal for cross-omics integration and candidate filtering based on shared presence or exclusivity.\n\n\n\nUpload a .csv file with column names representing sample groups (e.g., A, B, C, D, E), and each column containing corresponding gene or protein identifiers.\nExample (veen.csv):\n\n\n\nA\nB\nC\nD\nE\n\n\n\n\npmf0256\nLmgn000219\nLmgn000219\npmf0256\nmws4052\n\n\nmws0470\npmf0256\npmf0256\npme2527\nMWSmce461\n\n\nmws0192\npme3011\npme3011\nMWS1848\npme3033\n\n\n…\n…\n…\n…\n…\n\n\n\n\n\n\nStep 1: Upload the file - Click Browse and select your veen.csv file.\nStep 2: Customize Colors - Choose a color for each dataset (e.g., A–E) using hex codes or color pickers. - Each set will be shown with distinct borders and transparent fill.\nStep 3: Run the Analysis - Click the RUN button. - A Venn diagram will be automatically generated based on all intersections.\nStep 4: Download Results - Click the Download button to export the figure. - Supported formats include PNG, PDF, SVG, etc.\n\n\n\nThe central panel displays the resulting Venn diagram. Each number within the overlapping regions indicates the number of shared elements among those sets.\n\n\n\nVenn diagram\n\n\n\n✅ Tip: You can adjust set names (A, B, C…) in your CSV file header to better reflect sample or condition names in your study.",
+    "text": "Venn diagrams are useful for a small number of clearly defined ID sets, such as significant proteins from two or three contrasts. They are not ideal for many sets; use an UpSet-style approach outside the module when intersections become difficult to read.",
     "crumbs": [
-      "Multi-omics Data",
+      "Multi-omics",
       "Venn"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/venn.html#biological-significance",
-    "href": "content/Multi_omics_data/venn.html#biological-significance",
-    "title": "Venn Diagram",
+    "objectID": "content/Multi_omics_data/venn.html#when-to-use-a-venn-diagram",
+    "href": "content/Multi_omics_data/venn.html#when-to-use-a-venn-diagram",
+    "title": "Venn",
     "section": "",
-    "text": "Venn diagrams can highlight: - Common elements shared across multiple conditions or datasets - Specific elements unique to one group - Subset intersections that may represent interesting biological signatures (e.g., co-regulated or condition-specific proteins)\nThis module is ideal for cross-omics integration and candidate filtering based on shared presence or exclusivity.",
+    "text": "Venn diagrams are useful for a small number of clearly defined ID sets, such as significant proteins from two or three contrasts. They are not ideal for many sets; use an UpSet-style approach outside the module when intersections become difficult to read.",
     "crumbs": [
-      "Multi-omics Data",
+      "Multi-omics",
       "Venn"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/venn.html#example-input",
-    "href": "content/Multi_omics_data/venn.html#example-input",
-    "title": "Venn Diagram",
-    "section": "",
-    "text": "Upload a .csv file with column names representing sample groups (e.g., A, B, C, D, E), and each column containing corresponding gene or protein identifiers.\nExample (veen.csv):\n\n\n\nA\nB\nC\nD\nE\n\n\n\n\npmf0256\nLmgn000219\nLmgn000219\npmf0256\nmws4052\n\n\nmws0470\npmf0256\npmf0256\npme2527\nMWSmce461\n\n\nmws0192\npme3011\npme3011\nMWS1848\npme3033\n\n\n…\n…\n…\n…\n…",
+    "objectID": "content/Multi_omics_data/venn.html#workflow",
+    "href": "content/Multi_omics_data/venn.html#workflow",
+    "title": "Venn",
+    "section": "Workflow",
+    "text": "Workflow\n\nPrepare each set using the same identifier namespace.\nRemove empty IDs and accidental duplicates within each set.\nLoad the sets into the Venn module.\nConfirm set names and intersection counts.\nExport both the figure and, when needed, the IDs belonging to biologically important intersections.\n\n\n\n\n\n\n\nNote\n\n\n\nAn overlap count is descriptive. Whether the overlap is more than expected by chance requires an explicit statistical test and a defined background universe.",
     "crumbs": [
-      "Multi-omics Data",
+      "Multi-omics",
       "Venn"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/venn.html#step-by-step-instructions",
-    "href": "content/Multi_omics_data/venn.html#step-by-step-instructions",
-    "title": "Venn Diagram",
+    "objectID": "content/PTM/PD_Strict_Spectrum.html",
+    "href": "content/PTM/PD_Strict_Spectrum.html",
+    "title": "PD strict spectrum",
     "section": "",
-    "text": "Step 1: Upload the file - Click Browse and select your veen.csv file.\nStep 2: Customize Colors - Choose a color for each dataset (e.g., A–E) using hex codes or color pickers. - Each set will be shown with distinct borders and transparent fill.\nStep 3: Run the Analysis - Click the RUN button. - A Venn diagram will be automatically generated based on all intersections.\nStep 4: Download Results - Click the Download button to export the figure. - Supported formats include PNG, PDF, SVG, etc.",
+    "text": "PD Strict Spectrum provides a dedicated route for Proteome Discoverer evidence that needs stricter spectrum-level inspection than a protein-level abundance table can provide.",
     "crumbs": [
-      "Multi-omics Data",
-      "Venn"
+      "PTM",
+      "PD strict spectrum"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/venn.html#visualization-panel",
-    "href": "content/Multi_omics_data/venn.html#visualization-panel",
-    "title": "Venn Diagram",
+    "objectID": "content/PTM/PD_Strict_Spectrum.html#purpose",
+    "href": "content/PTM/PD_Strict_Spectrum.html#purpose",
+    "title": "PD strict spectrum",
     "section": "",
-    "text": "The central panel displays the resulting Venn diagram. Each number within the overlapping regions indicates the number of shared elements among those sets.\n\n\n\nVenn diagram\n\n\n\n✅ Tip: You can adjust set names (A, B, C…) in your CSV file header to better reflect sample or condition names in your study.",
+    "text": "PD Strict Spectrum provides a dedicated route for Proteome Discoverer evidence that needs stricter spectrum-level inspection than a protein-level abundance table can provide.",
     "crumbs": [
-      "Multi-omics Data",
-      "Venn"
+      "PTM",
+      "PD strict spectrum"
+    ]
+  },
+  {
+    "objectID": "content/PTM/PD_Strict_Spectrum.html#workflow-principles",
+    "href": "content/PTM/PD_Strict_Spectrum.html#workflow-principles",
+    "title": "PD strict spectrum",
+    "section": "Workflow principles",
+    "text": "Workflow principles\n\nUse the original Proteome Discoverer export expected by the module.\nConfirm peptide sequence, modification/site annotation, spectrum identifiers and score/evidence fields before applying filters.\nRetain the unfiltered source file and export the exact filtered subset used for interpretation.\nFor candidate PTM sites used in a manuscript, manually inspect the relevant fragmentation/localization evidence when possible.\n\n\n\n\n\n\n\nNote\n\n\n\nSpectrum-level validation supports identification confidence; it does not replace quantitative replication or statistical testing across biological samples.",
+    "crumbs": [
+      "PTM",
+      "PD strict spectrum"
     ]
   },
   {
     "objectID": "content/introduce.html",
     "href": "content/introduce.html",
-    "title": "introduce",
+    "title": "Overview",
     "section": "",
-    "text": "ProtVis is a powerful proteomics analysis software designed to provide researchers with an intuitive and efficient tool for protein data analysis. It offers versatile data import options, including formats such as txt, csv, and excel. ProtVis supports differential expression analysis (e.g., limma, t-test) and provides various data normalization methods (e.g., log2, quantile). Additionally, it features dimensionality reduction techniques such as PCA, t-SNE, and UMAP, enabling users to visually explore the structure of their data.\nFurthermore, ProtVis integrates k-means clustering, GO/KEGG enrichment analysis, and GSEA analysis, allowing for an in-depth exploration of the biological functions of proteins and their relationships with pathways. For proteomics research focused on post-translational modifications, ProtVis offers visualization and annotation tools, as well as support for the analysis of protein secondary and tertiary structures.\nThe software supports batch processing and allows for the export of analysis results in formats such as PDF, CSV, and Excel. With its open-source and extensible nature, users can customize and expand the software according to their specific needs. ProtVis simplifies complex analysis workflows through its user-friendly Shiny interface, making it an ideal tool for proteomics research and multi-omics data integration.",
+    "text": "ProtVis is an interactive R/Shiny platform for proteomics and metaproteomics processing, statistical analysis, biological interpretation, and scientific visualization. The current application is organized around a reproducible project object, ProtVis_dataset, so quantitative data, metadata, annotations, analysis results, imported files, and processing history remain connected throughout the workflow.\nProtVis is designed for researchers who want a GUI without giving up traceability. Most analysis modules can be used interactively, while the underlying package also exposes functions for importing data, validating projects, running pipelines, saving checkpoints, and exporting complete analysis bundles.",
     "crumbs": [
-      "Introduce"
+      "Getting started",
+      "Overview"
     ]
   },
   {
-    "objectID": "content/Toolkits/Protein_Links.html",
-    "href": "content/Toolkits/Protein_Links.html",
-    "title": "Protein Links",
+    "objectID": "content/introduce.html#what-is-protvis",
+    "href": "content/introduce.html#what-is-protvis",
+    "title": "Overview",
     "section": "",
-    "text": "This module allows users to query the corresponding UniProt entry based on a Gene ID or Protein Sequence, and quickly access commonly used protein annotation and structural prediction tools:\n\nUniProt: Comprehensive protein information database\n\nInterPro: Protein domain annotation platform\n\nSwiss-Model: Tertiary structure prediction platform\n\nIf the UniProt ID is not provided, users can input a protein sequence, and the system will automatically identify the most likely UniProt entry using local BLASTP.\n\n\n\nInput a standard Gene ID (e.g., AT5G22800) or UniProt ID (e.g., P12345) into the text box.\nThe system will automatically query the UniProt API to retrieve the corresponding protein entry.\n\n\n\n\n\nIf a valid ID is not provided, you can paste a protein primary sequence (e.g., MASTR...).\nThe system will perform a local BLASTP search using both SwissProt and TrEMBL databases to identify the best matching UniProt entry.\n⚠️ Note: This feature requires pre-downloaded UniProt databases and correctly configured paths (see below).\n\n\n\n\n\nSwissProt database path: High-quality manually curated UniProt database\nExample: G:/blastdb/UniProt/uniprot_sprot\nTrEMBL database path: Automatically annotated UniProt database\nExample: G:/blastdb/UniProt/uniprot_trembl\nBLASTp executable path: Local BLAST executable file path\nExample: F:/NCBI/blast-2.17.0+/bin/blastp.exe\n\nClick Run BLASTP to start the sequence alignment.\n\n\n\n\nOnce a UniProt ID is identified, the system will generate buttons linking to:\n\nUniProt: View general protein information\n\n\n\nInterPro: View domain annotations (Pfam, SMART, etc.)\n\nSwiss-Model: Access tertiary structure modeling\n\n\nClick the buttons to navigate to the corresponding protein page.\n\n\n\n\nIf a valid UniProt ID cannot be determined, the following message will appear:\nNo UniProt ID found. Please check your input.\nPlease ensure the Gene ID or sequence is valid and that the database paths are correctly set.\n\n\n\n\n\nIt is recommended to input a standard Gene ID (e.g., TAIR, ENSEMBL, LOC) or a UniProt Accession;\nSequence-based BLAST is intended as a fallback and depends on the completeness and accuracy of local BLAST databases;\nRegular updates of local databases are recommended to ensure high BLAST matching success rates.",
+    "text": "ProtVis is an interactive R/Shiny platform for proteomics and metaproteomics processing, statistical analysis, biological interpretation, and scientific visualization. The current application is organized around a reproducible project object, ProtVis_dataset, so quantitative data, metadata, annotations, analysis results, imported files, and processing history remain connected throughout the workflow.\nProtVis is designed for researchers who want a GUI without giving up traceability. Most analysis modules can be used interactively, while the underlying package also exposes functions for importing data, validating projects, running pipelines, saving checkpoints, and exporting complete analysis bundles.",
     "crumbs": [
-      "Toolkits",
-      "Protein Links"
+      "Getting started",
+      "Overview"
     ]
   },
   {
-    "objectID": "content/Toolkits/Protein_Links.html#protein-links-module-overview",
-    "href": "content/Toolkits/Protein_Links.html#protein-links-module-overview",
-    "title": "Protein Links",
+    "objectID": "content/introduce.html#current-analytical-scope",
+    "href": "content/introduce.html#current-analytical-scope",
+    "title": "Overview",
+    "section": "Current analytical scope",
+    "text": "Current analytical scope\n\n\n\n\n\n\n\nStage\nMain capabilities\n\n\n\n\nProject setup\nWorking directory, sample information, expression matrix, built-in examples, source selection\n\n\nData input\nMaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, Raw, user-defined matrices\n\n\nPre-processing\nReplicate-aware noise correction, transformation, missing-value inspection and imputation, median-centering normalization\n\n\nOverview/QC\nCorrelation, expression-pattern heatmap, PCA, PCoA, t-SNE, UMAP, NMDS, total intensity, missingness, distributions, CV\n\n\nDifferential abundance\nMultiple Group1/Group2 comparisons, limma modeling, tables, volcano plots, heatmaps and DEP summaries\n\n\nFunctional interpretation\nGO/KEGG enrichment, GSEA, Pathview, STRINGdb PPI\n\n\nMulti-omics\nExpression profile, WGCNA, metaproteomics, nine quadrant, co-enrichment, Venn\n\n\nPTM and evidence\nPTM analysis and Proteome Discoverer strict-spectrum inspection\n\n\nToolkits\nProtein extraction, background construction, external protein links, protein structure, SwissModel, boxplots, correlation chord and other utilities",
+    "crumbs": [
+      "Getting started",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "content/introduce.html#the-key-architectural-change-protvis_dataset",
+    "href": "content/introduce.html#the-key-architectural-change-protvis_dataset",
+    "title": "Overview",
+    "section": "The key architectural change: ProtVis_dataset",
+    "text": "The key architectural change: ProtVis_dataset\nEarlier ProtVis workflows were described primarily as a chain of .rda files. Current ProtVis keeps those stage files for compatibility and recovery, but the canonical representation is now a validated ProtVis_dataset object.\nA project object keeps the protein-by-sample expression matrix aligned with sample and protein metadata, stores fixed annotation layers (eggnog_output, GO_annotation, and KEGG_annotation), records analysis results, and captures process history and checkpoint information. See ProtVis_dataset for the full model.\n\n\n\n\n\n\nImportantWhy this matters\n\n\n\nA result should not be separated from the data and parameters that produced it. ProtVis therefore creates new traceable object versions as analysis proceeds instead of treating each plot as an isolated end product.",
+    "crumbs": [
+      "Getting started",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "content/introduce.html#recommended-order",
+    "href": "content/introduce.html#recommended-order",
+    "title": "Overview",
+    "section": "Recommended order",
+    "text": "Recommended order\nFor a standard quantitative proteomics project, use:\nProject init → Data input → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP analysis → Enrichment/GSEA/Pathview\nThen add WGCNA, PPI, co-enrichment, metaproteomics, PTM, or other specialized modules when they address the biological question.",
+    "crumbs": [
+      "Getting started",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "content/introduce.html#what-is-reproducible-and-what-is-interactive",
+    "href": "content/introduce.html#what-is-reproducible-and-what-is-interactive",
+    "title": "Overview",
+    "section": "What is reproducible and what is interactive?",
+    "text": "What is reproducible and what is interactive?\nThe GUI is intended for interactive exploration, parameter selection, and figure export. Reproducibility is supported by the persisted ProtVis_dataset, stage snapshots, process history, checkpoints, and portable exports. For analyses that need scripted automation, use package-level functions such as load_protvis_builtin_data(), create_protvis_dataset(), run_protvis_pipeline(), save_protvis_checkpoint(), and export_protvis_dataset().",
+    "crumbs": [
+      "Getting started",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/GSEA.html",
+    "href": "content/Downstream_analysis/GSEA.html",
+    "title": "GSEA",
     "section": "",
-    "text": "This module allows users to query the corresponding UniProt entry based on a Gene ID or Protein Sequence, and quickly access commonly used protein annotation and structural prediction tools:\n\nUniProt: Comprehensive protein information database\n\nInterPro: Protein domain annotation platform\n\nSwiss-Model: Tertiary structure prediction platform\n\nIf the UniProt ID is not provided, users can input a protein sequence, and the system will automatically identify the most likely UniProt entry using local BLASTP.\n\n\n\nInput a standard Gene ID (e.g., AT5G22800) or UniProt ID (e.g., P12345) into the text box.\nThe system will automatically query the UniProt API to retrieve the corresponding protein entry.\n\n\n\n\n\nIf a valid ID is not provided, you can paste a protein primary sequence (e.g., MASTR...).\nThe system will perform a local BLASTP search using both SwissProt and TrEMBL databases to identify the best matching UniProt entry.\n⚠️ Note: This feature requires pre-downloaded UniProt databases and correctly configured paths (see below).\n\n\n\n\n\nSwissProt database path: High-quality manually curated UniProt database\nExample: G:/blastdb/UniProt/uniprot_sprot\nTrEMBL database path: Automatically annotated UniProt database\nExample: G:/blastdb/UniProt/uniprot_trembl\nBLASTp executable path: Local BLAST executable file path\nExample: F:/NCBI/blast-2.17.0+/bin/blastp.exe\n\nClick Run BLASTP to start the sequence alignment.\n\n\n\n\nOnce a UniProt ID is identified, the system will generate buttons linking to:\n\nUniProt: View general protein information\n\n\n\nInterPro: View domain annotations (Pfam, SMART, etc.)\n\nSwiss-Model: Access tertiary structure modeling\n\n\nClick the buttons to navigate to the corresponding protein page.\n\n\n\n\nIf a valid UniProt ID cannot be determined, the following message will appear:\nNo UniProt ID found. Please check your input.\nPlease ensure the Gene ID or sequence is valid and that the database paths are correctly set.\n\n\n\n\n\nIt is recommended to input a standard Gene ID (e.g., TAIR, ENSEMBL, LOC) or a UniProt Accession;\nSequence-based BLAST is intended as a fallback and depends on the completeness and accuracy of local BLAST databases;\nRegular updates of local databases are recommended to ensure high BLAST matching success rates.",
+    "text": "The current GSEA module is a file-driven workflow. It reads an expression/count matrix, group information, and KO-to-pathway annotation, calculates a DESeq2 ranking, and passes the ranked log2 fold changes to clusterProfiler::GSEA().\nBecause the ranking step uses DESeq2, the uploaded matrix must be appropriate for DESeq2 count modeling. Do not upload already log-transformed continuous protein intensities and assume they are equivalent to counts.",
+    "crumbs": [
+      "Downstream analysis",
+      "GSEA"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/GSEA.html#current-gsea-implementation",
+    "href": "content/Downstream_analysis/GSEA.html#current-gsea-implementation",
+    "title": "GSEA",
+    "section": "",
+    "text": "The current GSEA module is a file-driven workflow. It reads an expression/count matrix, group information, and KO-to-pathway annotation, calculates a DESeq2 ranking, and passes the ranked log2 fold changes to clusterProfiler::GSEA().\nBecause the ranking step uses DESeq2, the uploaded matrix must be appropriate for DESeq2 count modeling. Do not upload already log-transformed continuous protein intensities and assume they are equivalent to counts.",
+    "crumbs": [
+      "Downstream analysis",
+      "GSEA"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/GSEA.html#required-files",
+    "href": "content/Downstream_analysis/GSEA.html#required-files",
+    "title": "GSEA",
+    "section": "Required files",
+    "text": "Required files\n\nExpression matrix (.txt)\nFirst column: ID. Remaining columns: samples.\nID   S1   S2   S3   S4\nK00001  120  130  240  220\nK00002   40   35   70   65\n\n\nGroup information (.txt)\nRequired columns:\nSample   Group\nS1       Control\nS2       Control\nS3       Treatment\nS4       Treatment\n\n\nKO pathway information (.txt)\nThe current parser uses the first column as pathway/term ID and the third column as a semicolon-separated gene/KO list.",
+    "crumbs": [
+      "Downstream analysis",
+      "GSEA"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/GSEA.html#gui-workflow",
+    "href": "content/Downstream_analysis/GSEA.html#gui-workflow",
+    "title": "GSEA",
+    "section": "GUI workflow",
+    "text": "GUI workflow\n\nUpload the Expression Matrix.\nUpload Group Info.\nUpload KO Pathway Info.\nSet minGSSize and maxGSSize.\nSet the number of top pathways to display.\nOptionally show only p.adjust &lt; 0.05 results.\nSort the dotplot by absolute NES or by p.adjust.\nClick Run Analysis.\nSelect a pathway to inspect its enrichment curve.",
+    "crumbs": [
+      "Downstream analysis",
+      "GSEA"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/GSEA.html#outputs",
+    "href": "content/Downstream_analysis/GSEA.html#outputs",
+    "title": "GSEA",
+    "section": "Outputs",
+    "text": "Outputs\nThe module provides:\n\na GSEA result table;\na top-pathway dotplot;\na single-pathway enrichment curve using GseaVis;\nCSV export of all GSEA results;\nPDF export of the dotplot and enrichment curve.\n\n\n\n\n\n\n\nWarningGSEA is not the same as over-representation analysis\n\n\n\nGO/KEGG enrichment in the preceding chapter starts from a selected ID set. GSEA instead tests coordinated movement across a ranked list, which can detect pathway-level signals even when individual proteins do not cross a hard significance threshold.",
+    "crumbs": [
+      "Downstream analysis",
+      "GSEA"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Enrichment_analysis.html",
+    "href": "content/Downstream_analysis/Enrichment_analysis.html",
+    "title": "Enrichment analysis",
+    "section": "",
+    "text": "Enrichment analysis uses two components:\n\na gene/protein ID list;\nan Enrichment Analysis File containing the GO and KEGG background definitions.\n\n\n\nThe current module follows this priority:\n\nan uploaded gene-list file (.csv or .xlsx);\nIDs pasted in manual mode;\nsignificant IDs from the selected DEP comparison.\n\nUploaded/pasted gene-list data should contain an ID column. The parser also recognizes common variants such as gene/protein ID names, but using ID is the most portable choice.\n\n\n\nUpload one .xlsx workbook with both worksheets:\nGO_background\nKEGG_background\nEach worksheet must contain:\nTERM   GENE   NAME\nTERM is the ontology/pathway identifier, GENE contains associated IDs (multiple IDs can be separated by common delimiters), and NAME is the human-readable term name.\nAfter clicking Check File, ProtVis previews the first rows of both sheets. A validated workbook is stored with the active ProtVis_dataset; when it is selected before Project init, ProtVis retains it and attaches it when the project object is created.",
+    "crumbs": [
+      "Downstream analysis",
+      "Enrichment analysis"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Enrichment_analysis.html#inputs",
+    "href": "content/Downstream_analysis/Enrichment_analysis.html#inputs",
+    "title": "Enrichment analysis",
+    "section": "",
+    "text": "Enrichment analysis uses two components:\n\na gene/protein ID list;\nan Enrichment Analysis File containing the GO and KEGG background definitions.\n\n\n\nThe current module follows this priority:\n\nan uploaded gene-list file (.csv or .xlsx);\nIDs pasted in manual mode;\nsignificant IDs from the selected DEP comparison.\n\nUploaded/pasted gene-list data should contain an ID column. The parser also recognizes common variants such as gene/protein ID names, but using ID is the most portable choice.\n\n\n\nUpload one .xlsx workbook with both worksheets:\nGO_background\nKEGG_background\nEach worksheet must contain:\nTERM   GENE   NAME\nTERM is the ontology/pathway identifier, GENE contains associated IDs (multiple IDs can be separated by common delimiters), and NAME is the human-readable term name.\nAfter clicking Check File, ProtVis previews the first rows of both sheets. A validated workbook is stored with the active ProtVis_dataset; when it is selected before Project init, ProtVis retains it and attaches it when the project object is created.",
+    "crumbs": [
+      "Downstream analysis",
+      "Enrichment analysis"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Enrichment_analysis.html#run-the-analysis",
+    "href": "content/Downstream_analysis/Enrichment_analysis.html#run-the-analysis",
+    "title": "Enrichment analysis",
+    "section": "Run the analysis",
+    "text": "Run the analysis\n\nOpen Enrichment analysis.\nClick LOAD DATA if you want to choose among stored DEP comparisons.\nUpload and Check File for the enrichment workbook.\nEither upload/paste an ID list or allow ProtVis to use the selected DEP list automatically.\nChoose the taxonomic group: Plant, Animals, Bacteria, Fungi, Eukaryotes, or Hsa.\nSelect GO, KEGG, or both.\nClick Analysis.",
+    "crumbs": [
+      "Downstream analysis",
+      "Enrichment analysis"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Enrichment_analysis.html#results-and-plots",
+    "href": "content/Downstream_analysis/Enrichment_analysis.html#results-and-plots",
+    "title": "Enrichment analysis",
+    "section": "Results and plots",
+    "text": "Results and plots\nGO and KEGG each provide a result table and visualization. Available plot types are Bar plot, Dot plot, and Circle plot. You can choose the number of top terms, change presentation colors, download the plot as PDF, and export the result table as CSV.\n\n\n\n\n\n\nTipWhen the plot is empty but the table is valid\n\n\n\nCheck whether any term passes the plotting significance/filter criteria and whether the uploaded IDs use the same identifier namespace as the background GENE column. Identifier mismatch is a common reason for zero overlap.",
+    "crumbs": [
+      "Downstream analysis",
+      "Enrichment analysis"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Enrichment_analysis.html#reproducibility",
+    "href": "content/Downstream_analysis/Enrichment_analysis.html#reproducibility",
+    "title": "Enrichment analysis",
+    "section": "Reproducibility",
+    "text": "Reproducibility\nThe enrichment workbook is not treated as a disposable upload. Both validated background sheets are retained in the project object’s provenance/auxiliary-file layer so the analysis can be reopened without reconstructing the original workbook manually.",
+    "crumbs": [
+      "Downstream analysis",
+      "Enrichment analysis"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Downstream_analysis.html",
+    "href": "content/Downstream_analysis/Downstream_analysis.html",
+    "title": "Downstream analysis",
+    "section": "",
+    "text": "The standard downstream workflow begins after Data Normalization. ProtVis then provides two complementary views of the data:\n\nOverview asks whether the dataset is technically and biologically coherent.\nDEP analysis asks which proteins differ between defined groups.\n\nFunctional modules such as enrichment, GSEA, Pathview and PPI should be interpreted in the context of those upstream checks.",
+    "crumbs": [
+      "Downstream analysis",
+      "Workflow overview"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Downstream_analysis.html#where-downstream-analysis-starts",
+    "href": "content/Downstream_analysis/Downstream_analysis.html#where-downstream-analysis-starts",
+    "title": "Downstream analysis",
+    "section": "",
+    "text": "The standard downstream workflow begins after Data Normalization. ProtVis then provides two complementary views of the data:\n\nOverview asks whether the dataset is technically and biologically coherent.\nDEP analysis asks which proteins differ between defined groups.\n\nFunctional modules such as enrichment, GSEA, Pathview and PPI should be interpreted in the context of those upstream checks.",
+    "crumbs": [
+      "Downstream analysis",
+      "Workflow overview"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Downstream_analysis.html#recommended-order",
+    "href": "content/Downstream_analysis/Downstream_analysis.html#recommended-order",
+    "title": "Downstream analysis",
+    "section": "Recommended order",
+    "text": "Recommended order\n\nOverview & QC — inspect correlations, distributions, missingness, PCA/CV and dimensionality-reduction structure.\nDEP analysis — run one or more explicit Group1 versus Group2 comparisons.\nEnrichment analysis — test significant protein IDs against GO/KEGG backgrounds.\nGSEA — use a ranked signal when a thresholded DEP list would discard useful pathway-level information.\nPathview — project KO-level log fold changes onto a selected KEGG pathway.\nAdd STRINGdb PPI, WGCNA, co-enrichment or other network/integration modules when relevant.\n\n\n\n\n\n\n\nImportantSeparate statistical evidence from visualization settings\n\n\n\nChanging colors, point sizes, heatmap labels or plot dimensions should not change the underlying statistical model. In contrast, changing a fold-change or p-value threshold changes which proteins are labeled significant and therefore affects heatmaps and downstream gene lists.",
+    "crumbs": [
+      "Downstream analysis",
+      "Workflow overview"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Downstream_analysis.html#canonical-data-flow",
+    "href": "content/Downstream_analysis/Downstream_analysis.html#canonical-data-flow",
+    "title": "Downstream analysis",
+    "section": "Canonical data flow",
+    "text": "Canonical data flow\nCurrent modules prefer the active ProtVis_dataset. Compatibility stage files remain readable when a project is reopened. Downstream results are stored in analysis_results and process history so the quantitative matrix and derived statistics stay connected.",
+    "crumbs": [
+      "Downstream analysis",
+      "Workflow overview"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_normalization.html",
+    "href": "content/Pre_processing/data_normalization.html",
+    "title": "Data normalization",
+    "section": "",
+    "text": "The current ProtVis normalization module performs median subtraction. For each numeric sample column, ProtVis subtracts that column’s median (ignoring NA values):\n\\[x'_{ij} = x_{ij} - \\operatorname{median}(x_{\\cdot j})\\]\nAfter normalization, each sample is centered around a comparable median while relative within-sample differences are retained.",
+    "crumbs": [
+      "Pre-processing",
+      "Data normalization"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_normalization.html#current-normalization-method",
+    "href": "content/Pre_processing/data_normalization.html#current-normalization-method",
+    "title": "Data normalization",
+    "section": "",
+    "text": "The current ProtVis normalization module performs median subtraction. For each numeric sample column, ProtVis subtracts that column’s median (ignoring NA values):\n\\[x'_{ij} = x_{ij} - \\operatorname{median}(x_{\\cdot j})\\]\nAfter normalization, each sample is centered around a comparable median while relative within-sample differences are retained.",
+    "crumbs": [
+      "Pre-processing",
+      "Data normalization"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_normalization.html#gui-workflow",
+    "href": "content/Pre_processing/data_normalization.html#gui-workflow",
+    "title": "Data normalization",
+    "section": "GUI workflow",
+    "text": "GUI workflow\n\nClick Load data. The module uses the imputed ProtVis_dataset/Step5_data_imputation.rda.\nInspect the original data and boxplot.\nClick Run normalization.\nCompare the normalized data and boxplot with the input.\nAdjust display colors if desired.\nDownload the original and normalized PDF plots for reporting.",
+    "crumbs": [
+      "Pre-processing",
+      "Data normalization"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_normalization.html#interpretation",
+    "href": "content/Pre_processing/data_normalization.html#interpretation",
+    "title": "Data normalization",
+    "section": "Interpretation",
+    "text": "Interpretation\nMedian subtraction is useful when broad sample-level offsets are considered technical rather than biological. It is not appropriate to assume this for every experimental design. If most proteins are expected to shift globally in one direction for biological reasons, inspect the distributions carefully before interpreting normalized fold changes.",
+    "crumbs": [
+      "Pre-processing",
+      "Data normalization"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_normalization.html#output",
+    "href": "content/Pre_processing/data_normalization.html#output",
+    "title": "Data normalization",
+    "section": "Output",
+    "text": "Output\nThe normalized project state is persisted as a ProtVis_dataset and as:\nStep6_data_normalization.rda\nThis stage is the standard input for Overview and DEP analysis.\n\n\n\n\n\n\nTip\n\n\n\nBefore differential abundance analysis, open Overview and check sample total intensity, missingness, intensity distributions, PCA, CV, and group structure. Normalization should improve technical comparability without destroying the expected experimental pattern.",
+    "crumbs": [
+      "Pre-processing",
+      "Data normalization"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/Pre_processing.html",
+    "href": "content/Pre_processing/Pre_processing.html",
+    "title": "Pre-processing workflow",
+    "section": "",
+    "text": "ProtVis separates preprocessing into four explicit modules:\nCorrect Noise → Data Transformation → Data Imputation → Data Normalization\nKeeping these decisions separate makes it easier to inspect the effect of each operation and to record the selected method in the project history.",
+    "crumbs": [
+      "Pre-processing",
+      "Workflow overview"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/Pre_processing.html#recommended-order",
+    "href": "content/Pre_processing/Pre_processing.html#recommended-order",
+    "title": "Pre-processing workflow",
+    "section": "",
+    "text": "ProtVis separates preprocessing into four explicit modules:\nCorrect Noise → Data Transformation → Data Imputation → Data Normalization\nKeeping these decisions separate makes it easier to inspect the effect of each operation and to record the selected method in the project history.",
+    "crumbs": [
+      "Pre-processing",
+      "Workflow overview"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/Pre_processing.html#correct-noise",
+    "href": "content/Pre_processing/Pre_processing.html#correct-noise",
+    "title": "Pre-processing workflow",
+    "section": "1. Correct noise",
+    "text": "1. Correct noise\nThe current noise-correction logic is replicate-aware. For sample groups whose names contain replicate suffixes such as _1, _2, and _3, zero/missing cells are corrected only when sufficient non-zero replicate evidence exists; otherwise the affected replicate group remains missing. Duplicate protein IDs are collapsed safely before reshaping to avoid accidental many-to-many expansion.\nRead Correct noise.",
+    "crumbs": [
+      "Pre-processing",
+      "Workflow overview"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/Pre_processing.html#data-transformation",
+    "href": "content/Pre_processing/Pre_processing.html#data-transformation",
+    "title": "Pre-processing workflow",
+    "section": "2. Data transformation",
+    "text": "2. Data transformation\nProtVis currently exposes None, log10, log2, Standardization, Z-Score, scale, center, and scale-center. Original and transformed distributions can be compared before proceeding.\nRead Data transformation.",
+    "crumbs": [
+      "Pre-processing",
+      "Workflow overview"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/Pre_processing.html#data-imputation",
+    "href": "content/Pre_processing/Pre_processing.html#data-imputation",
+    "title": "Pre-processing workflow",
+    "section": "3. Data imputation",
+    "text": "3. Data imputation\nMissing measurements are visualized before imputation. The current GUI offers kNN, RF, Mean, Median, Zero, and Minimum, with kNN selected by default. Legacy missing sentinels such as 0 and -8 are kept as true NA until the user runs imputation.\nRead Data imputation.",
+    "crumbs": [
+      "Pre-processing",
+      "Workflow overview"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/Pre_processing.html#data-normalization",
+    "href": "content/Pre_processing/Pre_processing.html#data-normalization",
+    "title": "Pre-processing workflow",
+    "section": "4. Data normalization",
+    "text": "4. Data normalization\nThe current normalization module performs column-wise median subtraction, centering each sample by its median. Original and normalized boxplots can be compared and downloaded.\nRead Data normalization.",
+    "crumbs": [
+      "Pre-processing",
+      "Workflow overview"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/Pre_processing.html#stage-outputs",
+    "href": "content/Pre_processing/Pre_processing.html#stage-outputs",
+    "title": "Pre-processing workflow",
+    "section": "Stage outputs",
+    "text": "Stage outputs\nThe canonical result after each step is a new ProtVis_dataset state. Compatibility stage files are also used by the GUI:\n\n\n\nStage\nCompatibility file\n\n\n\n\nCorrect noise\nStep3_correct_noise.rda\n\n\nTransformation\nStep4_data_transformed.rda\n\n\nImputation\nStep5_data_imputation.rda\n\n\nNormalization\nStep6_data_normalization.rda\n\n\n\n\n\n\n\n\n\nWarningDo not impute before inspecting missingness\n\n\n\nMissing values in proteomics are not always random. Use the missing-value visualization and the biological design to decide whether a global imputation strategy is appropriate for your experiment.",
+    "crumbs": [
+      "Pre-processing",
+      "Workflow overview"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/Pre_processing.html#what-to-check-before-downstream-analysis",
+    "href": "content/Pre_processing/Pre_processing.html#what-to-check-before-downstream-analysis",
+    "title": "Pre-processing workflow",
+    "section": "What to check before downstream analysis",
+    "text": "What to check before downstream analysis\nBefore opening Overview or DEP analysis, verify that sample names match sample_info, no sample is unexpectedly all missing, transformed values are on the intended scale, imputation did not create implausible distributions, and normalization reduced unwanted sample-level shifts without erasing known biological differences.",
+    "crumbs": [
+      "Pre-processing",
+      "Workflow overview"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_transformed.html",
+    "href": "content/Pre_processing/data_transformed.html",
+    "title": "Data transformation",
+    "section": "",
+    "text": "The current transformation menu provides:\n\nNone\nlog10\nlog2\nStandardization\nZ-Score\nscale\ncenter\nscale-center\n\nChoose a method that matches the scale and distribution of the imported quantitative data. Do not log-transform values that are already on a logarithmic scale.",
+    "crumbs": [
+      "Pre-processing",
+      "Data transformation"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_transformed.html#available-methods",
+    "href": "content/Pre_processing/data_transformed.html#available-methods",
+    "title": "Data transformation",
+    "section": "",
+    "text": "The current transformation menu provides:\n\nNone\nlog10\nlog2\nStandardization\nZ-Score\nscale\ncenter\nscale-center\n\nChoose a method that matches the scale and distribution of the imported quantitative data. Do not log-transform values that are already on a logarithmic scale.",
+    "crumbs": [
+      "Pre-processing",
+      "Data transformation"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_transformed.html#gui-workflow",
+    "href": "content/Pre_processing/data_transformed.html#gui-workflow",
+    "title": "Data transformation",
+    "section": "GUI workflow",
+    "text": "GUI workflow\n\nClick Load data. ProtVis uses the active ProtVis_dataset first and can recover Step3_correct_noise.rda for legacy projects.\nInspect the Original Data table and visualization.\nSelect a Transformation Method.\nClick Run transformation.\nCompare the Transformed Data and its boxplot with the original distribution.\nAdjust the plot colors only for presentation; color settings do not alter the quantitative matrix.\nDownload original/transformed plots as PDF when needed.",
+    "crumbs": [
+      "Pre-processing",
+      "Data transformation"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_transformed.html#choosing-a-transformation",
+    "href": "content/Pre_processing/data_transformed.html#choosing-a-transformation",
+    "title": "Data transformation",
+    "section": "Choosing a transformation",
+    "text": "Choosing a transformation\nFor many intensity-based proteomics datasets, log2 is useful when values are positive and strongly right-skewed. Standardization or Z-score transformations are useful for pattern-oriented visualization but change the meaning of absolute differences, so the intended downstream model should guide the choice.\n\n\n\n\n\n\nWarning\n\n\n\nLog transformations require valid positive values. Missing measurements should remain NA; do not replace them with arbitrary constants merely to make a log transform succeed.",
+    "crumbs": [
+      "Pre-processing",
+      "Data transformation"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_transformed.html#output",
+    "href": "content/Pre_processing/data_transformed.html#output",
+    "title": "Data transformation",
+    "section": "Output",
+    "text": "Output\nThe transformed state is written to the ProtVis_dataset and the compatibility file:\nStep4_data_transformed.rda\nContinue with Data imputation.",
+    "crumbs": [
+      "Pre-processing",
+      "Data transformation"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Background_Make.html",
+    "href": "content/Toolkits/Background_Make.html",
+    "title": "Background make",
+    "section": "",
+    "text": "Background Make converts eggNOG-mapper-style annotation into the background workbook required by the Enrichment Analysis module.",
     "crumbs": [
       "Toolkits",
-      "Protein Links"
+      "Background make"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Background_Make.html#purpose",
+    "href": "content/Toolkits/Background_Make.html#purpose",
+    "title": "Background make",
+    "section": "",
+    "text": "Background Make converts eggNOG-mapper-style annotation into the background workbook required by the Enrichment Analysis module.",
+    "crumbs": [
+      "Toolkits",
+      "Background make"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Background_Make.html#required-annotation-fields",
+    "href": "content/Toolkits/Background_Make.html#required-annotation-fields",
+    "title": "Background make",
+    "section": "Required annotation fields",
+    "text": "Required annotation fields\nUpload the eggNOG output in .csv or .xlsx format. The module checks for:\n\nquery\nGOs\nKEGG_Pathway",
+    "crumbs": [
+      "Toolkits",
+      "Background make"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Background_Make.html#proteintranscript-separator",
+    "href": "content/Toolkits/Background_Make.html#proteintranscript-separator",
+    "title": "Background make",
+    "section": "Protein/transcript separator",
+    "text": "Protein/transcript separator\nSet the separator used to reduce transcript-level IDs to the desired protein/gene identifier. For example, with:\nZm00001eb321680_T001\nusing _ extracts:\nZm00001eb321680\nOnly apply this rule if it matches the identifier convention of your study.",
+    "crumbs": [
+      "Toolkits",
+      "Background make"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Background_Make.html#generate-the-workbook",
+    "href": "content/Toolkits/Background_Make.html#generate-the-workbook",
+    "title": "Background make",
+    "section": "Generate the workbook",
+    "text": "Generate the workbook\n\nUpload the eggNOG annotation.\nClick Check File.\nSet the ID separator.\nClick Make Background.\nReview the generated GO and KEGG tables.\nDownload the Excel workbook.\n\nThe enrichment-ready workbook contains:\nGO_background\nKEGG_background\nand each sheet should provide the TERM, GENE, and NAME fields expected by the current Enrichment Analysis file validator.\n\n\n\n\n\n\nImportant\n\n\n\nBuild the background from the set of proteins that could realistically have been detected/tested in the experiment, not from the list of significant proteins. The background defines the enrichment universe.",
+    "crumbs": [
+      "Toolkits",
+      "Background make"
     ]
   },
   {
@@ -587,89 +1851,197 @@
     "href": "content/Toolkits/Toolkits.html",
     "title": "Toolkits",
     "section": "",
-    "text": "The Toolkits module in ProtVis offers a suite of utility tools for protein-level data extraction, structural annotation, and external linking. These tools assist users in post-analysis exploration, helping researchers dig deeper into protein function, structure, and expression.",
+    "text": "Toolkits are intentionally smaller than the core pipeline. They help prepare identifiers/annotations, inspect proteins, generate focused plots, or connect results to external resources.\nCurrent utilities include Protein Extract, Background Make, Protein Links, Protein Structure, Boxplot, SwissModel, STRINGdb PPI, Stacked Column Diagram, Correlation chord, and DEG Analyse.",
     "crumbs": [
-      "Toolkits"
+      "Toolkits",
+      "Toolkit overview"
     ]
   },
   {
-    "objectID": "content/Toolkits/Toolkits.html#introduction",
-    "href": "content/Toolkits/Toolkits.html#introduction",
+    "objectID": "content/Toolkits/Toolkits.html#toolkit-overview",
+    "href": "content/Toolkits/Toolkits.html#toolkit-overview",
     "title": "Toolkits",
     "section": "",
-    "text": "The Toolkits module in ProtVis offers a suite of utility tools for protein-level data extraction, structural annotation, and external linking. These tools assist users in post-analysis exploration, helping researchers dig deeper into protein function, structure, and expression.",
+    "text": "Toolkits are intentionally smaller than the core pipeline. They help prepare identifiers/annotations, inspect proteins, generate focused plots, or connect results to external resources.\nCurrent utilities include Protein Extract, Background Make, Protein Links, Protein Structure, Boxplot, SwissModel, STRINGdb PPI, Stacked Column Diagram, Correlation chord, and DEG Analyse.",
     "crumbs": [
-      "Toolkits"
+      "Toolkits",
+      "Toolkit overview"
     ]
   },
   {
-    "objectID": "content/Toolkits/Toolkits.html#protein-extract",
-    "href": "content/Toolkits/Toolkits.html#protein-extract",
+    "objectID": "content/Toolkits/Toolkits.html#how-to-use-toolkits-responsibly",
+    "href": "content/Toolkits/Toolkits.html#how-to-use-toolkits-responsibly",
     "title": "Toolkits",
-    "section": "🧪 Protein Extract",
-    "text": "🧪 Protein Extract\nPurpose:\nExtract protein sequences based on a list of gene identifiers.\nFeatures: - Input gene IDs (e.g., from DEG, GO/KEGG results, or manual selection). - Retrieve corresponding protein sequences from the internal annotation database.\nUse Case: Ideal for preparing FASTA files for downstream structure prediction, motif analysis, or epitope mapping.",
+    "section": "How to use toolkits responsibly",
+    "text": "How to use toolkits responsibly\n\nKeep the input table used by the toolkit together with the exported figure.\nUse stable protein/gene identifiers when moving between ProtVis and external databases.\nRecord species/taxonomy settings for database-backed tools.\nTreat structure and network visualizations as evidence-supporting views, not automatic proof of mechanism.\nPrefer the main workflow’s ProtVis_dataset results as the source of quantitative values rather than manually retyping numbers.\n\nThe sidebar provides dedicated pages for the most commonly used utilities.",
     "crumbs": [
-      "Toolkits"
+      "Toolkits",
+      "Toolkit overview"
     ]
   },
   {
-    "objectID": "content/Toolkits/Toolkits.html#protein-links",
-    "href": "content/Toolkits/Toolkits.html#protein-links",
-    "title": "Toolkits",
-    "section": "🔗 Protein Links",
-    "text": "🔗 Protein Links\nPurpose:\nGenerate dynamic links from protein identifiers or sequences to external annotation and structure tools.\nSupported Destinations:\n\nUniProt: protein function, domain, GO annotations\n\nInterProScan: domain and motif annotation\n\nSwiss-Model: 3D structure modeling\n\nInput Type: - Gene ID - Protein sequence (FASTA format)\nUse Case: For functional and structural exploration via external resources without leaving the app interface.",
-    "crumbs": [
-      "Toolkits"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Toolkits.html#protein-structure",
-    "href": "content/Toolkits/Toolkits.html#protein-structure",
-    "title": "Toolkits",
-    "section": "🧬 Protein Structure",
-    "text": "🧬 Protein Structure\nPurpose:\nVisualize structural features of proteins such as: - Helices, sheets, turns (secondary structure) - Domains - Sites of modification or interaction\nData Sources: - UniProt annotation - Predicted models from Swiss-Model or AlphaFold\nUse Case: Understand the spatial arrangement of proteins and pinpoint regions of interest (e.g., phosphorylation sites, mutations, etc.).",
-    "crumbs": [
-      "Toolkits"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Toolkits.html#boxplot",
-    "href": "content/Toolkits/Toolkits.html#boxplot",
-    "title": "Toolkits",
-    "section": "📊 Boxplot",
-    "text": "📊 Boxplot\nPurpose:\nVisualize protein abundance or intensity across conditions or groups.\nFeatures: - Select one or multiple proteins - Customize colors, themes, labels - Display statistical annotations (t-test, ANOVA p-values)\nUse Case: Used in publication figures or presentations to highlight biologically important proteins.",
-    "crumbs": [
-      "Toolkits"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Toolkits.html#screenshot",
-    "href": "content/Toolkits/Toolkits.html#screenshot",
-    "title": "Toolkits",
-    "section": "Screenshot",
-    "text": "Screenshot",
-    "crumbs": [
-      "Toolkits"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Toolkits.html#summary",
-    "href": "content/Toolkits/Toolkits.html#summary",
-    "title": "Toolkits",
-    "section": "Summary",
-    "text": "Summary\n\n\n\n\n\n\n\nTool\nFunction\n\n\n\n\nProtein Extract\nExtract protein sequences using gene IDs\n\n\nProtein Links\nRedirect to UniProt, InterProScan, or Swiss-Model for annotation/structure\n\n\nProtein Structure\nDisplay domains and structural features\n\n\nBoxplot\nVisualize expression distribution for selected proteins\n\n\n\nTogether, these tools significantly improve biological interpretation and facilitate protein-focused exploration in ProtVis.",
-    "crumbs": [
-      "Toolkits"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Protvis cookbook",
+    "objectID": "content/Toolkits/Correlation_Chord.html",
+    "href": "content/Toolkits/Correlation_Chord.html",
+    "title": "Correlation chord",
     "section": "",
-    "text": "This is a Quarto website showcasing the Protvis Cookbook.\nHere’s the list of key features for ProtVis, as titles only:\n\nData Import\nData Cleaning\nData Normalization\nDifferential Expression Analysis\nDimensionality Reduction\nPathway Analysis\nGSEA\nMultiomic analysis\nPost-translational Modifications (PTMs)",
+    "text": "A correlation chord diagram is useful for a filtered subset of relationships among proteins, traits, pathways, metabolites or other variables. It becomes difficult to interpret when every possible pair is displayed.",
     "crumbs": [
-      "Home"
+      "Toolkits",
+      "Correlation chord"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Correlation_Chord.html#purpose",
+    "href": "content/Toolkits/Correlation_Chord.html#purpose",
+    "title": "Correlation chord",
+    "section": "",
+    "text": "A correlation chord diagram is useful for a filtered subset of relationships among proteins, traits, pathways, metabolites or other variables. It becomes difficult to interpret when every possible pair is displayed.",
+    "crumbs": [
+      "Toolkits",
+      "Correlation chord"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Correlation_Chord.html#recommended-workflow",
+    "href": "content/Toolkits/Correlation_Chord.html#recommended-workflow",
+    "title": "Correlation chord",
+    "section": "Recommended workflow",
+    "text": "Recommended workflow\n\nStart from a numeric matrix or correlation table with stable variable names.\nChoose the correlation method appropriate to the data.\nApply an effect-size threshold and, when available, a significance criterion.\nKeep only biologically relevant relationships.\nDraw the chord diagram and inspect whether line width/color encodes the intended statistic.\nExport the filtered edge table used to generate the plot.\n\n\n\n\n\n\n\nWarning\n\n\n\nCorrelation does not establish causation. For high-dimensional correlation screens, p-values also require attention to multiple testing and non-independence among features.",
+    "crumbs": [
+      "Toolkits",
+      "Correlation chord"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Structure.html",
+    "href": "content/Toolkits/Protein_Structure.html",
+    "title": "Protein structure",
+    "section": "",
+    "text": "The Protein Structure toolkit helps move from a candidate protein identifier or structure file to a three-dimensional view. ProtVis includes structure-related dependencies such as bio3d and r3dmol, and also exposes a SwissModel-oriented utility in the Toolkits menu.",
+    "crumbs": [
+      "Toolkits",
+      "Protein structure"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Structure.html#purpose",
+    "href": "content/Toolkits/Protein_Structure.html#purpose",
+    "title": "Protein structure",
+    "section": "",
+    "text": "The Protein Structure toolkit helps move from a candidate protein identifier or structure file to a three-dimensional view. ProtVis includes structure-related dependencies such as bio3d and r3dmol, and also exposes a SwissModel-oriented utility in the Toolkits menu.",
+    "crumbs": [
+      "Toolkits",
+      "Protein structure"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Structure.html#recommended-workflow",
+    "href": "content/Toolkits/Protein_Structure.html#recommended-workflow",
+    "title": "Protein structure",
+    "section": "Recommended workflow",
+    "text": "Recommended workflow\n\nResolve the candidate to a stable protein identifier.\nObtain or upload the structure format expected by the selected toolkit.\nConfirm chain/residue numbering before mapping a mutation, PTM or domain of interest.\nGenerate the interactive or static structural view.\nRecord the structure source and model/entry identifier in the figure legend or Methods.\n\n\n\n\n\n\n\nWarning\n\n\n\nPredicted structures and experimental structures are not equivalent evidence. When using a model, report its source and confidence/quality metrics and avoid over-interpreting poorly supported regions.",
+    "crumbs": [
+      "Toolkits",
+      "Protein structure"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Boxplot.html",
+    "href": "content/Toolkits/Boxplot.html",
+    "title": "Boxplot",
+    "section": "",
+    "text": "Upload an .xlsx table in wide format, with one quantitative group per column. The module uses the column names as group labels.",
+    "crumbs": [
+      "Toolkits",
+      "Boxplot"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Boxplot.html#input-format",
+    "href": "content/Toolkits/Boxplot.html#input-format",
+    "title": "Boxplot",
+    "section": "",
+    "text": "Upload an .xlsx table in wide format, with one quantitative group per column. The module uses the column names as group labels.",
+    "crumbs": [
+      "Toolkits",
+      "Boxplot"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Boxplot.html#workflow",
+    "href": "content/Toolkits/Boxplot.html#workflow",
+    "title": "Boxplot",
+    "section": "Workflow",
+    "text": "Workflow\n\nUpload the Excel file.\nSelect the groups to display.\nChoose pairwise comparisons.\nSet x- and y-axis labels.\nCustomize group colors, box width, point size and outline color.\nChoose a ggplot theme.\nReview the statistical annotations.\nSet output width/height and download the figure as PDF.\n\nThe current boxplot workflow uses pairwise t-tests via ggpubr::stat_compare_means.\n\n\n\n\n\n\nImportant\n\n\n\nA t-test assumes an appropriate design and distributional model. Do not apply independent pairwise t-tests to paired/repeated-measures data without accounting for pairing, and consider multiple-testing correction when many comparisons are shown.",
+    "crumbs": [
+      "Toolkits",
+      "Boxplot"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html",
+    "href": "content/data_import/data_import.html",
+    "title": "Data input",
+    "section": "",
+    "text": "The Data input page is selected dynamically from the source chosen during Project init. Its job is to load the source-specific quantitative evidence, remove unreliable entries where appropriate, and hand a clean expression matrix to preprocessing.\nProtVis currently routes the following source types to dedicated or parser-backed modules: Raw, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix.",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#purpose",
+    "href": "content/data_import/data_import.html#purpose",
+    "title": "Data input",
+    "section": "",
+    "text": "The Data input page is selected dynamically from the source chosen during Project init. Its job is to load the source-specific quantitative evidence, remove unreliable entries where appropriate, and hand a clean expression matrix to preprocessing.\nProtVis currently routes the following source types to dedicated or parser-backed modules: Raw, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix.",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#recommended-workflow",
+    "href": "content/data_import/data_import.html#recommended-workflow",
+    "title": "Data input",
+    "section": "Recommended workflow",
+    "text": "Recommended workflow\n\nComplete Project init first.\nOpen Data input and confirm that the header shows the expected source.\nLoad the corresponding search-engine/export file if the selected source requires one.\nReview the raw/source preview before filtering.\nApply the source-specific unreliable-evidence filtering controls.\nConfirm that the output retains a protein identifier and the expected samples.\nContinue to Pre-processing → Correct Noise.",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#source-specific-behavior",
+    "href": "content/data_import/data_import.html#source-specific-behavior",
+    "title": "Data input",
+    "section": "Source-specific behavior",
+    "text": "Source-specific behavior\nDifferent proteomics tools use different column names and evidence flags. ProtVis therefore avoids forcing every source through a MaxQuant-only parser. Parser-backed sources are converted into a common protein-by-sample representation before they enter the shared workflow.\nFor MaxQuant-style inputs, common unreliable records include reverse hits, contaminants, and entries flagged as identified only by site. Other sources use their own available evidence fields.\n\n\n\n\n\n\nWarningDo not treat zeros or sentinel values as biological abundance\n\n\n\nMissing or not-observed measurements must remain missing until the explicit imputation stage. In the current workflow, values such as 0 and the legacy -8 sentinel are converted to NA before imputation where applicable.",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#built-in-source-fixtures",
+    "href": "content/data_import/data_import.html#built-in-source-fixtures",
+    "title": "Data input",
+    "section": "Built-in source fixtures",
+    "text": "Built-in source fixtures\nProtVis ships small examples for several input ecosystems, including MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, and mzTab-oriented data. These fixtures are useful for verifying that a parser is operational.\nA programmatic example is:\nlibrary(ProtVis)\n\nexample_data &lt;- load_protvis_builtin_data(\n  source = \"DIA-NN\",\n  auto_export = FALSE\n)\n\nexample_data",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#output-and-compatibility",
+    "href": "content/data_import/data_import.html#output-and-compatibility",
+    "title": "Data input",
+    "section": "Output and compatibility",
+    "text": "Output and compatibility\nCurrent modules update the canonical ProtVis_dataset. The GUI also maintains stage snapshots used by downstream compatibility paths. Correct Noise can recover the imported stage from Step2_remove_unreliable_peptide.rda when an in-memory ProtVis_dataset is not available.\nThe preferred workflow is to keep the active ProtVis_dataset intact rather than manually opening, modifying, and resaving stage .rda files.",
+    "crumbs": [
+      "Getting started",
+      "Data input"
     ]
   }
 ]

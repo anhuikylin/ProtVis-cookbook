@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Package analysis outputs for sharing, archiving and manuscript preparation.">
+<meta name="description" content="Inspect strict Proteome Discoverer spectrum evidence for PTM-focused validation.">
 
-<title>Release data – ProtVis Cookbook</title>
+<title>PD strict spectrum – ProtVis Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -27,67 +27,32 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../content/Toolkits/Toolkits.html" rel="next">
-<link href="../content/PTM/PD_Strict_Spectrum.html" rel="prev">
-<link href="../assets/favicon.ico" rel="icon">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-85a3acc908edc3a11a86c47ee3a95dc2.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fe91014546d44ca8b5aa5c35d62e1be4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-38ea360fdb54fee002c561ca69346305.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-fe91014546d44ca8b5aa5c35d62e1be4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/Release_data.html" rel="next">
+<link href="../../content/PTM/PTM.html" rel="prev">
+<link href="../../assets/favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-85a3acc908edc3a11a86c47ee3a95dc2.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-fe91014546d44ca8b5aa5c35d62e1be4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-38ea360fdb54fee002c561ca69346305.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-fe91014546d44ca8b5aa5c35d62e1be4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -290,7 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/Release_data.html">Release data</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/PTM/PTM.html">PTM</a></li><li class="breadcrumb-item"><a href="../../content/PTM/PD_Strict_Spectrum.html">PD strict spectrum</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -305,7 +270,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">ProtVis Cookbook</a> 
+      <a href="../../">ProtVis Cookbook</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/xuebinzhang-lab/ProtVis" title="ProtVis source" class="quarto-navigation-tool px-1" aria-label="ProtVis source"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
@@ -321,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -336,25 +301,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/introduce.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/introduce.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/installation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/installation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Installation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Project_init/Project_init.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Project_init/Project_init.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Project init</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/data_import/data_import.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/data_import/data_import.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data input</span></a>
   </div>
 </li>
@@ -371,13 +336,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/reproducibility/ProtVis_dataset.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/reproducibility/ProtVis_dataset.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">ProtVis_dataset</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/reproducibility/checkpoints.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/reproducibility/checkpoints.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Checkpoints &amp; recovery</span></a>
   </div>
 </li>
@@ -394,31 +359,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Pre_processing/Pre_processing.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Pre_processing/Pre_processing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Workflow overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Pre_processing/correct_noise.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Pre_processing/correct_noise.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Correct noise</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Pre_processing/data_transformed.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Pre_processing/data_transformed.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data transformation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Pre_processing/data_imputation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Pre_processing/data_imputation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data imputation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Pre_processing/data_normalization.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Pre_processing/data_normalization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data normalization</span></a>
   </div>
 </li>
@@ -435,37 +400,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Downstream_analysis/Downstream_analysis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Downstream_analysis/Downstream_analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Workflow overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Downstream_analysis/Overview.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Downstream_analysis/Overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview &amp; QC</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Downstream_analysis/DEP_analysis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Downstream_analysis/DEP_analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">DEP analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Downstream_analysis/Enrichment_analysis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Downstream_analysis/Enrichment_analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Enrichment analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Downstream_analysis/GSEA.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Downstream_analysis/GSEA.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GSEA</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Downstream_analysis/Pathview.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Downstream_analysis/Pathview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Pathview</span></a>
   </div>
 </li>
@@ -482,43 +447,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Multi_omics_data/Multi_omics_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Multi_omics_data/Multi_omics_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Module overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Multi_omics_data/Expression_Profile.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Multi_omics_data/Expression_Profile.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Expression profile</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Multi_omics_data/WGCNA.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Multi_omics_data/WGCNA.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">WGCNA</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Multi_omics_data/Metaproteomics.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Multi_omics_data/Metaproteomics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Metaproteomics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Multi_omics_data/Nine_Quadrant.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Multi_omics_data/Nine_Quadrant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Nine quadrant</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Multi_omics_data/Co_enrichment.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Multi_omics_data/Co_enrichment.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Co-enrichment</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Multi_omics_data/venn.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Multi_omics_data/venn.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Venn</span></a>
   </div>
 </li>
@@ -526,22 +491,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
  <span class="menu-text">PTM</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/PTM/PTM.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/PTM/PTM.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">PTM analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/PTM/PD_Strict_Spectrum.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/PTM/PD_Strict_Spectrum.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">PD strict spectrum</span></a>
   </div>
 </li>
@@ -549,7 +514,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Release_data.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../content/Release_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Release data</span></a>
   </div>
 </li>
@@ -564,67 +529,67 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Toolkits/Toolkits.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Toolkits.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Toolkit overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Toolkits/Protein_Extract.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Protein_Extract.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Protein extract</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Toolkits/Background_Make.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Background_Make.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Background make</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Toolkits/Protein_Links.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Protein_Links.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Protein links</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Toolkits/Protein_Structure.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Protein_Structure.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Protein structure</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Toolkits/SwissModel.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/SwissModel.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">SwissModel</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Toolkits/STRINGdb_PPI.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/STRINGdb_PPI.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">STRINGdb PPI</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Toolkits/Boxplot.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Boxplot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Boxplot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Toolkits/Stacked_Column.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Stacked_Column.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Stacked column</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Toolkits/Correlation_Chord.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Correlation_Chord.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Correlation chord</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Toolkits/DEG_Analyse.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/DEG_Analyse.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">DEG analyse</span></a>
   </div>
 </li>
@@ -640,24 +605,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-should-be-released" id="toc-what-should-be-released" class="nav-link active" data-scroll-target="#what-should-be-released">What should be released?</a></li>
-  <li><a href="#portable-export" id="toc-portable-export" class="nav-link" data-scroll-target="#portable-export">Portable export</a></li>
-  <li><a href="#manuscript-ready-package" id="toc-manuscript-ready-package" class="nav-link" data-scroll-target="#manuscript-ready-package">Manuscript-ready package</a></li>
+  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#workflow-principles" id="toc-workflow-principles" class="nav-link" data-scroll-target="#workflow-principles">Workflow principles</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Release_data.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Release_data.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/PTM/PD_Strict_Spectrum.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/PTM/PD_Strict_Spectrum.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/PTM/PTM.html">PTM</a></li><li class="breadcrumb-item"><a href="../../content/PTM/PD_Strict_Spectrum.html">PD strict spectrum</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Release data</h1>
+<h1 class="title">PD strict spectrum</h1>
 </div>
 
 <div>
   <div class="description">
-    Package analysis outputs for sharing, archiving and manuscript preparation.
+    Inspect strict Proteome Discoverer spectrum evidence for PTM-focused validation.
   </div>
 </div>
 
@@ -674,43 +638,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="what-should-be-released" class="level2">
-<h2 class="anchored" data-anchor-id="what-should-be-released">What should be released?</h2>
-<p>A reproducible ProtVis project should preserve more than final figures. At minimum, archive the quantitative matrix used for statistics, sample metadata, relevant protein annotations, differential/enrichment tables, parameter choices, process history, and a serialized <code>ProtVis_dataset</code>.</p>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p><strong>PD Strict Spectrum</strong> provides a dedicated route for Proteome Discoverer evidence that needs stricter spectrum-level inspection than a protein-level abundance table can provide.</p>
 </section>
-<section id="portable-export" class="level2">
-<h2 class="anchored" data-anchor-id="portable-export">Portable export</h2>
-<p>Programmatically, a complete project can be exported with:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>export_dir <span class="ot">&lt;-</span> <span class="fu">export_protvis_dataset</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  dataset,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">directory =</span> <span class="st">"ProtVis_release"</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">include_raw =</span> <span class="cn">FALSE</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The export contains <code>ProtVis_dataset.rds</code>, expression/sample/protein tables, annotation files, process history, stored analysis results, metadata JSON, and an HTML report. Set <code>include_raw = TRUE</code> when attached input files should also be copied and licensing/privacy rules permit it.</p>
-</section>
-<section id="manuscript-ready-package" class="level2">
-<h2 class="anchored" data-anchor-id="manuscript-ready-package">Manuscript-ready package</h2>
-<p>For a publication, keep a simple hierarchy such as:</p>
-<pre class="text"><code>ProtVis_release/
-  data/
-  metadata/
-  statistics/
-  enrichment/
-  figures/
-  methods/
-  ProtVis_dataset.rds</code></pre>
-<p>Do not use screenshots as the only copy of a quantitative result. Export the table behind every key figure.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+<section id="workflow-principles" class="level2">
+<h2 class="anchored" data-anchor-id="workflow-principles">Workflow principles</h2>
+<ol type="1">
+<li>Use the original Proteome Discoverer export expected by the module.</li>
+<li>Confirm peptide sequence, modification/site annotation, spectrum identifiers and score/evidence fields before applying filters.</li>
+<li>Retain the unfiltered source file and export the exact filtered subset used for interpretation.</li>
+<li>For candidate PTM sites used in a manuscript, manually inspect the relevant fragmentation/localization evidence when possible.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tip
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Record the ProtVis package version and the date of the final analysis. For actively developed software, a commit SHA or tagged release improves reproducibility further.</p>
+<p>Spectrum-level validation supports identification confidence; it does not replace quantitative replication or statistical testing across biological samples.</p>
 </div>
 </div>
 
@@ -1138,13 +1088,13 @@ Tip
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../content/PTM/PD_Strict_Spectrum.html" class="pagination-link" aria-label="PD strict spectrum">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">PD strict spectrum</span>
+      <a href="../../content/PTM/PTM.html" class="pagination-link" aria-label="PTM analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">PTM analysis</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../content/Toolkits/Toolkits.html" class="pagination-link" aria-label="Toolkit overview">
-        <span class="nav-page-text">Toolkit overview</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/Release_data.html" class="pagination-link" aria-label="Release data">
+        <span class="nav-page-text">Release data</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1156,7 +1106,7 @@ Tip
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Release_data.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Release_data.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/PTM/PD_Strict_Spectrum.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/PTM/PD_Strict_Spectrum.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org/">Quarto</a></p>
 </div>
