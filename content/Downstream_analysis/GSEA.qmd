@@ -1,0 +1,65 @@
+---
+title: "GSEA"
+description: "Run file-driven gene set enrichment analysis and inspect ranked pathway signals."
+---
+
+## Current GSEA implementation
+
+The current GSEA module is a **file-driven** workflow. It reads an expression/count matrix, group information, and KO-to-pathway annotation, calculates a DESeq2 ranking, and passes the ranked log2 fold changes to `clusterProfiler::GSEA()`.
+
+Because the ranking step uses **DESeq2**, the uploaded matrix must be appropriate for DESeq2 count modeling. Do not upload already log-transformed continuous protein intensities and assume they are equivalent to counts.
+
+## Required files
+
+### Expression matrix (`.txt`)
+
+First column: `ID`. Remaining columns: samples.
+
+```text
+ID   S1   S2   S3   S4
+K00001  120  130  240  220
+K00002   40   35   70   65
+```
+
+### Group information (`.txt`)
+
+Required columns:
+
+```text
+Sample   Group
+S1       Control
+S2       Control
+S3       Treatment
+S4       Treatment
+```
+
+### KO pathway information (`.txt`)
+
+The current parser uses the first column as pathway/term ID and the third column as a semicolon-separated gene/KO list.
+
+## GUI workflow
+
+1. Upload the **Expression Matrix**.
+2. Upload **Group Info**.
+3. Upload **KO Pathway Info**.
+4. Set `minGSSize` and `maxGSSize`.
+5. Set the number of top pathways to display.
+6. Optionally show only `p.adjust < 0.05` results.
+7. Sort the dotplot by absolute **NES** or by **p.adjust**.
+8. Click **Run Analysis**.
+9. Select a pathway to inspect its enrichment curve.
+
+## Outputs
+
+The module provides:
+
+- a GSEA result table;
+- a top-pathway dotplot;
+- a single-pathway enrichment curve using `GseaVis`;
+- CSV export of all GSEA results;
+- PDF export of the dotplot and enrichment curve.
+
+::: {.callout-warning}
+## GSEA is not the same as over-representation analysis
+GO/KEGG enrichment in the preceding chapter starts from a selected ID set. GSEA instead tests coordinated movement across a **ranked list**, which can detect pathway-level signals even when individual proteins do not cross a hard significance threshold.
+:::

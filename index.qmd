@@ -1,17 +1,61 @@
 ---
-title: "Protvis cookbook"
+title: "ProtVis Cookbook"
+description: "A practical, reproducible user guide for ProtVis proteomics analysis."
 ---
 
-This is a Quarto website showcasing the Protvis Cookbook.
+::: {.hero}
+## From quantitative proteomes to biological insight
 
-Here's the list of key features for ProtVis, as titles only:
+**ProtVis** combines data import, preprocessing, quality control, statistical analysis, functional interpretation, multi-omics integration, PTM analysis, and publication-ready visualization in one interactive workflow. This cookbook follows the application in the same order that a real project is analyzed.
 
-1.  **Data Import**
-2.  **Data Cleaning**
-4.  **Data Normalization**
-3.  **Differential Expression Analysis**
-5.  **Dimensionality Reduction**
-4.  **Pathway Analysis**
-4.  **GSEA**
-4.  **Multiomic analysis**
-5.  **Post-translational Modifications (PTMs)**
+[Start with installation](content/installation.qmd) · [Understand `ProtVis_dataset`](content/reproducibility/ProtVis_dataset.qmd) · [Run the full workflow](content/Pre_processing/Pre_processing.qmd)
+:::
+
+::: {.callout-note}
+## Documentation version
+This edition is aligned to **ProtVis 0.5.7 on the `dev` branch**, reviewed on **2026-09-10**. ProtVis is under active development; the cookbook emphasizes stable concepts and explicitly identifies compatibility behavior where relevant.
+:::
+
+<div class="feature-grid">
+<div class="feature-card">
+<strong>Heterogeneous input</strong>
+<p>Import MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, Mascot, or a user-defined matrix.</p>
+</div>
+<div class="feature-card">
+<strong>Traceable data object</strong>
+<p>Carry expression data, sample and protein metadata, annotations, results, imported files, parameters, and process history in <code>ProtVis_dataset</code>.</p>
+</div>
+<div class="feature-card">
+<strong>Proteomics preprocessing</strong>
+<p>Correct replicate-level noise, transform intensities, inspect missingness, impute missing values, and normalize samples.</p>
+</div>
+<div class="feature-card">
+<strong>QC and statistics</strong>
+<p>Use correlation, expression-pattern heatmaps, PCA/PCoA/t-SNE/UMAP/NMDS, proteomics QC, and limma-based differential abundance analysis.</p>
+</div>
+<div class="feature-card">
+<strong>Biological interpretation</strong>
+<p>Continue from DEP results into GO/KEGG enrichment, GSEA, Pathview, STRINGdb PPI, WGCNA, and co-enrichment.</p>
+</div>
+<div class="feature-card">
+<strong>Beyond standard proteomics</strong>
+<p>Explore metaproteomics, expression profiles, nine-quadrant integration, Venn analysis, PTMs, strict spectra, and protein structure utilities.</p>
+</div>
+</div>
+
+## Recommended analysis path
+
+1. **Install and launch ProtVis.**
+2. **Project init:** choose the working directory, load sample metadata and an expression matrix or built-in example, then select the data source.
+3. **Data input:** parse and validate the source-specific quantitative evidence.
+4. **Pre-processing:** Correct Noise → Data Transformation → Data Imputation → Data Normalization.
+5. **Overview:** inspect sample correlations, expression patterns, dimensionality reduction, missingness, intensity distributions, PCA, and CV.
+6. **DEP:** define one or more `Group1` versus `Group2` comparisons and run differential abundance analysis.
+7. **Interpretation:** use GO/KEGG enrichment, GSEA, Pathview, PPI, WGCNA, and other downstream modules as appropriate.
+8. **Release/export:** save portable project outputs and publication-ready tables and figures.
+
+## Two ways to learn ProtVis
+
+**GUI-first users** can follow the chapter order in the sidebar. Each page explains prerequisites, the controls to use, expected outputs, and common failure points.
+
+**Reproducible-workflow users** should also read [`ProtVis_dataset`](content/reproducibility/ProtVis_dataset.qmd) and [Checkpoints & recovery](content/reproducibility/checkpoints.qmd). These chapters explain how ProtVis preserves analysis provenance and how projects can be resumed without rebuilding every previous step.

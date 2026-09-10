@@ -1,95 +1,20 @@
 ---
 title: "Toolkits"
-format: html
+description: "Focused utilities that complement the main ProtVis workflow."
 ---
 
-## Introduction
+## Toolkit overview
 
-The **Toolkits** module in **ProtVis** offers a suite of utility tools for protein-level data extraction, structural annotation, and external linking. These tools assist users in post-analysis exploration, helping researchers dig deeper into protein function, structure, and expression.
+Toolkits are intentionally smaller than the core pipeline. They help prepare identifiers/annotations, inspect proteins, generate focused plots, or connect results to external resources.
 
----
+Current utilities include **Protein Extract, Background Make, Protein Links, Protein Structure, Boxplot, SwissModel, STRINGdb PPI, Stacked Column Diagram, Correlation chord, and DEG Analyse**.
 
-## 🧪 Protein Extract
+## How to use toolkits responsibly
 
-**Purpose**:  
-Extract protein sequences based on a list of gene identifiers.
+- Keep the input table used by the toolkit together with the exported figure.
+- Use stable protein/gene identifiers when moving between ProtVis and external databases.
+- Record species/taxonomy settings for database-backed tools.
+- Treat structure and network visualizations as evidence-supporting views, not automatic proof of mechanism.
+- Prefer the main workflow's `ProtVis_dataset` results as the source of quantitative values rather than manually retyping numbers.
 
-**Features**:
-- Input gene IDs (e.g., from DEG, GO/KEGG results, or manual selection).
-- Retrieve corresponding **protein sequences** from the internal annotation database.
-
-**Use Case**:
-Ideal for preparing FASTA files for downstream structure prediction, motif analysis, or epitope mapping.
-
----
-
-## 🔗 Protein Links
-
-**Purpose**:  
-Generate dynamic links from protein identifiers or sequences to external annotation and structure tools.
-
-**Supported Destinations**:
-
-- **UniProt**: protein function, domain, GO annotations  
-- **InterProScan**: domain and motif annotation  
-- **Swiss-Model**: 3D structure modeling  
-
-**Input Type**:
-- Gene ID
-- Protein sequence (FASTA format)
-
-**Use Case**:
-For functional and structural exploration via external resources without leaving the app interface.
-
----
-
-## 🧬 Protein Structure
-
-**Purpose**:  
-Visualize structural features of proteins such as:
-- Helices, sheets, turns (secondary structure)
-- Domains
-- Sites of modification or interaction
-
-**Data Sources**:
-- **UniProt annotation**
-- Predicted models from **Swiss-Model** or **AlphaFold**
-
-**Use Case**:
-Understand the spatial arrangement of proteins and pinpoint regions of interest (e.g., phosphorylation sites, mutations, etc.).
-
----
-
-## 📊 Boxplot
-
-**Purpose**:  
-Visualize protein abundance or intensity across conditions or groups.
-
-**Features**:
-- Select one or multiple proteins
-- Customize colors, themes, labels
-- Display statistical annotations (t-test, ANOVA p-values)
-
-**Use Case**:
-Used in publication figures or presentations to highlight biologically important proteins.
-
----
-
-## Screenshot
-
-![](../images/toolkits_example.png)
-
----
-
-## Summary
-
-| Tool             | Function                                                                 |
-|------------------|--------------------------------------------------------------------------|
-| Protein Extract   | Extract protein sequences using gene IDs                                 |
-| Protein Links     | Redirect to UniProt, InterProScan, or Swiss-Model for annotation/structure |
-| Protein Structure | Display domains and structural features                                  |
-| Boxplot           | Visualize expression distribution for selected proteins                  |
-
-Together, these tools significantly improve biological interpretation and facilitate protein-focused exploration in **ProtVis**.
-
----
+The sidebar provides dedicated pages for the most commonly used utilities.

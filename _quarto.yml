@@ -2,103 +2,132 @@ project:
   type: website
 
 website:
-  title: "Protvis cookbook"
+  title: "ProtVis Cookbook"
   site-url: "https://anhuikylin.github.io/ProtVis-cookbook"
   repo-url: "https://github.com/anhuikylin/ProtVis-cookbook"
   repo-actions: [edit, source, issue]
   page-navigation: true
-  favicon: images/favicon.ico
+  search: true
+  favicon: assets/favicon.ico
+  page-footer:
+    left: "ProtVis Cookbook · Documentation for reproducible proteomics workflows"
+    right: "Built with [Quarto](https://quarto.org/)"
   sidebar:
-    background: "#FCD581"
-    logo: "https://github.com/anhuikylin/ProtVis"
+    style: docked
     pinned: true
-    align: center
+    collapse-level: 1
     tools:
       - icon: github
-        href: https://github.com/xuebinzhang-lab/ProtVis/xuebinzhang-lab/ProtVis
-        text: "Open Science"
-      - icon: globe
-    style: "docked"
-    search: true
-    author:
-    - name: Fei Liang
-      institute: test
-      affiliations:
-        - name: Henan University
-          department: State Key Laboratory of Crop Stress Adaptation and Improvement
-    toc: true
-    toc-depth: 2
-    collapse-level: 1
+        href: https://github.com/xuebinzhang-lab/ProtVis
+        text: "ProtVis source"
     contents:
       - href: index.qmd
         text: Home
-      - href: content/introduce.qmd
-        text: Introduce
-      - href: content/installation.qmd
-        text: Installation
-      - href: content/Project_init/Project_init.qmd
-        text: Project init
-      - href: content/data_import/data_import.qmd
-        text: Data Import
-      - href: content/Pre_processing/Pre_processing.qmd
-        text: Pre-processing
+      - section: "Getting started"
         contents:
-        - href: content/Pre_processing/correct_noise.qmd
-          text: Correct Noise
-        - href: content/Pre_processing/data_transformed.qmd
-          text: Data Transformed
-        - href: content/Pre_processing/data_imputation.qmd
-          text: Data Imputation
-        - href: content/Pre_processing/data_normalization.qmd
-          text: Data Normalization
-      - href: content/Downstream_analysis/Downstream_analysis.qmd
-        text: Downstream Analysis
+          - href: content/introduce.qmd
+            text: Overview
+          - href: content/installation.qmd
+            text: Installation
+          - href: content/Project_init/Project_init.qmd
+            text: Project init
+          - href: content/data_import/data_import.qmd
+            text: Data input
+      - section: "Reproducible workflow"
         contents:
-        - href: content/Downstream_analysis/Overview.qmd
-          text: Overview
-        - href: content/Downstream_analysis/DEP_analysis.qmd
-          text: DEP Analysis
-        - href: content/Downstream_analysis/Enrichment_analysis.qmd
-          text: Enrichment Analysis
-        - href: content/Downstream_analysis/GSEA.qmd
-          text: GSEA
-      - href: content/Multi_omics_data/Multi_omics_data.qmd
-        text: Multi-omics Data
+          - href: content/reproducibility/ProtVis_dataset.qmd
+            text: ProtVis_dataset
+          - href: content/reproducibility/checkpoints.qmd
+            text: Checkpoints & recovery
+      - section: "Pre-processing"
         contents:
-        - href: content/Multi_omics_data/Expression_Profile.qmd
-          text: Expression Profile
-        - href: content/Multi_omics_data/Nine_Quadrant.qmd
-          text: Nine Quadrant
-        - href: content/Multi_omics_data/venn.qmd
-          text: Venn
+          - href: content/Pre_processing/Pre_processing.qmd
+            text: Workflow overview
+          - href: content/Pre_processing/correct_noise.qmd
+            text: Correct noise
+          - href: content/Pre_processing/data_transformed.qmd
+            text: Data transformation
+          - href: content/Pre_processing/data_imputation.qmd
+            text: Data imputation
+          - href: content/Pre_processing/data_normalization.qmd
+            text: Data normalization
+      - section: "Downstream analysis"
+        contents:
+          - href: content/Downstream_analysis/Downstream_analysis.qmd
+            text: Workflow overview
+          - href: content/Downstream_analysis/Overview.qmd
+            text: Overview & QC
+          - href: content/Downstream_analysis/DEP_analysis.qmd
+            text: DEP analysis
+          - href: content/Downstream_analysis/Enrichment_analysis.qmd
+            text: Enrichment analysis
+          - href: content/Downstream_analysis/GSEA.qmd
+            text: GSEA
+          - href: content/Downstream_analysis/Pathview.qmd
+            text: Pathview
+      - section: "Multi-omics"
+        contents:
+          - href: content/Multi_omics_data/Multi_omics_data.qmd
+            text: Module overview
+          - href: content/Multi_omics_data/Expression_Profile.qmd
+            text: Expression profile
+          - href: content/Multi_omics_data/WGCNA.qmd
+            text: WGCNA
+          - href: content/Multi_omics_data/Metaproteomics.qmd
+            text: Metaproteomics
+          - href: content/Multi_omics_data/Nine_Quadrant.qmd
+            text: Nine quadrant
+          - href: content/Multi_omics_data/Co_enrichment.qmd
+            text: Co-enrichment
+          - href: content/Multi_omics_data/venn.qmd
+            text: Venn
+      - section: "PTM"
+        contents:
+          - href: content/PTM/PTM.qmd
+            text: PTM analysis
+          - href: content/PTM/PD_Strict_Spectrum.qmd
+            text: PD strict spectrum
       - href: content/Release_data.qmd
-        text: Release Data
-      - href: content/Toolkits/Toolkits.qmd
-        text: Toolkits
+        text: Release data
+      - section: "Toolkits"
         contents:
-        - href: content/Toolkits/Protein_Extract.qmd
-          text: Protein Extract
-        - href: content/Toolkits/Background_Make.qmd
-          text: Background Make
-        - href: content/Toolkits/Protein_Links.qmd
-          text: Protein Links
-        - href: content/Toolkits/Boxplot.qmd
-          text: Boxplot
-          
-          
-        
-          
-          
+          - href: content/Toolkits/Toolkits.qmd
+            text: Toolkit overview
+          - href: content/Toolkits/Protein_Extract.qmd
+            text: Protein extract
+          - href: content/Toolkits/Background_Make.qmd
+            text: Background make
+          - href: content/Toolkits/Protein_Links.qmd
+            text: Protein links
+          - href: content/Toolkits/Protein_Structure.qmd
+            text: Protein structure
+          - href: content/Toolkits/SwissModel.qmd
+            text: SwissModel
+          - href: content/Toolkits/STRINGdb_PPI.qmd
+            text: STRINGdb PPI
+          - href: content/Toolkits/Boxplot.qmd
+            text: Boxplot
+          - href: content/Toolkits/Stacked_Column.qmd
+            text: Stacked column
+          - href: content/Toolkits/Correlation_Chord.qmd
+            text: Correlation chord
+          - href: content/Toolkits/DEG_Analyse.qmd
+            text: DEG analyse
+
 format:
   html:
     theme:
-      - cosmo
-      - brand
-    css: styles.css
+      light: [cosmo, assets/theme.scss]
+      dark: [darkly, assets/theme-dark.scss]
     toc: true
-    toc-depth: 2
-    toc-title: "Contents"
+    toc-depth: 3
+    toc-title: "On this page"
+    code-copy: true
+    code-overflow: wrap
+    code-line-numbers: false
+    link-external-newwindow: true
+    fig-align: center
+    fig-responsive: true
 
-page-footer:
-  right: "This page is built with [Quarto](https://quarto.org/)"
-left: "&copy; CC-1.0"
+execute:
+  freeze: auto

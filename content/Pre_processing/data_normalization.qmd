@@ -1,16 +1,39 @@
 ---
-title: "Data Normalization"
-format: html
+title: "Data normalization"
+description: "Apply sample-wise median subtraction and inspect normalization effects."
 ---
 
-Data normalization in proteomics aims to eliminate systematic errors caused by non-biological factors such as differences in sample loading, instrument variability, or batch effects. By doing so, it ensures that protein expression levels across samples are comparable. This process improves the accuracy of differential analysis, reduces false positives, and helps ensure that the results truly reflect biological variations.
+## Current normalization method
 
-## Step-by-Step Instructions
+The current ProtVis normalization module performs **median subtraction**. For each numeric sample column, ProtVis subtracts that column's median (ignoring `NA` values):
 
-**Step 1**: Load the input data. A plot showing the data **before normalization** will be displayed on the right panel.
+$$x'_{ij} = x_{ij} - \operatorname{median}(x_{\cdot j})$$
 
-**Step 2**: Click the **RUN NORMALIZATION** button. The right panel will update to show the plot **after normalization**.
+After normalization, each sample is centered around a comparable median while relative within-sample differences are retained.
 
-A file named `Step6_data_normalization.rda` will be generated in your working directory, which can be used for downstream analysis.
+## GUI workflow
 
-![](https://pic1.imgdb.cn/item/68c7de80c5157e1a8806fccb.png)
+1. Click **Load data**. The module uses the imputed `ProtVis_dataset`/`Step5_data_imputation.rda`.
+2. Inspect the original data and boxplot.
+3. Click **Run normalization**.
+4. Compare the normalized data and boxplot with the input.
+5. Adjust display colors if desired.
+6. Download the original and normalized PDF plots for reporting.
+
+## Interpretation
+
+Median subtraction is useful when broad sample-level offsets are considered technical rather than biological. It is not appropriate to assume this for every experimental design. If most proteins are expected to shift globally in one direction for biological reasons, inspect the distributions carefully before interpreting normalized fold changes.
+
+## Output
+
+The normalized project state is persisted as a `ProtVis_dataset` and as:
+
+```text
+Step6_data_normalization.rda
+```
+
+This stage is the standard input for **Overview** and **DEP analysis**.
+
+::: {.callout-tip}
+Before differential abundance analysis, open **Overview** and check sample total intensity, missingness, intensity distributions, PCA, CV, and group structure. Normalization should improve technical comparability without destroying the expected experimental pattern.
+:::

@@ -1,38 +1,56 @@
 ---
-title: "Pre-processing"
-format: html
+title: "Pre-processing workflow"
+description: "Prepare quantitative proteomics data for QC and differential abundance analysis."
 ---
 
-In proteomics data analysis, **pre-processing** is a crucial step that prepares raw intensity data for reliable and reproducible downstream analysis. It aims to reduce technical noise, correct systematic biases, and fill in missing values while preserving true biological variation. The key components of this step—**noise correction**, **data transformation**, **missing value imputation**, and **normalization**—together ensure that the input data is clean, comparable across samples, and statistically suitable for further exploration such as clustering, differential expression analysis, and functional enrichment.
+## Recommended order
 
+ProtVis separates preprocessing into four explicit modules:
 
-## 🔧 1. Correct Noise
+**Correct Noise → Data Transformation → Data Imputation → Data Normalization**
 
-**Purpose**:  
-To eliminate non-biological “noise” signals caused by instrumental errors, background signals, or peak detection artifacts.  
-This step helps remove low-quality or interfering data, thereby improving the **signal-to-noise ratio (SNR)** for downstream analysis.  
-Common methods include **background subtraction**, **baseline correction**, **peak smoothing**, and **mass drift adjustment**.
+Keeping these decisions separate makes it easier to inspect the effect of each operation and to record the selected method in the project history.
 
----
+## 1. Correct noise
 
-## 🔄 2. Data Transformation
+The current noise-correction logic is replicate-aware. For sample groups whose names contain replicate suffixes such as `_1`, `_2`, and `_3`, zero/missing cells are corrected only when sufficient non-zero replicate evidence exists; otherwise the affected replicate group remains missing. Duplicate protein IDs are collapsed safely before reshaping to avoid accidental many-to-many expansion.
 
-**Purpose**:  
-To apply **log transformation** or **standardization** to raw intensity values, in order to reduce **heteroscedasticity**, normalize the distribution, and make the data more suitable for statistical analysis.  
-This is essential for many statistical tests (e.g., *t*-tests, linear models), and it prevents **high-abundance proteins** from dominating the results by bringing all measurements onto a comparable scale.
+Read [Correct noise](correct_noise.qmd).
 
----
+## 2. Data transformation
 
-## 🔳 3. Data Imputation
+ProtVis currently exposes **None, log10, log2, Standardization, Z-Score, scale, center, and scale-center**. Original and transformed distributions can be compared before proceeding.
 
-**Purpose**:  
-To fill in **missing values** that result from low-abundance proteins, detection limits, or instrument variability.  
-Imputation prevents the loss of potentially important proteins and allows the use of **statistical models**, **PCA**, **clustering**, and other analyses without disruption due to missing data.
+Read [Data transformation](data_transformed.qmd).
 
----
+## 3. Data imputation
 
-## ⚖️ 4. Data Normalization
+Missing measurements are visualized before imputation. The current GUI offers **kNN, RF, Mean, Median, Zero, and Minimum**, with **kNN** selected by default. Legacy missing sentinels such as `0` and `-8` are kept as true `NA` until the user runs imputation.
 
-**Purpose**:  
-To eliminate **systematic errors** between samples caused by non-biological factors such as **differences in sample loading**, **batch effects**, or **instrument drift**.  
-Normalization ensures comparability of protein expression across samples, improving the **reliability of differential analysis** and ensuring that results reflect true biological variation.
+Read [Data imputation](data_imputation.qmd).
+
+## 4. Data normalization
+
+The current normalization module performs **column-wise median subtraction**, centering each sample by its median. Original and normalized boxplots can be compared and downloaded.
+
+Read [Data normalization](data_normalization.qmd).
+
+## Stage outputs
+
+The canonical result after each step is a new `ProtVis_dataset` state. Compatibility stage files are also used by the GUI:
+
+| Stage | Compatibility file |
+|---|---|
+| Correct noise | `Step3_correct_noise.rda` |
+| Transformation | `Step4_data_transformed.rda` |
+| Imputation | `Step5_data_imputation.rda` |
+| Normalization | `Step6_data_normalization.rda` |
+
+::: {.callout-warning}
+## Do not impute before inspecting missingness
+Missing values in proteomics are not always random. Use the missing-value visualization and the biological design to decide whether a global imputation strategy is appropriate for your experiment.
+:::
+
+## What to check before downstream analysis
+
+Before opening **Overview** or **DEP analysis**, verify that sample names match `sample_info`, no sample is unexpectedly all missing, transformed values are on the intended scale, imputation did not create implausible distributions, and normalization reduced unwanted sample-level shifts without erasing known biological differences.

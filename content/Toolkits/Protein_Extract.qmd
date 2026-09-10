@@ -1,34 +1,24 @@
 ---
-title: "Protein Extract"
-format: html
+title: "Protein extract"
+description: "Extract selected protein sequences from a reference FASTA and report matched/unmatched identifiers."
 ---
 
-### 1. Upload FASTA File
+## Input
 
-Click the **Browse...** button to select a reference protein FASTA file and upload it. Once uploaded successfully, “Upload complete” will be displayed.
+Upload a reference protein **FASTA** file and provide protein IDs either by pasting them line-by-line or by uploading a `.txt`, `.csv`, or `.tsv` list.
 
-### 2. Enter Protein IDs
+## Workflow
 
-Choose a method to input protein IDs:
+1. Upload the reference FASTA.
+2. Enter or upload the target protein IDs.
+3. Click **Extract Proteins**.
+4. Review **Matched Sequences**, **Sequence Table**, **FASTA Viewer**, and **Unmatched IDs**.
+5. Download the complete result package as a ZIP archive.
 
-- **Manual Input**: Paste protein IDs line by line in the text box.  
-- **File Upload**: Upload a text file (`.txt`, `.csv`, or `.tsv`) containing protein IDs.
+## Quality checks
 
-### 3. Execute Extraction
+Protein extraction is exact only when the ID syntax in the target list matches the FASTA headers. If many expected proteins are reported as unmatched, inspect whether the FASTA uses transcript suffixes, database prefixes, version suffixes, or pipe-delimited headers.
 
-Click the **Extract Proteins** button to start searching and extracting matching proteins from the FASTA file.
-
-### 4. View Extraction Results
-
-After extraction, the following four result views will be available:
-
-- **Matched Sequences**: Summary statistics and list of matched protein IDs.  
-- **Sequence Table**: Tabular details including protein ID, length, and sequence.  
-- **FASTA Viewer**: Matched sequences in standard FASTA format.  
-- **Unmatched IDs**: List of protein IDs that were not matched in the FASTA file.
-
-### 5. Download Results
-
-Click the **Download Results** button to package and download all the result files as a `.zip` archive to your local machine.
-
-![](https://pic1.imgdb.cn/item/68c81917c5157e1a8807d550.png)
+::: {.callout-tip}
+Keep the unmatched-ID list. It is useful for diagnosing annotation-version differences and prevents silent loss of candidates before downstream structure or enrichment analysis.
+:::

@@ -1,0 +1,19 @@
+---
+title: "PD strict spectrum"
+description: "Inspect strict Proteome Discoverer spectrum evidence for PTM-focused validation."
+---
+
+## Purpose
+
+**PD Strict Spectrum** provides a dedicated route for Proteome Discoverer evidence that needs stricter spectrum-level inspection than a protein-level abundance table can provide.
+
+## Workflow principles
+
+1. Use the original Proteome Discoverer export expected by the module.
+2. Confirm peptide sequence, modification/site annotation, spectrum identifiers and score/evidence fields before applying filters.
+3. Retain the unfiltered source file and export the exact filtered subset used for interpretation.
+4. For candidate PTM sites used in a manuscript, manually inspect the relevant fragmentation/localization evidence when possible.
+
+::: {.callout-note}
+Spectrum-level validation supports identification confidence; it does not replace quantitative replication or statistical testing across biological samples.
+:::

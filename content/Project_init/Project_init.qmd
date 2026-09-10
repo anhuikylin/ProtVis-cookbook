@@ -1,37 +1,70 @@
 ---
-title: "Project Init"
-format: html
+title: "Project init"
+description: "Create the canonical ProtVis project object and define the working directory, samples and data source."
 ---
 
-## ️ Initialize Project
+## Purpose
 
-Follow the steps below to initialize a new ProtVis project:
+**Project init** establishes the analysis context shared by all later modules. It defines the output directory, sample metadata, quantitative expression data, and source type, then validates them and creates the first `ProtVis_dataset`.
 
-1. **Set the global working directory**  
-   This is where all intermediate and result files will be stored.
+## Inputs
 
-2. **Upload sample information**  
-   The file should contain metadata such as sample names, groups, conditions, etc.
+The current interface accepts sample information and an expression matrix in `.csv`, `.xlsx`, or `.xls` format. It also provides bundled source-specific examples that can be loaded directly from the package.
 
-3. **Upload proteomics data**  
-   This can be:
-   - Raw files (e.g., `Raw`)
-   - Or processed data exported from tools such as **MaxQuant**, **ProteomeDiscoverer**, **Skyline**, **Mascot**, or **OpenMS**.
+A practical sample-information table contains at least a unique sample identifier and experimental grouping information. ProtVis commonly uses the following fields when available:
 
-4. **Select the data source**  
-   Choose the appropriate format or software that matches your uploaded data.
+| Column | Purpose |
+|---|---|
+| `sample_id` | Unique sample name used by downstream matrices and plots |
+| `maxquant_id` | Original source/export name used when sample columns must be mapped or renamed |
+| `group` | Experimental group used for comparisons |
+| `tissue` | Optional biological tissue; used by several demo and DR workflows |
+| `species` | Optional species grouping or point-shape metadata |
+| `batch` | Optional batch grouping |
+| `condition` | Optional condition grouping |
 
-5. **Click the `PROJECT INIT` button**  
-   This will trigger the initialization process.
+The expression matrix should contain a protein identifier plus numeric sample columns. Sample columns must be unambiguously alignable to `sample_info`.
 
----
+## Supported source selections
 
-## Output
+The current Project init menu includes **Raw, MaxQuant, ProteomeDiscoverer / Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix**.
 
-After clicking **PROJECT INIT**, a file named `Step1_project_init.rda` will be generated in your working directory.
+## GUI workflow
 
-> This file stores your project metadata and input data structure, and will be used for all subsequent analysis steps.
+1. Click **Set working directory** and choose a writable project directory.
+2. Upload **Sample Information** and inspect the preview.
+3. Upload the **Expression Matrix**, or select a **Built-in example** and click **Load selected built-in example**.
+4. Choose the matching **Data source**.
+5. Confirm that sample information and expression-matrix previews are correct.
+6. Click **Project init**.
 
----
+ProtVis validates the sample/matrix relationship before creating the project object. A successful initialization also triggers an automatic portable export.
 
-![Project Init Interface](https://pic1.imgdb.cn/item/68c6b0bbc5157e1a88012b74.png)
+## Outputs
+
+The primary output is a validated `ProtVis_dataset` stored in the shared project state. The object receives a traceable name such as:
+
+```text
+ProtVis_dataset__project_init__maxquant__v1
+```
+
+For compatibility with the stage-oriented workflow, ProtVis also writes:
+
+```text
+Step1_project_init.rda
+```
+
+The stage file contains one `ProtVis_dataset`, rather than separate unrelated workspace variables.
+
+::: {.callout-tip}
+## Use the built-in examples first
+If you are testing a fresh installation, load one of the bundled examples. This verifies Project init, sample alignment, source parsing, and output-directory permissions before you introduce your own data.
+:::
+
+## Common validation problems
+
+**Sample names do not match.** Check `sample_id`, `maxquant_id`, and expression-matrix column names. Do not silently reorder samples outside ProtVis without recording the change.
+
+**Duplicate protein IDs.** Resolve duplicated identifiers before downstream statistics when the biological meaning of the duplicates is ambiguous. Source parsers may apply source-specific collapsing rules, but a user-defined matrix should be explicit.
+
+**Working directory cannot be selected.** Choose a local directory you can write to. ProtVis normalizes the selected path and rejects inaccessible directories instead of proceeding with an invalid project location.

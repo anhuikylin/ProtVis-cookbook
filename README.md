@@ -1,16 +1,38 @@
-### Cookbook of ProtVis
+# ProtVis Cookbook
 
-[![R version](https://img.shields.io/badge/R-v4.3.0-salmon)](https://www.r-project.org)
-### up-to-date cookbook
+The **ProtVis Cookbook** is the user manual for [ProtVis](https://github.com/xuebinzhang-lab/ProtVis), an interactive proteomics and metaproteomics analysis platform.
 
-[ProtVis cookbook](https://anhuikylin.github.io/ProtVis-cookbook)
+This documentation is organized around the real ProtVis workflow rather than isolated feature descriptions: project initialization, data input, preprocessing, quality assessment, differential abundance, functional interpretation, multi-omics, PTM analysis, release/export, and utility modules.
 
-*Quarto book template:* [ NOAA-quarto-book](https://github.com/nmfs-opensci/NOAA-quarto-book)
- 
+## Documentation baseline
 
+The current cookbook targets **ProtVis 0.5.7 (`dev`)**, checked on **2026-09-10**. The application is evolving quickly, so interface labels and defaults may change between releases. The current source code is the authoritative reference when a discrepancy is found.
 
-### License
+## Preview locally
 
-This content was created by U.S. Government employees as part of their official duties. This content is not subject to copyright in the United States (17 U.S.C. §105) and is in the public domain within the United States of America. Additionally, copyright is waived worldwide through the CC0 1.0 Universal public domain dedication.
+Install [Quarto](https://quarto.org/) and run:
 
-<hr>
+```bash
+quarto preview
+```
+
+Render the complete site with:
+
+```bash
+quarto render
+```
+
+## Authoring conventions
+
+- Use sentence-case page titles and headings.
+- Use fenced code blocks with a language identifier, for example `r`, `bash`, or `text`.
+- Use Quarto callouts for notes, warnings, prerequisites, and troubleshooting.
+- Prefer repository-hosted images. Every image should have meaningful alternative text and a short caption when the figure needs interpretation.
+- Keep screenshots focused on the relevant panel instead of embedding full-screen browser captures.
+- Document the GUI workflow first; add R code only when it improves reproducibility or exposes a useful programmatic workflow.
+- Treat `ProtVis_dataset` as the canonical analysis object. Legacy stepwise `.rda` files should be described as compatibility snapshots rather than the primary data model.
+
+## Source repositories
+
+- ProtVis: <https://github.com/xuebinzhang-lab/ProtVis>
+- Cookbook: <https://github.com/anhuikylin/ProtVis-cookbook>

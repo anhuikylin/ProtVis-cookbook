@@ -1,0 +1,56 @@
+---
+title: "Metaproteomics"
+description: "Integrate protein abundance with taxonomy and functional annotation."
+---
+
+## Inputs
+
+The current metaproteomics module joins three CSV tables by `ProteinID`.
+
+### Abundance
+
+```text
+ProteinID,Control_1,Control_2,Treatment_1,Treatment_2
+P001,100,120,160,150
+```
+
+### Taxonomy
+
+Required columns:
+
+```text
+ProteinID,Phylum,Genus,Species
+```
+
+### Function annotation
+
+Required columns:
+
+```text
+ProteinID,KO,Pathway,COG
+```
+
+A built-in demo and downloadable demo tables are provided in the interface.
+
+## Analysis settings
+
+Choose a taxonomic level (**Phylum, Genus, Species**) and a functional level (**Pathway, KO, COG**). You can switch between summed intensity and relative abundance and choose how many top categories are displayed.
+
+## Outputs
+
+The module reports the number of proteins, taxa and functions and provides:
+
+- merged abundance/taxonomy/function table;
+- taxonomy composition plot;
+- function composition plot;
+- taxon-function Sankey diagram;
+- taxon-function heatmap;
+- downloadable merged table.
+
+## Group labels
+
+In the current module, sample names containing terms such as `treat`, `case`, or `disease` are assigned to **Treatment**; other samples default to **Control** for the display grouping. Use clear sample names when relying on this behavior.
+
+::: {.callout-important}
+Taxonomic and functional annotations can be many-to-many in real metaproteomes. Confirm how protein groups, shared peptides and ambiguous taxonomic assignments were handled upstream before interpreting summed compositions as organism-level abundance.
+:::

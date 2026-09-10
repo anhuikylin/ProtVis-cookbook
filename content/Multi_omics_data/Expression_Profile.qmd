@@ -1,20 +1,29 @@
 ---
-title: "Expression Profile"
-format: html
+title: "Expression profile"
+description: "Cluster proteins by abundance trend and visualize coordinated expression patterns."
 ---
 
-**Expression Profile analysis** provides an overview of how protein expression levels vary across different samples or experimental conditions. By visualizing expression patterns—such as co-expression clusters or condition-specific expression trends—it helps identify biologically meaningful patterns, potential biomarkers, or proteins involved in shared regulatory mechanisms.
+## Purpose
 
-This module supports clustering-based visualization and customizable color schemes to explore dynamic expression profiles. The analysis workflow includes the following steps:
+Expression-profile analysis is useful when the main question is not a single pairwise difference but a **pattern across several samples, stages, tissues or conditions**. Proteins with similar trajectories can be grouped into trend clusters and interpreted together.
 
-**Step 1**: Upload the **expression matrix** (e.g., normalized protein abundance table).
+## Recommended input
 
-**Step 2**: **Choose a clustering method**, such as `"K-means"`.
+Use a normalized protein abundance matrix with stable protein IDs and samples in the intended biological order. If samples represent an ordered series, arrange them chronologically or biologically before clustering so the trend plot is interpretable.
 
-**Step 3**: Select a **color scheme** via the **Select Color** option, and set the number of **centers** (i.e., clusters).
+## Workflow
 
-**Step 4**: Click the **RUN** button to perform clustering and generate the expression profile visualization.
+1. Load or upload the quantitative expression matrix required by the module.
+2. Confirm sample order and protein identifiers.
+3. Choose the clustering settings and number of clusters/centers.
+4. Run the expression-profile analysis.
+5. Inspect whether clusters represent stable, increasing, decreasing, transient or condition-specific patterns.
+6. Export cluster membership before using cluster IDs for enrichment or network analysis.
 
-**Step 5**: Adjust plotting parameters as needed (e.g., font size, label angle, cluster order), and **download the final plot** in your preferred format (e.g., PNG, PDF).
+## Interpretation
 
-![](https://pic1.imgdb.cn/item/68c8039cc5157e1a8807ab27.png)
+Choose the number of clusters based on stability and biological interpretability rather than visual preference alone. Very large `K` values can split one coherent pattern into many small groups, whereas very small `K` values can merge distinct biological responses.
+
+::: {.callout-note}
+Trend clustering is exploratory. A cluster does not by itself establish statistical significance for every protein it contains; use appropriate differential or time-series statistics when formal inference is required.
+:::

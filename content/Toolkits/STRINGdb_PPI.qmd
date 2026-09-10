@@ -1,0 +1,21 @@
+---
+title: "STRINGdb PPI"
+description: "Build protein-protein interaction views for candidate proteins using STRINGdb."
+---
+
+## Purpose
+
+The STRINGdb PPI toolkit connects a candidate protein list to known/predicted interaction evidence. It is most useful after DEP, enrichment, WGCNA or another analysis has already defined a biologically motivated candidate set.
+
+## Recommended workflow
+
+1. Prepare a clean candidate ID list.
+2. Select the correct organism/species setting.
+3. Map the identifiers to STRING-compatible IDs and review mapping success.
+4. Build the interaction network using an appropriate confidence threshold.
+5. Inspect disconnected proteins rather than silently dropping them.
+6. Export the mapped identifiers, interaction table and final network figure.
+
+## Interpretation
+
+STRING integrates multiple evidence channels, and an edge does not necessarily indicate direct physical binding in your experimental system. Use the network to generate or organize hypotheses, then support key interactions with literature or experimental validation.

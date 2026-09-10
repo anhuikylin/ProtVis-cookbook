@@ -1,0 +1,90 @@
+---
+title: "Checkpoints & recovery"
+description: "Save, inspect, restore and export recoverable ProtVis analysis states."
+---
+
+## Checkpoint model
+
+ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated `ProtVis_dataset` at a named stage.
+
+## Save a checkpoint
+
+```r
+checkpoint <- save_protvis_checkpoint(
+  dataset = ds,
+  directory = "checkpoints",
+  stage = "normalization",
+  keep = 20
+)
+
+checkpoint
+```
+
+Checkpoint files use names beginning with:
+
+```text
+protvis_checkpoint_<stage>_...rds
+```
+
+Saving is validated before a checkpoint is published, reducing the chance that a partial write replaces a usable analysis state.
+
+## List checkpoints
+
+```r
+list_protvis_checkpoints("checkpoints")
+```
+
+The returned table includes the file path, stage, creation time, size, MD5, and whether the checkpoint can be read.
+
+## Restore the newest checkpoint
+
+```r
+restored <- restore_protvis_checkpoint(
+  "checkpoints",
+  version = "latest"
+)
+```
+
+You can request a stage as well:
+
+```r
+restored <- restore_protvis_checkpoint(
+  "checkpoints",
+  stage = "differential_analysis"
+)
+```
+
+If the exact requested stage is unavailable, ProtVis can select the newest readable checkpoint at or before that stage, allowing an interrupted workflow to resume from the closest valid state.
+
+## Automatic persistence
+
+Many GUI stages persist the active object automatically. `protvis_auto_export_dataset()` writes a portable export bundle and records the latest output location in the dataset metadata.
+
+```r
+ds <- protvis_auto_export_dataset(
+  ds,
+  directory = getwd(),
+  include_raw = FALSE
+)
+```
+
+## Legacy stage files
+
+ProtVis still reads historical stage files where needed. Current stage snapshots are written with exactly one `ProtVis_dataset` object; older workspaces that stored expression and sample objects separately can be migrated by the internal loading layer.
+
+Common compatibility files include:
+
+```text
+Step1_project_init.rda
+Step2_remove_unreliable_peptide.rda
+Step3_correct_noise.rda
+Step4_data_transformed.rda
+Step5_data_imputation.rda
+Step6_data_normalization.rda
+Step7_differential_analysis.rda
+```
+
+::: {.callout-tip}
+## Recovery strategy
+For long projects, keep the working directory together with the latest portable export and checkpoint directory. This gives you a human-readable export, a complete serialized project object, and stage-aware recovery options.
+:::

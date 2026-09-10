@@ -1,22 +1,52 @@
 ---
-title: "Overview"
-format: html
+title: "Overview & QC"
+description: "Inspect sample relationships, expression patterns, dimensionality reduction and proteomics quality metrics."
 ---
 
-The **Overview** module provides a high-level summary of the proteomics dataset, helping users assess data quality and overall structure before downstream analysis. It includes three core functions:
+## Purpose
 
-- Evaluating **sample correlations** through heatmaps to detect technical consistency, biological replicates, or potential batch effects.  
-- Exploring **protein expression patterns** via expression heatmaps to identify group-specific signals or clustering tendencies.  
-- Visualizing **dimensionality reduction results**—including methods like **PCA**, **PCoA**, **t-SNE**, **UMAP**, and **NMDS**—to examine data structure and the effects of normalization.
+Use **Overview** before differential abundance analysis. It is the fastest way to catch sample swaps, strong batch effects, failed replicates, unexpected missingness, and normalization problems.
 
-## Step-by-Step Instructions
+The current module can load both the imputed and normalized stages. When stage snapshots are unavailable but a valid `ProtVis_dataset` is active, ProtVis derives an imputed/centered overview from the current object and reports that fallback.
 
-**Step 1**: Load the input data.
+## Correlation
 
-**Step 2**: Select a **Correlation Method**, then click the **RUN CORRELATION** button to generate a **sample correlation heatmap**.
+Choose **Pearson**, **Spearman**, or **Kendall** correlation, then configure clustering and whether correlation values/sample names are displayed. Use this panel to check whether biological replicates are more similar to each other than to unrelated groups.
 
-**Step 3**: Optionally check the **Scale Data** box, then click the **RUN EXPRESSION** button to generate a **protein expression heatmap**.
+## Expression pattern
 
-**Step 4**: Choose a **Dimensionality Reduction Method** (e.g., PCA, PCoA, t-SNE, UMAP, or NMDS) to visualize the data structure **before and after normalization**.
+The expression-pattern heatmap can focus on the top variable features and optionally scale by protein or sample. This is useful for a global view of coordinated abundance patterns, not as a replacement for formal differential testing.
 
-![](https://pic1.imgdb.cn/item/68c7e499c5157e1a8807360c.png)
+## Dimensionality reduction
+
+Available methods are:
+
+- **PCA**
+- **PCoA**
+- **t-SNE**
+- **UMAP**
+- **NMDS**
+
+Color/ellipse grouping can use `group`, `tissue`, `species`, `batch`, or `condition`; point shape can be assigned independently. The default DR view uses `tissue` for color/95% confidence ellipses and `species` for point shape when those fields are available.
+
+ProtVis displays dimensionality reduction **before normalization** and **after normalization**, enabling direct assessment of how preprocessing changed sample structure.
+
+## Proteomics QC
+
+The QC panel summarizes and exports:
+
+- sample total intensity;
+- sample missing-value rate;
+- intensity boxplots;
+- intensity density;
+- PCA based on variable features;
+- coefficient-of-variation distribution;
+- the normalized matrix.
+
+## What to look for
+
+A healthy dataset does not need every replicate to overlap perfectly. Instead, look for consistency with the experimental design: replicate proximity, plausible separation of known groups, no isolated failed sample, comparable post-normalization distributions, and missingness that can be biologically/technically explained.
+
+::: {.callout-warning}
+A visually attractive PCA is not proof that preprocessing is correct. If normalization creates a separation that contradicts known biology or removes a strong expected effect, revisit the preceding stages.
+:::

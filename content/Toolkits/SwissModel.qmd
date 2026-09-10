@@ -1,0 +1,31 @@
+---
+title: "SwissModel"
+description: "Submit a protein sequence for structure modeling and inspect model quality, PDB information and 3D output."
+---
+
+## Inputs
+
+The current SwissModel module accepts:
+
+- a **protein sequence**;
+- a **Swiss-Model API token**.
+
+An example sequence can be inserted from the interface to verify the workflow.
+
+## Workflow
+
+1. Paste the protein sequence.
+2. Enter a valid API token.
+3. Click **Run**.
+4. Open the generated project link when available.
+5. Review **Project Information** and the **Model Quality** table.
+6. Inspect **PDB Information**, the **Ramachandran Plot**, **Residue Composition**, and the interactive **3D Structure**.
+7. Download the project information, PDB file and model-quality results.
+
+## Interpretation
+
+Model quality should be assessed before structural conclusions are drawn. Pay particular attention to template support, global/local quality estimates, unresolved/disordered regions and stereochemical diagnostics.
+
+::: {.callout-warning}
+Do not publish or share API tokens in screenshots, notebooks, repositories or exported project files. Treat the token as a credential.
+:::

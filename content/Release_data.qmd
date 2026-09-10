@@ -1,40 +1,43 @@
 ---
-title: "Release Data"
-format: html
+title: "Release data"
+description: "Package analysis outputs for sharing, archiving and manuscript preparation."
 ---
 
-In the process of data analysis using **ProtVis**, each step generates intermediate `.rda` files in the working directory. If users wish to view, export, or reuse the data from any specific step, the **Release Data** module provides an intuitive interface for exporting these `.rda` files into common tabular formats (e.g., CSV, Excel).
+## What should be released?
 
-This guide outlines the steps to use this module effectively.
+A reproducible ProtVis project should preserve more than final figures. At minimum, archive the quantitative matrix used for statistics, sample metadata, relevant protein annotations, differential/enrichment tables, parameter choices, process history, and a serialized `ProtVis_dataset`.
 
-## Step-by-Step Instructions
+## Portable export
 
-### **Step 1**: Set the Working Directory  
-The current working directory path is displayed at the top of the interface. Ensure that this path is correctly set to where your `.rda` files are stored.  
-📌 Example:  
+Programmatically, a complete project can be exported with:
 
-### **Step 2**: Load `.rda` Files  
-Click the **LOAD .RDA FILES** button to scan and display all available `.rda` files under the current working directory.
+```r
+export_dir <- export_protvis_dataset(
+  dataset,
+  directory = "ProtVis_release",
+  include_raw = FALSE
+)
+```
 
-### **Step 3**: Select Files to Export  
-Check one or more `.rda` files that you want to export.  
-For example:  
-- ✅ `Step1_project_init.rda`  
-- ✅ `Step2_remove_unreliable_peptide.rda`
+The export contains `ProtVis_dataset.rds`, expression/sample/protein tables, annotation files, process history, stored analysis results, metadata JSON, and an HTML report. Set `include_raw = TRUE` when attached input files should also be copied and licensing/privacy rules permit it.
 
-These files contain intermediate data from various analysis stages such as project initialization, data cleaning, noise correction, etc.
+## Manuscript-ready package
 
-### **Step 4**: Choose Output Format  
-Select the desired export format from the dropdown menu:
-- `csv` (Comma-Separated Values)
-- `tsv` (Tab-Separated Values)
-- `xlsx` (Excel format)
+For a publication, keep a simple hierarchy such as:
 
-### **Step 5**: Export the Data  
-Click the **EXPORT** button to download the selected `.rda` files in the chosen format. This makes it easier to inspect the intermediate data or share it with collaborators.
+```text
+ProtVis_release/
+  data/
+  metadata/
+  statistics/
+  enrichment/
+  figures/
+  methods/
+  ProtVis_dataset.rds
+```
 
-## Module Screenshot
+Do not use screenshots as the only copy of a quantitative result. Export the table behind every key figure.
 
-![](https://pic1.imgdb.cn/item/68c813acc5157e1a8807cb04.png)
-
-> ✅ **Tip**: Exported `.xlsx` or `.csv` files can be opened with Excel, R, Python, or any spreadsheet viewer for further analysis or review.
+::: {.callout-tip}
+Record the ProtVis package version and the date of the final analysis. For actively developed software, a commit SHA or tagged release improves reproducibility further.
+:::

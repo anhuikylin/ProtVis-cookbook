@@ -1,0 +1,21 @@
+---
+title: "DEG analyse"
+description: "A focused differential-expression utility for compatible count-style datasets."
+---
+
+## Scope
+
+The **DEG Analyse** toolkit is separate from ProtVis's main **DEP analysis**. Use the main DEP module for normalized protein-abundance comparisons. Use DEG Analyse only when the supplied dataset matches the statistical assumptions and input format expected by the toolkit.
+
+## Recommended workflow
+
+1. Confirm whether the input represents raw counts, normalized continuous values, or another measurement type.
+2. Provide the required sample grouping information.
+3. Run the statistical model only after checking that its distributional assumptions match the input.
+4. Inspect effect size, p-value and adjusted p-value together.
+5. Export the full result table before thresholding.
+6. State the model and threshold explicitly in downstream figures and Methods.
+
+::: {.callout-important}
+Do not use an RNA-seq count model on continuous proteomics intensities merely because both datasets have samples in columns. Data type determines the appropriate statistical model.
+:::

@@ -1,0 +1,106 @@
+---
+title: "ProtVis_dataset"
+description: "Understand the independent S4 object that carries data, metadata, annotations, results and provenance through ProtVis."
+---
+
+## Why ProtVis uses a project object
+
+`ProtVis_dataset` is an independent S4 class designed for proteomics. It does **not** inherit from `mass_dataset` and does not require the `massdataset` package. Its validity checks enforce exact alignment between expression columns and `sample_info`, and between expression rows and `variable_info`.
+
+This architecture allows ProtVis to preserve one coherent scientific record while every module adds a new result or processing step.
+
+## Core components
+
+| Component | What it stores |
+|---|---|
+| `expression_data` | Numeric protein-by-sample abundance matrix |
+| `sample_info` | Sample identifiers and experimental metadata |
+| `variable_info` | Protein/feature metadata aligned to expression rows |
+| `annotation` | Fixed annotation schema with `eggnog_output`, `GO_annotation`, and `KEGG_annotation` |
+| `analysis_results` | Stage-specific statistical and biological results |
+| `process_info` | Active stage, parameters, messages, status and history |
+| `metadata` | Project-level information, source and object naming/version information |
+| `other_files` | Imported-file provenance and stored auxiliary resources |
+| `checkpoint_info` | Checkpoint/recovery and export metadata |
+
+The historical names `annotation_table` and `ms2_data` are not part of the current annotation model.
+
+## Create a dataset programmatically
+
+```r
+library(ProtVis)
+
+expr <- data.frame(
+  S1 = c(10, 20, 30),
+  S2 = c(12, 18, 33),
+  row.names = c("P1", "P2", "P3")
+)
+
+samples <- data.frame(
+  sample_id = c("S1", "S2"),
+  group = c("Control", "Treatment"),
+  row.names = c("S1", "S2")
+)
+
+ds <- create_protvis_dataset(
+  expression_data = expr,
+  sample_info = samples,
+  metadata = list(source = "User-defined matrix")
+)
+
+validate_protvis_dataset(ds)
+```
+
+For day-to-day GUI use, Project init creates this object automatically.
+
+## Inspect a built-in project
+
+```r
+library(ProtVis)
+
+ds <- load_protvis_builtin_data(
+  source = "DIA-NN",
+  auto_export = FALSE
+)
+
+class(ds)
+slotNames(ds)
+dim(ds$expression_data)
+head(ds$sample_info)
+```
+
+Use `protvis_expression_matrix(ds)` when you need an ID-first data frame suitable for UI boundaries or export.
+
+## Object versions
+
+ProtVis analysis helpers create traceable object versions rather than overwriting an unnamed global object. Object names encode the project stage or method, for example transformation or differential-analysis versions. The object retains parameters and process history so results can be related back to their analytical context.
+
+## Annotation schema
+
+The annotation slot always exposes the same three named data frames:
+
+```r
+names(ds$annotation)
+# eggnog_output, GO_annotation, KEGG_annotation
+```
+
+Missing annotation layers are represented as empty data frames rather than changing the object schema. This makes downstream code more predictable.
+
+## Export a portable project
+
+```r
+out <- export_protvis_dataset(
+  ds,
+  directory = "ProtVis_export",
+  include_raw = FALSE
+)
+
+out
+```
+
+The export bundle contains the serialized `ProtVis_dataset`, expression and metadata tables, annotation tables, process history, serialized analysis results, a metadata JSON file, and an HTML report. If `include_raw = TRUE`, available attached source files are also copied.
+
+::: {.callout-important}
+## Treat the object as the authoritative record
+Stage `.rda` files are useful for compatibility and recovery, but new analyses should use the active `ProtVis_dataset` whenever possible. This prevents parameter, annotation, and provenance information from becoming detached from the quantitative matrix.
+:::

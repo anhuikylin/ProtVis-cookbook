@@ -1,26 +1,52 @@
 /*-- scss:defaults --*/
 
-@import 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap';
+$font-family-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$font-family-monospace: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+$primary: #56b6d9;
+$secondary: #9eb2c0;
+$success: #62c89c;
+$body-bg: #101820;
+$body-color: #dce8ef;
+$link-color: #6bc5e6;
+$border-color: #2a4353;
+$code-bg: #16242e;
+$code-color: #d9edf6;
 
-$font-family: "Atkinson Hyperlegible", sans-serif;
+/*-- scss:rules --*/
 
-// Base document colors
-$body-bg: #181818;
-$body-color: white;
-$link-color: #75AADB;
+:root {
+  --pv-surface: #16232c;
+  --pv-surface-soft: #1a2b36;
+  --pv-border: #2a4353;
+  --pv-primary-soft: #14354a;
+  --pv-shadow: 0 10px 30px rgba(0, 0, 0, .24);
+}
 
-$light: #525252;
+body { line-height: 1.72; }
+h1, h2, h3, h4 { color: #edf7fb; font-weight: 760; letter-spacing: -0.015em; }
+h2 { margin-top: 2.25rem; padding-bottom: .35rem; border-bottom: 1px solid var(--pv-border); }
 
-// Navigation element colors
-$footer-bg: #181818;
-$navbar-bg: #303030;
-$sidebar-bg: #303030;
+#quarto-sidebar { border-right: 1px solid var(--pv-border); background: #121e26; }
+.sidebar-title { font-weight: 800; }
+.sidebar-item .active { color: $primary; font-weight: 750; }
 
-// Code blocks
-$code-block-bg-alpha: -.8;
+.hero {
+  padding: 2.1rem 2.2rem;
+  margin: .5rem 0 2rem;
+  border: 1px solid var(--pv-border);
+  border-radius: 22px;
+  background: linear-gradient(135deg, #16232c 0%, #132a38 100%);
+  box-shadow: var(--pv-shadow);
+}
+.hero h2 { margin-top: 0; border: 0; font-size: 2rem; }
+.hero p { max-width: 64rem; color: #b8cbd6; }
 
-// Bootstrap popovers
-$popover-bg: #242424;
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin: 1.2rem 0 2rem; }
+.feature-card { padding: 1.1rem 1.2rem; border: 1px solid var(--pv-border); border-radius: 14px; background: var(--pv-surface); }
+.feature-card strong { color: #78cbe9; }
+.feature-card p { margin: .45rem 0 0; color: #b1c4cf; font-size: .94rem; }
 
-// Bootstrap inputs
-$input-bg: #242424;
+pre.sourceCode, div.sourceCode { border: 1px solid var(--pv-border); border-radius: 10px; }
+table thead th { background: var(--pv-surface-soft); }
+.quarto-figure img { max-width: 100%; border: 1px solid var(--pv-border); border-radius: 12px; box-shadow: var(--pv-shadow); }
+.quarto-figure figcaption { color: #a9bdc8; font-size: .9rem; }

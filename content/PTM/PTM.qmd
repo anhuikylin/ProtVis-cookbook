@@ -1,0 +1,27 @@
+---
+title: "PTM analysis"
+description: "Explore post-translational modification evidence within the ProtVis workflow."
+---
+
+## Scope
+
+The **PTM** section is intended for modification-centric proteomics workflows in which peptide/site-level evidence needs to be inspected separately from ordinary protein abundance analysis.
+
+Because PTM search-engine exports differ substantially in site localization, peptide sequence, modification notation and protein mapping, always check that the selected source parser and input columns match the dataset that generated the evidence.
+
+## Recommended workflow
+
+1. Complete the standard project setup and source selection.
+2. Open **PTM** and load the PTM-specific table expected by the module.
+3. Verify modified sequence/site notation and protein identifiers before filtering.
+4. Apply localization/evidence filters appropriate to the experiment.
+5. Inspect modification-level quantitative patterns separately from total protein abundance.
+6. Export the filtered evidence table used for every figure.
+
+## Biological interpretation
+
+A change at a phosphosite, acetylation site or other PTM can reflect altered modification occupancy, altered total protein abundance, or both. When possible, compare PTM abundance with the corresponding protein-level signal before assigning a regulatory interpretation.
+
+::: {.callout-warning}
+Do not interpret a modified peptide as a unique site when the search result does not localize the modification confidently. Preserve the original localization evidence in the exported record.
+:::

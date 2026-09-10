@@ -1,35 +1,54 @@
 ---
-title: "Data Import"
-format: html
+title: "Data input"
+description: "Parse source-specific quantitative proteomics output and prepare the validated expression matrix."
 ---
 
-## Data Loading
+## Purpose
 
-Based on the selected data source from the previous step, the interface will automatically redirect to the corresponding page.\
-If the analysis is interrupted, you can resume it at any time by clicking the **Load Data** button (after completing the first step of setting the working directory).
+The **Data input** page is selected dynamically from the source chosen during Project init. Its job is to load the source-specific quantitative evidence, remove unreliable entries where appropriate, and hand a clean expression matrix to preprocessing.
 
-Once the data is successfully loaded, the right panel will display both the **sample information** and the **expression matrix**.
+ProtVis currently routes the following source types to dedicated or parser-backed modules: **Raw, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix**.
 
-## Data Preprocessing
+## Recommended workflow
 
-After loading, the protein data undergoes preprocessing by filtering out unreliable peptides.
+1. Complete **Project init** first.
+2. Open **Data input** and confirm that the header shows the expected source.
+3. Load the corresponding search-engine/export file if the selected source requires one.
+4. Review the raw/source preview before filtering.
+5. Apply the source-specific unreliable-evidence filtering controls.
+6. Confirm that the output retains a protein identifier and the expected samples.
+7. Continue to **Pre-processing → Correct Noise**.
 
-### Available Filtering Methods
+## Source-specific behavior
 
-There are three filtering strategies available. You may select one or combine them as needed:
+Different proteomics tools use different column names and evidence flags. ProtVis therefore avoids forcing every source through a MaxQuant-only parser. Parser-backed sources are converted into a common protein-by-sample representation before they enter the shared workflow.
 
-1.  **Remove peptides identified only by site**\
-    Excludes peptides identified solely by site-specific modifications, which may lack confident sequence-level evidence.
+For MaxQuant-style inputs, common unreliable records include reverse hits, contaminants, and entries flagged as identified only by site. Other sources use their own available evidence fields.
 
-2.  **Remove potential contaminant peptides**\
-    Filters out peptides that are likely derived from common contaminants (e.g., keratin, trypsin).
+::: {.callout-warning}
+## Do not treat zeros or sentinel values as biological abundance
+Missing or not-observed measurements must remain missing until the explicit imputation stage. In the current workflow, values such as `0` and the legacy `-8` sentinel are converted to `NA` before imputation where applicable.
+:::
 
-3.  **Remove reverse peptides**\
-    Removes reverse (decoy) peptides used for estimating the false discovery rate (FDR) during database searching.
+## Built-in source fixtures
 
-### Execution and Reporting
+ProtVis ships small examples for several input ecosystems, including MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, and mzTab-oriented data. These fixtures are useful for verifying that a parser is operational.
 
--   Click the **REMOVE** button to apply the selected filters.\
--   Click the **REPORT** button to view the preprocessing summary for each selected filtering method.
+A programmatic example is:
 
-![Peptide filtering interface](https://pic1.imgdb.cn/item/68c772a0c5157e1a88032c8d.png)
+```r
+library(ProtVis)
+
+example_data <- load_protvis_builtin_data(
+  source = "DIA-NN",
+  auto_export = FALSE
+)
+
+example_data
+```
+
+## Output and compatibility
+
+Current modules update the canonical `ProtVis_dataset`. The GUI also maintains stage snapshots used by downstream compatibility paths. **Correct Noise** can recover the imported stage from `Step2_remove_unreliable_peptide.rda` when an in-memory `ProtVis_dataset` is not available.
+
+The preferred workflow is to keep the active `ProtVis_dataset` intact rather than manually opening, modifying, and resaving stage `.rda` files.

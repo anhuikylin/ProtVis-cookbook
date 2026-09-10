@@ -1,81 +1,25 @@
 ---
 title: "Boxplot"
-format: html
+description: "Create customizable multi-group boxplots with pairwise statistical annotations."
 ---
 
-## Boxplot Module Introduction
+## Input format
 
-The **Boxplot** module provides a user-friendly interface for visualizing differences between multiple experimental groups through box plots. It supports Excel file upload, dynamic group selection, statistical comparison, and customization of plot styles and themes.
+Upload an `.xlsx` table in **wide format**, with one quantitative group per column. The module uses the column names as group labels.
 
----
+## Workflow
 
-### 📁 1. Upload Excel File
+1. Upload the Excel file.
+2. Select the groups to display.
+3. Choose pairwise comparisons.
+4. Set x- and y-axis labels.
+5. Customize group colors, box width, point size and outline color.
+6. Choose a ggplot theme.
+7. Review the statistical annotations.
+8. Set output width/height and download the figure as PDF.
 
-Click **Browse...** to upload an `.xlsx` file. The uploaded file should be in **wide format**, where each column represents a group.
+The current boxplot workflow uses pairwise **t-tests** via `ggpubr::stat_compare_means`.
 
-Once the upload is successful, the status will show **"Upload complete"**.
-
----
-
-### ✅ 2. Select Groups & Comparisons
-
-After upload, the interface will automatically extract column names:
-
-- **Select groups**: Choose which groups to display in the boxplot.
-- **Select comparisons**: Choose which groups to statistically compare (supports pairwise t-tests).
-
----
-
-### ✍️ 3. Axis Labels
-
-You can manually customize axis labels:
-
-- **X-axis label**: Default is "Group"
-- **Y-axis label**: Default is "Value"
-
----
-
-### 🎨 4. Colors & Style
-
-Customize plot appearance:
-
-- **Group Colors**: Automatically generates a color selector for each group.
-- **Box width**: Controls the width of the box elements.
-- **Point size**: Controls the size of scattered data points.
-- **Box line color**: Color of the box outlines (default: black).
-
----
-
-### 🌈 5. Theme Selection
-
-Choose a ggplot2 theme to control plot background and aesthetics:
-
-- `minimal`, `classic`, `light`, `bw`, `dark`, `grey`
-
----
-
-### 📊 6. Statistical Comparison
-
-Boxplots include statistical annotations using **t-test** by default.
-
-- Pairwise comparisons are shown with **p-values** above boxes.
-- Statistical labels use `ggpubr::stat_compare_means`.
-
----
-
-### 📥 7. Download Plot
-
-Download the current plot as **PDF**:
-
-- Set **plot height** and **width** (in inches)
-- Click **Download Plot (PDF)** to save the figure.
-
----
-
-### Example Screenshot
-
-![](https://pic1.imgdb.cn/item/68c82231c5157e1a8807fea2.png)
-
----
-
-
+::: {.callout-important}
+A t-test assumes an appropriate design and distributional model. Do not apply independent pairwise t-tests to paired/repeated-measures data without accounting for pairing, and consider multiple-testing correction when many comparisons are shown.
+:::

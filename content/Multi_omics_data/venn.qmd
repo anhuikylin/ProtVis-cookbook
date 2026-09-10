@@ -1,51 +1,20 @@
+---
+title: "Venn"
+description: "Visualize intersections among a small number of protein or gene sets."
+---
 
-# Venn Diagram
+## When to use a Venn diagram
 
-Venn diagrams are useful visual tools for comparing multiple datasets (e.g., proteomic, transcriptomic, or metabolomic lists) to identify shared and unique elements. This module allows intuitive visualization of overlaps among 2 to 6 sets, supporting downstream interpretation such as core gene discovery or cross-platform comparison.
+Venn diagrams are useful for a small number of clearly defined ID sets, such as significant proteins from two or three contrasts. They are not ideal for many sets; use an UpSet-style approach outside the module when intersections become difficult to read.
 
-## Biological Significance
+## Workflow
 
-Venn diagrams can highlight:
-- **Common elements** shared across multiple conditions or datasets
-- **Specific elements** unique to one group
-- **Subset intersections** that may represent interesting biological signatures (e.g., co-regulated or condition-specific proteins)
+1. Prepare each set using the same identifier namespace.
+2. Remove empty IDs and accidental duplicates within each set.
+3. Load the sets into the Venn module.
+4. Confirm set names and intersection counts.
+5. Export both the figure and, when needed, the IDs belonging to biologically important intersections.
 
-This module is ideal for cross-omics integration and candidate filtering based on shared presence or exclusivity.
-
-## Example Input
-
-Upload a `.csv` file with column names representing sample groups (e.g., A, B, C, D, E), and each column containing corresponding gene or protein identifiers.
-
-**Example (`veen.csv`)**:
-
-| A        | B           | C           | D        | E         |
-|----------|-------------|-------------|----------|-----------|
-| pmf0256  | Lmgn000219  | Lmgn000219  | pmf0256  | mws4052   |
-| mws0470  | pmf0256     | pmf0256     | pme2527  | MWSmce461 |
-| mws0192  | pme3011     | pme3011     | MWS1848  | pme3033   |
-| ...      | ...         | ...         | ...      | ...       |
-
-## Step-by-Step Instructions
-
-**Step 1**: **Upload the file**
-- Click **Browse** and select your `veen.csv` file.
-
-**Step 2**: **Customize Colors**
-- Choose a **color** for each dataset (e.g., A–E) using hex codes or color pickers.
-- Each set will be shown with distinct borders and transparent fill.
-
-**Step 3**: **Run the Analysis**
-- Click the **RUN** button.
-- A Venn diagram will be automatically generated based on all intersections.
-
-**Step 4**: **Download Results**
-- Click the **Download** button to export the figure.
-- Supported formats include PNG, PDF, SVG, etc.
-
-## Visualization Panel
-
-The central panel displays the resulting Venn diagram. Each number within the overlapping regions indicates the number of shared elements among those sets.
-
-![Venn diagram](https://pic1.imgdb.cn/item/68c81098c5157e1a8807c547.png)
-
-> ✅ **Tip**: You can adjust set names (A, B, C...) in your CSV file header to better reflect sample or condition names in your study.
+::: {.callout-note}
+An overlap count is descriptive. Whether the overlap is more than expected by chance requires an explicit statistical test and a defined background universe.
+:::

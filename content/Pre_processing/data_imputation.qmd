@@ -1,22 +1,50 @@
 ---
-title: "Data Imputation"
-format: html
+title: "Data imputation"
+description: "Inspect missing-value patterns and apply an explicit imputation strategy."
 ---
 
-Imputing missing values after data transformation in proteomics aims to compensate for values lost due to low abundance or technical limitations. This ensures that important proteins are not excluded from analysis, maintains the integrity and accuracy of statistical tests and visualizations, and enhances the overall robustness of the analysis.
+## Why this is a separate step
 
-## Step-by-Step Instructions
+Proteomics missingness can arise from abundance limits, identification uncertainty, stochastic sampling, or technical failures. ProtVis therefore keeps missing values as `NA` until the user explicitly chooses an imputation method.
 
-**Step 1**: Load the input data.
+Before imputation, the current module coerces quantitative columns to numeric, converts non-finite values to missing, and handles not-observed sentinels such as `0` and `-8` as `NA`.
 
-**Step 2**: Click the **VISUALIZE MISSING VALUES** button. A plot showing the distribution of missing values in the original dataset will be displayed on the right panel.
+## Available methods
 
-**Step 3**: Select an imputation method. Available options include: `"kNN"`, `"RF"` (Random Forest), `"Mean"`, `"Median"`, `"Zero"`, and `"Minimum"`. Configure the corresponding parameters if needed.
+The current GUI provides:
 
-**Step 4**: Click the **RUN IMPUTATION** button to perform the imputation. The right panel will update to show a plot of the data after imputation.
+| Method | Typical use |
+|---|---|
+| `kNN` | Local similarity-based imputation; current default |
+| `RF` | Random-forest based imputation |
+| `Mean` | Column/feature mean strategy, useful mainly as a simple baseline |
+| `Median` | Robust central-value strategy |
+| `Zero` | Explicit zero filling; use only when zero has a valid interpretation |
+| `Minimum` | Low-value replacement strategy |
 
-**Step 5**: Adjust the plot settings and download the final visualization as needed.
+Method choice should be justified by the expected missingness mechanism and downstream analysis.
 
-A file named `Step5_data_imputation.rda` will be generated in your working directory, which can be used for downstream analysis.
+## GUI workflow
 
-![](https://pic1.imgdb.cn/item/68c7db45c5157e1a8806da75.png)
+1. Click **Load data**.
+2. Click **Visualize missing values** before changing the matrix.
+3. Inspect the original table and missingness visualization.
+4. Select an imputation **Method**.
+5. Click **Run imputation**.
+6. Compare original and imputed distributions.
+7. Download the diagnostic plots if they are part of the analysis record.
+
+::: {.callout-important}
+## Default does not mean universally correct
+`kNN` is the interface default, but no imputation method is optimal for every proteomics design. Report the selected method in the Methods section of a manuscript and preserve the pre-imputation data for auditability.
+:::
+
+## Output
+
+The imputed state is stored in the active project object and in:
+
+```text
+Step5_data_imputation.rda
+```
+
+Continue with [Data normalization](data_normalization.qmd).

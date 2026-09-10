@@ -1,0 +1,21 @@
+---
+title: "Stacked column"
+description: "Summarize compositional abundance across samples or groups with stacked-column graphics."
+---
+
+## Purpose
+
+The stacked-column utility is suited to composition-style data such as taxonomic categories, functional categories, pathway classes or other features whose contributions should be compared across samples.
+
+## Recommended workflow
+
+1. Prepare a table with explicit sample/group labels, category labels and numeric values.
+2. Decide whether values should represent absolute abundance or proportions.
+3. Aggregate rare categories into `Other` when a long legend would obscure the signal.
+4. Generate the stacked-column plot.
+5. Check that the category order and sample order support the biological comparison.
+6. Export the underlying summarized table together with the figure.
+
+::: {.callout-tip}
+For relative-abundance plots, verify that each sample sums to the intended denominator after filtering. Removing categories before renormalization changes the apparent proportions.
+:::

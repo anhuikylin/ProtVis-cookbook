@@ -1,5 +1,31 @@
 ---
 title: "Downstream analysis"
-format: html
+description: "Move from normalized quantitative proteomics data to QC, differential abundance and biological interpretation."
 ---
 
+## Where downstream analysis starts
+
+The standard downstream workflow begins after **Data Normalization**. ProtVis then provides two complementary views of the data:
+
+- **Overview** asks whether the dataset is technically and biologically coherent.
+- **DEP analysis** asks which proteins differ between defined groups.
+
+Functional modules such as enrichment, GSEA, Pathview and PPI should be interpreted in the context of those upstream checks.
+
+## Recommended order
+
+1. **Overview & QC** — inspect correlations, distributions, missingness, PCA/CV and dimensionality-reduction structure.
+2. **DEP analysis** — run one or more explicit `Group1` versus `Group2` comparisons.
+3. **Enrichment analysis** — test significant protein IDs against GO/KEGG backgrounds.
+4. **GSEA** — use a ranked signal when a thresholded DEP list would discard useful pathway-level information.
+5. **Pathview** — project KO-level log fold changes onto a selected KEGG pathway.
+6. Add **STRINGdb PPI**, **WGCNA**, **co-enrichment** or other network/integration modules when relevant.
+
+::: {.callout-important}
+## Separate statistical evidence from visualization settings
+Changing colors, point sizes, heatmap labels or plot dimensions should not change the underlying statistical model. In contrast, changing a fold-change or p-value threshold changes which proteins are labeled significant and therefore affects heatmaps and downstream gene lists.
+:::
+
+## Canonical data flow
+
+Current modules prefer the active `ProtVis_dataset`. Compatibility stage files remain readable when a project is reopened. Downstream results are stored in `analysis_results` and process history so the quantitative matrix and derived statistics stay connected.

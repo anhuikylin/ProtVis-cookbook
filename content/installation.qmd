@@ -1,29 +1,73 @@
 ---
 title: "Installation"
-format: html
+description: "Install the current ProtVis development release and launch the application."
 ---
 
-To install **ProtVis** from GitHub, run the following command in your R environment:
+## Requirements
 
-``` r
-devtools::install_github("xuebinzhang-lab/ProtVis")
+ProtVis is an R package with a Shiny interface. Use a recent R installation and a writable R library. On Windows, installing packages from source may also require the matching Rtools release when a binary is unavailable.
+
+::: {.callout-note}
+This cookbook currently follows **ProtVis 0.5.7 on the `dev` branch**. The installation commands below therefore install `@dev` explicitly.
+:::
+
+## Recommended installation
+
+Install `pak` once, then install ProtVis from GitHub:
+
+```r
+options(repos = c(
+  CRAN = "https://mirrors.tuna.tsinghua.edu.cn/CRAN/"
+))
+
+install.packages("pak")
+pak::pak("xuebinzhang-lab/ProtVis@dev")
 ```
 
-# Launch the Application
+Verify the installed version:
 
-After successful installation, you can launch ProtVis using one of the following methods:
+```r
+packageVersion("ProtVis")
+```
 
-## Method 1: Load the package and run
+## Clean update
 
-``` r
+When an old installation is stale, locked, or its lazy-load database is corrupted, use the clean installer supplied by ProtVis:
+
+```r
+source(
+  "https://raw.githubusercontent.com/xuebinzhang-lab/ProtVis/dev/install_ProtVis.R"
+)
+```
+
+Close other R sessions that are currently using ProtVis before running a clean reinstall.
+
+## Optional WGCNA helper
+
+Some WGCNA workflows may use the optional helper package documented by ProtVis:
+
+```r
+install.packages("remotes")
+remotes::install_github("ShawnWx2019/WGCNAShinyFun", ref = "master")
+```
+
+You do not need this optional dependency to launch the core application.
+
+## Launch ProtVis
+
+```r
 library(ProtVis)
 run_ProtVis()
 ```
 
-## Method 2: Directly call the function
+or directly:
 
-``` r
+```r
 ProtVis::run_ProtVis()
 ```
 
-This will open the interactive GUI for proteomics and PTM analysis.
+## First launch checklist
+
+After the application opens, confirm that you can see **Homepage**, **Project init**, **Data input**, **Pre-processing**, **Downstream analysis**, **Multi-omics**, **PTM**, **Release data**, **Toolkits**, and **Help** in the navigation bar.
+
+If the app opens but an optional module reports a missing dependency, install that dependency and restart the R session. If the package itself fails to load after an update, prefer the clean installer above rather than repeatedly installing over a corrupted package directory.

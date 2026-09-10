@@ -1,0 +1,20 @@
+---
+title: "Protein structure"
+description: "Inspect protein structures and connect quantitative candidates to structural context."
+---
+
+## Purpose
+
+The Protein Structure toolkit helps move from a candidate protein identifier or structure file to a three-dimensional view. ProtVis includes structure-related dependencies such as `bio3d` and `r3dmol`, and also exposes a SwissModel-oriented utility in the Toolkits menu.
+
+## Recommended workflow
+
+1. Resolve the candidate to a stable protein identifier.
+2. Obtain or upload the structure format expected by the selected toolkit.
+3. Confirm chain/residue numbering before mapping a mutation, PTM or domain of interest.
+4. Generate the interactive or static structural view.
+5. Record the structure source and model/entry identifier in the figure legend or Methods.
+
+::: {.callout-warning}
+Predicted structures and experimental structures are not equivalent evidence. When using a model, report its source and confidence/quality metrics and avoid over-interpreting poorly supported regions.
+:::

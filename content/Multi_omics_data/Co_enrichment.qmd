@@ -1,0 +1,25 @@
+---
+title: "Co-enrichment"
+description: "Compare functional enrichment signals across multiple protein or result sets."
+---
+
+## Purpose
+
+Co-enrichment is useful when several contrasts, omics layers, tissues, or protein clusters have already been analyzed and you want to distinguish **shared functional themes** from **condition-specific terms**.
+
+## Recommended inputs
+
+Use enrichment result sets derived from compatible identifier/background systems. If two analyses used different gene universes or incompatible annotation versions, direct comparison of p-values can be misleading.
+
+## Workflow
+
+1. Generate the individual enrichment results first.
+2. Standardize term identifiers and term descriptions.
+3. Select the result sets to compare.
+4. Run the co-enrichment module.
+5. Inspect shared and unique terms and their direction/strength where the module provides those metrics.
+6. Export the underlying comparison table rather than relying only on the figure.
+
+::: {.callout-tip}
+For cross-experiment comparisons, term IDs are more reliable join keys than descriptions because descriptions can change between database versions.
+:::

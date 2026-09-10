@@ -1,0 +1,44 @@
+---
+title: "WGCNA"
+description: "Build weighted co-expression networks, relate modules to traits and export hub-protein networks."
+---
+
+## What the module covers
+
+The current WGCNA module provides a complete sequence from data filtering to network interpretation:
+
+**Data cleaning → Filtering → Soft threshold → Module detection → Trait association → Interested module → Hub gene/protein → Cytoscape export**
+
+Although some UI labels use “gene”, the module can analyze **protein abundance** matrices.
+
+## Input
+
+Upload a `.txt`, `.tsv`, or `.csv` expression matrix. The first column should contain feature IDs and the remaining columns should be samples. The format selector includes **count, expected count, normalized count, peak area (metabolomics), and protein abundance**.
+
+Select an **unsigned** or **signed** network and the appropriate preprocessing/normalization mode for the supplied data.
+
+## Filtering
+
+The first filter removes low-abundance features based on sample percentage and expression cutoff. The second filter ranks variability using **MAD** or **Variance** and retains the requested number of features.
+
+Filtering is especially important for proteomics because a network built from thousands of uninformative or extremely sparse proteins can be unstable and computationally expensive.
+
+## Soft-threshold selection
+
+Run the soft-threshold analysis, review the scale-free topology fit, and either use the recommended power or specify a justified custom power. The default target displayed by the UI is an $R^2$ cutoff of 0.8.
+
+## Module detection
+
+Set minimum module size, module merge/cut-tree height, and maximum block size, then run module detection. Export the protein-to-module table so every downstream claim can be traced back to module membership.
+
+## Trait association
+
+Upload trait data and run module-trait analysis. Check sample names carefully: trait rows/columns must correspond to the same samples represented in the expression matrix.
+
+## Hub proteins and Cytoscape
+
+Select a trait and module, set absolute kME/GS cutoffs, and run hub analysis. ProtVis can generate node and edge tables for Cytoscape using a user-defined network-weight threshold.
+
+::: {.callout-warning}
+WGCNA requires enough samples to estimate correlations meaningfully. Very small proteomics experiments can produce visually convincing but unstable networks. Treat network topology cautiously when sample size is limited.
+:::

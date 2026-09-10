@@ -1,12 +1,47 @@
 ---
-title: "introduce"
-format: html
+title: "Overview"
+description: "What ProtVis does and how its current workflow is organized."
 ---
 
-ProtVis is a powerful proteomics analysis software designed to provide researchers with an intuitive and efficient tool for protein data analysis. It offers versatile data import options, including formats such as txt, csv, and excel. ProtVis supports differential expression analysis (e.g., limma, t-test) and provides various data normalization methods (e.g., log2, quantile). Additionally, it features dimensionality reduction techniques such as PCA, t-SNE, and UMAP, enabling users to visually explore the structure of their data.
+## What is ProtVis?
 
-Furthermore, ProtVis integrates k-means clustering, GO/KEGG enrichment analysis, and GSEA analysis, allowing for an in-depth exploration of the biological functions of proteins and their relationships with pathways. For proteomics research focused on post-translational modifications, ProtVis offers visualization and annotation tools, as well as support for the analysis of protein secondary and tertiary structures.
+**ProtVis** is an interactive R/Shiny platform for proteomics and metaproteomics processing, statistical analysis, biological interpretation, and scientific visualization. The current application is organized around a reproducible project object, `ProtVis_dataset`, so quantitative data, metadata, annotations, analysis results, imported files, and processing history remain connected throughout the workflow.
 
-The software supports batch processing and allows for the export of analysis results in formats such as PDF, CSV, and Excel. With its open-source and extensible nature, users can customize and expand the software according to their specific needs. ProtVis simplifies complex analysis workflows through its user-friendly Shiny interface, making it an ideal tool for proteomics research and multi-omics data integration.
+ProtVis is designed for researchers who want a GUI without giving up traceability. Most analysis modules can be used interactively, while the underlying package also exposes functions for importing data, validating projects, running pipelines, saving checkpoints, and exporting complete analysis bundles.
 
-![](https://pic1.imgdb.cn/item/68c77173c5157e1a880327ae.png)
+## Current analytical scope
+
+| Stage | Main capabilities |
+|---|---|
+| Project setup | Working directory, sample information, expression matrix, built-in examples, source selection |
+| Data input | MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, Raw, user-defined matrices |
+| Pre-processing | Replicate-aware noise correction, transformation, missing-value inspection and imputation, median-centering normalization |
+| Overview/QC | Correlation, expression-pattern heatmap, PCA, PCoA, t-SNE, UMAP, NMDS, total intensity, missingness, distributions, CV |
+| Differential abundance | Multiple `Group1`/`Group2` comparisons, limma modeling, tables, volcano plots, heatmaps and DEP summaries |
+| Functional interpretation | GO/KEGG enrichment, GSEA, Pathview, STRINGdb PPI |
+| Multi-omics | Expression profile, WGCNA, metaproteomics, nine quadrant, co-enrichment, Venn |
+| PTM and evidence | PTM analysis and Proteome Discoverer strict-spectrum inspection |
+| Toolkits | Protein extraction, background construction, external protein links, protein structure, SwissModel, boxplots, correlation chord and other utilities |
+
+## The key architectural change: `ProtVis_dataset`
+
+Earlier ProtVis workflows were described primarily as a chain of `.rda` files. Current ProtVis keeps those stage files for compatibility and recovery, but the canonical representation is now a validated `ProtVis_dataset` object.
+
+A project object keeps the protein-by-sample expression matrix aligned with sample and protein metadata, stores fixed annotation layers (`eggnog_output`, `GO_annotation`, and `KEGG_annotation`), records analysis results, and captures process history and checkpoint information. See [`ProtVis_dataset`](reproducibility/ProtVis_dataset.qmd) for the full model.
+
+::: {.callout-important}
+## Why this matters
+A result should not be separated from the data and parameters that produced it. ProtVis therefore creates new traceable object versions as analysis proceeds instead of treating each plot as an isolated end product.
+:::
+
+## Recommended order
+
+For a standard quantitative proteomics project, use:
+
+**Project init → Data input → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP analysis → Enrichment/GSEA/Pathview**
+
+Then add WGCNA, PPI, co-enrichment, metaproteomics, PTM, or other specialized modules when they address the biological question.
+
+## What is reproducible and what is interactive?
+
+The GUI is intended for interactive exploration, parameter selection, and figure export. Reproducibility is supported by the persisted `ProtVis_dataset`, stage snapshots, process history, checkpoints, and portable exports. For analyses that need scripted automation, use package-level functions such as `load_protvis_builtin_data()`, `create_protvis_dataset()`, `run_protvis_pipeline()`, `save_protvis_checkpoint()`, and `export_protvis_dataset()`.

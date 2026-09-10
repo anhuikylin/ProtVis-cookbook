@@ -1,0 +1,21 @@
+---
+title: "Correlation chord"
+description: "Visualize selected correlation relationships as a chord diagram."
+---
+
+## Purpose
+
+A correlation chord diagram is useful for a **filtered subset** of relationships among proteins, traits, pathways, metabolites or other variables. It becomes difficult to interpret when every possible pair is displayed.
+
+## Recommended workflow
+
+1. Start from a numeric matrix or correlation table with stable variable names.
+2. Choose the correlation method appropriate to the data.
+3. Apply an effect-size threshold and, when available, a significance criterion.
+4. Keep only biologically relevant relationships.
+5. Draw the chord diagram and inspect whether line width/color encodes the intended statistic.
+6. Export the filtered edge table used to generate the plot.
+
+::: {.callout-warning}
+Correlation does not establish causation. For high-dimensional correlation screens, p-values also require attention to multiple testing and non-independence among features.
+:::

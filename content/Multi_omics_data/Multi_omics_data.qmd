@@ -1,5 +1,23 @@
 ---
-title: "Multi-omics Data"
-format: html
+title: "Multi-omics"
+description: "Specialized modules for expression trends, networks, metaproteomics and cross-dataset integration."
 ---
 
+## Module map
+
+The **Multi-omics** menu groups analyses that extend beyond a single DEP table:
+
+| Module | Main question |
+|---|---|
+| Expression Profile | Which proteins share similar abundance trends? |
+| WGCNA | Which co-expression modules and hub proteins relate to traits? |
+| Metaproteomics | How do taxonomic and functional compositions change together? |
+| Nine Quadrant | How do two quantitative contrasts/datasets agree or disagree? |
+| Co-enrichment | Which functional signals are shared or distinct across result sets? |
+| Venn | Which identifiers overlap among multiple sets? |
+
+These modules do not all require the same input type. Follow the dedicated page for each analysis rather than assuming the normalized matrix alone is sufficient.
+
+::: {.callout-tip}
+For manuscript figures, use an integration module only when the biological question is genuinely cross-layer or network-oriented. A more complex plot is not automatically more informative than a well-supported DEP or enrichment result.
+:::

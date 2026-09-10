@@ -1,49 +1,47 @@
 ---
-title: "Correct Noise"
-format: html
+title: "Correct noise"
+description: "Rename quantitative columns consistently and apply replicate-aware zero/missing-value correction."
 ---
 
-## Overview
+## What the module does
 
-This module standardizes sample naming and reduces potential noise in the expression matrix for downstream analyses.
+The **Correct Noise** module loads the current `ProtVis_dataset` first. For older projects, it can fall back to `Step2_remove_unreliable_peptide.rda`.
 
-- **Step 1**: Load the results from the previous step.  
-- **Step 2**: Enable **Rename Columns** to rename the expression matrix columns based on the sample information.  
-- **Step 3**: Enable **Correct Noise**. For biological replicates, if a protein is **not detected in more than half** of the samples, it is considered potential noise and its intensities across **all** replicates will be set to **NA**.  
-  Otherwise, missing values are imputed using the **mean of the available values** within the replicate group.
+The interface has two explicit operations: **Rename Columns** and **Correct Noise**.
 
----
+## Step 1: rename columns
 
-## Interface
+ProtVis maps quantitative column names through the sample-information table, using `maxquant_id` to recover the intended `sample_id` when a mapping is available. If a matrix already uses valid sample IDs, those names are retained. Final names are made unique before downstream joins and reshaping.
 
-![Correct Noise – main panel](https://pic1.imgdb.cn/item/68c78534c5157e1a8803a44e.png)
+This step is important because replicate grouping and later statistical comparisons depend on stable sample names.
 
-![Correct Noise – options and preview](https://pic1.imgdb.cn/item/68c78713c5157e1a8803a999.png)
+## Step 2: correct noise
 
----
+For datasets that use replicate suffixes `_1`, `_2`, and `_3`, ProtVis groups corresponding replicate columns and evaluates each protein within that group.
 
-## Options
+- If at least two replicate measurements are non-zero, missing/zero cells are replaced using half of the sum of the non-zero replicate values.
+- If fewer than two non-zero replicates are present, the replicate-group values remain zero and are subsequently converted to `NA`.
+- If no recognizable replicate suffixes exist, ProtVis returns the validated matrix without applying replicate-level correction.
+- Duplicate protein IDs are collapsed before the correction step to prevent many-to-many joins from expanding the table.
 
-- **Rename Columns**  
-  Renames expression matrix columns using the metadata in the sample information table to ensure consistent sample labels.
+::: {.callout-note}
+This behavior differs from the older cookbook description that referred to a generic “more than half missing” rule and mean imputation. The current source implements the replicate rule described above.
+:::
 
-- **Correct Noise**  
-  Applies replicate-aware filtering and imputation:
-  - **Noise Rule**: If `#non-detected > 50%` of biological replicates for a protein, mark the **entire protein** as noise → set all intensities to `NA`.
-  - **Imputation Rule**: If the protein does **not** meet the noise rule, impute remaining missing values with the **mean of observed values** (within the same biological replicate group).
+## GUI workflow
 
----
+1. Click **Load data**.
+2. Inspect **Sample info** and **Expression Matrix**.
+3. Click **Rename Columns** and review the renamed table.
+4. Click **Correct Noise**.
+5. Inspect the corrected table before moving to transformation.
 
 ## Output
 
-After processing, a file named **`Step3_correct_noise.rda`** will be generated in your **working directory**.  
-This file will be used as the input for the subsequent analysis steps.
+Results are saved into the active `ProtVis_dataset`. The compatibility stage file is:
 
----
+```text
+Step3_correct_noise.rda
+```
 
-## Notes
-
-- “Not detected” typically refers to **missing intensity** (e.g., `NA` / absent after import).  
-- Applying noise correction before differential analysis can improve robustness and interpretability.  
-- Column renaming should precede noise correction to avoid ambiguity in replicate grouping.
-
+Continue with [Data transformation](data_transformed.qmd).
