@@ -1983,7 +1983,7 @@
     "href": "content/data_import/data_import.html",
     "title": "Data input",
     "section": "",
-    "text": "The Data input page is selected dynamically from the source chosen during Project init. Its job is to load the source-specific quantitative evidence, remove unreliable entries where appropriate, and hand a clean expression matrix to preprocessing.\nProtVis currently routes the following source types to dedicated or parser-backed modules: Raw, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix.",
+    "text": "The Data input page is selected dynamically from the source chosen during Project init. Its job is to load the source-specific quantitative evidence, remove unreliable entries where appropriate, and hand a clean expression matrix to preprocessing.\nProtVis currently routes the following source types to dedicated or parser-backed modules: Raw, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix.\nThe figure below summarizes the central design of ProtVis. Representative source-specific exports remain heterogeneous at ingestion, while ProtVis brings them through a shared sequence of import and parsing, QC and filtering, structure harmonization, and matrix reshaping to produce a standardized ProtVis_dataset.\n\n\n\n\n\n\nFigure 1: ProtVis unifies heterogeneous proteomics data sources into a standardized dataset.",
     "crumbs": [
       "Getting started",
       "Data input"
@@ -1994,7 +1994,7 @@
     "href": "content/data_import/data_import.html#purpose",
     "title": "Data input",
     "section": "",
-    "text": "The Data input page is selected dynamically from the source chosen during Project init. Its job is to load the source-specific quantitative evidence, remove unreliable entries where appropriate, and hand a clean expression matrix to preprocessing.\nProtVis currently routes the following source types to dedicated or parser-backed modules: Raw, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix.",
+    "text": "The Data input page is selected dynamically from the source chosen during Project init. Its job is to load the source-specific quantitative evidence, remove unreliable entries where appropriate, and hand a clean expression matrix to preprocessing.\nProtVis currently routes the following source types to dedicated or parser-backed modules: Raw, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix.\nThe figure below summarizes the central design of ProtVis. Representative source-specific exports remain heterogeneous at ingestion, while ProtVis brings them through a shared sequence of import and parsing, QC and filtering, structure harmonization, and matrix reshaping to produce a standardized ProtVis_dataset.\n\n\n\n\n\n\nFigure 1: ProtVis unifies heterogeneous proteomics data sources into a standardized dataset.",
     "crumbs": [
       "Getting started",
       "Data input"

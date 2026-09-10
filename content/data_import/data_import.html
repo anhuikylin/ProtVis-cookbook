@@ -680,6 +680,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
 <p>The <strong>Data input</strong> page is selected dynamically from the source chosen during Project init. Its job is to load the source-specific quantitative evidence, remove unreliable entries where appropriate, and hand a clean expression matrix to preprocessing.</p>
 <p>ProtVis currently routes the following source types to dedicated or parser-backed modules: <strong>Raw, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix</strong>.</p>
+<p>The figure below summarizes the central design of ProtVis. Representative source-specific exports remain heterogeneous at ingestion, while ProtVis brings them through a shared sequence of import and parsing, QC and filtering, structure harmonization, and matrix reshaping to produce a standardized <code>ProtVis_dataset</code>.</p>
+<div id="fig-protvis-data-input-workflow" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Representative proteomics data sources and file formats feed either fragmented source-specific pipelines or the unified ProtVis workflow. ProtVis performs import and parsing, QC and filtering, structure harmonization, and matrix reshaping to produce a standardized ProtVis_dataset." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-protvis-data-input-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/protvis-data-input-workflow.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Representative proteomics data sources and file formats feed either fragmented source-specific pipelines or the unified ProtVis workflow. ProtVis performs import and parsing, QC and filtering, structure harmonization, and matrix reshaping to produce a standardized ProtVis_dataset.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protvis-data-input-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: ProtVis unifies heterogeneous proteomics data sources into a standardized dataset.
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="recommended-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="recommended-workflow">Recommended workflow</h2>
