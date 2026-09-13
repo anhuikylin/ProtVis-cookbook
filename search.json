@@ -1674,7 +1674,7 @@
     "href": "content/Downstream_analysis/Overview.html",
     "title": "Overview & QC",
     "section": "",
-    "text": "Use Overview before differential abundance analysis. It is the fastest way to catch sample swaps, strong batch effects, failed replicates, unexpected missingness, and normalization problems.\nThe current module can load both the imputed and normalized stages. When stage snapshots are unavailable but a valid ProtVis_dataset is active, ProtVis derives an imputed/centered overview from the current object and reports that fallback.",
+    "text": "Use Downstream analysis → Overview after preprocessing and before differential abundance analysis. It is the fastest place to check sample relationships, normalization effects, missingness, replicate behavior and broad data quality before formal testing.\nThe current module loads both the imputed and normalized stages. When stage snapshots are unavailable but a valid ProtVis_dataset is active, ProtVis can derive an overview from the current project object and report that fallback.",
     "crumbs": [
       "Downstream analysis",
       "Overview & QC"
@@ -1685,7 +1685,18 @@
     "href": "content/Downstream_analysis/Overview.html#purpose",
     "title": "Overview & QC",
     "section": "",
-    "text": "Use Overview before differential abundance analysis. It is the fastest way to catch sample swaps, strong batch effects, failed replicates, unexpected missingness, and normalization problems.\nThe current module can load both the imputed and normalized stages. When stage snapshots are unavailable but a valid ProtVis_dataset is active, ProtVis derives an imputed/centered overview from the current object and reports that fallback.",
+    "text": "Use Downstream analysis → Overview after preprocessing and before differential abundance analysis. It is the fastest place to check sample relationships, normalization effects, missingness, replicate behavior and broad data quality before formal testing.\nThe current module loads both the imputed and normalized stages. When stage snapshots are unavailable but a valid ProtVis_dataset is active, ProtVis can derive an overview from the current project object and report that fallback.",
+    "crumbs": [
+      "Downstream analysis",
+      "Overview & QC"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/Overview.html#overview-interface",
+    "href": "content/Downstream_analysis/Overview.html#overview-interface",
+    "title": "Overview & QC",
+    "section": "Overview interface",
+    "text": "Overview interface\nThe full-resolution screenshot below shows the current Overview/QC page using the six-sample maize example. Values such as 5,209 proteins and 6 samples belong to this example and should not be treated as fixed ProtVis output sizes.\n\n\n\n\n\n\nFigure 1: ProtVis Overview and quality-control interface. The left panel begins with Load Data and provides Correlation, Expression pattern and Dimensionality Reduction controls. The main area compares dimensionality-reduction results before and after normalization and summarizes proteomics QC, missingness and sample-level intensity diagnostics.\n\n\n\n\nRecommended operating order\n1. Load the project data. Open Downstream analysis → Overview and click Load Data. ProtVis loads the imputed and normalized quantitative states needed for side-by-side diagnostics. Confirm the status message before interpreting any plot. In the screenshot, both datasets load successfully and each contains 5,209 proteins across 6 samples.\n2. Inspect correlation first. Open Correlation, choose Pearson, Spearman, or Kendall, and inspect whether samples expected to be biologically similar cluster together. Correlation is especially useful for identifying a single failed replicate or a sample whose overall profile is inconsistent with its group.\n3. Inspect the expression-pattern heatmap. Use Expression pattern to view broad abundance structure among the most variable proteins. This view is intended for global pattern checking rather than formal differential-abundance inference. If scaling is enabled, interpret relative patterns rather than absolute abundance differences.\n4. Compare dimensionality reduction before and after normalization. In Dimensionality Reduction, choose PCA, PCoA, t-SNE, UMAP, or NMDS. The screenshot uses UMAP and displays results before normalization and after normalization side by side. A useful normalization should reduce unwanted technical structure without erasing biologically plausible separation.\n5. Set grouping aesthetics from sample metadata. Color and 95% confidence ellipses can use metadata such as group, tissue, species, batch, or condition; point shape can be assigned independently. In the illustrated interface, tissue is used for color/ellipse grouping and species for point shape. Use fields that match the actual experimental design rather than forcing the demo defaults onto another dataset.\n6. Finish with the proteomics QC panel. Review the Proteomics QC summary, missing-value rate by sample, sample total normalized intensity, intensity distributions, PCA/CV diagnostics and related summaries. Unexpectedly high missingness, a large sample-level intensity shift, or a single isolated sample should be investigated before DEP analysis.",
     "crumbs": [
       "Downstream analysis",
       "Overview & QC"
@@ -1696,7 +1707,7 @@
     "href": "content/Downstream_analysis/Overview.html#correlation",
     "title": "Overview & QC",
     "section": "Correlation",
-    "text": "Correlation\nChoose Pearson, Spearman, or Kendall correlation, then configure clustering and whether correlation values/sample names are displayed. Use this panel to check whether biological replicates are more similar to each other than to unrelated groups.",
+    "text": "Correlation\nChoose Pearson, Spearman, or Kendall correlation, then configure clustering and whether correlation values/sample names are displayed. Replicates do not need to be identical, but samples from the same biological condition should usually be more similar to one another than to unrelated groups unless the experiment provides a biological reason otherwise.",
     "crumbs": [
       "Downstream analysis",
       "Overview & QC"
@@ -1707,7 +1718,7 @@
     "href": "content/Downstream_analysis/Overview.html#expression-pattern",
     "title": "Overview & QC",
     "section": "Expression pattern",
-    "text": "Expression pattern\nThe expression-pattern heatmap can focus on the top variable features and optionally scale by protein or sample. This is useful for a global view of coordinated abundance patterns, not as a replacement for formal differential testing.",
+    "text": "Expression pattern\nThe expression-pattern heatmap can focus on the top variable features and optionally scale by protein or sample. This is useful for identifying broad coordinated patterns, outlier samples and dominant abundance blocks. It should not replace a statistical DEP model.",
     "crumbs": [
       "Downstream analysis",
       "Overview & QC"
@@ -1718,7 +1729,7 @@
     "href": "content/Downstream_analysis/Overview.html#dimensionality-reduction",
     "title": "Overview & QC",
     "section": "Dimensionality reduction",
-    "text": "Dimensionality reduction\nAvailable methods are:\n\nPCA\nPCoA\nt-SNE\nUMAP\nNMDS\n\nColor/ellipse grouping can use group, tissue, species, batch, or condition; point shape can be assigned independently. The default DR view uses tissue for color/95% confidence ellipses and species for point shape when those fields are available.\nProtVis displays dimensionality reduction before normalization and after normalization, enabling direct assessment of how preprocessing changed sample structure.",
+    "text": "Dimensionality reduction\nAvailable methods are:\n\nPCA\nPCoA\nt-SNE\nUMAP\nNMDS\n\nProtVis displays dimensionality reduction before normalization and after normalization so that the effect of preprocessing can be assessed directly. For stochastic methods such as t-SNE or UMAP, interpret neighborhood structure together with the experimental design rather than treating axis values as directly comparable biological quantities.",
     "crumbs": [
       "Downstream analysis",
       "Overview & QC"
@@ -1729,18 +1740,18 @@
     "href": "content/Downstream_analysis/Overview.html#proteomics-qc",
     "title": "Overview & QC",
     "section": "Proteomics QC",
-    "text": "Proteomics QC\nThe QC panel summarizes and exports:\n\nsample total intensity;\nsample missing-value rate;\nintensity boxplots;\nintensity density;\nPCA based on variable features;\ncoefficient-of-variation distribution;\nthe normalized matrix.",
+    "text": "Proteomics QC\nThe QC panel summarizes and exports key diagnostics including sample total intensity, sample missing-value rate, intensity boxplots/density, PCA based on variable features, coefficient-of-variation distributions and the normalized matrix.\n\n\n\n\n\n\nWarningDo not select a preprocessing strategy only because a plot looks cleaner\n\n\n\nA visually tighter PCA or UMAP is not proof that preprocessing is correct. If normalization creates separation that conflicts with known biology, removes a strong expected effect, or produces implausible sample distributions, return to the preceding preprocessing stages and check the assumptions.",
     "crumbs": [
       "Downstream analysis",
       "Overview & QC"
     ]
   },
   {
-    "objectID": "content/Downstream_analysis/Overview.html#what-to-look-for",
-    "href": "content/Downstream_analysis/Overview.html#what-to-look-for",
+    "objectID": "content/Downstream_analysis/Overview.html#handoff-to-dep-analysis",
+    "href": "content/Downstream_analysis/Overview.html#handoff-to-dep-analysis",
     "title": "Overview & QC",
-    "section": "What to look for",
-    "text": "What to look for\nA healthy dataset does not need every replicate to overlap perfectly. Instead, look for consistency with the experimental design: replicate proximity, plausible separation of known groups, no isolated failed sample, comparable post-normalization distributions, and missingness that can be biologically/technically explained.\n\n\n\n\n\n\nWarning\n\n\n\nA visually attractive PCA is not proof that preprocessing is correct. If normalization creates a separation that contradicts known biology or removes a strong expected effect, revisit the preceding stages.",
+    "section": "Handoff to DEP analysis",
+    "text": "Handoff to DEP analysis\nOnce sample relationships, missingness, distributions and group structure are acceptable, continue to DEP analysis. Keep the Overview/QC outputs as part of the analysis record because they provide the context needed to judge the reliability of downstream differential results.",
     "crumbs": [
       "Downstream analysis",
       "Overview & QC"
@@ -1751,7 +1762,7 @@
     "href": "content/Downstream_analysis/DEP_analysis.html",
     "title": "DEP analysis",
     "section": "",
-    "text": "The current DEP module uses limma (lmFit, contrasts, eBayes, topTable) on the normalized protein abundance matrix. Each row of the comparison table defines a Group1 versus Group2 contrast.",
+    "text": "The current DEP module uses limma (lmFit, contrasts, eBayes, topTable) on the normalized protein-abundance matrix. Each row of the comparison table defines a Group1 versus Group2 contrast.",
     "crumbs": [
       "Downstream analysis",
       "DEP analysis"
@@ -1762,7 +1773,18 @@
     "href": "content/Downstream_analysis/DEP_analysis.html#statistical-model",
     "title": "DEP analysis",
     "section": "",
-    "text": "The current DEP module uses limma (lmFit, contrasts, eBayes, topTable) on the normalized protein abundance matrix. Each row of the comparison table defines a Group1 versus Group2 contrast.",
+    "text": "The current DEP module uses limma (lmFit, contrasts, eBayes, topTable) on the normalized protein-abundance matrix. Each row of the comparison table defines a Group1 versus Group2 contrast.",
+    "crumbs": [
+      "Downstream analysis",
+      "DEP analysis"
+    ]
+  },
+  {
+    "objectID": "content/Downstream_analysis/DEP_analysis.html#dep-interface",
+    "href": "content/Downstream_analysis/DEP_analysis.html#dep-interface",
+    "title": "DEP analysis",
+    "section": "DEP interface",
+    "text": "DEP interface\nThe full-resolution screenshot below shows the current DEP page with an active B73 vs EA2024 comparison. It includes the data preview, comparison setup, DEP table, volcano plot, heatmap and DEP-count summary in one interface.\n\n\n\n\n\n\nFigure 1: ProtVis differential protein abundance interface. The page shows Load Data, Sample Info and Normalized Data previews, a B73 versus EA2024 comparison, DEP table, volcano plot, heatmap, DEP-count bar chart, comparison controls and the Run DEP action.\n\n\n\n\nRecommended operating order\n1. Load the normalized project data. Open Downstream analysis → DEP analysis and click LOAD DATA. Confirm that the status reaches completion, then inspect Sample Info and Normalized Data. Do not start a contrast until sample identifiers, grouping metadata and the normalized matrix are aligned.\n2. Define the group comparison. ProtVis accepts a comparison table with exactly two columns, Group1 and Group2. You can use the built-in/demo comparison, edit or paste a comparison table, or upload a .csv/.xlsx file. In the screenshot, the active contrast is B73 vs EA2024. Group labels must exactly match the values used in the relevant sample_info grouping field.\nA minimal comparison file is:\nGroup1,Group2\nB73,EA2024\nMultiple rows can be supplied when several contrasts are required. ProtVis processes each valid row and creates a separate result view for each comparison.\n3. Set the significance/display thresholds. The current volcano controls start with logFC threshold = 0.27, corresponding to about a 1.21-fold change on a log2 scale, and P-value threshold = 0.05. These controls determine the displayed Upregulated, Downregulated and Not significant classes. Changing the thresholds updates the reactive plots; it does not recompute the underlying limma model.\n4. Click RUN DEP. Start the analysis only after the comparison table and thresholds are sensible. Follow the DEP Analysis Progress indicator until the run completes. Long-running actions are protected against rapid duplicate clicks in the current ProtVis interface.\n5. Inspect the DEP table before the plots. The result table contains logFC, average expression and limma significance statistics. Use the table as the quantitative record and export it with the available copy/CSV/Excel controls when needed.\n6. Interpret the volcano, heatmap and DEP-count plot together. The volcano plot summarizes effect size and significance, the heatmap shows the abundance pattern of the currently significant protein set, and the DEP-count plot summarizes the number of classified proteins. In the screenshot these views are synchronized for B73 vs EA2024.",
     "crumbs": [
       "Downstream analysis",
       "DEP analysis"
@@ -1773,18 +1795,7 @@
     "href": "content/Downstream_analysis/DEP_analysis.html#prepare-comparisons",
     "title": "DEP analysis",
     "section": "Prepare comparisons",
-    "text": "Prepare comparisons\nProtVis accepts a comparison table with exactly two columns:\nGroup1,Group2\nControl,Treatment\nRoot,Shoot\nYou can upload .csv/.xlsx, paste a tab-delimited table, edit the built-in table, or use the demo comparison inferred from tissue/group metadata.\nThe group labels must exactly match values in the relevant sample_info grouping column.",
-    "crumbs": [
-      "Downstream analysis",
-      "DEP analysis"
-    ]
-  },
-  {
-    "objectID": "content/Downstream_analysis/DEP_analysis.html#gui-workflow",
-    "href": "content/Downstream_analysis/DEP_analysis.html#gui-workflow",
-    "title": "DEP analysis",
-    "section": "GUI workflow",
-    "text": "GUI workflow\n\nClick LOAD DATA.\nConfirm Sample Info and Normalized Data.\nPrepare the CompareGroup table.\nClick RUN DEP.\nOpen each comparison tab to inspect the table, volcano plot, heatmap and DEP count summary.\nAdjust the display/significance thresholds and export the final figures/tables.",
+    "text": "Prepare comparisons\nProtVis accepts a comparison table with exactly two columns:\nGroup1,Group2\nControl,Treatment\nRoot,Shoot\nThe group labels must exactly match values in the relevant sample_info grouping column. A mismatch in spelling, capitalization, or whitespace can produce an invalid contrast even when the biological groups are conceptually the same.\nThe interface also supports built-in/demo comparisons derived from available metadata as well as user-supplied CompareGroup files. Use the comparison source that corresponds to the actual experimental factor being tested.",
     "crumbs": [
       "Downstream analysis",
       "DEP analysis"
@@ -1795,7 +1806,7 @@
     "href": "content/Downstream_analysis/DEP_analysis.html#current-significance-controls",
     "title": "DEP analysis",
     "section": "Current significance controls",
-    "text": "Current significance controls\nThe volcano panel currently starts with:\n\nlogFC threshold = 0.27 (approximately a 1.21-fold change on a log2 scale);\nP-value threshold = 0.05.\n\nThe displayed regulation classification uses logFC together with the raw limma P.Value. The limma result table also contains multiple-testing-adjusted statistics.\n\n\n\n\n\n\nImportantFor publication-grade inference\n\n\n\nIf your analysis plan requires FDR control, base the final biological claims and downstream ID list on the adjusted p-value column (for example adj.P.Val) rather than assuming the volcano panel’s raw P.Value threshold is an FDR threshold. Record the exact thresholds used in the manuscript Methods.",
+    "text": "Current significance controls\nThe volcano panel currently starts with:\n\nlogFC threshold = 0.27 (approximately a 1.21-fold change on a log2 scale);\nP-value threshold = 0.05.\n\nThe displayed regulation classification uses logFC together with the raw limma P.Value. The limma result table also contains multiple-testing-adjusted statistics.\n\n\n\n\n\n\nImportantUse adjusted p-values for publication-grade FDR control\n\n\n\nIf the analysis plan requires FDR control, base final biological claims and downstream ID lists on the adjusted p-value column, such as adj.P.Val, rather than assuming the volcano panel’s raw P.Value cutoff is an FDR threshold. Record both the effect-size and significance thresholds used in the manuscript Methods.",
     "crumbs": [
       "Downstream analysis",
       "DEP analysis"
@@ -1806,7 +1817,7 @@
     "href": "content/Downstream_analysis/DEP_analysis.html#dynamic-plots",
     "title": "DEP analysis",
     "section": "Dynamic plots",
-    "text": "Dynamic plots\nVolcano thresholds are reactive: changing them reclassifies proteins and keeps the DEP heatmap synchronized with the currently significant set. Heatmaps sanitize non-finite values only for plotting; this does not rewrite the differential-statistics table.",
+    "text": "Dynamic plots\nVolcano thresholds are reactive: changing them reclassifies proteins and keeps the DEP heatmap synchronized with the currently significant set. Heatmaps sanitize non-finite values only for plotting; this does not rewrite the differential-statistics table.\nA useful review order is therefore table → volcano → heatmap → DEP count, because the table preserves the complete model output while the plots are filtered visual summaries.",
     "crumbs": [
       "Downstream analysis",
       "DEP analysis"
@@ -1817,7 +1828,7 @@
     "href": "content/Downstream_analysis/DEP_analysis.html#output-and-downstream-handoff",
     "title": "DEP analysis",
     "section": "Output and downstream handoff",
-    "text": "Output and downstream handoff\nDEP results are attached to the active project object and are available to Enrichment analysis. The current enrichment loader checks the project object first and can also recover differential results from:\nStep7_differential_analysis.rda\nwith older filenames retained only as migration fallbacks.",
+    "text": "Output and downstream handoff\nDEP results are attached to the active project object and are available to Enrichment analysis. The current enrichment loader checks the project object first and can also recover differential results from:\nStep7_differential_analysis.rda\nwith older filenames retained only as migration fallbacks.\nAfter validating the comparison and significant-protein list, continue to the functional-analysis modules such as Enrichment analysis, GSEA, or Pathview.",
     "crumbs": [
       "Downstream analysis",
       "DEP analysis"

@@ -612,8 +612,11 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#statistical-model" id="toc-statistical-model" class="nav-link active" data-scroll-target="#statistical-model">Statistical model</a></li>
+  <li><a href="#dep-interface" id="toc-dep-interface" class="nav-link" data-scroll-target="#dep-interface">DEP interface</a>
+  <ul class="collapse">
+  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
+  </ul></li>
   <li><a href="#prepare-comparisons" id="toc-prepare-comparisons" class="nav-link" data-scroll-target="#prepare-comparisons">Prepare comparisons</a></li>
-  <li><a href="#gui-workflow" id="toc-gui-workflow" class="nav-link" data-scroll-target="#gui-workflow">GUI workflow</a></li>
   <li><a href="#current-significance-controls" id="toc-current-significance-controls" class="nav-link" data-scroll-target="#current-significance-controls">Current significance controls</a></li>
   <li><a href="#dynamic-plots" id="toc-dynamic-plots" class="nav-link" data-scroll-target="#dynamic-plots">Dynamic plots</a></li>
   <li><a href="#output-and-downstream-handoff" id="toc-output-and-downstream-handoff" class="nav-link" data-scroll-target="#output-and-downstream-handoff">Output and downstream handoff</a></li>
@@ -650,7 +653,34 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="statistical-model" class="level2">
 <h2 class="anchored" data-anchor-id="statistical-model">Statistical model</h2>
-<p>The current DEP module uses <strong>limma</strong> (<code>lmFit</code>, contrasts, <code>eBayes</code>, <code>topTable</code>) on the normalized protein abundance matrix. Each row of the comparison table defines a <code>Group1</code> versus <code>Group2</code> contrast.</p>
+<p>The current DEP module uses <strong>limma</strong> (<code>lmFit</code>, contrasts, <code>eBayes</code>, <code>topTable</code>) on the normalized protein-abundance matrix. Each row of the comparison table defines a <code>Group1</code> versus <code>Group2</code> contrast.</p>
+</section>
+<section id="dep-interface" class="level2">
+<h2 class="anchored" data-anchor-id="dep-interface">DEP interface</h2>
+<p>The full-resolution screenshot below shows the current DEP page with an active <strong>B73 vs EA2024</strong> comparison. It includes the data preview, comparison setup, DEP table, volcano plot, heatmap and DEP-count summary in one interface.</p>
+<div id="fig-dep-gui" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of the ProtVis DEP analysis page. The interface contains Load Data, Sample Info, Normalized Data, Group Comparison, a B73 versus EA2024 result table, volcano plot, heatmap, DEP count bar plot, CompareGroup controls and a Run DEP button.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dep-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/screenshots/PixPin_2026-09-13_18-38-39.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of the ProtVis DEP analysis page. The interface contains Load Data, Sample Info, Normalized Data, Group Comparison, a B73 versus EA2024 result table, volcano plot, heatmap, DEP count bar plot, CompareGroup controls and a Run DEP button.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dep-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: ProtVis differential protein abundance interface. The page shows Load Data, Sample Info and Normalized Data previews, a B73 versus EA2024 comparison, DEP table, volcano plot, heatmap, DEP-count bar chart, comparison controls and the Run DEP action.
+</figcaption>
+</figure>
+</div>
+<section id="recommended-operating-order" class="level3">
+<h3 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h3>
+<p><strong>1. Load the normalized project data.</strong> Open <strong>Downstream analysis → DEP analysis</strong> and click <strong>LOAD DATA</strong>. Confirm that the status reaches completion, then inspect <strong>Sample Info</strong> and <strong>Normalized Data</strong>. Do not start a contrast until sample identifiers, grouping metadata and the normalized matrix are aligned.</p>
+<p><strong>2. Define the group comparison.</strong> ProtVis accepts a comparison table with exactly two columns, <code>Group1</code> and <code>Group2</code>. You can use the built-in/demo comparison, edit or paste a comparison table, or upload a <code>.csv</code>/<code>.xlsx</code> file. In the screenshot, the active contrast is <strong>B73 vs EA2024</strong>. Group labels must exactly match the values used in the relevant <code>sample_info</code> grouping field.</p>
+<p>A minimal comparison file is:</p>
+<pre class="text"><code>Group1,Group2
+B73,EA2024</code></pre>
+<p>Multiple rows can be supplied when several contrasts are required. ProtVis processes each valid row and creates a separate result view for each comparison.</p>
+<p><strong>3. Set the significance/display thresholds.</strong> The current volcano controls start with <code>logFC threshold = 0.27</code>, corresponding to about a 1.21-fold change on a log2 scale, and <code>P-value threshold = 0.05</code>. These controls determine the displayed Upregulated, Downregulated and Not significant classes. Changing the thresholds updates the reactive plots; it does not recompute the underlying limma model.</p>
+<p><strong>4. Click RUN DEP.</strong> Start the analysis only after the comparison table and thresholds are sensible. Follow the <strong>DEP Analysis Progress</strong> indicator until the run completes. Long-running actions are protected against rapid duplicate clicks in the current ProtVis interface.</p>
+<p><strong>5. Inspect the DEP table before the plots.</strong> The result table contains <code>logFC</code>, average expression and limma significance statistics. Use the table as the quantitative record and export it with the available copy/CSV/Excel controls when needed.</p>
+<p><strong>6. Interpret the volcano, heatmap and DEP-count plot together.</strong> The volcano plot summarizes effect size and significance, the heatmap shows the abundance pattern of the currently significant protein set, and the DEP-count plot summarizes the number of classified proteins. In the screenshot these views are synchronized for <strong>B73 vs EA2024</strong>.</p>
+</section>
 </section>
 <section id="prepare-comparisons" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-comparisons">Prepare comparisons</h2>
@@ -658,19 +688,8 @@ ul.task-list li input[type="checkbox"] {
 <pre class="text"><code>Group1,Group2
 Control,Treatment
 Root,Shoot</code></pre>
-<p>You can upload <code>.csv</code>/<code>.xlsx</code>, paste a tab-delimited table, edit the built-in table, or use the demo comparison inferred from <code>tissue</code>/<code>group</code> metadata.</p>
-<p>The group labels must exactly match values in the relevant <code>sample_info</code> grouping column.</p>
-</section>
-<section id="gui-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="gui-workflow">GUI workflow</h2>
-<ol type="1">
-<li>Click <strong>LOAD DATA</strong>.</li>
-<li>Confirm <strong>Sample Info</strong> and <strong>Normalized Data</strong>.</li>
-<li>Prepare the <strong>CompareGroup</strong> table.</li>
-<li>Click <strong>RUN DEP</strong>.</li>
-<li>Open each comparison tab to inspect the table, volcano plot, heatmap and DEP count summary.</li>
-<li>Adjust the display/significance thresholds and export the final figures/tables.</li>
-</ol>
+<p>The group labels must exactly match values in the relevant <code>sample_info</code> grouping column. A mismatch in spelling, capitalization, or whitespace can produce an invalid contrast even when the biological groups are conceptually the same.</p>
+<p>The interface also supports built-in/demo comparisons derived from available metadata as well as user-supplied CompareGroup files. Use the comparison source that corresponds to the actual experimental factor being tested.</p>
 </section>
 <section id="current-significance-controls" class="level2">
 <h2 class="anchored" data-anchor-id="current-significance-controls">Current significance controls</h2>
@@ -686,23 +705,25 @@ Root,Shoot</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>For publication-grade inference
+<span class="screen-reader-only">Important</span>Use adjusted p-values for publication-grade FDR control
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If your analysis plan requires FDR control, base the final biological claims and downstream ID list on the adjusted p-value column (for example <code>adj.P.Val</code>) rather than assuming the volcano panel’s raw <code>P.Value</code> threshold is an FDR threshold. Record the exact thresholds used in the manuscript Methods.</p>
+<p>If the analysis plan requires FDR control, base final biological claims and downstream ID lists on the adjusted p-value column, such as <code>adj.P.Val</code>, rather than assuming the volcano panel’s raw <code>P.Value</code> cutoff is an FDR threshold. Record both the effect-size and significance thresholds used in the manuscript Methods.</p>
 </div>
 </div>
 </section>
 <section id="dynamic-plots" class="level2">
 <h2 class="anchored" data-anchor-id="dynamic-plots">Dynamic plots</h2>
 <p>Volcano thresholds are reactive: changing them reclassifies proteins and keeps the DEP heatmap synchronized with the currently significant set. Heatmaps sanitize non-finite values only for plotting; this does not rewrite the differential-statistics table.</p>
+<p>A useful review order is therefore <strong>table → volcano → heatmap → DEP count</strong>, because the table preserves the complete model output while the plots are filtered visual summaries.</p>
 </section>
 <section id="output-and-downstream-handoff" class="level2">
 <h2 class="anchored" data-anchor-id="output-and-downstream-handoff">Output and downstream handoff</h2>
 <p>DEP results are attached to the active project object and are available to <strong>Enrichment analysis</strong>. The current enrichment loader checks the project object first and can also recover differential results from:</p>
 <pre class="text"><code>Step7_differential_analysis.rda</code></pre>
 <p>with older filenames retained only as migration fallbacks.</p>
+<p>After validating the comparison and significant-protein list, continue to the functional-analysis modules such as <a href="../../content/Downstream_analysis/Enrichment_analysis.html">Enrichment analysis</a>, <a href="../../content/Downstream_analysis/GSEA.html">GSEA</a>, or <a href="../../content/Downstream_analysis/Pathview.html">Pathview</a>.</p>
 
 
 </section>
