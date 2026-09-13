@@ -1883,7 +1883,7 @@
     "href": "content/Pre_processing/correct_noise.html",
     "title": "Correct noise",
     "section": "",
-    "text": "Correct Noise is the first source-independent preprocessing module. It loads the active ProtVis_dataset whenever possible, shows the expression matrix and sample information, optionally normalizes sample-column names, and applies the replicate-aware correction rule.\nThe interface has three user actions: Load data, Rename Columns, and Correct Noise.",
+    "text": "Correct Noise is the first source-independent preprocessing module. It loads the active ProtVis_dataset whenever possible, shows the expression matrix and sample information, optionally normalizes sample-column names, and applies the replicate-aware correction rule.\nThe interface has three principal actions: Load data, Rename Columns, and Correct Noise.",
     "crumbs": [
       "Pre-processing",
       "Correct noise"
@@ -1894,7 +1894,7 @@
     "href": "content/Pre_processing/correct_noise.html#what-the-module-does",
     "title": "Correct noise",
     "section": "",
-    "text": "Correct Noise is the first source-independent preprocessing module. It loads the active ProtVis_dataset whenever possible, shows the expression matrix and sample information, optionally normalizes sample-column names, and applies the replicate-aware correction rule.\nThe interface has three user actions: Load data, Rename Columns, and Correct Noise.",
+    "text": "Correct Noise is the first source-independent preprocessing module. It loads the active ProtVis_dataset whenever possible, shows the expression matrix and sample information, optionally normalizes sample-column names, and applies the replicate-aware correction rule.\nThe interface has three principal actions: Load data, Rename Columns, and Correct Noise.",
     "crumbs": [
       "Pre-processing",
       "Correct noise"
@@ -1912,22 +1912,11 @@
     ]
   },
   {
-    "objectID": "content/Pre_processing/correct_noise.html#step-1-rename-columns",
-    "href": "content/Pre_processing/correct_noise.html#step-1-rename-columns",
+    "objectID": "content/Pre_processing/correct_noise.html#replicate-aware-correction-rule",
+    "href": "content/Pre_processing/correct_noise.html#replicate-aware-correction-rule",
     "title": "Correct noise",
-    "section": "Step 1: rename columns",
-    "text": "Step 1: rename columns\nProtVis maps quantitative column names through the sample-information table using maxquant_id when that mapping exists. If the matrix already uses valid sample_id names—as is common for Sage and parser-backed ProtVis_dataset objects—those names are retained. Final names are made unique before downstream reshaping.\nStable sample names matter because replicate grouping and later statistical comparisons depend on exact identifiers.",
-    "crumbs": [
-      "Pre-processing",
-      "Correct noise"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/correct_noise.html#step-2-correct-noise",
-    "href": "content/Pre_processing/correct_noise.html#step-2-correct-noise",
-    "title": "Correct noise",
-    "section": "Step 2: correct noise",
-    "text": "Step 2: correct noise\nFor datasets that use replicate suffixes _1, _2, and _3, ProtVis groups corresponding replicate columns and evaluates each protein within that group.\n\nIf at least two replicate measurements are non-zero, zero/missing cells are replaced using half of the sum of the non-zero replicate values.\nIf fewer than two non-zero replicates are present, the replicate-group values are set to zero and then converted to NA.\nIf no recognizable replicate suffixes exist, ProtVis returns the validated matrix without applying replicate-level correction.\nDuplicate protein IDs are collapsed before the correction step, retaining the largest finite intensity per sample, to prevent many-to-many joins or reshaping from expanding the table.\n\n\n\n\n\n\n\nNote\n\n\n\nThis behavior is intentionally different from a generic “more than half missing” filter or mean imputation. Missing-value imputation remains a separate downstream stage.",
+    "section": "Replicate-aware correction rule",
+    "text": "Replicate-aware correction rule\nFor datasets that use replicate suffixes _1, _2, and _3, ProtVis groups corresponding replicate columns and evaluates each protein within that group.\n\nIf at least two replicate measurements are non-zero, zero/missing cells are replaced using half of the sum of the non-zero replicate values.\nIf fewer than two non-zero replicates are present, the replicate-group values are set to zero and then converted to NA.\nIf no recognizable replicate suffixes exist, ProtVis returns the validated matrix without applying replicate-level correction.\nDuplicate protein IDs are collapsed before the correction step, retaining the largest finite intensity per sample, to prevent many-to-many joins or reshaping from expanding the table.\n\n\n\n\n\n\n\nNote\n\n\n\nThis behavior is intentionally different from a generic “more than half missing” filter or mean imputation. Missing-value imputation remains a separate downstream stage.",
     "crumbs": [
       "Pre-processing",
       "Correct noise"
@@ -1938,7 +1927,7 @@
     "href": "content/Pre_processing/correct_noise.html#gui-workflow",
     "title": "Correct noise",
     "section": "GUI workflow",
-    "text": "GUI workflow\n\nOpen Pre-processing → Correct Noise.\nClick Load data.\nConfirm the Sample info and Expression Matrix tabs.\nClick Rename Columns and inspect the renamed matrix.\nClick Correct Noise.\nProtVis automatically switches to the Correct Noise result tab after a successful run so the new table is visible immediately.\nContinue to transformation only after checking that the matrix dimensions and sample names are sensible.\n\nLong-running actions use duplicate-run guards. A second rapid click on Load, Rename, or Correct Noise while the same action is running is ignored rather than executing the operation twice.",
+    "text": "GUI workflow\nThe screenshot below shows the actual Correct Noise interface for the Sage-derived PXD065315 example. The red labels identify the recommended order.\n\n\n\n\n\n\nFigure 1: Correct Noise in ProtVis. Marker 1 loads the completed input/search result, marker 2 renames or validates sample columns, and marker 3 runs replicate-aware noise correction. The main panel provides Sample info, Expression Matrix, Rename Columns and Correct Noise result tabs.\n\n\n\nFollow the numbered controls. 1. Load data. Open Pre-processing → Correct Noise and click Load data. Wait for the green Data loaded status, then inspect Sample info and Expression Matrix. Check that the expected sample columns are present and that the protein table is non-empty. The 5,209 rows visible in the screenshot are specific to this example run and are not a required target count for other datasets.\n2. Rename Columns. Click Rename Columns. ProtVis uses maxquant_id mappings when they are available; otherwise already-valid sample_id names are retained. Inspect the Rename Columns result before continuing. For the illustrated Raw/Sage project, the intended columns are B73_C1, B73_C2, B73_C3, EA2024_C1, EA2024_C2, and EA2024_C3. Unexpected duplicate or unmatched sample names should be fixed before correction because replicate grouping depends on stable identifiers.\n3. Correct Noise. Click Correct Noise. After a successful run, ProtVis switches to the Correct Noise result tab automatically. Compare the corrected table with the loaded expression matrix and verify that protein IDs, sample names, row count, zero values and newly introduced NA values are biologically and technically plausible.\nLong-running actions use duplicate-run guards. A second rapid click on Load, Rename, or Correct Noise while the same operation is already running is ignored rather than executing it twice.",
     "crumbs": [
       "Pre-processing",
       "Correct noise"
@@ -1949,7 +1938,7 @@
     "href": "content/Pre_processing/correct_noise.html#outputs",
     "title": "Correct noise",
     "section": "Outputs",
-    "text": "Outputs\nThe corrected matrix is written back into a new traceable ProtVis_dataset analysis state. ProtVis records the noise_correction result and process entry with the method replicate_correction.\nFor compatibility and recovery, the current implementation writes both:\nStep2_remove_unreliable_peptide.rda\nStep3_correct_noise.rda\nStep2 is refreshed as the cross-source handoff, while Step3 remains the historical downstream compatibility snapshot.\nContinue with Data transformation.",
+    "text": "Outputs\nThe corrected matrix is written back into a new traceable ProtVis_dataset analysis state. ProtVis records the noise_correction result and process entry with the method replicate_correction.\nFor compatibility and recovery, the current implementation writes both:\nStep2_remove_unreliable_peptide.rda\nStep3_correct_noise.rda\nStep2 is refreshed as the cross-source handoff, while Step3 remains the downstream compatibility snapshot.\nContinue with Data transformation.",
     "crumbs": [
       "Pre-processing",
       "Correct noise"
@@ -1960,7 +1949,7 @@
     "href": "content/Pre_processing/correct_noise.html#troubleshooting",
     "title": "Correct noise",
     "section": "Troubleshooting",
-    "text": "Troubleshooting\n“No completed input stage was found.” Finish the previous input route first: run Sage Search for Raw data, MaxQuant Output Preparation for MaxQuant, or the appropriate parser/import for another source.\n“The current ProtVis_dataset has no expression matrix.” The object is most likely a Raw/Sage staging project. Complete Search so Sage LFQ can create the protein matrix.\nThe corrected table looks empty although the action succeeded. Current ProtVis automatically selects the Correct Noise result tab after completion. If an older installation still behaves differently, reinstall the current dev version.\nWorking-directory errors after a restart. The module now resolves the project directory from the shared workdir, dataset metadata, checkpoint metadata, Raw input directory, and finally the current R working directory. Keeping the project directory intact makes recovery more reliable.",
+    "text": "Troubleshooting\n“No completed input stage was found.” Finish the previous input route first: run Sage Search for Raw data, MaxQuant Output Preparation for MaxQuant, or the appropriate parser/import for another source.\n“The current ProtVis_dataset has no expression matrix.” The object is most likely a Raw/Sage staging project. Complete Search so Sage LFQ can create the protein matrix.\nThe corrected table looks empty although the action succeeded. Current ProtVis automatically selects the Correct Noise result tab after completion. If an older installation still behaves differently, reinstall the current dev version.\nWorking-directory errors after a restart. The module resolves the project directory from the shared workdir, dataset metadata, checkpoint metadata, Raw input directory, and finally the current R working directory. Keeping the project directory intact makes recovery more reliable.",
     "crumbs": [
       "Pre-processing",
       "Correct noise"
