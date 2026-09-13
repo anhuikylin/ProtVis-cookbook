@@ -13,27 +13,31 @@ After normalization, each sample is centered around a comparable median while re
 
 ## GUI workflow
 
-1. Click **Load data**. The module uses the imputed `ProtVis_dataset`/`Step5_data_imputation.rda`.
-2. Inspect the original data and boxplot.
-3. Click **Run normalization**.
-4. Compare the normalized data and boxplot with the input.
-5. Adjust display colors if desired.
-6. Download the original and normalized PDF plots for reporting.
+The screenshot below shows the normalization page after the six-sample example has passed transformation and imputation.
+
+![Data Normalization in ProtVis. The numbered controls show the recommended order: 1 load the imputed data and 2 run median-subtraction normalization. The upper panels show original values and their boxplot; the lower panels show normalized values and the normalized boxplot.](../../images/screenshots/PixPin_2026-09-13_18-24-25.png){#fig-data-normalization-gui fig-alt="Screenshot of the ProtVis Data Normalization module. Marker 1 identifies Load data and marker 2 identifies Run normalization. Original Data and Original Data Visualization are displayed above Normalized Data and Normalized Data Visualization. The sidebar reports Median subtraction normalization completed and includes color and download controls." width="100%" fig-align="center"}
+
+Follow the two numbered controls. **1. Load data.** Click **Load data**. The module uses the current imputed `ProtVis_dataset` first and can recover `Step5_data_imputation.rda` for compatibility. Confirm that the interface reports **Data loaded**, then inspect the upper **Original Data** table and boxplot. Sample columns should still match the project sample information.
+
+**2. Run normalization.** Click **Run normalization**. ProtVis subtracts each sample column's median and reports **Median subtraction normalization completed** when the operation succeeds. Inspect the lower **Normalized Data** table and visualization immediately after completion.
+
+Compare the upper and lower boxplots rather than relying on the status message alone. Median subtraction should center broad sample-level offsets while preserving within-sample rank differences. The plot-color controls and download dimensions are presentation settings only; they do not change the stored normalized matrix.
 
 ## Interpretation
 
-Median subtraction is useful when broad sample-level offsets are considered technical rather than biological. It is not appropriate to assume this for every experimental design. If most proteins are expected to shift globally in one direction for biological reasons, inspect the distributions carefully before interpreting normalized fold changes.
+Median subtraction is useful when broad sample-level offsets are considered technical rather than biological. It is not appropriate to assume this for every experimental design. If most proteins are expected to shift globally in one biological direction, inspect the distributions carefully before interpreting normalized fold changes.
+
+::: {.callout-tip}
+## Check the full preprocessing sequence
+The screenshot belongs at the end of the shared preprocessing route: **Correct Noise → Data Transformation → Data Imputation → Data Normalization**. Before moving to differential abundance analysis, confirm that sample names are unchanged, imputation did not create implausible distributions, and normalization improved technical comparability without erasing the expected group pattern.
+:::
 
 ## Output
 
-The normalized project state is persisted as a `ProtVis_dataset` and as:
+The normalized project state is written to the active `ProtVis_dataset` and persisted as:
 
 ```text
 Step6_data_normalization.rda
 ```
 
 This stage is the standard input for **Overview** and **DEP analysis**.
-
-::: {.callout-tip}
-Before differential abundance analysis, open **Overview** and check sample total intensity, missingness, intensity distributions, PCA, CV, and group structure. Normalization should improve technical comparability without destroying the expected experimental pattern.
-:::
