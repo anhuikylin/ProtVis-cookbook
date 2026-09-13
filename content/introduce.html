@@ -612,6 +612,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#what-is-protvis" id="toc-what-is-protvis" class="nav-link active" data-scroll-target="#what-is-protvis">What is ProtVis?</a></li>
+  <li><a href="#protvis-interface" id="toc-protvis-interface" class="nav-link" data-scroll-target="#protvis-interface">ProtVis interface</a></li>
   <li><a href="#current-analytical-scope" id="toc-current-analytical-scope" class="nav-link" data-scroll-target="#current-analytical-scope">Current analytical scope</a></li>
   <li><a href="#source-aware-navigation" id="toc-source-aware-navigation" class="nav-link" data-scroll-target="#source-aware-navigation">Source-aware navigation</a></li>
   <li><a href="#the-key-architecture-protvis_dataset" id="toc-the-key-architecture-protvis_dataset" class="nav-link" data-scroll-target="#the-key-architecture-protvis_dataset">The key architecture: <code>ProtVis_dataset</code></a></li>
@@ -652,6 +653,33 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="what-is-protvis">What is ProtVis?</h2>
 <p><strong>ProtVis</strong> is an interactive R/Shiny platform for proteomics and metaproteomics processing, statistical analysis, biological interpretation, and scientific visualization. The current application is organized around a reproducible project object, <code>ProtVis_dataset</code>, so quantitative data, metadata, annotations, analysis results, imported/search files, and processing history remain connected throughout the workflow.</p>
 <p>ProtVis is designed for researchers who want a GUI without giving up traceability. Most analysis modules can be used interactively, while the underlying package also exposes functions for importing data, validating projects, running Sage searches and processing pipelines, saving checkpoints, and exporting complete analysis bundles.</p>
+</section>
+<section id="protvis-interface" class="level2">
+<h2 class="anchored" data-anchor-id="protvis-interface">ProtVis interface</h2>
+<div id="fig-protvis-homepage" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of the ProtVis Homepage. A top navigation bar contains Homepage, Project init, Search, Pre-processing, Downstream analysis, Multi-omics, PTM, Release data, Toolkits, and Help. The main panel presents the ProtVis_dataset architecture linking expression matrix, sample metadata, variable metadata, analysis results, functional annotation, and process history.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-protvis-homepage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/screenshots/protvis-homepage.webp" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of the ProtVis Homepage. A top navigation bar contains Homepage, Project init, Search, Pre-processing, Downstream analysis, Multi-omics, PTM, Release data, Toolkits, and Help. The main panel presents the ProtVis_dataset architecture linking expression matrix, sample metadata, variable metadata, analysis results, functional annotation, and process history.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protvis-homepage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: ProtVis Homepage after launch. The top navigation provides direct access to Project init, Search, Pre-processing, Downstream analysis, Multi-omics, PTM, Release data, Toolkits, and Help. The Homepage summarizes the central ProtVis_dataset architecture and the major workflow components.
+</figcaption>
+</figure>
+</div>
+<p>After <code>ProtVis::run_ProtVis()</code> opens the application, use the navigation bar from left to right as the analysis progresses. <strong>Homepage</strong> gives the workflow overview; <strong>Project init</strong> creates or restores the project context; <strong>Search</strong> is the Raw/mzML database-search route; <strong>Pre-processing</strong> contains the shared quantitative preprocessing stages; <strong>Downstream analysis</strong> contains QC, differential abundance and functional interpretation; <strong>Multi-omics</strong> and <strong>PTM</strong> contain specialized analyses; <strong>Release data</strong> exports results; <strong>Toolkits</strong> provides independent utilities; and <strong>Help</strong> provides in-app guidance.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The navigation is source-aware. <strong>Search</strong> is used for the Raw/mzML route, while source-specific items such as <strong>MaxQuant Output Preparation</strong> appear only when their corresponding input source is selected. The shared preprocessing and downstream modules remain available after the project has produced a valid quantitative matrix.</p>
+</div>
+</div>
 </section>
 <section id="current-analytical-scope" class="level2">
 <h2 class="anchored" data-anchor-id="current-analytical-scope">Current analytical scope</h2>

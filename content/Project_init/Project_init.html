@@ -617,6 +617,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#standard-tabular-workflow" id="toc-standard-tabular-workflow" class="nav-link" data-scroll-target="#standard-tabular-workflow">Standard tabular workflow</a></li>
   <li><a href="#rawmzml-sage-workflow" id="toc-rawmzml-sage-workflow" class="nav-link" data-scroll-target="#rawmzml-sage-workflow">Raw/mzML + Sage workflow</a>
   <ul class="collapse">
+  <li><a href="#follow-the-numbered-order-in-the-figure" id="toc-follow-the-numbered-order-in-the-figure" class="nav-link" data-scroll-target="#follow-the-numbered-order-in-the-figure">Follow the numbered order in the figure</a></li>
   <li><a href="#the-sage-staging-object" id="toc-the-sage-staging-object" class="nav-link" data-scroll-target="#the-sage-staging-object">The Sage staging object</a></li>
   </ul></li>
   <li><a href="#built-in-pxd065315-sample-information" id="toc-built-in-pxd065315-sample-information" class="nav-link" data-scroll-target="#built-in-pxd065315-sample-information">Built-in PXD065315 sample information</a></li>
@@ -732,30 +733,58 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="rawmzml-sage-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="rawmzml-sage-workflow">Raw/mzML + Sage workflow</h2>
-<p>Choose this route when you have converted mass-spectrometry files in mzML format and want ProtVis to run the database search.</p>
-<ol type="1">
-<li>Select <strong>Raw</strong> as the data source.</li>
-<li>Set the project working directory.</li>
-<li>Provide sample information containing at least <code>sample_id</code> and <code>mzml_file</code>. You can click <strong>Use built-in PXD065315 sample information</strong> to load the six-sample maize example.</li>
-<li>Expand <strong>Raw/mzML input (optional)</strong> and select the directory containing the mzML files.</li>
-<li>Click <strong>Check mzML files</strong>. ProtVis requires unique filenames with the <code>.mzML</code> extension and verifies that every file listed in <code>sample_info</code> exists.</li>
-<li>Upload a protein FASTA (<code>.fa</code>, <code>.fasta</code>, <code>.faa</code>, or the accepted gzipped form).</li>
-<li>Review the <strong>Raw/mzML Files</strong> preview tab.</li>
-<li>Click <strong>Project init</strong>. An expression matrix is not required at this point.</li>
-</ol>
+<p>Choose this route when the starting material is converted mass-spectrometry data in mzML format and you want ProtVis to run the Sage database search. The numbered screenshot below shows the recommended order for initializing the Raw/Sage example project.</p>
+<div id="fig-project-init-raw-sage" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of ProtVis Project init with seven red numbered markers. Marker 1 is Set working directory; marker 2 is sample-information upload; marker 3 is protein FASTA upload; marker 4 is Select mzML input directory; marker 5 is Check mzML files; marker 6 is data source Raw; marker 7 is Project init. The preview table contains B73_C1, B73_C2, B73_C3, EA2024_C1, EA2024_C2, and EA2024_C3.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-project-init-raw-sage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/screenshots/project-init-raw-sage-numbered.webp" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Project init with seven red numbered markers. Marker 1 is Set working directory; marker 2 is sample-information upload; marker 3 is protein FASTA upload; marker 4 is Select mzML input directory; marker 5 is Check mzML files; marker 6 is data source Raw; marker 7 is Project init. The preview table contains B73_C1, B73_C2, B73_C3, EA2024_C1, EA2024_C2, and EA2024_C3.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-project-init-raw-sage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Raw/mzML Project init workflow in ProtVis. The red labels indicate the recommended order: 1 set working directory, 2 upload sample information, 3 upload protein FASTA, 4 select the mzML input directory, 5 check mzML files, 6 select Raw as the data source, and 7 run Project init. The right panel shows the six PXD065315 control samples after successful initialization.
+</figcaption>
+</figure>
+</div>
+<section id="follow-the-numbered-order-in-the-figure" class="level3">
+<h3 class="anchored" data-anchor-id="follow-the-numbered-order-in-the-figure">Follow the numbered order in the figure</h3>
+<p><strong>1. Set the working directory.</strong> Click <strong>Set working directory</strong> and choose a local directory in which ProtVis can create stage files, portable exports, the <code>Sage_search</code> directory and later analysis outputs. The screenshot uses <code>E:/count/p_raw</code>. The directory must exist and be writable. Keeping all files for one analysis inside the same project directory makes checkpoint and Sage-result recovery much more reliable.</p>
+<p><strong>2. Load the sample information.</strong> Upload a <code>.csv</code>, <code>.xlsx</code>, or <code>.xls</code> table with at least <code>sample_id</code> and <code>mzml_file</code>, or click <strong>Use built-in PXD065315 sample information</strong> for the six-sample maize control example. After loading, confirm that the upload status is complete and inspect the <strong>Sample Info</strong> preview. For the built-in example, the six rows should be <code>B73_C1</code>, <code>B73_C2</code>, <code>B73_C3</code>, <code>EA2024_C1</code>, <code>EA2024_C2</code>, and <code>EA2024_C3</code>, and the <code>mzml_file</code> column should point to the corresponding <code>.mzML</code> filenames.</p>
+<p><strong>3. Upload the protein FASTA.</strong> Under <strong>Raw/mzML input</strong>, upload the protein database used for the Sage search. Accepted inputs include <code>.fa</code>, <code>.fasta</code>, <code>.faa</code>, and supported compressed FASTA forms. Use a FASTA that matches the organism and protein identifiers expected for the experiment. In the illustrated maize example, the uploaded file is <code>UP000007305_4577.fasta</code>. Wait until the interface reports that the FASTA is ready before continuing.</p>
+<p><strong>4. Select the mzML input directory.</strong> Click <strong>Select mzML input directory</strong> and choose the folder that contains the converted mzML files. The directory can also contain the original vendor <code>.raw</code> files, but the Sage input check is based on the <code>.mzML</code> filenames registered in the sample-information table. For PXD065315, the expected local files are <code>B73_C1.mzML</code>, <code>B73_C2.mzML</code>, <code>B73_C3.mzML</code>, <code>EA2024_C1.mzML</code>, <code>EA2024_C2.mzML</code>, and <code>EA2024_C3.mzML</code>.</p>
+<p><strong>5. Check the mzML files.</strong> Click <strong>Check mzML files</strong>. ProtVis verifies that the filenames are unique, have the <code>.mzML</code> extension, and are present in the selected directory. Resolve every Missing or Invalid extension result before initializing the project. If the check fails, compare the physical filenames with <code>sample_info$mzml_file</code> character by character; renaming either side is acceptable as long as the two remain identical.</p>
+<p><strong>6. Select <code>Raw</code> as the data source.</strong> In <strong>Select data source</strong>, choose <strong>Raw</strong>. This step activates the Raw/Sage route and makes the top-level <strong>Search</strong> tab available. Do not upload a fabricated expression matrix simply to complete Project init; for a Raw project the expression matrix is intentionally absent until Sage LFQ results are created.</p>
+<p><strong>7. Run Project init.</strong> Click the large <strong>Project init</strong> button at the top of the main panel. A successful Raw initialization reports <strong>“PROJECT INIT completed — Sage ProtVis_dataset is ready.”</strong> Inspect the preview tabs after completion. <strong>Sample Info</strong> should contain the expected rows, <strong>Raw/mzML Files</strong> should reflect the registered input files, and <strong>Expression Matrix</strong> can remain empty at this stage. The next step is <strong>Search</strong>, not Correct Noise.</p>
 <p>When an uploaded sample table contains an mzML filename column (<code>mzml_file</code>, <code>mzml</code>, <code>raw_file</code>, <code>file</code>, or <code>filename</code>), ProtVis automatically registers it for the Sage workflow.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Do not create a fake expression matrix
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A Raw/Sage project does not need a protein expression matrix before Search. Project init creates a <code>Sage_staging</code> project object and fills the expression layer only after LFQ results are available. After Step 7 succeeds, continue directly to <a href="../../content/data_import/raw_sage_search.html">Raw/mzML + Sage search</a>.</p>
+</div>
+</div>
+</section>
 <section id="the-sage-staging-object" class="level3">
 <h3 class="anchored" data-anchor-id="the-sage-staging-object">The Sage staging object</h3>
 <p>If no expression matrix exists yet, Project init creates a staging <code>ProtVis_dataset</code> with sample metadata and registered input paths. Its workflow stage is <code>Sage_staging</code>, with an object name such as:</p>
 <pre class="text"><code>ProtVis_dataset__project_init__Sage_staging__v1</code></pre>
 <p>This is intentional. ProtVis does not fabricate protein abundances before the database search. The staging object is valid even though its expression layer is temporarily empty. <code>Step1_project_init.rda</code> and the portable export are still written, so the project has a recoverable starting state.</p>
-<p>After initialization, continue to <a href="../../content/data_import/raw_sage_search.html">Raw/mzML + Sage search</a>.</p>
 </section>
 </section>
 <section id="built-in-pxd065315-sample-information" class="level2">
 <h2 class="anchored" data-anchor-id="built-in-pxd065315-sample-information">Built-in PXD065315 sample information</h2>
-<p>The current built-in Raw example contains six maize samples: three B73 replicates and three EA2024 replicates. Its columns include <code>sample_id</code>, <code>mzml_file</code>, genotype, treatment, group, condition, replicate, batch, tissue, organism, accession, and the PRIDE source URL.</p>
-<p>The built-in filenames are a template. Replace <code>mzml_file</code> values with the actual filenames present in your selected directory when your downloaded files use different names.</p>
+<p>The current built-in Raw example contains six maize control samples: three B73 replicates (<code>B73_C1</code>, <code>B73_C2</code>, <code>B73_C3</code>) and three EA2024 replicates (<code>EA2024_C1</code>, <code>EA2024_C2</code>, <code>EA2024_C3</code>). Its columns include <code>sample_id</code>, <code>mzml_file</code>, genotype, treatment, group, condition, replicate, batch, tissue, organism, accession, and the PRIDE source URL.</p>
+<p>Public source data:</p>
+<ul>
+<li><a href="https://www.ebi.ac.uk/pride/archive/projects/PXD065315">PXD065315 on PRIDE</a></li>
+<li><a href="https://proteomecentral.proteomexchange.org/?pxid=PXD065315">PXD065315 on ProteomeXchange</a></li>
+<li><a href="../../content/data_import/raw_sage_search.html#example-dataset-pxd065315">Direct links for the six control RAW files and their expected mzML filenames</a></li>
+</ul>
+<p>The built-in <code>mzml_file</code> values refer to locally converted files such as <code>B73_C1.mzML</code> and <code>EA2024_C3.mzML</code>. PRIDE provides the corresponding vendor <code>.raw</code> files; convert them to mzML before selecting the Raw/mzML directory in ProtVis.</p>
 </section>
 <section id="outputs" class="level2">
 <h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
