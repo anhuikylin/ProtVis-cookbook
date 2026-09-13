@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Build the two-sheet GO/KEGG workbook used by ProtVis enrichment analysis.">
+<meta name="description" content="Build enrichment-ready GO and KEGG background annotation tables from eggNOG output.">
 
 <title>Background make – ProtVis Cookbook</title>
 <style>
@@ -612,9 +612,10 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#required-annotation-fields" id="toc-required-annotation-fields" class="nav-link" data-scroll-target="#required-annotation-fields">Required annotation fields</a></li>
-  <li><a href="#proteintranscript-separator" id="toc-proteintranscript-separator" class="nav-link" data-scroll-target="#proteintranscript-separator">Protein/transcript separator</a></li>
-  <li><a href="#generate-the-workbook" id="toc-generate-the-workbook" class="nav-link" data-scroll-target="#generate-the-workbook">Generate the workbook</a></li>
+  <li><a href="#background-maker-interface" id="toc-background-maker-interface" class="nav-link" data-scroll-target="#background-maker-interface">Background Maker interface</a></li>
+  <li><a href="#required-input" id="toc-required-input" class="nav-link" data-scroll-target="#required-input">Required input</a></li>
+  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
+  <li><a href="#how-go-and-kegg-records-are-generated" id="toc-how-go-and-kegg-records-are-generated" class="nav-link" data-scroll-target="#how-go-and-kegg-records-are-generated">How GO and KEGG records are generated</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Background_Make.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Background_Make.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -629,7 +630,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Build the two-sheet GO/KEGG workbook used by ProtVis enrichment analysis.
+    Build enrichment-ready GO and KEGG background annotation tables from eggNOG output.
   </div>
 </div>
 
@@ -648,50 +649,78 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p><strong>Background Make</strong> converts eggNOG-mapper-style annotation into the background workbook required by the Enrichment Analysis module.</p>
+<p>Use <strong>Toolkits → Background make</strong> to convert an eggNOG-mapper-style annotation table into the GO and KEGG background workbook used by ProtVis enrichment analysis. The module validates the annotation fields, extracts stable gene IDs, expands multi-valued GO/KEGG annotations, attaches term names, and exports a reproducible Excel workbook.</p>
 </section>
-<section id="required-annotation-fields" class="level2">
-<h2 class="anchored" data-anchor-id="required-annotation-fields">Required annotation fields</h2>
-<p>Upload the eggNOG output in <code>.csv</code> or <code>.xlsx</code> format. The module checks for:</p>
-<ul>
-<li><code>query</code></li>
-<li><code>GOs</code></li>
-<li><code>KEGG_Pathway</code></li>
-</ul>
+<section id="background-maker-interface" class="level2">
+<h2 class="anchored" data-anchor-id="background-maker-interface">Background Maker interface</h2>
+<p>The screenshot below shows a completed maize example using <code>annotations2.xlsx</code>. The three summary cards report file status, GO annotation statistics and KEGG annotation statistics, while the two large tables preview the generated <code>GO Background</code> and <code>KEGG Background</code> records.</p>
+<div id="fig-background-maker-interface" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of ProtVis Toolkits Background Maker. annotations2.xlsx has passed file-format validation. File Status, GO Summary and KEGG Summary cards are shown above GO Background and KEGG Background tables, with File Upload, Gene ID Separator, Check File, Run Background Maker, Download Background and Example Data controls in the sidebar.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-background-maker-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/screenshots/PixPin_2026-09-13_22-50-42.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Toolkits Background Maker. annotations2.xlsx has passed file-format validation. File Status, GO Summary and KEGG Summary cards are shown above GO Background and KEGG Background tables, with File Upload, Gene ID Separator, Check File, Run Background Maker, Download Background and Example Data controls in the sidebar.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-background-maker-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: ProtVis Background Maker interface after processing an EggNOG annotation workbook. The sidebar contains file upload, gene-ID separator and action controls; the main panel reports file, GO and KEGG summaries and previews the generated background tables.
+</figcaption>
+</figure>
+</div>
+<p>The values visible in this screenshot—such as 232,004 GO records and 13,763 KEGG records—belong only to this example annotation file and are not fixed ProtVis outputs.</p>
 </section>
-<section id="proteintranscript-separator" class="level2">
-<h2 class="anchored" data-anchor-id="proteintranscript-separator">Protein/transcript separator</h2>
-<p>Set the separator used to reduce transcript-level IDs to the desired protein/gene identifier. For example, with:</p>
+<section id="required-input" class="level2">
+<h2 class="anchored" data-anchor-id="required-input">Required input</h2>
+<p>Upload an eggNOG output table in <code>.csv</code>, <code>.xlsx</code>, or <code>.xls</code> format. The current module requires these exact columns:</p>
+<pre class="text"><code>query
+GOs
+KEGG_Pathway</code></pre>
+<p><code>GOs</code> and <code>KEGG_Pathway</code> may contain multiple comma-separated annotations for one query sequence.</p>
+</section>
+<section id="recommended-operating-order" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h2>
+<p><strong>1. Upload the eggNOG annotation file.</strong> In <strong>File Upload</strong>, choose the annotation table. After upload, the file information panel shows the selected filename and the current validation state.</p>
+<p><strong>2. Check the file before generating a background.</strong> Click <strong>Check File</strong>. ProtVis verifies that <code>query</code>, <code>GOs</code>, and <code>KEGG_Pathway</code> are present. Continue only when the status reports <strong>File format check passed</strong>. The <strong>Run Background Maker</strong> action is intended to be used after this validation step.</p>
+<p><strong>3. Set the Gene ID Separator.</strong> The default separator is <code>_</code>. ProtVis uses this character to extract the stable ID from the beginning of the <code>query</code> field. For example:</p>
 <pre class="text"><code>Zm00001eb321680_T001</code></pre>
-<p>using <code>_</code> extracts:</p>
+<p>with <code>_</code> becomes:</p>
 <pre class="text"><code>Zm00001eb321680</code></pre>
-<p>Only apply this rule if it matches the identifier convention of your study.</p>
+<p>Choose a separator that matches the identifier convention of the uploaded annotation. Do not use <code>_</code> automatically when your IDs follow a different scheme.</p>
+<p><strong>4. Run Background Maker.</strong> Click <strong>Run Background Maker</strong>. ProtVis expands comma-separated GO terms, retrieves GO term names from <code>GO.db</code>, removes unresolved GO annotations, and creates distinct <code>GENE</code>, <code>TERM</code>, <code>NAME</code> records. For KEGG, it keeps pathway IDs matching the <code>map#####</code> form and obtains pathway names from the KEGG pathway list when available.</p>
+<p><strong>5. Review the summary cards.</strong> <strong>FILE STATUS</strong> confirms whether the source file passed validation. <strong>GO SUMMARY</strong> and <strong>KEGG SUMMARY</strong> report record counts, unique genes and unique terms. Large differences between the number of source genes and annotated genes are expected when some genes lack GO or KEGG assignments, but unexpected losses should be investigated.</p>
+<p><strong>6. Inspect both output tables.</strong> The <strong>GO Background</strong> and <strong>KEGG Background</strong> cards show the enrichment-ready records. Each table should contain:</p>
+<pre class="text"><code>GENE
+TERM
+NAME</code></pre>
+<p>Check a few known genes and pathways before using the workbook for enrichment analysis.</p>
+<p><strong>7. Download the background workbook.</strong> Click <strong>Download Background</strong>. ProtVis writes a file named like <code>background_YYYY-MM-DD.xlsx</code> containing three worksheets: <code>Summary</code>, <code>GO_background</code>, and <code>KEGG_background</code>. The Summary sheet records the uploaded file and the generated record/gene/term counts.</p>
+<p><strong>8. Use Example Data when learning the format.</strong> <strong>Example Data</strong> downloads <code>background_maker_example_data.csv</code>, which can be used as a minimal template for the three required source columns.</p>
 </section>
-<section id="generate-the-workbook" class="level2">
-<h2 class="anchored" data-anchor-id="generate-the-workbook">Generate the workbook</h2>
-<ol type="1">
-<li>Upload the eggNOG annotation.</li>
-<li>Click <strong>Check File</strong>.</li>
-<li>Set the ID separator.</li>
-<li>Click <strong>Make Background</strong>.</li>
-<li>Review the generated GO and KEGG tables.</li>
-<li>Download the Excel workbook.</li>
-</ol>
-<p>The enrichment-ready workbook contains:</p>
-<pre class="text"><code>GO_background
-KEGG_background</code></pre>
-<p>and each sheet should provide the <code>TERM</code>, <code>GENE</code>, and <code>NAME</code> fields expected by the current Enrichment Analysis file validator.</p>
+<section id="how-go-and-kegg-records-are-generated" class="level2">
+<h2 class="anchored" data-anchor-id="how-go-and-kegg-records-are-generated">How GO and KEGG records are generated</h2>
+<p>For GO annotations, ProtVis separates the comma-delimited <code>GOs</code> field, removes missing or <code>-</code> entries, extracts the stable gene ID, maps each GO ID to its term name, removes terms that cannot be resolved, and de-duplicates the resulting records.</p>
+<p>For KEGG, ProtVis separates <code>KEGG_Pathway</code>, keeps valid <code>map</code> pathway identifiers such as <code>map01100</code>, and resolves pathway names through the KEGG pathway-list service. If a pathway-name lookup is unavailable, the current implementation can retain the pathway ID itself as the name rather than discarding that valid mapping.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+<span class="screen-reader-only">Important</span>Use the correct enrichment universe
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Build the background from the set of proteins that could realistically have been detected/tested in the experiment, not from the list of significant proteins. The background defines the enrichment universe.</p>
+<p>The background should represent the genes/proteins that could realistically have been detected or tested in the experiment. Do not build the background only from significant proteins; doing so changes the statistical universe and can distort enrichment results.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Keep the generated workbook together with the eggNOG source file and record the annotation/database version. This makes later enrichment results substantially easier to reproduce.</p>
 </div>
 </div>
 
