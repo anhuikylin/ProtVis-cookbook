@@ -83,6 +83,27 @@ table thead th { background: var(--pv-surface-soft); }
 }
 .quarto-figure figcaption { color: #647b8b; font-size: .9rem; }
 
+/* Crop only the homepage overview at render time. The source SVG remains unchanged. */
+#fig-protvis-overview-workflow figure > div[aria-describedby] {
+  width: 95%;
+  aspect-ratio: 2481 / 2300;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--pv-border);
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(31, 52, 71, .07);
+}
+#fig-protvis-overview-workflow figure > div[aria-describedby] > img {
+  display: block;
+  width: 100% !important;
+  max-width: none;
+  height: auto;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 kbd {
   padding: .12rem .38rem;
   border: 1px solid #c9d8e4;

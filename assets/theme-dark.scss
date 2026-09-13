@@ -50,3 +50,24 @@ pre.sourceCode, div.sourceCode { border: 1px solid var(--pv-border); border-radi
 table thead th { background: var(--pv-surface-soft); }
 .quarto-figure img { max-width: 100%; border: 1px solid var(--pv-border); border-radius: 12px; box-shadow: var(--pv-shadow); }
 .quarto-figure figcaption { color: #a9bdc8; font-size: .9rem; }
+
+/* Crop only the homepage overview at render time. The source SVG remains unchanged. */
+#fig-protvis-overview-workflow figure > div[aria-describedby] {
+  width: 95%;
+  aspect-ratio: 2481 / 2300;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--pv-border);
+  border-radius: 12px;
+  box-shadow: var(--pv-shadow);
+}
+#fig-protvis-overview-workflow figure > div[aria-describedby] > img {
+  display: block;
+  width: 100% !important;
+  max-width: none;
+  height: auto;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}

@@ -8,7 +8,7 @@ description: "Install the current ProtVis development release and launch the app
 ProtVis is an R package with a Shiny interface. Use a recent R installation and a writable R library. On Windows, installing packages from source may also require the matching Rtools release when a binary is unavailable.
 
 ::: {.callout-note}
-This cookbook currently follows **ProtVis 0.5.7 on the `dev` branch**. The installation commands below therefore install `@dev` explicitly.
+This cookbook currently follows **ProtVis 0.7.9 on the `dev` branch**. The installation commands below therefore install `@dev` explicitly.
 :::
 
 ## Recommended installation
@@ -28,7 +28,10 @@ Verify the installed version:
 
 ```r
 packageVersion("ProtVis")
+# 0.7.9 for the cookbook baseline
 ```
+
+Because `dev` changes continuously, a later installation may report a newer version. In that case, prefer the current ProtVis source and Help page when a control or default differs from this cookbook.
 
 ## Clean update
 
@@ -41,6 +44,18 @@ source(
 ```
 
 Close other R sessions that are currently using ProtVis before running a clean reinstall.
+
+## Sage availability
+
+Raw/mzML projects can run a Sage database search from the conditional **Search** tab.
+
+On Windows, ProtVis first looks for its bundled executable at `inst/extdata/sage/windows/sage.exe`. On Linux or macOS, install Sage separately and make the `sage` executable available on `PATH`. You can verify discovery from R with:
+
+```r
+ProtVis::protvis_sage_executable()
+```
+
+A valid path means the search engine is available. `NULL` means ProtVis could not locate Sage.
 
 ## Optional WGCNA helper
 
@@ -68,6 +83,13 @@ ProtVis::run_ProtVis()
 
 ## First launch checklist
 
-After the application opens, confirm that you can see **Homepage**, **Project init**, **Data input**, **Pre-processing**, **Downstream analysis**, **Multi-omics**, **PTM**, **Release data**, **Toolkits**, and **Help** in the navigation bar.
+After the application opens, confirm that you can see **Homepage**, **Project init**, **Pre-processing**, **Downstream analysis**, **Multi-omics**, **PTM**, **Release data**, **Toolkits**, and **Help**.
+
+Two navigation items are intentionally conditional:
+
+- **Search** is shown when **Raw** is selected in Project init.
+- **Pre-processing → MaxQuant Output Preparation** is shown only when **MaxQuant** is selected.
+
+The source-independent preprocessing items, including **Correct Noise**, remain available for all supported data sources.
 
 If the app opens but an optional module reports a missing dependency, install that dependency and restart the R session. If the package itself fails to load after an update, prefer the clean installer above rather than repeatedly installing over a corrupted package directory.

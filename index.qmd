@@ -6,26 +6,30 @@ description: "A practical, reproducible user guide for ProtVis proteomics analys
 ::: {.hero}
 ## From quantitative proteomes to biological insight
 
-**ProtVis** combines data import, preprocessing, quality control, statistical analysis, functional interpretation, multi-omics integration, PTM analysis, and publication-ready visualization in one interactive workflow. This cookbook follows the application in the same order that a real project is analyzed.
+**ProtVis** combines data import, Raw/mzML database search, preprocessing, quality control, statistical analysis, functional interpretation, multi-omics integration, PTM analysis, and publication-ready visualization in one interactive workflow. This cookbook follows the application in the same order that a real project is analyzed.
 
-[Start with installation](content/installation.qmd) · [Understand `ProtVis_dataset`](content/reproducibility/ProtVis_dataset.qmd) · [Run the full workflow](content/Pre_processing/Pre_processing.qmd)
+[Start with installation](content/installation.qmd) · [Run Raw/mzML + Sage](content/data_import/raw_sage_search.qmd) · [Understand `ProtVis_dataset`](content/reproducibility/ProtVis_dataset.qmd)
 :::
 
 ::: {.callout-note}
 ## Documentation version
-This edition is aligned to **ProtVis 0.5.7 on the `dev` branch**, reviewed on **2026-09-10**. ProtVis is under active development; the cookbook emphasizes stable concepts and explicitly identifies compatibility behavior where relevant.
+This edition is aligned to **ProtVis 0.7.9 on the `dev` branch**, reviewed on **2026-09-13**. ProtVis is under active development; the cookbook emphasizes stable concepts and explicitly identifies compatibility behavior where relevant.
 :::
 
 ## ProtVis at a glance
 
 The overview below shows how heterogeneous proteomics software outputs are brought into `ProtVis_dataset`, processed through a shared preprocessing and quality-control workflow, and connected to differential analysis, functional interpretation, multi-omics, WGCNA, and key-protein characterization.
 
-![Overview Workflow in ProtVis. Heterogeneous proteomics software outputs enter a unified `ProtVis_dataset` workflow spanning preprocessing, data summary, downstream analysis, multi-omics integration, WGCNA, and key-protein characterization.](images/protvis-overview-workflow.avif){#fig-protvis-overview-workflow fig-alt="Overview of the ProtVis workflow. MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, and user-defined matrices feed into ProtVis_dataset. The workflow includes noise correction, data transformation, missing-value imputation, normalization, data summary, differential abundance analysis, enrichment, GSEA, pathway analysis, multi-omics analysis, WGCNA, and key-protein functional and modification analyses." width="95%" fig-align="center"}
+![Overview Workflow in ProtVis. Heterogeneous proteomics software outputs enter a unified `ProtVis_dataset` workflow spanning preprocessing, data summary, downstream analysis, multi-omics integration, WGCNA, and key-protein characterization.](images/protvis-overview-workflow.svg){#fig-protvis-overview-workflow fig-alt="Overview of the ProtVis workflow. MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, and user-defined matrices feed into ProtVis_dataset. The workflow includes noise correction, data transformation, missing-value imputation, normalization, data summary, differential abundance analysis, enrichment, GSEA, pathway analysis, multi-omics analysis, WGCNA, and key-protein functional and modification analyses." width="95%" fig-align="center"}
 
 <div class="feature-grid">
 <div class="feature-card">
 <strong>Heterogeneous input</strong>
 <p>Import MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, Mascot, or a user-defined matrix.</p>
+</div>
+<div class="feature-card">
+<strong>Raw/mzML + Sage</strong>
+<p>Register sample metadata, validate mzML filenames, upload a protein FASTA, run Sage, and convert LFQ results directly into the canonical project object.</p>
 </div>
 <div class="feature-card">
 <strong>Traceable data object</strong>
@@ -49,16 +53,19 @@ The overview below shows how heterogeneous proteomics software outputs are broug
 </div>
 </div>
 
-## Recommended analysis path
+## Recommended analysis paths
 
-1. **Install and launch ProtVis.**
-2. **Project init:** choose the working directory, load sample metadata and an expression matrix or built-in example, then select the data source.
-3. **Data input:** parse and validate the source-specific quantitative evidence.
-4. **Pre-processing:** Correct Noise → Data Transformation → Data Imputation → Data Normalization.
-5. **Overview:** inspect sample correlations, expression patterns, dimensionality reduction, missingness, intensity distributions, PCA, and CV.
-6. **DEP:** define one or more `Group1` versus `Group2` comparisons and run differential abundance analysis.
-7. **Interpretation:** use GO/KEGG enrichment, GSEA, Pathview, PPI, WGCNA, and other downstream modules as appropriate.
-8. **Release/export:** save portable project outputs and publication-ready tables and figures.
+For **Raw/mzML data**, use:
+
+**Project init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP → Interpretation**
+
+For **MaxQuant**, use:
+
+**Project init → MaxQuant Output Preparation → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP → Interpretation**
+
+For **other supported tabular outputs**, import/parse the source-specific quantitative table and continue into the shared preprocessing workflow.
+
+The Raw route is intentionally different: Project init can create a sample-only Sage staging `ProtVis_dataset` without inventing an expression matrix. The protein-by-sample matrix is created after the Sage LFQ search succeeds.
 
 ## Two ways to learn ProtVis
 

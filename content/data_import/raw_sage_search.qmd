@@ -1,0 +1,156 @@
+---
+title: "Raw/mzML + Sage search"
+description: "Validate Raw-project inputs, run Sage 0.14.7, inspect PSM/LFQ results, and hand the protein matrix to shared preprocessing."
+---
+
+## When to use this workflow
+
+Use **Project init → Search** when your starting point is converted `.mzML` files rather than a precomputed protein-abundance table. ProtVis registers sample metadata, the mzML directory and a protein FASTA, runs Sage, then converts Sage LFQ output into the same canonical `ProtVis_dataset` used by all downstream modules.
+
+The route is:
+
+**Project init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization**
+
+The top-level **Search** tab is intentionally visible only while **Raw** is selected in Project init.
+
+## Prerequisites
+
+Before opening Search, complete the Raw-specific part of [Project init](../Project_init/Project_init.qmd):
+
+1. Set a writable working directory.
+2. Select **Raw**.
+3. Load or upload sample information containing `sample_id` and `mzml_file`.
+4. Select the directory containing the mzML files.
+5. Click **Check mzML files** and resolve every Missing or Invalid extension row.
+6. Upload the matching protein FASTA.
+7. Click **Project init** to create the Sage staging object.
+
+::: {.callout-important}
+## Do not create a fake expression matrix
+A Raw/Sage project does not need a protein expression matrix before Search. ProtVis creates a `Sage_staging` project object and fills the expression layer only after LFQ results are available.
+:::
+
+## Sage executable
+
+ProtVis uses `protvis_sage_executable()` to resolve Sage.
+
+On **Windows**, the package can use the bundled Sage executable at:
+
+```text
+inst/extdata/sage/windows/sage.exe
+```
+
+On Linux or macOS, install Sage separately and make `sage` available on `PATH`.
+
+You can verify discovery from R:
+
+```r
+ProtVis::protvis_sage_executable()
+```
+
+The Search page shows the resolved **FASTA**, **mzML directory**, **Output**, and **Sage** paths before execution.
+
+## Search parameters
+
+The current Search interface exposes the following defaults:
+
+| Parameter | Default |
+|---|---:|
+| Precursor tolerance | 20 ppm |
+| Fragment tolerance | 0.5 Da |
+| Enzyme | Trypsin/P |
+| Missed cleavages | 2 |
+| Minimum peptide length | 7 |
+| Maximum peptide length | 50 |
+| Carbamidomethyl (C), fixed | enabled |
+| Oxidation (M), variable | enabled |
+| Protein N-term acetyl, variable | enabled |
+| Spectrum/peptide/protein FDR | 0.01 |
+| LFQ | enabled |
+
+The generated Sage configuration uses target-decoy searching with `rev_` as the decoy prefix. LFQ should remain enabled when the goal is to create a protein-by-sample matrix for downstream ProtVis analysis.
+
+## Run the search
+
+1. Open **Search**.
+2. Confirm that the displayed FASTA, mzML directory, output directory and Sage executable are correct.
+3. Adjust search parameters only when your acquisition/search design requires it.
+4. Click **Run Sage Search**.
+5. Follow **Search status** and **Sage log**.
+6. Inspect the **Summary**, **PSMs**, and **LFQ** tabs after completion.
+
+Repeated rapid clicks are guarded at both the interface and server level. If the same search is already running, the duplicate action is ignored rather than launching a second Sage process.
+
+## Files produced by Sage
+
+ProtVis writes the search into the project `Sage_search` directory. The principal files are:
+
+```text
+Sage_search/
+├── sage_config.json
+├── results.sage.tsv
+├── lfq.tsv
+└── results.json
+```
+
+The Search page also provides **Download Sage config** so the exact generated configuration can be retained independently.
+
+## How LFQ becomes a ProtVis matrix
+
+After a successful search, ProtVis reads the Sage LFQ table, finds the `proteins`/`protein` field, matches LFQ sample columns to the registered mzML filenames and `sample_id` values, removes `rev_` decoy identifiers, and aggregates target intensities into a protein-by-sample matrix.
+
+The completed object uses the workflow stage `Sage_complete` and receives a traceable name such as:
+
+```text
+ProtVis_dataset__Sage_database_search__v2
+```
+
+The original staging metadata and process history are retained. Search parameters, log information, configuration, result tables, and produced files are recorded under the project, including:
+
+```r
+dataset$analysis_results$Sage_database_search
+```
+
+Search output files that exist on disk are also registered in `other_files` with path, filename, size, MD5 and attachment time.
+
+## Stage handoff to preprocessing
+
+A successful Search writes two compatibility snapshots:
+
+```text
+Step2_sage_database_search.rda
+Step2_remove_unreliable_peptide.rda
+```
+
+`Step2_sage_database_search.rda` preserves the Sage-specific stage name for compatibility. The important cross-source handoff is now:
+
+```text
+Step2_remove_unreliable_peptide.rda
+```
+
+This is the **data-source-independent Step2 checkpoint** consumed by **Correct Noise**. In other words, downstream preprocessing does not need to know whether Step2 originated from Sage, MaxQuant, or another supported input path.
+
+Continue with [Correct noise](../Pre_processing/correct_noise.qmd).
+
+## Recovery after restarting ProtVis
+
+ProtVis can recover a completed Sage search from the existing `Sage_search` directory when `lfq.tsv` is present and the configuration still resolves the FASTA and mzML inputs. Recovery reads the prior configuration and result tables instead of requiring the database search to be repeated simply because the Shiny session restarted.
+
+Correct Noise also checks the active `ProtVis_dataset` first. If no in-memory object is available, it looks for the canonical `Step2_remove_unreliable_peptide.rda`, then Sage-specific/older stage files as fallbacks.
+
+::: {.callout-tip}
+## Keep the complete project directory
+For a recoverable Raw/Sage project, keep the working directory, `Sage_search` folder, stage files, and portable `ProtVis_dataset` export together. Moving only `lfq.tsv` away from the FASTA/configuration context weakens provenance and may prevent automatic recovery.
+:::
+
+## Troubleshooting
+
+**Search tab is missing.** Return to Project init and select **Raw**. Search is hidden for other source types by design.
+
+**Sage is shown as Not found.** On Windows, reinstall the current ProtVis build and confirm the bundled executable is present. On Linux/macOS, install Sage and place it on `PATH`.
+
+**No `.mzML` files were found.** Select the directory that directly contains the converted files and rerun **Check mzML files**.
+
+**Sample names do not map to LFQ columns.** Confirm that `sample_info$mzml_file` matches the registered mzML filenames. ProtVis falls back to filename stems only when a direct sample mapping is unavailable.
+
+**Correct Noise says the expression matrix is unavailable.** The current object is probably still a Sage staging object. Complete Search successfully first so LFQ can be converted to the protein abundance matrix.

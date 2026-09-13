@@ -1,15 +1,15 @@
 ---
 title: "Checkpoints & recovery"
-description: "Save, inspect, restore and export recoverable ProtVis analysis states."
+description: "Save, inspect, restore and export recoverable ProtVis analysis states, including Raw/Sage projects."
 ---
 
 ## Checkpoint model
 
 ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated `ProtVis_dataset` at a named stage.
 
-![Checkpoint-aware analysis and recovery in ProtVis. Auto-saved validated stages support resuming interrupted analyses or restarting downstream analysis from a selected stage, while the interface design isolates node-level failures and preserves available checkpoints.](../../images/protvis-checkpoint-recovery.avif){#fig-protvis-checkpoint-recovery fig-alt="Three-panel checkpoint and recovery schematic. Panel A shows data input, noise correction, transformation, imputation, normalization, and DEP analysis writing validated checkpoints into ProtVis_dataset, with an interrupted analysis resuming from a checkpoint. Panel B shows resume and reanalysis paths from saved stages. Panel C contrasts a conventional interrupted reactive workflow with ProtVis node-level error handling and retained checkpoints." width="98%" fig-align="center"}
+![Checkpoint-aware analysis and recovery in ProtVis. Auto-saved validated stages support resuming interrupted analyses or restarting downstream analysis from a selected stage, while the interface design isolates node-level failures and preserves available checkpoints.](../../images/protvis-checkpoint-recovery.svg){#fig-protvis-checkpoint-recovery fig-alt="Three-panel checkpoint and recovery schematic. Panel A shows data input, noise correction, transformation, imputation, normalization, and DEP analysis writing validated checkpoints into ProtVis_dataset, with an interrupted analysis resuming from a checkpoint. Panel B shows resume and reanalysis paths from saved stages. Panel C contrasts a conventional interrupted reactive workflow with ProtVis node-level error handling and retained checkpoints." width="98%" fig-align="center"}
 
-The schematic presents three complementary recovery ideas: validated stage checkpoints, selective downstream re-analysis from a saved state, and node-level error isolation so a failure does not require rebuilding the complete project from the beginning.
+The important principle is that the active `ProtVis_dataset` is authoritative. Checkpoints and stage `.rda` files make that object recoverable; they are not parallel, unrelated data models.
 
 ## Save a checkpoint
 
@@ -32,7 +32,7 @@ protvis_checkpoint_<stage>_...rds
 
 Saving is validated before a checkpoint is published, reducing the chance that a partial write replaces a usable analysis state.
 
-## List checkpoints
+## List and restore checkpoints
 
 ```r
 list_protvis_checkpoints("checkpoints")
@@ -40,7 +40,7 @@ list_protvis_checkpoints("checkpoints")
 
 The returned table includes the file path, stage, creation time, size, MD5, and whether the checkpoint can be read.
 
-## Restore the newest checkpoint
+Restore the newest checkpoint with:
 
 ```r
 restored <- restore_protvis_checkpoint(
@@ -49,7 +49,7 @@ restored <- restore_protvis_checkpoint(
 )
 ```
 
-You can request a stage as well:
+Or request a stage:
 
 ```r
 restored <- restore_protvis_checkpoint(
@@ -58,7 +58,7 @@ restored <- restore_protvis_checkpoint(
 )
 ```
 
-If the exact requested stage is unavailable, ProtVis can select the newest readable checkpoint at or before that stage, allowing an interrupted workflow to resume from the closest valid state.
+If the exact requested stage is unavailable, ProtVis can select the newest readable checkpoint at or before that stage.
 
 ## Automatic persistence
 
@@ -72,15 +72,52 @@ ds <- protvis_auto_export_dataset(
 )
 ```
 
-## Legacy stage files
+The GUI also protects long-running actions against duplicate execution. Buttons marked as run actions are disabled while Shiny is busy, and key server modules independently reject the same action if it is already running. This prevents accidental double searches, imports, or preprocessing runs from creating competing checkpoints.
 
-ProtVis still reads historical stage files where needed. Current stage snapshots are written with exactly one `ProtVis_dataset` object; older workspaces that stored expression and sample objects separately can be migrated by the internal loading layer.
+## Source-independent Step2
 
-Common compatibility files include:
+The current preprocessing handoff uses:
+
+```text
+Step2_remove_unreliable_peptide.rda
+```
+
+as the canonical **Step2 file across data sources**. The historical filename remains for compatibility, but the contents are a `ProtVis_dataset` and can originate from MaxQuant, Sage, or another supported input route.
+
+For Raw/Sage, a successful search also writes:
+
+```text
+Step2_sage_database_search.rda
+```
+
+The Sage-specific file is retained as a compatibility/recovery snapshot. **Correct Noise prefers the active object and then the canonical Step2 file.**
+
+## Sage search recovery
+
+Raw/Sage projects have an additional recovery path. If the Shiny session restarts after Sage completed, ProtVis can reconstruct the search bundle from the existing `Sage_search` directory when the LFQ result and input context are still resolvable.
+
+The expected Sage files are:
+
+```text
+Sage_search/
+├── sage_config.json
+├── results.sage.tsv
+├── lfq.tsv
+└── results.json
+```
+
+`lfq.tsv` is required for recovery of the quantitative protein matrix. The stored configuration is used to recover FASTA and mzML context when possible.
+
+This means a completed database search does not need to be rerun merely because the application session closed.
+
+## Compatibility stage files
+
+Common stage files currently include:
 
 ```text
 Step1_project_init.rda
 Step2_remove_unreliable_peptide.rda
+Step2_sage_database_search.rda   # Raw/Sage compatibility snapshot
 Step3_correct_noise.rda
 Step4_data_transformed.rda
 Step5_data_imputation.rda
@@ -88,7 +125,9 @@ Step6_data_normalization.rda
 Step7_differential_analysis.rda
 ```
 
+Current snapshots are written with exactly one `ProtVis_dataset` object. Older workspaces that stored expression and sample objects separately can still be migrated by the internal loading layer where supported.
+
 ::: {.callout-tip}
 ## Recovery strategy
-For long projects, keep the working directory together with the latest portable export and checkpoint directory. This gives you a human-readable export, a complete serialized project object, and stage-aware recovery options.
+Keep the complete working directory together with the latest portable export, checkpoint directory, and—when using Raw/Sage—the `Sage_search` directory. This preserves the serialized project, human-readable exports, search evidence, and stage-aware recovery options in one place.
 :::

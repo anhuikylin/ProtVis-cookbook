@@ -9,7 +9,7 @@ description: "Understand the independent S4 object that carries data, metadata, 
 
 This architecture allows ProtVis to preserve one coherent scientific record while every module adds a new result or processing step.
 
-![Conceptual architecture of `ProtVis_dataset`. Expression data are linked to sample and variable metadata, annotation resources, analysis results, processing history, and provenance/extra files to support interoperability, reproducibility, and recoverability.](../../images/protvis-dataset-architecture.avif){#fig-protvis-dataset-architecture fig-alt="Architecture of ProtVis_dataset centered on a protein-by-sample expression matrix. The object connects sample information, variable information, annotation lists, analysis results, processing information, and provenance or extra files, with interoperability, reproducibility, and recoverability shown as design goals." width="96%" fig-align="center"}
+![Conceptual architecture of `ProtVis_dataset`. Expression data are linked to sample and variable metadata, annotation resources, analysis results, processing history, and provenance/extra files to support interoperability, reproducibility, and recoverability.](../../images/protvis-dataset-architecture.svg){#fig-protvis-dataset-architecture fig-alt="Architecture of ProtVis_dataset centered on a protein-by-sample expression matrix. The object connects sample information, variable information, annotation lists, analysis results, processing information, and provenance or extra files, with interoperability, reproducibility, and recoverability shown as design goals." width="96%" fig-align="center"}
 
 ::: {.callout-note}
 The processing-function names shown in the schematic describe the conceptual workflow stages. The code examples in this chapter use the current exported ProtVis API, such as `create_protvis_dataset()`.
@@ -22,12 +22,16 @@ The processing-function names shown in the schematic describe the conceptual wor
 | `expression_data` | Numeric protein-by-sample abundance matrix |
 | `sample_info` | Sample identifiers and experimental metadata |
 | `variable_info` | Protein/feature metadata aligned to expression rows |
+| `sample_info_note` | Ordered documentation of sample-information columns |
+| `variable_info_note` | Ordered documentation of variable-information columns |
 | `annotation` | Fixed annotation schema with `eggnog_output`, `GO_annotation`, and `KEGG_annotation` |
-| `analysis_results` | Stage-specific statistical and biological results |
+| `analysis_results` | Stage-specific statistical, search and biological results |
 | `process_info` | Active stage, parameters, messages, status and history |
-| `metadata` | Project-level information, source and object naming/version information |
-| `other_files` | Imported-file provenance and stored auxiliary resources |
+| `metadata` | Project-level information, source, input paths and object naming/version information |
+| `other_files` | Registered auxiliary/result-file provenance |
 | `checkpoint_info` | Checkpoint/recovery and export metadata |
+| `version` | Internal object schema version |
+| `activated` | Currently activated data layer |
 
 The historical names `annotation_table` and `ms2_data` are not part of the current annotation model.
 
@@ -77,9 +81,45 @@ head(ds$sample_info)
 
 Use `protvis_expression_matrix(ds)` when you need an ID-first data frame suitable for UI boundaries or export.
 
+## The Raw/Sage staging exception
+
+A normal validated `ProtVis_dataset` must contain a non-empty numeric expression layer aligned to its sample and variable metadata. The current class has one deliberate exception: a project whose metadata marks `workflow_stage = "Sage_staging"` may temporarily have an empty expression layer.
+
+This supports a scientifically correct Raw workflow:
+
+**sample metadata + FASTA + mzML registration → Sage search → protein LFQ matrix**
+
+Instead of inventing protein values before a search exists, Project init creates:
+
+```text
+ProtVis_dataset__project_init__Sage_staging__v1
+```
+
+After Sage succeeds, the LFQ table is converted to the protein matrix and the object is finalized as a normal quantitative project, for example:
+
+```text
+ProtVis_dataset__Sage_database_search__v2
+```
+
+The parent/staging information and process history remain available in the finalized object.
+
+## Sage results and provenance
+
+A completed Sage search is stored under:
+
+```r
+ds$analysis_results$Sage_database_search
+```
+
+The bundle includes search status, configuration, result-file paths, log information, PSM table and LFQ table. Search metadata also records the FASTA, mzML directory, output directory and Sage engine version.
+
+Produced files that exist on disk are registered in `other_files` with filename, normalized path, file size, MD5 checksum and attachment timestamp. Raw mzML/FASTA bytes are not duplicated into the S4 object itself; the object records the analytical context and result provenance while the project directory retains the files.
+
 ## Object versions
 
-ProtVis analysis helpers create traceable object versions rather than overwriting an unnamed global object. Object names encode the project stage or method, for example transformation or differential-analysis versions. The object retains parameters and process history so results can be related back to their analytical context.
+ProtVis analysis helpers create traceable object versions rather than overwriting an unnamed global object. Object names encode the project stage or method, and the object retains parameters and process history so results can be related back to their analytical context.
+
+For long-running GUI actions, current ProtVis also protects against duplicate execution. This matters for object versioning because an accidental second click should not create an unintended parallel search or preprocessing state.
 
 ## Annotation schema
 
@@ -104,9 +144,9 @@ out <- export_protvis_dataset(
 out
 ```
 
-The export bundle contains the serialized `ProtVis_dataset`, expression and metadata tables, annotation tables, process history, serialized analysis results, a metadata JSON file, and an HTML report. If `include_raw = TRUE`, available attached source files are also copied.
+The export bundle contains the serialized `ProtVis_dataset`, expression and metadata tables, annotation tables, process history, serialized analysis results, a metadata JSON file, and an HTML report. If `include_raw = TRUE`, available attached source files can also be copied where supported.
 
 ::: {.callout-important}
 ## Treat the object as the authoritative record
-Stage `.rda` files are useful for compatibility and recovery, but new analyses should use the active `ProtVis_dataset` whenever possible. This prevents parameter, annotation, and provenance information from becoming detached from the quantitative matrix.
+Stage `.rda` files are useful for compatibility and recovery, but new analyses should use the active `ProtVis_dataset` whenever possible. This prevents parameters, annotation, search provenance, and file context from becoming detached from the quantitative matrix.
 :::

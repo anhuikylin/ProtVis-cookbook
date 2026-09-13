@@ -33,6 +33,8 @@ website:
             text: Project init
           - href: content/data_import/data_import.qmd
             text: Data input
+          - href: content/data_import/raw_sage_search.qmd
+            text: Raw/mzML + Sage
       - section: "Reproducible workflow"
         contents:
           - href: content/reproducibility/ProtVis_dataset.qmd

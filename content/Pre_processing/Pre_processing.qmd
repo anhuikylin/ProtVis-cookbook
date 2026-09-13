@@ -1,19 +1,25 @@
 ---
 title: "Pre-processing workflow"
-description: "Prepare quantitative proteomics data for QC and differential abundance analysis."
+description: "Prepare quantitative proteomics data for QC and differential abundance analysis after any supported input route."
 ---
 
 ## Recommended order
 
-ProtVis separates preprocessing into four explicit modules:
+Once an input route has produced a real protein-by-sample matrix, ProtVis uses four source-independent preprocessing modules:
 
 **Correct Noise → Data Transformation → Data Imputation → Data Normalization**
 
-Keeping these decisions separate makes it easier to inspect the effect of each operation and to record the selected method in the project history.
+Keeping these decisions separate makes it easier to inspect the effect of each operation and to record the selected method in project history.
+
+For **Raw/mzML**, run **Search** first. A `Sage_staging` object deliberately has no expression matrix and cannot enter Correct Noise until Sage LFQ has been finalized.
+
+For **MaxQuant**, complete the conditional **MaxQuant Output Preparation** step first. Other supported tabular sources enter preprocessing after their source-specific parser/import has produced the canonical matrix.
 
 ## 1. Correct noise
 
-The current noise-correction logic is replicate-aware. For sample groups whose names contain replicate suffixes such as `_1`, `_2`, and `_3`, zero/missing cells are corrected only when sufficient non-zero replicate evidence exists; otherwise the affected replicate group remains missing. Duplicate protein IDs are collapsed safely before reshaping to avoid accidental many-to-many expansion.
+Correct Noise is the first shared preprocessing stage. It prefers the active `ProtVis_dataset`; if recovery from disk is needed, `Step2_remove_unreliable_peptide.rda` is the canonical cross-source handoff. Raw/Sage also retains `Step2_sage_database_search.rda` as a compatibility snapshot.
+
+The correction itself is replicate-aware. For sample groups whose names contain replicate suffixes such as `_1`, `_2`, and `_3`, zero/missing cells are corrected only when sufficient non-zero replicate evidence exists; otherwise the affected replicate group remains missing. Duplicate protein IDs are collapsed safely before reshaping.
 
 Read [Correct noise](correct_noise.qmd).
 
@@ -37,14 +43,22 @@ Read [Data normalization](data_normalization.qmd).
 
 ## Stage outputs
 
-The canonical result after each step is a new `ProtVis_dataset` state. Compatibility stage files are also used by the GUI:
+The canonical result after every step is a new `ProtVis_dataset` state. Compatibility/recovery files used by the GUI include:
 
 | Stage | Compatibility file |
 |---|---|
+| Input/search handoff | `Step2_remove_unreliable_peptide.rda` |
+| Sage search compatibility | `Step2_sage_database_search.rda` |
 | Correct noise | `Step3_correct_noise.rda` |
 | Transformation | `Step4_data_transformed.rda` |
 | Imputation | `Step5_data_imputation.rda` |
 | Normalization | `Step6_data_normalization.rda` |
+
+Correct Noise also refreshes the canonical Step2 handoff after successful correction so older downstream paths remain interoperable.
+
+## Duplicate-run protection
+
+Current ProtVis protects important run buttons at two levels: the interface disables an active run button while Shiny is busy, and server-side guards reject the same operation if it is already executing. This is particularly important for Sage search and preprocessing steps, where an accidental double click could otherwise create duplicate work or competing output files.
 
 ::: {.callout-warning}
 ## Do not impute before inspecting missingness
