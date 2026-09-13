@@ -14,6 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Inspect bundled original assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -d .original_asset_bundle ]; then
+            cat .original_asset_bundle/part.* | tr -d '\n\r' | base64 -d > /tmp/original-assets.tar.xz
+            file /tmp/original-assets.tar.xz
+            echo "--- archive members ---"
+            tar -tJf /tmp/original-assets.tar.xz
+          fi
       - name: Install OCR tools
         run: |
           sudo apt-get update
