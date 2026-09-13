@@ -693,7 +693,7 @@
     "href": "content/introduce.html",
     "title": "Overview",
     "section": "",
-    "text": "ProtVis is an interactive R/Shiny platform for proteomics and metaproteomics processing, statistical analysis, biological interpretation, and scientific visualization. The current application is organized around a reproducible project object, ProtVis_dataset, so quantitative data, metadata, annotations, analysis results, imported files, and processing history remain connected throughout the workflow.\nProtVis is designed for researchers who want a GUI without giving up traceability. Most analysis modules can be used interactively, while the underlying package also exposes functions for importing data, validating projects, running pipelines, saving checkpoints, and exporting complete analysis bundles.",
+    "text": "ProtVis is an interactive R/Shiny platform for proteomics and metaproteomics processing, statistical analysis, biological interpretation, and scientific visualization. The current application is organized around a reproducible project object, ProtVis_dataset, so quantitative data, metadata, annotations, analysis results, imported/search files, and processing history remain connected throughout the workflow.\nProtVis is designed for researchers who want a GUI without giving up traceability. Most analysis modules can be used interactively, while the underlying package also exposes functions for importing data, validating projects, running Sage searches and processing pipelines, saving checkpoints, and exporting complete analysis bundles.",
     "crumbs": [
       "Getting started",
       "Overview"
@@ -704,7 +704,7 @@
     "href": "content/introduce.html#what-is-protvis",
     "title": "Overview",
     "section": "",
-    "text": "ProtVis is an interactive R/Shiny platform for proteomics and metaproteomics processing, statistical analysis, biological interpretation, and scientific visualization. The current application is organized around a reproducible project object, ProtVis_dataset, so quantitative data, metadata, annotations, analysis results, imported files, and processing history remain connected throughout the workflow.\nProtVis is designed for researchers who want a GUI without giving up traceability. Most analysis modules can be used interactively, while the underlying package also exposes functions for importing data, validating projects, running pipelines, saving checkpoints, and exporting complete analysis bundles.",
+    "text": "ProtVis is an interactive R/Shiny platform for proteomics and metaproteomics processing, statistical analysis, biological interpretation, and scientific visualization. The current application is organized around a reproducible project object, ProtVis_dataset, so quantitative data, metadata, annotations, analysis results, imported/search files, and processing history remain connected throughout the workflow.\nProtVis is designed for researchers who want a GUI without giving up traceability. Most analysis modules can be used interactively, while the underlying package also exposes functions for importing data, validating projects, running Sage searches and processing pipelines, saving checkpoints, and exporting complete analysis bundles.",
     "crumbs": [
       "Getting started",
       "Overview"
@@ -715,29 +715,40 @@
     "href": "content/introduce.html#current-analytical-scope",
     "title": "Overview",
     "section": "Current analytical scope",
-    "text": "Current analytical scope\n\n\n\n\n\n\n\nStage\nMain capabilities\n\n\n\n\nProject setup\nWorking directory, sample information, expression matrix, built-in examples, source selection\n\n\nData input\nMaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, Raw, user-defined matrices\n\n\nPre-processing\nReplicate-aware noise correction, transformation, missing-value inspection and imputation, median-centering normalization\n\n\nOverview/QC\nCorrelation, expression-pattern heatmap, PCA, PCoA, t-SNE, UMAP, NMDS, total intensity, missingness, distributions, CV\n\n\nDifferential abundance\nMultiple Group1/Group2 comparisons, limma modeling, tables, volcano plots, heatmaps and DEP summaries\n\n\nFunctional interpretation\nGO/KEGG enrichment, GSEA, Pathview, STRINGdb PPI\n\n\nMulti-omics\nExpression profile, WGCNA, metaproteomics, nine quadrant, co-enrichment, Venn\n\n\nPTM and evidence\nPTM analysis and Proteome Discoverer strict-spectrum inspection\n\n\nToolkits\nProtein extraction, background construction, external protein links, protein structure, SwissModel, boxplots, correlation chord and other utilities",
+    "text": "Current analytical scope\n\n\n\n\n\n\n\nStage\nMain capabilities\n\n\n\n\nProject setup\nWorking directory, sample information, optional expression matrix, Raw/mzML registration, FASTA registration, built-in examples, source selection\n\n\nDatabase search / data input\nRaw/mzML + Sage, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, user-defined matrices\n\n\nPre-processing\nReplicate-aware noise correction, transformation, missing-value inspection and imputation, median-centering normalization\n\n\nOverview/QC\nCorrelation, expression-pattern heatmap, PCA, PCoA, t-SNE, UMAP, NMDS, total intensity, missingness, distributions, CV\n\n\nDifferential abundance\nMultiple Group1/Group2 comparisons, limma modeling, tables, volcano plots, heatmaps and DEP summaries\n\n\nFunctional interpretation\nGO/KEGG enrichment, GSEA, Pathview, STRINGdb PPI\n\n\nMulti-omics\nExpression profile, WGCNA, metaproteomics, nine quadrant, co-enrichment, Venn\n\n\nPTM and evidence\nPTM analysis and Proteome Discoverer strict-spectrum inspection\n\n\nToolkits\nProtein extraction, background construction, external protein links, protein structure, SwissModel, boxplots, correlation chord and other utilities",
     "crumbs": [
       "Getting started",
       "Overview"
     ]
   },
   {
-    "objectID": "content/introduce.html#the-key-architectural-change-protvis_dataset",
-    "href": "content/introduce.html#the-key-architectural-change-protvis_dataset",
+    "objectID": "content/introduce.html#source-aware-navigation",
+    "href": "content/introduce.html#source-aware-navigation",
     "title": "Overview",
-    "section": "The key architectural change: ProtVis_dataset",
-    "text": "The key architectural change: ProtVis_dataset\nEarlier ProtVis workflows were described primarily as a chain of .rda files. Current ProtVis keeps those stage files for compatibility and recovery, but the canonical representation is now a validated ProtVis_dataset object.\nA project object keeps the protein-by-sample expression matrix aligned with sample and protein metadata, stores fixed annotation layers (eggnog_output, GO_annotation, and KEGG_annotation), records analysis results, and captures process history and checkpoint information. See ProtVis_dataset for the full model.\n\n\n\n\n\n\nImportantWhy this matters\n\n\n\nA result should not be separated from the data and parameters that produced it. ProtVis therefore creates new traceable object versions as analysis proceeds instead of treating each plot as an isolated end product.",
+    "section": "Source-aware navigation",
+    "text": "Source-aware navigation\nThe selected source controls only the route-specific entry step; shared preprocessing remains available afterward.\n\nRaw shows the top-level Search tab and uses Sage to create the protein LFQ matrix.\nMaxQuant shows Pre-processing → MaxQuant Output Preparation.\nOther tabular sources use their parser/import route and then enter shared preprocessing.\n\nThis keeps MaxQuant-only filtering out of Raw, DIA-NN, Spectronaut and other workflows while still converging on the same ProtVis_dataset model.",
     "crumbs": [
       "Getting started",
       "Overview"
     ]
   },
   {
-    "objectID": "content/introduce.html#recommended-order",
-    "href": "content/introduce.html#recommended-order",
+    "objectID": "content/introduce.html#the-key-architecture-protvis_dataset",
+    "href": "content/introduce.html#the-key-architecture-protvis_dataset",
     "title": "Overview",
-    "section": "Recommended order",
-    "text": "Recommended order\nFor a standard quantitative proteomics project, use:\nProject init → Data input → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP analysis → Enrichment/GSEA/Pathview\nThen add WGCNA, PPI, co-enrichment, metaproteomics, PTM, or other specialized modules when they address the biological question.",
+    "section": "The key architecture: ProtVis_dataset",
+    "text": "The key architecture: ProtVis_dataset\nEarlier ProtVis workflows were described primarily as a chain of .rda files. Current ProtVis keeps those stage files for compatibility and recovery, but the canonical representation is now a validated ProtVis_dataset object.\nA project object keeps the protein-by-sample expression matrix aligned with sample and protein metadata, stores fixed annotation layers (eggnog_output, GO_annotation, and KEGG_annotation), records analysis/search results, and captures process history and checkpoint information. See ProtVis_dataset for the full model.\nRaw/Sage adds one deliberate staging state: Project init may create a Sage_staging object before the expression matrix exists. After Sage LFQ completes, the same project is finalized into the normal protein-by-sample structure.\n\n\n\n\n\n\nImportantWhy this matters\n\n\n\nA result should not be separated from the data and parameters that produced it. ProtVis therefore creates traceable object states as analysis proceeds instead of treating each plot or search output as an isolated end product.",
+    "crumbs": [
+      "Getting started",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "content/introduce.html#recommended-routes",
+    "href": "content/introduce.html#recommended-routes",
+    "title": "Overview",
+    "section": "Recommended routes",
+    "text": "Recommended routes\nFor Raw/mzML:\nProject init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP analysis → Enrichment/GSEA/Pathview\nFor MaxQuant:\nProject init → MaxQuant Output Preparation → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP analysis → Enrichment/GSEA/Pathview\nFor the other supported quantitative tables, use the corresponding parser/import path and then join the shared preprocessing sequence at Correct Noise.\nThen add WGCNA, PPI, co-enrichment, metaproteomics, PTM, or other specialized modules when they address the biological question.",
     "crumbs": [
       "Getting started",
       "Overview"
@@ -748,7 +759,7 @@
     "href": "content/introduce.html#what-is-reproducible-and-what-is-interactive",
     "title": "Overview",
     "section": "What is reproducible and what is interactive?",
-    "text": "What is reproducible and what is interactive?\nThe GUI is intended for interactive exploration, parameter selection, and figure export. Reproducibility is supported by the persisted ProtVis_dataset, stage snapshots, process history, checkpoints, and portable exports. For analyses that need scripted automation, use package-level functions such as load_protvis_builtin_data(), create_protvis_dataset(), run_protvis_pipeline(), save_protvis_checkpoint(), and export_protvis_dataset().",
+    "text": "What is reproducible and what is interactive?\nThe GUI is intended for interactive exploration, parameter selection, and figure export. Reproducibility is supported by the persisted ProtVis_dataset, stage snapshots, process history, checkpoints, portable exports, Sage configuration/result retention, and duplicate-run guards for important execution buttons.\nFor scripted automation, use package-level functions such as load_protvis_builtin_data(), create_protvis_dataset(), run_sage_search(), run_protvis_pipeline(), save_protvis_checkpoint(), and export_protvis_dataset().",
     "crumbs": [
       "Getting started",
       "Overview"
@@ -990,7 +1001,7 @@
     "href": "content/reproducibility/ProtVis_dataset.html#core-components",
     "title": "ProtVis_dataset",
     "section": "Core components",
-    "text": "Core components\n\n\n\n\n\n\n\nComponent\nWhat it stores\n\n\n\n\nexpression_data\nNumeric protein-by-sample abundance matrix\n\n\nsample_info\nSample identifiers and experimental metadata\n\n\nvariable_info\nProtein/feature metadata aligned to expression rows\n\n\nannotation\nFixed annotation schema with eggnog_output, GO_annotation, and KEGG_annotation\n\n\nanalysis_results\nStage-specific statistical and biological results\n\n\nprocess_info\nActive stage, parameters, messages, status and history\n\n\nmetadata\nProject-level information, source and object naming/version information\n\n\nother_files\nImported-file provenance and stored auxiliary resources\n\n\ncheckpoint_info\nCheckpoint/recovery and export metadata\n\n\n\nThe historical names annotation_table and ms2_data are not part of the current annotation model.",
+    "text": "Core components\n\n\n\n\n\n\n\nComponent\nWhat it stores\n\n\n\n\nexpression_data\nNumeric protein-by-sample abundance matrix\n\n\nsample_info\nSample identifiers and experimental metadata\n\n\nvariable_info\nProtein/feature metadata aligned to expression rows\n\n\nsample_info_note\nOrdered documentation of sample-information columns\n\n\nvariable_info_note\nOrdered documentation of variable-information columns\n\n\nannotation\nFixed annotation schema with eggnog_output, GO_annotation, and KEGG_annotation\n\n\nanalysis_results\nStage-specific statistical, search and biological results\n\n\nprocess_info\nActive stage, parameters, messages, status and history\n\n\nmetadata\nProject-level information, source, input paths and object naming/version information\n\n\nother_files\nRegistered auxiliary/result-file provenance\n\n\ncheckpoint_info\nCheckpoint/recovery and export metadata\n\n\nversion\nInternal object schema version\n\n\nactivated\nCurrently activated data layer\n\n\n\nThe historical names annotation_table and ms2_data are not part of the current annotation model.",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset"
@@ -1019,11 +1030,33 @@
     ]
   },
   {
+    "objectID": "content/reproducibility/ProtVis_dataset.html#the-rawsage-staging-exception",
+    "href": "content/reproducibility/ProtVis_dataset.html#the-rawsage-staging-exception",
+    "title": "ProtVis_dataset",
+    "section": "The Raw/Sage staging exception",
+    "text": "The Raw/Sage staging exception\nA normal validated ProtVis_dataset must contain a non-empty numeric expression layer aligned to its sample and variable metadata. The current class has one deliberate exception: a project whose metadata marks workflow_stage = \"Sage_staging\" may temporarily have an empty expression layer.\nThis supports a scientifically correct Raw workflow:\nsample metadata + FASTA + mzML registration → Sage search → protein LFQ matrix\nInstead of inventing protein values before a search exists, Project init creates:\nProtVis_dataset__project_init__Sage_staging__v1\nAfter Sage succeeds, the LFQ table is converted to the protein matrix and the object is finalized as a normal quantitative project, for example:\nProtVis_dataset__Sage_database_search__v2\nThe parent/staging information and process history remain available in the finalized object.",
+    "crumbs": [
+      "Reproducible workflow",
+      "ProtVis_dataset"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/ProtVis_dataset.html#sage-results-and-provenance",
+    "href": "content/reproducibility/ProtVis_dataset.html#sage-results-and-provenance",
+    "title": "ProtVis_dataset",
+    "section": "Sage results and provenance",
+    "text": "Sage results and provenance\nA completed Sage search is stored under:\nds$analysis_results$Sage_database_search\nThe bundle includes search status, configuration, result-file paths, log information, PSM table and LFQ table. Search metadata also records the FASTA, mzML directory, output directory and Sage engine version.\nProduced files that exist on disk are registered in other_files with filename, normalized path, file size, MD5 checksum and attachment timestamp. Raw mzML/FASTA bytes are not duplicated into the S4 object itself; the object records the analytical context and result provenance while the project directory retains the files.",
+    "crumbs": [
+      "Reproducible workflow",
+      "ProtVis_dataset"
+    ]
+  },
+  {
     "objectID": "content/reproducibility/ProtVis_dataset.html#object-versions",
     "href": "content/reproducibility/ProtVis_dataset.html#object-versions",
     "title": "ProtVis_dataset",
     "section": "Object versions",
-    "text": "Object versions\nProtVis analysis helpers create traceable object versions rather than overwriting an unnamed global object. Object names encode the project stage or method, for example transformation or differential-analysis versions. The object retains parameters and process history so results can be related back to their analytical context.",
+    "text": "Object versions\nProtVis analysis helpers create traceable object versions rather than overwriting an unnamed global object. Object names encode the project stage or method, and the object retains parameters and process history so results can be related back to their analytical context.\nFor long-running GUI actions, current ProtVis also protects against duplicate execution. This matters for object versioning because an accidental second click should not create an unintended parallel search or preprocessing state.",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset"
@@ -1045,7 +1078,7 @@
     "href": "content/reproducibility/ProtVis_dataset.html#export-a-portable-project",
     "title": "ProtVis_dataset",
     "section": "Export a portable project",
-    "text": "Export a portable project\nout &lt;- export_protvis_dataset(\n  ds,\n  directory = \"ProtVis_export\",\n  include_raw = FALSE\n)\n\nout\nThe export bundle contains the serialized ProtVis_dataset, expression and metadata tables, annotation tables, process history, serialized analysis results, a metadata JSON file, and an HTML report. If include_raw = TRUE, available attached source files are also copied.\n\n\n\n\n\n\nImportantTreat the object as the authoritative record\n\n\n\nStage .rda files are useful for compatibility and recovery, but new analyses should use the active ProtVis_dataset whenever possible. This prevents parameter, annotation, and provenance information from becoming detached from the quantitative matrix.",
+    "text": "Export a portable project\nout &lt;- export_protvis_dataset(\n  ds,\n  directory = \"ProtVis_export\",\n  include_raw = FALSE\n)\n\nout\nThe export bundle contains the serialized ProtVis_dataset, expression and metadata tables, annotation tables, process history, serialized analysis results, a metadata JSON file, and an HTML report. If include_raw = TRUE, available attached source files can also be copied where supported.\n\n\n\n\n\n\nImportantTreat the object as the authoritative record\n\n\n\nStage .rda files are useful for compatibility and recovery, but new analyses should use the active ProtVis_dataset whenever possible. This prevents parameters, annotation, search provenance, and file context from becoming detached from the quantitative matrix.",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset"

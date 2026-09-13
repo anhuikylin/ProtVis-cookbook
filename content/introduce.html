@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="What ProtVis does and how its current workflow is organized.">
+<meta name="description" content="What ProtVis does and how its current source-aware workflow is organized.">
 
 <title>Overview – ProtVis Cookbook</title>
 <style>
@@ -613,8 +613,9 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#what-is-protvis" id="toc-what-is-protvis" class="nav-link active" data-scroll-target="#what-is-protvis">What is ProtVis?</a></li>
   <li><a href="#current-analytical-scope" id="toc-current-analytical-scope" class="nav-link" data-scroll-target="#current-analytical-scope">Current analytical scope</a></li>
-  <li><a href="#the-key-architectural-change-protvis_dataset" id="toc-the-key-architectural-change-protvis_dataset" class="nav-link" data-scroll-target="#the-key-architectural-change-protvis_dataset">The key architectural change: <code>ProtVis_dataset</code></a></li>
-  <li><a href="#recommended-order" id="toc-recommended-order" class="nav-link" data-scroll-target="#recommended-order">Recommended order</a></li>
+  <li><a href="#source-aware-navigation" id="toc-source-aware-navigation" class="nav-link" data-scroll-target="#source-aware-navigation">Source-aware navigation</a></li>
+  <li><a href="#the-key-architecture-protvis_dataset" id="toc-the-key-architecture-protvis_dataset" class="nav-link" data-scroll-target="#the-key-architecture-protvis_dataset">The key architecture: <code>ProtVis_dataset</code></a></li>
+  <li><a href="#recommended-routes" id="toc-recommended-routes" class="nav-link" data-scroll-target="#recommended-routes">Recommended routes</a></li>
   <li><a href="#what-is-reproducible-and-what-is-interactive" id="toc-what-is-reproducible-and-what-is-interactive" class="nav-link" data-scroll-target="#what-is-reproducible-and-what-is-interactive">What is reproducible and what is interactive?</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/introduce.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/introduce.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -630,7 +631,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    What ProtVis does and how its current workflow is organized.
+    What ProtVis does and how its current source-aware workflow is organized.
   </div>
 </div>
 
@@ -649,8 +650,8 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="what-is-protvis" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-protvis">What is ProtVis?</h2>
-<p><strong>ProtVis</strong> is an interactive R/Shiny platform for proteomics and metaproteomics processing, statistical analysis, biological interpretation, and scientific visualization. The current application is organized around a reproducible project object, <code>ProtVis_dataset</code>, so quantitative data, metadata, annotations, analysis results, imported files, and processing history remain connected throughout the workflow.</p>
-<p>ProtVis is designed for researchers who want a GUI without giving up traceability. Most analysis modules can be used interactively, while the underlying package also exposes functions for importing data, validating projects, running pipelines, saving checkpoints, and exporting complete analysis bundles.</p>
+<p><strong>ProtVis</strong> is an interactive R/Shiny platform for proteomics and metaproteomics processing, statistical analysis, biological interpretation, and scientific visualization. The current application is organized around a reproducible project object, <code>ProtVis_dataset</code>, so quantitative data, metadata, annotations, analysis results, imported/search files, and processing history remain connected throughout the workflow.</p>
+<p>ProtVis is designed for researchers who want a GUI without giving up traceability. Most analysis modules can be used interactively, while the underlying package also exposes functions for importing data, validating projects, running Sage searches and processing pipelines, saving checkpoints, and exporting complete analysis bundles.</p>
 </section>
 <section id="current-analytical-scope" class="level2">
 <h2 class="anchored" data-anchor-id="current-analytical-scope">Current analytical scope</h2>
@@ -668,11 +669,11 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td>Project setup</td>
-<td>Working directory, sample information, expression matrix, built-in examples, source selection</td>
+<td>Working directory, sample information, optional expression matrix, Raw/mzML registration, FASTA registration, built-in examples, source selection</td>
 </tr>
 <tr class="even">
-<td>Data input</td>
-<td>MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, Raw, user-defined matrices</td>
+<td>Database search / data input</td>
+<td>Raw/mzML + Sage, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, user-defined matrices</td>
 </tr>
 <tr class="odd">
 <td>Pre-processing</td>
@@ -705,10 +706,21 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </section>
-<section id="the-key-architectural-change-protvis_dataset" class="level2">
-<h2 class="anchored" data-anchor-id="the-key-architectural-change-protvis_dataset">The key architectural change: <code>ProtVis_dataset</code></h2>
+<section id="source-aware-navigation" class="level2">
+<h2 class="anchored" data-anchor-id="source-aware-navigation">Source-aware navigation</h2>
+<p>The selected source controls only the route-specific entry step; shared preprocessing remains available afterward.</p>
+<ul>
+<li><strong>Raw</strong> shows the top-level <strong>Search</strong> tab and uses Sage to create the protein LFQ matrix.</li>
+<li><strong>MaxQuant</strong> shows <strong>Pre-processing → MaxQuant Output Preparation</strong>.</li>
+<li>Other tabular sources use their parser/import route and then enter shared preprocessing.</li>
+</ul>
+<p>This keeps MaxQuant-only filtering out of Raw, DIA-NN, Spectronaut and other workflows while still converging on the same <code>ProtVis_dataset</code> model.</p>
+</section>
+<section id="the-key-architecture-protvis_dataset" class="level2">
+<h2 class="anchored" data-anchor-id="the-key-architecture-protvis_dataset">The key architecture: <code>ProtVis_dataset</code></h2>
 <p>Earlier ProtVis workflows were described primarily as a chain of <code>.rda</code> files. Current ProtVis keeps those stage files for compatibility and recovery, but the canonical representation is now a validated <code>ProtVis_dataset</code> object.</p>
-<p>A project object keeps the protein-by-sample expression matrix aligned with sample and protein metadata, stores fixed annotation layers (<code>eggnog_output</code>, <code>GO_annotation</code>, and <code>KEGG_annotation</code>), records analysis results, and captures process history and checkpoint information. See <a href="../content/reproducibility/ProtVis_dataset.html"><code>ProtVis_dataset</code></a> for the full model.</p>
+<p>A project object keeps the protein-by-sample expression matrix aligned with sample and protein metadata, stores fixed annotation layers (<code>eggnog_output</code>, <code>GO_annotation</code>, and <code>KEGG_annotation</code>), records analysis/search results, and captures process history and checkpoint information. See <a href="../content/reproducibility/ProtVis_dataset.html"><code>ProtVis_dataset</code></a> for the full model.</p>
+<p>Raw/Sage adds one deliberate staging state: Project init may create a <code>Sage_staging</code> object before the expression matrix exists. After Sage LFQ completes, the same project is finalized into the normal protein-by-sample structure.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -719,19 +731,23 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A result should not be separated from the data and parameters that produced it. ProtVis therefore creates new traceable object versions as analysis proceeds instead of treating each plot as an isolated end product.</p>
+<p>A result should not be separated from the data and parameters that produced it. ProtVis therefore creates traceable object states as analysis proceeds instead of treating each plot or search output as an isolated end product.</p>
 </div>
 </div>
 </section>
-<section id="recommended-order" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-order">Recommended order</h2>
-<p>For a standard quantitative proteomics project, use:</p>
-<p><strong>Project init → Data input → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP analysis → Enrichment/GSEA/Pathview</strong></p>
+<section id="recommended-routes" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-routes">Recommended routes</h2>
+<p>For Raw/mzML:</p>
+<p><strong>Project init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP analysis → Enrichment/GSEA/Pathview</strong></p>
+<p>For MaxQuant:</p>
+<p><strong>Project init → MaxQuant Output Preparation → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP analysis → Enrichment/GSEA/Pathview</strong></p>
+<p>For the other supported quantitative tables, use the corresponding parser/import path and then join the shared preprocessing sequence at <strong>Correct Noise</strong>.</p>
 <p>Then add WGCNA, PPI, co-enrichment, metaproteomics, PTM, or other specialized modules when they address the biological question.</p>
 </section>
 <section id="what-is-reproducible-and-what-is-interactive" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-reproducible-and-what-is-interactive">What is reproducible and what is interactive?</h2>
-<p>The GUI is intended for interactive exploration, parameter selection, and figure export. Reproducibility is supported by the persisted <code>ProtVis_dataset</code>, stage snapshots, process history, checkpoints, and portable exports. For analyses that need scripted automation, use package-level functions such as <code>load_protvis_builtin_data()</code>, <code>create_protvis_dataset()</code>, <code>run_protvis_pipeline()</code>, <code>save_protvis_checkpoint()</code>, and <code>export_protvis_dataset()</code>.</p>
+<p>The GUI is intended for interactive exploration, parameter selection, and figure export. Reproducibility is supported by the persisted <code>ProtVis_dataset</code>, stage snapshots, process history, checkpoints, portable exports, Sage configuration/result retention, and duplicate-run guards for important execution buttons.</p>
+<p>For scripted automation, use package-level functions such as <code>load_protvis_builtin_data()</code>, <code>create_protvis_dataset()</code>, <code>run_sage_search()</code>, <code>run_protvis_pipeline()</code>, <code>save_protvis_checkpoint()</code>, and <code>export_protvis_dataset()</code>.</p>
 
 
 </section>
