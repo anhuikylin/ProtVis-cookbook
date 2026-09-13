@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Compare functional enrichment signals across multiple protein or result sets.">
+<meta name="description" content="Compare shared and omics-specific enriched pathways across two or three omics datasets.">
 
 <title>Co-enrichment – ProtVis Cookbook</title>
 <style>
@@ -612,8 +612,11 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#recommended-inputs" id="toc-recommended-inputs" class="nav-link" data-scroll-target="#recommended-inputs">Recommended inputs</a></li>
-  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a></li>
+  <li><a href="#co-enrichment-interface" id="toc-co-enrichment-interface" class="nav-link" data-scroll-target="#co-enrichment-interface">Co-enrichment interface</a></li>
+  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
+  <li><a href="#recommended-input-structure" id="toc-recommended-input-structure" class="nav-link" data-scroll-target="#recommended-input-structure">Recommended input structure</a></li>
+  <li><a href="#how-shared-and-specific-pathways-should-be-interpreted" id="toc-how-shared-and-specific-pathways-should-be-interpreted" class="nav-link" data-scroll-target="#how-shared-and-specific-pathways-should-be-interpreted">How shared and specific pathways should be interpreted</a></li>
+  <li><a href="#practical-checks-before-interpretation" id="toc-practical-checks-before-interpretation" class="nav-link" data-scroll-target="#practical-checks-before-interpretation">Practical checks before interpretation</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Multi_omics_data/Co_enrichment.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Multi_omics_data/Co_enrichment.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -628,7 +631,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Compare functional enrichment signals across multiple protein or result sets.
+    Compare shared and omics-specific enriched pathways across two or three omics datasets.
   </div>
 </div>
 
@@ -647,22 +650,54 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>Co-enrichment is useful when several contrasts, omics layers, tissues, or protein clusters have already been analyzed and you want to distinguish <strong>shared functional themes</strong> from <strong>condition-specific terms</strong>.</p>
+<p>Use <strong>Multi-omics → Co-enrichment</strong> after enrichment analysis has been completed separately for multiple omics layers, contrasts, tissues, or protein clusters. The module compares enrichment results across <strong>two or three omics datasets</strong>, identifies shared and omics-specific pathways, and provides publication-oriented summary tables and plots.</p>
+<p>The most important requirement is comparability: enrichment results should use compatible pathway identifiers, annotation versions, and biological backgrounds. A pathway appearing in only one layer can reflect true biology, but it can also arise from incompatible annotation systems or different background universes.</p>
 </section>
-<section id="recommended-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-inputs">Recommended inputs</h2>
-<p>Use enrichment result sets derived from compatible identifier/background systems. If two analyses used different gene universes or incompatible annotation versions, direct comparison of p-values can be misleading.</p>
+<section id="co-enrichment-interface" class="level2">
+<h2 class="anchored" data-anchor-id="co-enrichment-interface">Co-enrichment interface</h2>
+<p>The screenshot below shows the current three-omics example with <strong>Transcriptome</strong>, <strong>Proteome</strong>, and <strong>Metabolome</strong> enrichment results. The interface contains Data Input, Column Mapping, Display Control, Color &amp; Export, and Run &amp; Download controls. The result area provides an overlap summary, source-data previews, a summary bar plot, a matrix-style UpSet plot, a significance bubble plot, and a table of shared/specific pathways.</p>
+<div id="fig-co-enrichment-interface" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of ProtVis Multi-omics Co-enrichment. Three enrichment datasets are displayed for Transcriptome, Proteome and Metabolome. The sidebar provides data input, column mapping, display controls, color and export settings, and run/download controls. The main area contains overlap summary, data preview, summary bar plot, matrix-style UpSet plot, significance bubble plot, and shared/specific pathway table.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-co-enrichment-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/screenshots/PixPin_2026-09-13_20-54-02.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Multi-omics Co-enrichment. Three enrichment datasets are displayed for Transcriptome, Proteome and Metabolome. The sidebar provides data input, column mapping, display controls, color and export settings, and run/download controls. The main area contains overlap summary, data preview, summary bar plot, matrix-style UpSet plot, significance bubble plot, and shared/specific pathway table.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-co-enrichment-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: ProtVis Co-enrichment interface showing a three-omics example with Transcriptome, Proteome and Metabolome enrichment results, overlap summary, UpSet-style overlap visualization and pathway significance outputs.
+</figcaption>
+</figure>
+</div>
 </section>
-<section id="workflow" class="level2">
-<h2 class="anchored" data-anchor-id="workflow">Workflow</h2>
-<ol type="1">
-<li>Generate the individual enrichment results first.</li>
-<li>Standardize term identifiers and term descriptions.</li>
-<li>Select the result sets to compare.</li>
-<li>Run the co-enrichment module.</li>
-<li>Inspect shared and unique terms and their direction/strength where the module provides those metrics.</li>
-<li>Export the underlying comparison table rather than relying only on the figure.</li>
-</ol>
+<section id="recommended-operating-order" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h2>
+<p><strong>1. Choose two-omics or three-omics mode.</strong> Open <strong>Data Input</strong> and select <strong>Co-enrichment Mode</strong>. Use <strong>Two-omics</strong> when comparing two result sets and <strong>Three-omics</strong> when comparing three layers such as transcriptome, proteome and metabolome.</p>
+<p><strong>2. Name each omics layer.</strong> Set <strong>Omics 1 Name</strong>, <strong>Omics 2 Name</strong>, and, in three-omics mode, <strong>Omics 3 Name</strong>. These labels are propagated into summaries and plots, so use concise names that match the biological analysis.</p>
+<p><strong>3. Load enrichment results.</strong> Upload the enrichment file for each omics layer. ProtVis accepts <code>.csv</code>, <code>.tsv</code>, <code>.txt</code>, <code>.xlsx</code>, and <code>.xls</code>. For a quick demonstration, click <strong>Use built-in example data</strong>. The built-in example loads representative Transcriptome, Proteome and Metabolome enrichment tables; review the mappings and then run the analysis.</p>
+<p><strong>4. Set the adjusted p-value cutoff.</strong> The default <strong>Adjusted p-value cutoff</strong> is <code>0.05</code>. Pathways are considered significant in each layer according to this threshold before shared/specific classifications are summarized.</p>
+<p><strong>5. Decide how duplicate pathway names are handled.</strong> Keep <strong>Remove duplicated pathway names within each omics</strong> selected unless there is a specific reason to preserve duplicate descriptions. This avoids counting the same pathway more than once inside one omics layer.</p>
+<p><strong>6. Verify Column Mapping.</strong> Open <strong>Column Mapping</strong> and, for each uploaded dataset, select the correct <strong>Pathway column</strong> and <strong>Adjusted p-value column</strong>. ProtVis attempts to guess these fields, but the selections should still be checked manually before running the comparison.</p>
+<p><strong>7. Configure Display Control.</strong> Choose <strong>Pathway Display Mode</strong> as <strong>All</strong>, <strong>Shared only</strong>, or <strong>Specific only</strong>. Use the group filter to focus on one overlap class when needed. <strong>Top N pathways in bubble plot</strong> controls how many pathways are shown in the bubble visualization; the current default is <code>20</code>. The value-label and sorting options affect presentation rather than pathway classification.</p>
+<p><strong>8. Configure colors and export settings.</strong> Under <strong>Color &amp; Export</strong>, customize colors for shared pathways, pairwise-shared pathways, and omics-specific groups. The UpSet active/inactive colors and bubble low/high colors can also be adjusted. Choose <strong>PDF</strong> or <strong>PNG</strong> for plot downloads; PNG export additionally uses the selected DPI.</p>
+<p><strong>9. Run the analysis.</strong> Open <strong>Run &amp; Download</strong> and click <strong>Run</strong>. After processing, review the summary note above the overlap table to confirm the adjusted p-value cutoff, display mode, group filter, and Top N setting used for the current result.</p>
+<p><strong>10. Inspect the result panels.</strong> <strong>Overlap Summary</strong> reports the pathway classes and counts. <strong>Uploaded Data Preview</strong> lets you inspect the input enrichment tables. <strong>Summary Bar Plot</strong> compares class sizes, <strong>Matrix-style UpSet Plot</strong> shows overlap structure, <strong>Significance Bubble Plot</strong> summarizes pathway significance across layers, and <strong>Shared and Specific Pathways</strong> provides the underlying pathway-level table.</p>
+<p><strong>11. Export tables and plots.</strong> The Run &amp; Download section provides downloadable two-omics and three-omics demo data, the summary table, the pathway table, and individual summary, UpSet, and bubble plots in the selected format.</p>
+</section>
+<section id="recommended-input-structure" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-input-structure">Recommended input structure</h2>
+<p>Each omics enrichment file must contain at least a pathway/term field and an adjusted p-value field. Additional columns can be retained. A minimal example is:</p>
+<pre class="text"><code>Pathway,padj,Count
+Carbon metabolism,0.003,28
+Ribosome,0.018,35
+Plant hormone signal transduction,0.021,19</code></pre>
+<p>Column names do not have to match this example exactly because they are assigned explicitly in <strong>Column Mapping</strong>.</p>
+</section>
+<section id="how-shared-and-specific-pathways-should-be-interpreted" class="level2">
+<h2 class="anchored" data-anchor-id="how-shared-and-specific-pathways-should-be-interpreted">How shared and specific pathways should be interpreted</h2>
+<p>A pathway classified as shared is present among the significant enrichment results of more than one selected omics layer. A pathway classified as specific is significant only in the corresponding layer under the current cutoff. In three-omics mode, ProtVis can distinguish pathways shared by all three layers, pairwise-shared pathways, and pathways specific to one layer.</p>
+<p>Do not interpret overlap alone as evidence that molecular changes occur in the same direction or involve the same genes/proteins/metabolites. Co-enrichment compares pathway-level enrichment membership; directionality and constituent features should be checked in the original differential and enrichment results.</p>
+</section>
+<section id="practical-checks-before-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="practical-checks-before-interpretation">Practical checks before interpretation</h2>
+<p>Confirm that all input tables use the same pathway naming/ID system, that enrichment backgrounds are biologically comparable, and that the adjusted p-values were calculated in a compatible way. If pathway descriptions differ only because of database-version naming changes, harmonize identifiers before upload.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -673,7 +708,20 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For cross-experiment comparisons, term IDs are more reliable join keys than descriptions because descriptions can change between database versions.</p>
+<p>For cross-omics comparisons, stable pathway identifiers are preferable to free-text descriptions whenever they are available. Descriptions can change between database releases even when the underlying pathway is the same.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The pathways and counts shown in the screenshot belong to the built-in demonstration and are intended to illustrate the interface. Real results depend on the uploaded enrichment tables, column mappings, p-value cutoff, and display filters.</p>
 </div>
 </div>
 

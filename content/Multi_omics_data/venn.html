@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Visualize intersections among a small number of protein or gene sets.">
+<meta name="description" content="Visualize intersections among omics feature sets with Venn or UpSet plots.">
 
 <title>Venn – ProtVis Cookbook</title>
 <style>
@@ -611,8 +611,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#when-to-use-a-venn-diagram" id="toc-when-to-use-a-venn-diagram" class="nav-link active" data-scroll-target="#when-to-use-a-venn-diagram">When to use a Venn diagram</a></li>
-  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a></li>
+  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#venn-upset-interface" id="toc-venn-upset-interface" class="nav-link" data-scroll-target="#venn-upset-interface">Venn / UpSet interface</a></li>
+  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
+  <li><a href="#input-format" id="toc-input-format" class="nav-link" data-scroll-target="#input-format">Input format</a></li>
+  <li><a href="#venn-versus-upset" id="toc-venn-versus-upset" class="nav-link" data-scroll-target="#venn-versus-upset">Venn versus UpSet</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Multi_omics_data/venn.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Multi_omics_data/venn.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -627,7 +631,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Visualize intersections among a small number of protein or gene sets.
+    Visualize intersections among omics feature sets with Venn or UpSet plots.
   </div>
 </div>
 
@@ -644,19 +648,71 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="when-to-use-a-venn-diagram" class="level2">
-<h2 class="anchored" data-anchor-id="when-to-use-a-venn-diagram">When to use a Venn diagram</h2>
-<p>Venn diagrams are useful for a small number of clearly defined ID sets, such as significant proteins from two or three contrasts. They are not ideal for many sets; use an UpSet-style approach outside the module when intersections become difficult to read.</p>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>Use <strong>Multi-omics → Venn</strong> to compare membership across multiple gene, protein, phosphoprotein, metabolite, or other feature sets. The current ProtVis module supports both <strong>Venn</strong> and <strong>UpSet</strong> visualization from the same input table.</p>
+<p>In <strong>Auto</strong> mode, ProtVis uses a Venn diagram when the dataset contains <strong>six or fewer sets</strong> and switches to an UpSet plot when there are <strong>more than six sets</strong>. You can also force Venn or UpSet manually when appropriate.</p>
 </section>
-<section id="workflow" class="level2">
-<h2 class="anchored" data-anchor-id="workflow">Workflow</h2>
-<ol type="1">
-<li>Prepare each set using the same identifier namespace.</li>
-<li>Remove empty IDs and accidental duplicates within each set.</li>
-<li>Load the sets into the Venn module.</li>
-<li>Confirm set names and intersection counts.</li>
-<li>Export both the figure and, when needed, the IDs belonging to biologically important intersections.</li>
-</ol>
+<section id="venn-upset-interface" class="level2">
+<h2 class="anchored" data-anchor-id="venn-upset-interface">Venn / UpSet interface</h2>
+<p>The screenshot below shows the current module with the built-in three-set demonstration data. The example contains <strong>Proteome</strong>, <strong>Transcriptome</strong>, and <strong>Phosphoproteome</strong> sets and is currently displayed in <strong>Venn</strong> mode. The right side contains the intersection plot and the processed binary membership table.</p>
+<div id="fig-venn-upset-interface" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of ProtVis Multi-omics Venn and UpSet module. Three sets are detected: Proteome, Transcriptome and Phosphoproteome. The current mode is Venn. The sidebar contains file upload, Use example data, Auto/Venn/UpSet choices and set colors. The result area contains the Venn plot and processed table." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-venn-upset-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/screenshots/PixPin_2026-09-13_20-57-25.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Multi-omics Venn and UpSet module. Three sets are detected: Proteome, Transcriptome and Phosphoproteome. The current mode is Venn. The sidebar contains file upload, Use example data, Auto/Venn/UpSet choices and set colors. The result area contains the Venn plot and processed table.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-venn-upset-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: ProtVis Venn/UpSet module using the built-in Proteome, Transcriptome and Phosphoproteome example. The sidebar provides file input, example data, plot-type selection and per-set colors, while the main panel displays the overlap plot and processed membership table.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="recommended-operating-order" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h2>
+<p><strong>1. Prepare a set-membership CSV.</strong> Each column represents one set and each non-empty cell contains a feature identifier. The sets do not need to have the same number of members; shorter columns can contain empty/NA cells.</p>
+<p><strong>2. Load the data.</strong> Use <strong>File</strong> to upload a <code>.csv</code>, or click <strong>Use example data</strong>. The built-in example contains three sets named Proteome, Transcriptome and Phosphoproteome and is displayed immediately after loading.</p>
+<p><strong>3. Confirm the detected set count.</strong> The status message above the plot reports the number of sets and the current rendering mode, for example <strong>Detected 3 sets. Current mode: VENN</strong>.</p>
+<p><strong>4. Choose the plot type.</strong> Under <strong>Choose plot type</strong>, select <strong>Auto</strong>, <strong>Venn</strong>, or <strong>UpSet</strong>. Auto uses Venn for up to six sets and UpSet for more than six. If Venn is forced for more than six sets, ProtVis warns you to use Auto or UpSet instead.</p>
+<p><strong>5. Set colors.</strong> After loading data, ProtVis creates one color selector for each set. In the example these are <strong>Select Color for Proteome</strong>, <strong>Select Color for Transcriptome</strong>, and <strong>Select Color for Phosphoproteome</strong>. Color settings affect the Venn presentation; UpSet rendering follows the UpSet layout.</p>
+<p><strong>6. Run the plot when using uploaded data or after changing settings.</strong> Click <strong>Run</strong> to rebuild the current Venn/UpSet result from the selected plot mode and colors. The built-in example is initialized immediately, but rerunning is appropriate after changing display settings.</p>
+<p><strong>7. Inspect the overlap plot.</strong> For a small number of sets, Venn provides a direct visual summary of unique and shared members. For larger comparisons, UpSet is easier to read because intersections are represented as a matrix of active sets with frequency bars rather than increasingly complex overlapping circles.</p>
+<p><strong>8. Inspect the Processed Table.</strong> ProtVis converts the source sets to a binary membership table in which each unique feature occupies one row and each set is encoded as <code>1</code> (present) or <code>0</code> (absent). The table can be searched and exported with the built-in <strong>Copy</strong>, <strong>CSV</strong>, and <strong>Excel</strong> controls.</p>
+<p><strong>9. Export the figure.</strong> Click <strong>Download</strong> to save the current visualization as PDF. Venn exports use an 8 × 6 inch layout, while UpSet uses a 10 × 7 inch PDF canvas in the current implementation.</p>
+</section>
+<section id="input-format" class="level2">
+<h2 class="anchored" data-anchor-id="input-format">Input format</h2>
+<p>A suitable CSV looks like this:</p>
+<pre class="text"><code>Proteome,Transcriptome,Phosphoproteome
+P53,P53,AKT1
+MAPK1,MAPK1,MTOR
+AKT1,HIF1A,MAPK1
+MTOR,STAT3,EGFR
+STAT3,JUN,SRC
+EGFR,,JUN</code></pre>
+<p>ProtVis trims surrounding whitespace, treats blank cells as missing, and removes duplicate identifiers within each set before constructing the overlap representation.</p>
+</section>
+<section id="venn-versus-upset" class="level2">
+<h2 class="anchored" data-anchor-id="venn-versus-upset">Venn versus UpSet</h2>
+<p>A Venn diagram is most useful for a small number of sets because the individual intersections remain visually interpretable. UpSet is preferable when the number of sets becomes larger or when many different intersections must be compared quantitatively.</p>
+<p>The <strong>Auto</strong> option is therefore the recommended default for general use: it preserves the intuitive Venn view for small comparisons while avoiding unreadable diagrams for larger set collections.</p>
+</section>
+<section id="interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
+<p>Overlap size is descriptive: it tells you which identifiers are shared between sets, not whether the overlap is statistically greater than expected by chance. A formal overlap-enrichment test requires a clearly defined background universe and an appropriate statistical model.</p>
+<p>Also confirm that all columns use the same identifier namespace before interpretation. Apparent non-overlap can simply reflect incompatible gene/protein ID systems.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the <strong>Processed Table</strong> when you need exact membership for downstream analysis. The figure is ideal for communication, but the binary table is the reproducible record of which features belong to each intersection.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -667,7 +723,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>An overlap count is descriptive. Whether the overlap is more than expected by chance requires an explicit statistical test and a defined background universe.</p>
+<p>The P53/MAPK1/AKT1-style identifiers shown in the screenshot belong to ProtVis’s built-in demonstration dataset and are intended only to illustrate input structure and plotting behavior.</p>
 </div>
 </div>
 
