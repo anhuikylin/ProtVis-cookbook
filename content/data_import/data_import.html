@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Parse source-specific quantitative proteomics output and prepare the validated expression matrix.">
+<meta name="description" content="Choose the source-specific route that produces the validated protein-by-sample matrix used by shared preprocessing.">
 
 <title>Data input – ProtVis Cookbook</title>
 <style>
@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/reproducibility/ProtVis_dataset.html" rel="next">
+<link href="../../content/data_import/raw_sage_search.html" rel="next">
 <link href="../../content/Project_init/Project_init.html" rel="prev">
 <link href="../../assets/protvis-favicon.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -358,6 +358,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Data input</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/data_import/raw_sage_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raw/mzML + Sage</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -641,10 +647,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#recommended-workflow" id="toc-recommended-workflow" class="nav-link" data-scroll-target="#recommended-workflow">Recommended workflow</a></li>
-  <li><a href="#source-specific-behavior" id="toc-source-specific-behavior" class="nav-link" data-scroll-target="#source-specific-behavior">Source-specific behavior</a></li>
-  <li><a href="#built-in-source-fixtures" id="toc-built-in-source-fixtures" class="nav-link" data-scroll-target="#built-in-source-fixtures">Built-in source fixtures</a></li>
-  <li><a href="#output-and-compatibility" id="toc-output-and-compatibility" class="nav-link" data-scroll-target="#output-and-compatibility">Output and compatibility</a></li>
+  <li><a href="#supported-source-selections" id="toc-supported-source-selections" class="nav-link" data-scroll-target="#supported-source-selections">Supported source selections</a></li>
+  <li><a href="#rawmzml" id="toc-rawmzml" class="nav-link" data-scroll-target="#rawmzml">Raw/mzML</a></li>
+  <li><a href="#maxquant" id="toc-maxquant" class="nav-link" data-scroll-target="#maxquant">MaxQuant</a></li>
+  <li><a href="#other-tabular-sources" id="toc-other-tabular-sources" class="nav-link" data-scroll-target="#other-tabular-sources">Other tabular sources</a></li>
+  <li><a href="#missing-values-at-the-import-boundary" id="toc-missing-values-at-the-import-boundary" class="nav-link" data-scroll-target="#missing-values-at-the-import-boundary">Missing values at the import boundary</a></li>
+  <li><a href="#the-shared-step2-handoff" id="toc-the-shared-step2-handoff" class="nav-link" data-scroll-target="#the-shared-step2-handoff">The shared Step2 handoff</a></li>
+  <li><a href="#before-continuing" id="toc-before-continuing" class="nav-link" data-scroll-target="#before-continuing">Before continuing</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/data_import/data_import.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/data_import/data_import.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -659,7 +668,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    Parse source-specific quantitative proteomics output and prepare the validated expression matrix.
+    Choose the source-specific route that produces the validated protein-by-sample matrix used by shared preprocessing.
   </div>
 </div>
 
@@ -678,53 +687,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>The <strong>Data input</strong> page is selected dynamically from the source chosen during Project init. Its job is to load the source-specific quantitative evidence, remove unreliable entries where appropriate, and hand a clean expression matrix to preprocessing.</p>
-<p>ProtVis currently routes the following source types to dedicated or parser-backed modules: <strong>Raw, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix</strong>.</p>
-<p>The figure below summarizes the central design of ProtVis. Representative source-specific exports remain heterogeneous at ingestion, while ProtVis brings them through a shared sequence of import and parsing, QC and filtering, structure harmonization, and matrix reshaping to produce a standardized <code>ProtVis_dataset</code>.</p>
-<div id="fig-protvis-data-input-workflow" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Representative proteomics data sources and file formats feed either fragmented source-specific pipelines or the unified ProtVis workflow. ProtVis performs import and parsing, QC and filtering, structure harmonization, and matrix reshaping to produce a standardized ProtVis_dataset.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-protvis-data-input-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/protvis-data-input-workflow.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Representative proteomics data sources and file formats feed either fragmented source-specific pipelines or the unified ProtVis workflow. ProtVis performs import and parsing, QC and filtering, structure harmonization, and matrix reshaping to produce a standardized ProtVis_dataset.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protvis-data-input-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: ProtVis unifies heterogeneous proteomics data sources into a standardized dataset.
-</figcaption>
-</figure>
-</div>
+<p>ProtVis no longer forces every source through one identical import screen. <strong>Project init</strong> selects the route, and each route produces or restores a validated <code>ProtVis_dataset</code> before the shared preprocessing stages begin.</p>
+<p>The three practical routes are:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Route</th>
+<th>Next source-specific step</th>
+<th>Shared handoff</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Raw/mzML</td>
+<td><strong>Search</strong> (Sage)</td>
+<td><code>Step2_remove_unreliable_peptide.rda</code></td>
+</tr>
+<tr class="even">
+<td>MaxQuant</td>
+<td><strong>Pre-processing → MaxQuant Output Preparation</strong></td>
+<td><code>Step2_remove_unreliable_peptide.rda</code></td>
+</tr>
+<tr class="odd">
+<td>Other supported tabular sources</td>
+<td>Source parser/import</td>
+<td>active <code>ProtVis_dataset</code> and preprocessing-compatible handoff</td>
+</tr>
+</tbody>
+</table>
+<p>The source-independent workflow begins at <strong>Correct Noise</strong>.</p>
 </section>
-<section id="recommended-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-workflow">Recommended workflow</h2>
-<ol type="1">
-<li>Complete <strong>Project init</strong> first.</li>
-<li>Open <strong>Data input</strong> and confirm that the header shows the expected source.</li>
-<li>Load the corresponding search-engine/export file if the selected source requires one.</li>
-<li>Review the raw/source preview before filtering.</li>
-<li>Apply the source-specific unreliable-evidence filtering controls.</li>
-<li>Confirm that the output retains a protein identifier and the expected samples.</li>
-<li>Continue to <strong>Pre-processing → Correct Noise</strong>.</li>
-</ol>
+<section id="supported-source-selections" class="level2">
+<h2 class="anchored" data-anchor-id="supported-source-selections">Supported source selections</h2>
+<p>Project init currently exposes <strong>Raw, MaxQuant, ProteomeDiscoverer / Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix</strong>.</p>
+<p>Parser-backed inputs are converted into a common protein-by-sample representation rather than being interpreted with MaxQuant-specific column rules.</p>
 </section>
-<section id="source-specific-behavior" class="level2">
-<h2 class="anchored" data-anchor-id="source-specific-behavior">Source-specific behavior</h2>
-<p>Different proteomics tools use different column names and evidence flags. ProtVis therefore avoids forcing every source through a MaxQuant-only parser. Parser-backed sources are converted into a common protein-by-sample representation before they enter the shared workflow.</p>
-<p>For MaxQuant-style inputs, common unreliable records include reverse hits, contaminants, and entries flagged as identified only by site. Other sources use their own available evidence fields.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Do not treat zeros or sentinel values as biological abundance
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Missing or not-observed measurements must remain missing until the explicit imputation stage. In the current workflow, values such as <code>0</code> and the legacy <code>-8</code> sentinel are converted to <code>NA</code> before imputation where applicable.</p>
-</div>
-</div>
+<section id="rawmzml" class="level2">
+<h2 class="anchored" data-anchor-id="rawmzml">Raw/mzML</h2>
+<p>For Raw data, do not upload an artificial protein matrix simply to satisfy Project init. Register sample information, the mzML directory and FASTA; Project init creates a <code>Sage_staging</code> object. The conditional <strong>Search</strong> tab then runs Sage and creates the quantitative LFQ matrix.</p>
+<p>Read <a href="../../content/data_import/raw_sage_search.html">Raw/mzML + Sage search</a> for the complete workflow.</p>
 </section>
-<section id="built-in-source-fixtures" class="level2">
-<h2 class="anchored" data-anchor-id="built-in-source-fixtures">Built-in source fixtures</h2>
-<p>ProtVis ships small examples for several input ecosystems, including MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, and mzTab-oriented data. These fixtures are useful for verifying that a parser is operational.</p>
+<section id="maxquant" class="level2">
+<h2 class="anchored" data-anchor-id="maxquant">MaxQuant</h2>
+<p>When <strong>MaxQuant</strong> is selected, the source-specific <strong>MaxQuant Output Preparation</strong> item appears under Pre-processing. This is where MaxQuant-only unreliable evidence handling belongs. After that step, the dataset enters the same Correct Noise → Transformation → Imputation → Normalization sequence used by other sources.</p>
+</section>
+<section id="other-tabular-sources" class="level2">
+<h2 class="anchored" data-anchor-id="other-tabular-sources">Other tabular sources</h2>
+<p>For Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and user-defined matrices, use the appropriate source parser/import path. ProtVis preserves the source identity in project metadata while standardizing the result for downstream modules.</p>
+<p>Built-in compact examples are available for several input ecosystems and are useful for verifying that a parser and package installation are operational.</p>
 <p>A programmatic example is:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ProtVis)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -735,10 +750,34 @@ Figure&nbsp;1: ProtVis unifies heterogeneous proteomics data sources into a stan
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>example_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="output-and-compatibility" class="level2">
-<h2 class="anchored" data-anchor-id="output-and-compatibility">Output and compatibility</h2>
-<p>Current modules update the canonical <code>ProtVis_dataset</code>. The GUI also maintains stage snapshots used by downstream compatibility paths. <strong>Correct Noise</strong> can recover the imported stage from <code>Step2_remove_unreliable_peptide.rda</code> when an in-memory <code>ProtVis_dataset</code> is not available.</p>
-<p>The preferred workflow is to keep the active <code>ProtVis_dataset</code> intact rather than manually opening, modifying, and resaving stage <code>.rda</code> files.</p>
+<section id="missing-values-at-the-import-boundary" class="level2">
+<h2 class="anchored" data-anchor-id="missing-values-at-the-import-boundary">Missing values at the import boundary</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Do not treat zeros or sentinel values as biological abundance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Missing or not-observed measurements must remain missing until the explicit imputation stage. Where applicable, legacy values such as <code>0</code> and <code>-8</code> are converted to <code>NA</code> before imputation rather than being presented as measured abundance.</p>
+</div>
+</div>
+</section>
+<section id="the-shared-step2-handoff" class="level2">
+<h2 class="anchored" data-anchor-id="the-shared-step2-handoff">The shared Step2 handoff</h2>
+<p>The current Raw/Sage route writes both a Sage-specific snapshot and the canonical cross-source file:</p>
+<pre class="text"><code>Step2_sage_database_search.rda
+Step2_remove_unreliable_peptide.rda</code></pre>
+<p><code>Step2_remove_unreliable_peptide.rda</code> is now the <strong>data-source-independent handoff</strong> consumed by Correct Noise. The filename is retained for compatibility even when the input did not originate from MaxQuant.</p>
+<p>The active <code>ProtVis_dataset</code> remains the preferred source. Stage <code>.rda</code> files are recovery/compatibility snapshots, not separate primary data models.</p>
+</section>
+<section id="before-continuing" class="level2">
+<h2 class="anchored" data-anchor-id="before-continuing">Before continuing</h2>
+<p>Confirm that the current project has a real protein-by-sample expression matrix, correct sample identifiers, and the expected grouping metadata. A <code>Sage_staging</code> object is the exception: it is deliberately matrix-free until Search finishes.</p>
+<p>Then continue to <a href="../../content/Pre_processing/correct_noise.html">Correct noise</a>.</p>
 
 
 </section>
@@ -1169,8 +1208,8 @@ Figure&nbsp;1: ProtVis unifies heterogeneous proteomics data sources into a stan
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/reproducibility/ProtVis_dataset.html" class="pagination-link" aria-label="ProtVis_dataset">
-        <span class="nav-page-text">ProtVis_dataset</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/data_import/raw_sage_search.html" class="pagination-link" aria-label="Raw/mzML + Sage">
+        <span class="nav-page-text">Raw/mzML + Sage</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -44,7 +44,7 @@
     "href": "content/data_import/data_import.html",
     "title": "Data input",
     "section": "",
-    "text": "The Data input page is selected dynamically from the source chosen during Project init. Its job is to load the source-specific quantitative evidence, remove unreliable entries where appropriate, and hand a clean expression matrix to preprocessing.\nProtVis currently routes the following source types to dedicated or parser-backed modules: Raw, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix.\nThe figure below summarizes the central design of ProtVis. Representative source-specific exports remain heterogeneous at ingestion, while ProtVis brings them through a shared sequence of import and parsing, QC and filtering, structure harmonization, and matrix reshaping to produce a standardized ProtVis_dataset.\n\n\n\n\n\n\nFigure 1: ProtVis unifies heterogeneous proteomics data sources into a standardized dataset.",
+    "text": "ProtVis no longer forces every source through one identical import screen. Project init selects the route, and each route produces or restores a validated ProtVis_dataset before the shared preprocessing stages begin.\nThe three practical routes are:\n\n\n\n\n\n\n\n\nRoute\nNext source-specific step\nShared handoff\n\n\n\n\nRaw/mzML\nSearch (Sage)\nStep2_remove_unreliable_peptide.rda\n\n\nMaxQuant\nPre-processing → MaxQuant Output Preparation\nStep2_remove_unreliable_peptide.rda\n\n\nOther supported tabular sources\nSource parser/import\nactive ProtVis_dataset and preprocessing-compatible handoff\n\n\n\nThe source-independent workflow begins at Correct Noise.",
     "crumbs": [
       "Getting started",
       "Data input"
@@ -55,51 +55,84 @@
     "href": "content/data_import/data_import.html#purpose",
     "title": "Data input",
     "section": "",
-    "text": "The Data input page is selected dynamically from the source chosen during Project init. Its job is to load the source-specific quantitative evidence, remove unreliable entries where appropriate, and hand a clean expression matrix to preprocessing.\nProtVis currently routes the following source types to dedicated or parser-backed modules: Raw, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix.\nThe figure below summarizes the central design of ProtVis. Representative source-specific exports remain heterogeneous at ingestion, while ProtVis brings them through a shared sequence of import and parsing, QC and filtering, structure harmonization, and matrix reshaping to produce a standardized ProtVis_dataset.\n\n\n\n\n\n\nFigure 1: ProtVis unifies heterogeneous proteomics data sources into a standardized dataset.",
+    "text": "ProtVis no longer forces every source through one identical import screen. Project init selects the route, and each route produces or restores a validated ProtVis_dataset before the shared preprocessing stages begin.\nThe three practical routes are:\n\n\n\n\n\n\n\n\nRoute\nNext source-specific step\nShared handoff\n\n\n\n\nRaw/mzML\nSearch (Sage)\nStep2_remove_unreliable_peptide.rda\n\n\nMaxQuant\nPre-processing → MaxQuant Output Preparation\nStep2_remove_unreliable_peptide.rda\n\n\nOther supported tabular sources\nSource parser/import\nactive ProtVis_dataset and preprocessing-compatible handoff\n\n\n\nThe source-independent workflow begins at Correct Noise.",
     "crumbs": [
       "Getting started",
       "Data input"
     ]
   },
   {
-    "objectID": "content/data_import/data_import.html#recommended-workflow",
-    "href": "content/data_import/data_import.html#recommended-workflow",
+    "objectID": "content/data_import/data_import.html#supported-source-selections",
+    "href": "content/data_import/data_import.html#supported-source-selections",
     "title": "Data input",
-    "section": "Recommended workflow",
-    "text": "Recommended workflow\n\nComplete Project init first.\nOpen Data input and confirm that the header shows the expected source.\nLoad the corresponding search-engine/export file if the selected source requires one.\nReview the raw/source preview before filtering.\nApply the source-specific unreliable-evidence filtering controls.\nConfirm that the output retains a protein identifier and the expected samples.\nContinue to Pre-processing → Correct Noise.",
+    "section": "Supported source selections",
+    "text": "Supported source selections\nProject init currently exposes Raw, MaxQuant, ProteomeDiscoverer / Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix.\nParser-backed inputs are converted into a common protein-by-sample representation rather than being interpreted with MaxQuant-specific column rules.",
     "crumbs": [
       "Getting started",
       "Data input"
     ]
   },
   {
-    "objectID": "content/data_import/data_import.html#source-specific-behavior",
-    "href": "content/data_import/data_import.html#source-specific-behavior",
+    "objectID": "content/data_import/data_import.html#rawmzml",
+    "href": "content/data_import/data_import.html#rawmzml",
     "title": "Data input",
-    "section": "Source-specific behavior",
-    "text": "Source-specific behavior\nDifferent proteomics tools use different column names and evidence flags. ProtVis therefore avoids forcing every source through a MaxQuant-only parser. Parser-backed sources are converted into a common protein-by-sample representation before they enter the shared workflow.\nFor MaxQuant-style inputs, common unreliable records include reverse hits, contaminants, and entries flagged as identified only by site. Other sources use their own available evidence fields.\n\n\n\n\n\n\nWarningDo not treat zeros or sentinel values as biological abundance\n\n\n\nMissing or not-observed measurements must remain missing until the explicit imputation stage. In the current workflow, values such as 0 and the legacy -8 sentinel are converted to NA before imputation where applicable.",
+    "section": "Raw/mzML",
+    "text": "Raw/mzML\nFor Raw data, do not upload an artificial protein matrix simply to satisfy Project init. Register sample information, the mzML directory and FASTA; Project init creates a Sage_staging object. The conditional Search tab then runs Sage and creates the quantitative LFQ matrix.\nRead Raw/mzML + Sage search for the complete workflow.",
     "crumbs": [
       "Getting started",
       "Data input"
     ]
   },
   {
-    "objectID": "content/data_import/data_import.html#built-in-source-fixtures",
-    "href": "content/data_import/data_import.html#built-in-source-fixtures",
+    "objectID": "content/data_import/data_import.html#maxquant",
+    "href": "content/data_import/data_import.html#maxquant",
     "title": "Data input",
-    "section": "Built-in source fixtures",
-    "text": "Built-in source fixtures\nProtVis ships small examples for several input ecosystems, including MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, and mzTab-oriented data. These fixtures are useful for verifying that a parser is operational.\nA programmatic example is:\nlibrary(ProtVis)\n\nexample_data &lt;- load_protvis_builtin_data(\n  source = \"DIA-NN\",\n  auto_export = FALSE\n)\n\nexample_data",
+    "section": "MaxQuant",
+    "text": "MaxQuant\nWhen MaxQuant is selected, the source-specific MaxQuant Output Preparation item appears under Pre-processing. This is where MaxQuant-only unreliable evidence handling belongs. After that step, the dataset enters the same Correct Noise → Transformation → Imputation → Normalization sequence used by other sources.",
     "crumbs": [
       "Getting started",
       "Data input"
     ]
   },
   {
-    "objectID": "content/data_import/data_import.html#output-and-compatibility",
-    "href": "content/data_import/data_import.html#output-and-compatibility",
+    "objectID": "content/data_import/data_import.html#other-tabular-sources",
+    "href": "content/data_import/data_import.html#other-tabular-sources",
     "title": "Data input",
-    "section": "Output and compatibility",
-    "text": "Output and compatibility\nCurrent modules update the canonical ProtVis_dataset. The GUI also maintains stage snapshots used by downstream compatibility paths. Correct Noise can recover the imported stage from Step2_remove_unreliable_peptide.rda when an in-memory ProtVis_dataset is not available.\nThe preferred workflow is to keep the active ProtVis_dataset intact rather than manually opening, modifying, and resaving stage .rda files.",
+    "section": "Other tabular sources",
+    "text": "Other tabular sources\nFor Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and user-defined matrices, use the appropriate source parser/import path. ProtVis preserves the source identity in project metadata while standardizing the result for downstream modules.\nBuilt-in compact examples are available for several input ecosystems and are useful for verifying that a parser and package installation are operational.\nA programmatic example is:\nlibrary(ProtVis)\n\nexample_data &lt;- load_protvis_builtin_data(\n  source = \"DIA-NN\",\n  auto_export = FALSE\n)\n\nexample_data",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#missing-values-at-the-import-boundary",
+    "href": "content/data_import/data_import.html#missing-values-at-the-import-boundary",
+    "title": "Data input",
+    "section": "Missing values at the import boundary",
+    "text": "Missing values at the import boundary\n\n\n\n\n\n\nWarningDo not treat zeros or sentinel values as biological abundance\n\n\n\nMissing or not-observed measurements must remain missing until the explicit imputation stage. Where applicable, legacy values such as 0 and -8 are converted to NA before imputation rather than being presented as measured abundance.",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#the-shared-step2-handoff",
+    "href": "content/data_import/data_import.html#the-shared-step2-handoff",
+    "title": "Data input",
+    "section": "The shared Step2 handoff",
+    "text": "The shared Step2 handoff\nThe current Raw/Sage route writes both a Sage-specific snapshot and the canonical cross-source file:\nStep2_sage_database_search.rda\nStep2_remove_unreliable_peptide.rda\nStep2_remove_unreliable_peptide.rda is now the data-source-independent handoff consumed by Correct Noise. The filename is retained for compatibility even when the input did not originate from MaxQuant.\nThe active ProtVis_dataset remains the preferred source. Stage .rda files are recovery/compatibility snapshots, not separate primary data models.",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#before-continuing",
+    "href": "content/data_import/data_import.html#before-continuing",
+    "title": "Data input",
+    "section": "Before continuing",
+    "text": "Before continuing\nConfirm that the current project has a real protein-by-sample expression matrix, correct sample identifiers, and the expected grouping metadata. A Sage_staging object is the exception: it is deliberately matrix-free until Search finishes.\nThen continue to Correct noise.",
     "crumbs": [
       "Getting started",
       "Data input"
@@ -2092,76 +2125,120 @@
     "href": "content/data_import/raw_sage_search.html",
     "title": "Raw/mzML + Sage search",
     "section": "",
-    "text": "Use Project init → Search when your starting point is converted .mzML files rather than a precomputed protein-abundance table. ProtVis registers sample metadata, the mzML directory and a protein FASTA, runs Sage, then converts Sage LFQ output into the same canonical ProtVis_dataset used by all downstream modules.\nThe route is:\nProject init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization\nThe top-level Search tab is intentionally visible only while Raw is selected in Project init."
+    "text": "Use Project init → Search when your starting point is converted .mzML files rather than a precomputed protein-abundance table. ProtVis registers sample metadata, the mzML directory and a protein FASTA, runs Sage, then converts Sage LFQ output into the same canonical ProtVis_dataset used by all downstream modules.\nThe route is:\nProject init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization\nThe top-level Search tab is intentionally visible only while Raw is selected in Project init.",
+    "crumbs": [
+      "Getting started",
+      "Raw/mzML + Sage"
+    ]
   },
   {
     "objectID": "content/data_import/raw_sage_search.html#when-to-use-this-workflow",
     "href": "content/data_import/raw_sage_search.html#when-to-use-this-workflow",
     "title": "Raw/mzML + Sage search",
     "section": "",
-    "text": "Use Project init → Search when your starting point is converted .mzML files rather than a precomputed protein-abundance table. ProtVis registers sample metadata, the mzML directory and a protein FASTA, runs Sage, then converts Sage LFQ output into the same canonical ProtVis_dataset used by all downstream modules.\nThe route is:\nProject init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization\nThe top-level Search tab is intentionally visible only while Raw is selected in Project init."
+    "text": "Use Project init → Search when your starting point is converted .mzML files rather than a precomputed protein-abundance table. ProtVis registers sample metadata, the mzML directory and a protein FASTA, runs Sage, then converts Sage LFQ output into the same canonical ProtVis_dataset used by all downstream modules.\nThe route is:\nProject init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization\nThe top-level Search tab is intentionally visible only while Raw is selected in Project init.",
+    "crumbs": [
+      "Getting started",
+      "Raw/mzML + Sage"
+    ]
   },
   {
     "objectID": "content/data_import/raw_sage_search.html#prerequisites",
     "href": "content/data_import/raw_sage_search.html#prerequisites",
     "title": "Raw/mzML + Sage search",
     "section": "Prerequisites",
-    "text": "Prerequisites\nBefore opening Search, complete the Raw-specific part of Project init:\n\nSet a writable working directory.\nSelect Raw.\nLoad or upload sample information containing sample_id and mzml_file.\nSelect the directory containing the mzML files.\nClick Check mzML files and resolve every Missing or Invalid extension row.\nUpload the matching protein FASTA.\nClick Project init to create the Sage staging object.\n\n\n\n\n\n\n\nImportantDo not create a fake expression matrix\n\n\n\nA Raw/Sage project does not need a protein expression matrix before Search. ProtVis creates a Sage_staging project object and fills the expression layer only after LFQ results are available."
+    "text": "Prerequisites\nBefore opening Search, complete the Raw-specific part of Project init:\n\nSet a writable working directory.\nSelect Raw.\nLoad or upload sample information containing sample_id and mzml_file.\nSelect the directory containing the mzML files.\nClick Check mzML files and resolve every Missing or Invalid extension row.\nUpload the matching protein FASTA.\nClick Project init to create the Sage staging object.\n\n\n\n\n\n\n\nImportantDo not create a fake expression matrix\n\n\n\nA Raw/Sage project does not need a protein expression matrix before Search. ProtVis creates a Sage_staging project object and fills the expression layer only after LFQ results are available.",
+    "crumbs": [
+      "Getting started",
+      "Raw/mzML + Sage"
+    ]
   },
   {
     "objectID": "content/data_import/raw_sage_search.html#sage-executable",
     "href": "content/data_import/raw_sage_search.html#sage-executable",
     "title": "Raw/mzML + Sage search",
     "section": "Sage executable",
-    "text": "Sage executable\nProtVis uses protvis_sage_executable() to resolve Sage.\nOn Windows, the package can use the bundled Sage executable at:\ninst/extdata/sage/windows/sage.exe\nOn Linux or macOS, install Sage separately and make sage available on PATH.\nYou can verify discovery from R:\nProtVis::protvis_sage_executable()\nThe Search page shows the resolved FASTA, mzML directory, Output, and Sage paths before execution."
+    "text": "Sage executable\nProtVis uses protvis_sage_executable() to resolve Sage.\nOn Windows, the package can use the bundled Sage executable at:\ninst/extdata/sage/windows/sage.exe\nOn Linux or macOS, install Sage separately and make sage available on PATH.\nYou can verify discovery from R:\nProtVis::protvis_sage_executable()\nThe Search page shows the resolved FASTA, mzML directory, Output, and Sage paths before execution.",
+    "crumbs": [
+      "Getting started",
+      "Raw/mzML + Sage"
+    ]
   },
   {
     "objectID": "content/data_import/raw_sage_search.html#search-parameters",
     "href": "content/data_import/raw_sage_search.html#search-parameters",
     "title": "Raw/mzML + Sage search",
     "section": "Search parameters",
-    "text": "Search parameters\nThe current Search interface exposes the following defaults:\n\n\n\nParameter\nDefault\n\n\n\n\nPrecursor tolerance\n20 ppm\n\n\nFragment tolerance\n0.5 Da\n\n\nEnzyme\nTrypsin/P\n\n\nMissed cleavages\n2\n\n\nMinimum peptide length\n7\n\n\nMaximum peptide length\n50\n\n\nCarbamidomethyl (C), fixed\nenabled\n\n\nOxidation (M), variable\nenabled\n\n\nProtein N-term acetyl, variable\nenabled\n\n\nSpectrum/peptide/protein FDR\n0.01\n\n\nLFQ\nenabled\n\n\n\nThe generated Sage configuration uses target-decoy searching with rev_ as the decoy prefix. LFQ should remain enabled when the goal is to create a protein-by-sample matrix for downstream ProtVis analysis."
+    "text": "Search parameters\nThe current Search interface exposes the following defaults:\n\n\n\nParameter\nDefault\n\n\n\n\nPrecursor tolerance\n20 ppm\n\n\nFragment tolerance\n0.5 Da\n\n\nEnzyme\nTrypsin/P\n\n\nMissed cleavages\n2\n\n\nMinimum peptide length\n7\n\n\nMaximum peptide length\n50\n\n\nCarbamidomethyl (C), fixed\nenabled\n\n\nOxidation (M), variable\nenabled\n\n\nProtein N-term acetyl, variable\nenabled\n\n\nSpectrum/peptide/protein FDR\n0.01\n\n\nLFQ\nenabled\n\n\n\nThe generated Sage configuration uses target-decoy searching with rev_ as the decoy prefix. LFQ should remain enabled when the goal is to create a protein-by-sample matrix for downstream ProtVis analysis.",
+    "crumbs": [
+      "Getting started",
+      "Raw/mzML + Sage"
+    ]
   },
   {
     "objectID": "content/data_import/raw_sage_search.html#run-the-search",
     "href": "content/data_import/raw_sage_search.html#run-the-search",
     "title": "Raw/mzML + Sage search",
     "section": "Run the search",
-    "text": "Run the search\n\nOpen Search.\nConfirm that the displayed FASTA, mzML directory, output directory and Sage executable are correct.\nAdjust search parameters only when your acquisition/search design requires it.\nClick Run Sage Search.\nFollow Search status and Sage log.\nInspect the Summary, PSMs, and LFQ tabs after completion.\n\nRepeated rapid clicks are guarded at both the interface and server level. If the same search is already running, the duplicate action is ignored rather than launching a second Sage process."
+    "text": "Run the search\n\nOpen Search.\nConfirm that the displayed FASTA, mzML directory, output directory and Sage executable are correct.\nAdjust search parameters only when your acquisition/search design requires it.\nClick Run Sage Search.\nFollow Search status and Sage log.\nInspect the Summary, PSMs, and LFQ tabs after completion.\n\nRepeated rapid clicks are guarded at both the interface and server level. If the same search is already running, the duplicate action is ignored rather than launching a second Sage process.",
+    "crumbs": [
+      "Getting started",
+      "Raw/mzML + Sage"
+    ]
   },
   {
     "objectID": "content/data_import/raw_sage_search.html#files-produced-by-sage",
     "href": "content/data_import/raw_sage_search.html#files-produced-by-sage",
     "title": "Raw/mzML + Sage search",
     "section": "Files produced by Sage",
-    "text": "Files produced by Sage\nProtVis writes the search into the project Sage_search directory. The principal files are:\nSage_search/\n├── sage_config.json\n├── results.sage.tsv\n├── lfq.tsv\n└── results.json\nThe Search page also provides Download Sage config so the exact generated configuration can be retained independently."
+    "text": "Files produced by Sage\nProtVis writes the search into the project Sage_search directory. The principal files are:\nSage_search/\n├── sage_config.json\n├── results.sage.tsv\n├── lfq.tsv\n└── results.json\nThe Search page also provides Download Sage config so the exact generated configuration can be retained independently.",
+    "crumbs": [
+      "Getting started",
+      "Raw/mzML + Sage"
+    ]
   },
   {
     "objectID": "content/data_import/raw_sage_search.html#how-lfq-becomes-a-protvis-matrix",
     "href": "content/data_import/raw_sage_search.html#how-lfq-becomes-a-protvis-matrix",
     "title": "Raw/mzML + Sage search",
     "section": "How LFQ becomes a ProtVis matrix",
-    "text": "How LFQ becomes a ProtVis matrix\nAfter a successful search, ProtVis reads the Sage LFQ table, finds the proteins/protein field, matches LFQ sample columns to the registered mzML filenames and sample_id values, removes rev_ decoy identifiers, and aggregates target intensities into a protein-by-sample matrix.\nThe completed object uses the workflow stage Sage_complete and receives a traceable name such as:\nProtVis_dataset__Sage_database_search__v2\nThe original staging metadata and process history are retained. Search parameters, log information, configuration, result tables, and produced files are recorded under the project, including:\ndataset$analysis_results$Sage_database_search\nSearch output files that exist on disk are also registered in other_files with path, filename, size, MD5 and attachment time."
+    "text": "How LFQ becomes a ProtVis matrix\nAfter a successful search, ProtVis reads the Sage LFQ table, finds the proteins/protein field, matches LFQ sample columns to the registered mzML filenames and sample_id values, removes rev_ decoy identifiers, and aggregates target intensities into a protein-by-sample matrix.\nThe completed object uses the workflow stage Sage_complete and receives a traceable name such as:\nProtVis_dataset__Sage_database_search__v2\nThe original staging metadata and process history are retained. Search parameters, log information, configuration, result tables, and produced files are recorded under the project, including:\ndataset$analysis_results$Sage_database_search\nSearch output files that exist on disk are also registered in other_files with path, filename, size, MD5 and attachment time.",
+    "crumbs": [
+      "Getting started",
+      "Raw/mzML + Sage"
+    ]
   },
   {
     "objectID": "content/data_import/raw_sage_search.html#stage-handoff-to-preprocessing",
     "href": "content/data_import/raw_sage_search.html#stage-handoff-to-preprocessing",
     "title": "Raw/mzML + Sage search",
     "section": "Stage handoff to preprocessing",
-    "text": "Stage handoff to preprocessing\nA successful Search writes two compatibility snapshots:\nStep2_sage_database_search.rda\nStep2_remove_unreliable_peptide.rda\nStep2_sage_database_search.rda preserves the Sage-specific stage name for compatibility. The important cross-source handoff is now:\nStep2_remove_unreliable_peptide.rda\nThis is the data-source-independent Step2 checkpoint consumed by Correct Noise. In other words, downstream preprocessing does not need to know whether Step2 originated from Sage, MaxQuant, or another supported input path.\nContinue with Correct noise."
+    "text": "Stage handoff to preprocessing\nA successful Search writes two compatibility snapshots:\nStep2_sage_database_search.rda\nStep2_remove_unreliable_peptide.rda\nStep2_sage_database_search.rda preserves the Sage-specific stage name for compatibility. The important cross-source handoff is now:\nStep2_remove_unreliable_peptide.rda\nThis is the data-source-independent Step2 checkpoint consumed by Correct Noise. In other words, downstream preprocessing does not need to know whether Step2 originated from Sage, MaxQuant, or another supported input path.\nContinue with Correct noise.",
+    "crumbs": [
+      "Getting started",
+      "Raw/mzML + Sage"
+    ]
   },
   {
     "objectID": "content/data_import/raw_sage_search.html#recovery-after-restarting-protvis",
     "href": "content/data_import/raw_sage_search.html#recovery-after-restarting-protvis",
     "title": "Raw/mzML + Sage search",
     "section": "Recovery after restarting ProtVis",
-    "text": "Recovery after restarting ProtVis\nProtVis can recover a completed Sage search from the existing Sage_search directory when lfq.tsv is present and the configuration still resolves the FASTA and mzML inputs. Recovery reads the prior configuration and result tables instead of requiring the database search to be repeated simply because the Shiny session restarted.\nCorrect Noise also checks the active ProtVis_dataset first. If no in-memory object is available, it looks for the canonical Step2_remove_unreliable_peptide.rda, then Sage-specific/older stage files as fallbacks.\n\n\n\n\n\n\nTipKeep the complete project directory\n\n\n\nFor a recoverable Raw/Sage project, keep the working directory, Sage_search folder, stage files, and portable ProtVis_dataset export together. Moving only lfq.tsv away from the FASTA/configuration context weakens provenance and may prevent automatic recovery."
+    "text": "Recovery after restarting ProtVis\nProtVis can recover a completed Sage search from the existing Sage_search directory when lfq.tsv is present and the configuration still resolves the FASTA and mzML inputs. Recovery reads the prior configuration and result tables instead of requiring the database search to be repeated simply because the Shiny session restarted.\nCorrect Noise also checks the active ProtVis_dataset first. If no in-memory object is available, it looks for the canonical Step2_remove_unreliable_peptide.rda, then Sage-specific/older stage files as fallbacks.\n\n\n\n\n\n\nTipKeep the complete project directory\n\n\n\nFor a recoverable Raw/Sage project, keep the working directory, Sage_search folder, stage files, and portable ProtVis_dataset export together. Moving only lfq.tsv away from the FASTA/configuration context weakens provenance and may prevent automatic recovery.",
+    "crumbs": [
+      "Getting started",
+      "Raw/mzML + Sage"
+    ]
   },
   {
     "objectID": "content/data_import/raw_sage_search.html#troubleshooting",
     "href": "content/data_import/raw_sage_search.html#troubleshooting",
     "title": "Raw/mzML + Sage search",
     "section": "Troubleshooting",
-    "text": "Troubleshooting\nSearch tab is missing. Return to Project init and select Raw. Search is hidden for other source types by design.\nSage is shown as Not found. On Windows, reinstall the current ProtVis build and confirm the bundled executable is present. On Linux/macOS, install Sage and place it on PATH.\nNo .mzML files were found. Select the directory that directly contains the converted files and rerun Check mzML files.\nSample names do not map to LFQ columns. Confirm that sample_info$mzml_file matches the registered mzML filenames. ProtVis falls back to filename stems only when a direct sample mapping is unavailable.\nCorrect Noise says the expression matrix is unavailable. The current object is probably still a Sage staging object. Complete Search successfully first so LFQ can be converted to the protein abundance matrix."
+    "text": "Troubleshooting\nSearch tab is missing. Return to Project init and select Raw. Search is hidden for other source types by design.\nSage is shown as Not found. On Windows, reinstall the current ProtVis build and confirm the bundled executable is present. On Linux/macOS, install Sage and place it on PATH.\nNo .mzML files were found. Select the directory that directly contains the converted files and rerun Check mzML files.\nSample names do not map to LFQ columns. Confirm that sample_info$mzml_file matches the registered mzML filenames. ProtVis falls back to filename stems only when a direct sample mapping is unavailable.\nCorrect Noise says the expression matrix is unavailable. The current object is probably still a Sage staging object. Complete Search successfully first so LFQ can be converted to the protein abundance matrix.",
+    "crumbs": [
+      "Getting started",
+      "Raw/mzML + Sage"
+    ]
   }
 ]
