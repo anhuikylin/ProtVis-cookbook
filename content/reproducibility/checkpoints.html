@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Save, inspect, restore and export recoverable ProtVis analysis states.">
+<meta name="description" content="Save, inspect, restore and export recoverable ProtVis analysis states, including Raw/Sage projects.">
 
 <title>Checkpoints &amp; recovery – ProtVis Cookbook</title>
 <style>
@@ -648,10 +648,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#checkpoint-model" id="toc-checkpoint-model" class="nav-link active" data-scroll-target="#checkpoint-model">Checkpoint model</a></li>
   <li><a href="#save-a-checkpoint" id="toc-save-a-checkpoint" class="nav-link" data-scroll-target="#save-a-checkpoint">Save a checkpoint</a></li>
-  <li><a href="#list-checkpoints" id="toc-list-checkpoints" class="nav-link" data-scroll-target="#list-checkpoints">List checkpoints</a></li>
-  <li><a href="#restore-the-newest-checkpoint" id="toc-restore-the-newest-checkpoint" class="nav-link" data-scroll-target="#restore-the-newest-checkpoint">Restore the newest checkpoint</a></li>
+  <li><a href="#list-and-restore-checkpoints" id="toc-list-and-restore-checkpoints" class="nav-link" data-scroll-target="#list-and-restore-checkpoints">List and restore checkpoints</a></li>
   <li><a href="#automatic-persistence" id="toc-automatic-persistence" class="nav-link" data-scroll-target="#automatic-persistence">Automatic persistence</a></li>
-  <li><a href="#legacy-stage-files" id="toc-legacy-stage-files" class="nav-link" data-scroll-target="#legacy-stage-files">Legacy stage files</a></li>
+  <li><a href="#source-independent-step2" id="toc-source-independent-step2" class="nav-link" data-scroll-target="#source-independent-step2">Source-independent Step2</a></li>
+  <li><a href="#sage-search-recovery" id="toc-sage-search-recovery" class="nav-link" data-scroll-target="#sage-search-recovery">Sage search recovery</a></li>
+  <li><a href="#compatibility-stage-files" id="toc-compatibility-stage-files" class="nav-link" data-scroll-target="#compatibility-stage-files">Compatibility stage files</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/reproducibility/checkpoints.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/reproducibility/checkpoints.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -666,7 +667,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    Save, inspect, restore and export recoverable ProtVis analysis states.
+    Save, inspect, restore and export recoverable ProtVis analysis states, including Raw/Sage projects.
   </div>
 </div>
 
@@ -686,7 +687,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="checkpoint-model" class="level2">
 <h2 class="anchored" data-anchor-id="checkpoint-model">Checkpoint model</h2>
 <p>ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated <code>ProtVis_dataset</code> at a named stage.</p>
-<div id="fig-protvis-checkpoint-recovery" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three-panel checkpoint and recovery schematic. Panel A shows data input, noise correction, transformation, imputation, normalization, and DEP analysis writing validated checkpoints into ProtVis_dataset, with an interrupted analysis resuming from a checkpoint. Panel B shows resume and reanalysis paths from saved stages. Panel C contrasts a conventional interrupted reactive workflow with ProtVis node-level error handling and retained checkpoints." data-fig-align="center">
+<div id="fig-protvis-checkpoint-recovery" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Three-panel checkpoint and recovery schematic. Panel A shows data input, noise correction, transformation, imputation, normalization, and DEP analysis writing validated checkpoints into ProtVis_dataset, with an interrupted analysis resuming from a checkpoint. Panel B shows resume and reanalysis paths from saved stages. Panel C contrasts a conventional interrupted reactive workflow with ProtVis node-level error handling and retained checkpoints.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-protvis-checkpoint-recovery-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../../images/protvis-checkpoint-recovery.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:98.0%" alt="Three-panel checkpoint and recovery schematic. Panel A shows data input, noise correction, transformation, imputation, normalization, and DEP analysis writing validated checkpoints into ProtVis_dataset, with an interrupted analysis resuming from a checkpoint. Panel B shows resume and reanalysis paths from saved stages. Panel C contrasts a conventional interrupted reactive workflow with ProtVis node-level error handling and retained checkpoints.">
@@ -696,7 +697,7 @@ Figure&nbsp;1: Checkpoint-aware analysis and recovery in ProtVis. Auto-saved val
 </figcaption>
 </figure>
 </div>
-<p>The schematic presents three complementary recovery ideas: validated stage checkpoints, selective downstream re-analysis from a saved state, and node-level error isolation so a failure does not require rebuilding the complete project from the beginning.</p>
+<p>The important principle is that the active <code>ProtVis_dataset</code> is authoritative. Checkpoints and stage <code>.rda</code> files make that object recoverable; they are not parallel, unrelated data models.</p>
 </section>
 <section id="save-a-checkpoint" class="level2">
 <h2 class="anchored" data-anchor-id="save-a-checkpoint">Save a checkpoint</h2>
@@ -712,23 +713,21 @@ Figure&nbsp;1: Checkpoint-aware analysis and recovery in ProtVis. Auto-saved val
 <pre class="text"><code>protvis_checkpoint_&lt;stage&gt;_...rds</code></pre>
 <p>Saving is validated before a checkpoint is published, reducing the chance that a partial write replaces a usable analysis state.</p>
 </section>
-<section id="list-checkpoints" class="level2">
-<h2 class="anchored" data-anchor-id="list-checkpoints">List checkpoints</h2>
+<section id="list-and-restore-checkpoints" class="level2">
+<h2 class="anchored" data-anchor-id="list-and-restore-checkpoints">List and restore checkpoints</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_protvis_checkpoints</span>(<span class="st">"checkpoints"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The returned table includes the file path, stage, creation time, size, MD5, and whether the checkpoint can be read.</p>
-</section>
-<section id="restore-the-newest-checkpoint" class="level2">
-<h2 class="anchored" data-anchor-id="restore-the-newest-checkpoint">Restore the newest checkpoint</h2>
+<p>Restore the newest checkpoint with:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>restored <span class="ot">&lt;-</span> <span class="fu">restore_protvis_checkpoint</span>(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"checkpoints"</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">version =</span> <span class="st">"latest"</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>You can request a stage as well:</p>
+<p>Or request a stage:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>restored <span class="ot">&lt;-</span> <span class="fu">restore_protvis_checkpoint</span>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"checkpoints"</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">stage =</span> <span class="st">"differential_analysis"</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>If the exact requested stage is unavailable, ProtVis can select the newest readable checkpoint at or before that stage, allowing an interrupted workflow to resume from the closest valid state.</p>
+<p>If the exact requested stage is unavailable, ProtVis can select the newest readable checkpoint at or before that stage.</p>
 </section>
 <section id="automatic-persistence" class="level2">
 <h2 class="anchored" data-anchor-id="automatic-persistence">Automatic persistence</h2>
@@ -738,18 +737,41 @@ Figure&nbsp;1: Checkpoint-aware analysis and recovery in ProtVis. Auto-saved val
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">directory =</span> <span class="fu">getwd</span>(),</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">include_raw =</span> <span class="cn">FALSE</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The GUI also protects long-running actions against duplicate execution. Buttons marked as run actions are disabled while Shiny is busy, and key server modules independently reject the same action if it is already running. This prevents accidental double searches, imports, or preprocessing runs from creating competing checkpoints.</p>
 </section>
-<section id="legacy-stage-files" class="level2">
-<h2 class="anchored" data-anchor-id="legacy-stage-files">Legacy stage files</h2>
-<p>ProtVis still reads historical stage files where needed. Current stage snapshots are written with exactly one <code>ProtVis_dataset</code> object; older workspaces that stored expression and sample objects separately can be migrated by the internal loading layer.</p>
-<p>Common compatibility files include:</p>
+<section id="source-independent-step2" class="level2">
+<h2 class="anchored" data-anchor-id="source-independent-step2">Source-independent Step2</h2>
+<p>The current preprocessing handoff uses:</p>
+<pre class="text"><code>Step2_remove_unreliable_peptide.rda</code></pre>
+<p>as the canonical <strong>Step2 file across data sources</strong>. The historical filename remains for compatibility, but the contents are a <code>ProtVis_dataset</code> and can originate from MaxQuant, Sage, or another supported input route.</p>
+<p>For Raw/Sage, a successful search also writes:</p>
+<pre class="text"><code>Step2_sage_database_search.rda</code></pre>
+<p>The Sage-specific file is retained as a compatibility/recovery snapshot. <strong>Correct Noise prefers the active object and then the canonical Step2 file.</strong></p>
+</section>
+<section id="sage-search-recovery" class="level2">
+<h2 class="anchored" data-anchor-id="sage-search-recovery">Sage search recovery</h2>
+<p>Raw/Sage projects have an additional recovery path. If the Shiny session restarts after Sage completed, ProtVis can reconstruct the search bundle from the existing <code>Sage_search</code> directory when the LFQ result and input context are still resolvable.</p>
+<p>The expected Sage files are:</p>
+<pre class="text"><code>Sage_search/
+├── sage_config.json
+├── results.sage.tsv
+├── lfq.tsv
+└── results.json</code></pre>
+<p><code>lfq.tsv</code> is required for recovery of the quantitative protein matrix. The stored configuration is used to recover FASTA and mzML context when possible.</p>
+<p>This means a completed database search does not need to be rerun merely because the application session closed.</p>
+</section>
+<section id="compatibility-stage-files" class="level2">
+<h2 class="anchored" data-anchor-id="compatibility-stage-files">Compatibility stage files</h2>
+<p>Common stage files currently include:</p>
 <pre class="text"><code>Step1_project_init.rda
 Step2_remove_unreliable_peptide.rda
+Step2_sage_database_search.rda   # Raw/Sage compatibility snapshot
 Step3_correct_noise.rda
 Step4_data_transformed.rda
 Step5_data_imputation.rda
 Step6_data_normalization.rda
 Step7_differential_analysis.rda</code></pre>
+<p>Current snapshots are written with exactly one <code>ProtVis_dataset</code> object. Older workspaces that stored expression and sample objects separately can still be migrated by the internal loading layer where supported.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -760,7 +782,7 @@ Step7_differential_analysis.rda</code></pre>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For long projects, keep the working directory together with the latest portable export and checkpoint directory. This gives you a human-readable export, a complete serialized project object, and stage-aware recovery options.</p>
+<p>Keep the complete working directory together with the latest portable export, checkpoint directory, and—when using Raw/Sage—the <code>Sage_search</code> directory. This preserves the serialized project, human-readable exports, search evidence, and stage-aware recovery options in one place.</p>
 </div>
 </div>
 

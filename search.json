@@ -385,7 +385,7 @@
     "href": "content/Pre_processing/Pre_processing.html",
     "title": "Pre-processing workflow",
     "section": "",
-    "text": "ProtVis separates preprocessing into four explicit modules:\nCorrect Noise → Data Transformation → Data Imputation → Data Normalization\nKeeping these decisions separate makes it easier to inspect the effect of each operation and to record the selected method in the project history.",
+    "text": "Once an input route has produced a real protein-by-sample matrix, ProtVis uses four source-independent preprocessing modules:\nCorrect Noise → Data Transformation → Data Imputation → Data Normalization\nKeeping these decisions separate makes it easier to inspect the effect of each operation and to record the selected method in project history.\nFor Raw/mzML, run Search first. A Sage_staging object deliberately has no expression matrix and cannot enter Correct Noise until Sage LFQ has been finalized.\nFor MaxQuant, complete the conditional MaxQuant Output Preparation step first. Other supported tabular sources enter preprocessing after their source-specific parser/import has produced the canonical matrix.",
     "crumbs": [
       "Pre-processing",
       "Workflow overview"
@@ -396,7 +396,7 @@
     "href": "content/Pre_processing/Pre_processing.html#recommended-order",
     "title": "Pre-processing workflow",
     "section": "",
-    "text": "ProtVis separates preprocessing into four explicit modules:\nCorrect Noise → Data Transformation → Data Imputation → Data Normalization\nKeeping these decisions separate makes it easier to inspect the effect of each operation and to record the selected method in the project history.",
+    "text": "Once an input route has produced a real protein-by-sample matrix, ProtVis uses four source-independent preprocessing modules:\nCorrect Noise → Data Transformation → Data Imputation → Data Normalization\nKeeping these decisions separate makes it easier to inspect the effect of each operation and to record the selected method in project history.\nFor Raw/mzML, run Search first. A Sage_staging object deliberately has no expression matrix and cannot enter Correct Noise until Sage LFQ has been finalized.\nFor MaxQuant, complete the conditional MaxQuant Output Preparation step first. Other supported tabular sources enter preprocessing after their source-specific parser/import has produced the canonical matrix.",
     "crumbs": [
       "Pre-processing",
       "Workflow overview"
@@ -407,7 +407,7 @@
     "href": "content/Pre_processing/Pre_processing.html#correct-noise",
     "title": "Pre-processing workflow",
     "section": "1. Correct noise",
-    "text": "1. Correct noise\nThe current noise-correction logic is replicate-aware. For sample groups whose names contain replicate suffixes such as _1, _2, and _3, zero/missing cells are corrected only when sufficient non-zero replicate evidence exists; otherwise the affected replicate group remains missing. Duplicate protein IDs are collapsed safely before reshaping to avoid accidental many-to-many expansion.\nRead Correct noise.",
+    "text": "1. Correct noise\nCorrect Noise is the first shared preprocessing stage. It prefers the active ProtVis_dataset; if recovery from disk is needed, Step2_remove_unreliable_peptide.rda is the canonical cross-source handoff. Raw/Sage also retains Step2_sage_database_search.rda as a compatibility snapshot.\nThe correction itself is replicate-aware. For sample groups whose names contain replicate suffixes such as _1, _2, and _3, zero/missing cells are corrected only when sufficient non-zero replicate evidence exists; otherwise the affected replicate group remains missing. Duplicate protein IDs are collapsed safely before reshaping.\nRead Correct noise.",
     "crumbs": [
       "Pre-processing",
       "Workflow overview"
@@ -451,7 +451,18 @@
     "href": "content/Pre_processing/Pre_processing.html#stage-outputs",
     "title": "Pre-processing workflow",
     "section": "Stage outputs",
-    "text": "Stage outputs\nThe canonical result after each step is a new ProtVis_dataset state. Compatibility stage files are also used by the GUI:\n\n\n\nStage\nCompatibility file\n\n\n\n\nCorrect noise\nStep3_correct_noise.rda\n\n\nTransformation\nStep4_data_transformed.rda\n\n\nImputation\nStep5_data_imputation.rda\n\n\nNormalization\nStep6_data_normalization.rda\n\n\n\n\n\n\n\n\n\nWarningDo not impute before inspecting missingness\n\n\n\nMissing values in proteomics are not always random. Use the missing-value visualization and the biological design to decide whether a global imputation strategy is appropriate for your experiment.",
+    "text": "Stage outputs\nThe canonical result after every step is a new ProtVis_dataset state. Compatibility/recovery files used by the GUI include:\n\n\n\nStage\nCompatibility file\n\n\n\n\nInput/search handoff\nStep2_remove_unreliable_peptide.rda\n\n\nSage search compatibility\nStep2_sage_database_search.rda\n\n\nCorrect noise\nStep3_correct_noise.rda\n\n\nTransformation\nStep4_data_transformed.rda\n\n\nImputation\nStep5_data_imputation.rda\n\n\nNormalization\nStep6_data_normalization.rda\n\n\n\nCorrect Noise also refreshes the canonical Step2 handoff after successful correction so older downstream paths remain interoperable.",
+    "crumbs": [
+      "Pre-processing",
+      "Workflow overview"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/Pre_processing.html#duplicate-run-protection",
+    "href": "content/Pre_processing/Pre_processing.html#duplicate-run-protection",
+    "title": "Pre-processing workflow",
+    "section": "Duplicate-run protection",
+    "text": "Duplicate-run protection\nCurrent ProtVis protects important run buttons at two levels: the interface disables an active run button while Shiny is busy, and server-side guards reject the same operation if it is already executing. This is particularly important for Sage search and preprocessing steps, where an accidental double click could otherwise create duplicate work or competing output files.\n\n\n\n\n\n\nWarningDo not impute before inspecting missingness\n\n\n\nMissing values in proteomics are not always random. Use the missing-value visualization and the biological design to decide whether a global imputation strategy is appropriate for your experiment.",
     "crumbs": [
       "Pre-processing",
       "Workflow overview"
@@ -1102,7 +1113,7 @@
     "href": "content/reproducibility/checkpoints.html",
     "title": "Checkpoints & recovery",
     "section": "",
-    "text": "ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated ProtVis_dataset at a named stage.\n\n\n\n\n\n\nFigure 1: Checkpoint-aware analysis and recovery in ProtVis. Auto-saved validated stages support resuming interrupted analyses or restarting downstream analysis from a selected stage, while the interface design isolates node-level failures and preserves available checkpoints.\n\n\n\nThe schematic presents three complementary recovery ideas: validated stage checkpoints, selective downstream re-analysis from a saved state, and node-level error isolation so a failure does not require rebuilding the complete project from the beginning.",
+    "text": "ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated ProtVis_dataset at a named stage.\n\n\n\n\n\n\nFigure 1: Checkpoint-aware analysis and recovery in ProtVis. Auto-saved validated stages support resuming interrupted analyses or restarting downstream analysis from a selected stage, while the interface design isolates node-level failures and preserves available checkpoints.\n\n\n\nThe important principle is that the active ProtVis_dataset is authoritative. Checkpoints and stage .rda files make that object recoverable; they are not parallel, unrelated data models.",
     "crumbs": [
       "Reproducible workflow",
       "Checkpoints & recovery"
@@ -1113,7 +1124,7 @@
     "href": "content/reproducibility/checkpoints.html#checkpoint-model",
     "title": "Checkpoints & recovery",
     "section": "",
-    "text": "ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated ProtVis_dataset at a named stage.\n\n\n\n\n\n\nFigure 1: Checkpoint-aware analysis and recovery in ProtVis. Auto-saved validated stages support resuming interrupted analyses or restarting downstream analysis from a selected stage, while the interface design isolates node-level failures and preserves available checkpoints.\n\n\n\nThe schematic presents three complementary recovery ideas: validated stage checkpoints, selective downstream re-analysis from a saved state, and node-level error isolation so a failure does not require rebuilding the complete project from the beginning.",
+    "text": "ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated ProtVis_dataset at a named stage.\n\n\n\n\n\n\nFigure 1: Checkpoint-aware analysis and recovery in ProtVis. Auto-saved validated stages support resuming interrupted analyses or restarting downstream analysis from a selected stage, while the interface design isolates node-level failures and preserves available checkpoints.\n\n\n\nThe important principle is that the active ProtVis_dataset is authoritative. Checkpoints and stage .rda files make that object recoverable; they are not parallel, unrelated data models.",
     "crumbs": [
       "Reproducible workflow",
       "Checkpoints & recovery"
@@ -1131,22 +1142,11 @@
     ]
   },
   {
-    "objectID": "content/reproducibility/checkpoints.html#list-checkpoints",
-    "href": "content/reproducibility/checkpoints.html#list-checkpoints",
+    "objectID": "content/reproducibility/checkpoints.html#list-and-restore-checkpoints",
+    "href": "content/reproducibility/checkpoints.html#list-and-restore-checkpoints",
     "title": "Checkpoints & recovery",
-    "section": "List checkpoints",
-    "text": "List checkpoints\nlist_protvis_checkpoints(\"checkpoints\")\nThe returned table includes the file path, stage, creation time, size, MD5, and whether the checkpoint can be read.",
-    "crumbs": [
-      "Reproducible workflow",
-      "Checkpoints & recovery"
-    ]
-  },
-  {
-    "objectID": "content/reproducibility/checkpoints.html#restore-the-newest-checkpoint",
-    "href": "content/reproducibility/checkpoints.html#restore-the-newest-checkpoint",
-    "title": "Checkpoints & recovery",
-    "section": "Restore the newest checkpoint",
-    "text": "Restore the newest checkpoint\nrestored &lt;- restore_protvis_checkpoint(\n  \"checkpoints\",\n  version = \"latest\"\n)\nYou can request a stage as well:\nrestored &lt;- restore_protvis_checkpoint(\n  \"checkpoints\",\n  stage = \"differential_analysis\"\n)\nIf the exact requested stage is unavailable, ProtVis can select the newest readable checkpoint at or before that stage, allowing an interrupted workflow to resume from the closest valid state.",
+    "section": "List and restore checkpoints",
+    "text": "List and restore checkpoints\nlist_protvis_checkpoints(\"checkpoints\")\nThe returned table includes the file path, stage, creation time, size, MD5, and whether the checkpoint can be read.\nRestore the newest checkpoint with:\nrestored &lt;- restore_protvis_checkpoint(\n  \"checkpoints\",\n  version = \"latest\"\n)\nOr request a stage:\nrestored &lt;- restore_protvis_checkpoint(\n  \"checkpoints\",\n  stage = \"differential_analysis\"\n)\nIf the exact requested stage is unavailable, ProtVis can select the newest readable checkpoint at or before that stage.",
     "crumbs": [
       "Reproducible workflow",
       "Checkpoints & recovery"
@@ -1157,18 +1157,40 @@
     "href": "content/reproducibility/checkpoints.html#automatic-persistence",
     "title": "Checkpoints & recovery",
     "section": "Automatic persistence",
-    "text": "Automatic persistence\nMany GUI stages persist the active object automatically. protvis_auto_export_dataset() writes a portable export bundle and records the latest output location in the dataset metadata.\nds &lt;- protvis_auto_export_dataset(\n  ds,\n  directory = getwd(),\n  include_raw = FALSE\n)",
+    "text": "Automatic persistence\nMany GUI stages persist the active object automatically. protvis_auto_export_dataset() writes a portable export bundle and records the latest output location in the dataset metadata.\nds &lt;- protvis_auto_export_dataset(\n  ds,\n  directory = getwd(),\n  include_raw = FALSE\n)\nThe GUI also protects long-running actions against duplicate execution. Buttons marked as run actions are disabled while Shiny is busy, and key server modules independently reject the same action if it is already running. This prevents accidental double searches, imports, or preprocessing runs from creating competing checkpoints.",
     "crumbs": [
       "Reproducible workflow",
       "Checkpoints & recovery"
     ]
   },
   {
-    "objectID": "content/reproducibility/checkpoints.html#legacy-stage-files",
-    "href": "content/reproducibility/checkpoints.html#legacy-stage-files",
+    "objectID": "content/reproducibility/checkpoints.html#source-independent-step2",
+    "href": "content/reproducibility/checkpoints.html#source-independent-step2",
     "title": "Checkpoints & recovery",
-    "section": "Legacy stage files",
-    "text": "Legacy stage files\nProtVis still reads historical stage files where needed. Current stage snapshots are written with exactly one ProtVis_dataset object; older workspaces that stored expression and sample objects separately can be migrated by the internal loading layer.\nCommon compatibility files include:\nStep1_project_init.rda\nStep2_remove_unreliable_peptide.rda\nStep3_correct_noise.rda\nStep4_data_transformed.rda\nStep5_data_imputation.rda\nStep6_data_normalization.rda\nStep7_differential_analysis.rda\n\n\n\n\n\n\nTipRecovery strategy\n\n\n\nFor long projects, keep the working directory together with the latest portable export and checkpoint directory. This gives you a human-readable export, a complete serialized project object, and stage-aware recovery options.",
+    "section": "Source-independent Step2",
+    "text": "Source-independent Step2\nThe current preprocessing handoff uses:\nStep2_remove_unreliable_peptide.rda\nas the canonical Step2 file across data sources. The historical filename remains for compatibility, but the contents are a ProtVis_dataset and can originate from MaxQuant, Sage, or another supported input route.\nFor Raw/Sage, a successful search also writes:\nStep2_sage_database_search.rda\nThe Sage-specific file is retained as a compatibility/recovery snapshot. Correct Noise prefers the active object and then the canonical Step2 file.",
+    "crumbs": [
+      "Reproducible workflow",
+      "Checkpoints & recovery"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/checkpoints.html#sage-search-recovery",
+    "href": "content/reproducibility/checkpoints.html#sage-search-recovery",
+    "title": "Checkpoints & recovery",
+    "section": "Sage search recovery",
+    "text": "Sage search recovery\nRaw/Sage projects have an additional recovery path. If the Shiny session restarts after Sage completed, ProtVis can reconstruct the search bundle from the existing Sage_search directory when the LFQ result and input context are still resolvable.\nThe expected Sage files are:\nSage_search/\n├── sage_config.json\n├── results.sage.tsv\n├── lfq.tsv\n└── results.json\nlfq.tsv is required for recovery of the quantitative protein matrix. The stored configuration is used to recover FASTA and mzML context when possible.\nThis means a completed database search does not need to be rerun merely because the application session closed.",
+    "crumbs": [
+      "Reproducible workflow",
+      "Checkpoints & recovery"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/checkpoints.html#compatibility-stage-files",
+    "href": "content/reproducibility/checkpoints.html#compatibility-stage-files",
+    "title": "Checkpoints & recovery",
+    "section": "Compatibility stage files",
+    "text": "Compatibility stage files\nCommon stage files currently include:\nStep1_project_init.rda\nStep2_remove_unreliable_peptide.rda\nStep2_sage_database_search.rda   # Raw/Sage compatibility snapshot\nStep3_correct_noise.rda\nStep4_data_transformed.rda\nStep5_data_imputation.rda\nStep6_data_normalization.rda\nStep7_differential_analysis.rda\nCurrent snapshots are written with exactly one ProtVis_dataset object. Older workspaces that stored expression and sample objects separately can still be migrated by the internal loading layer where supported.\n\n\n\n\n\n\nTipRecovery strategy\n\n\n\nKeep the complete working directory together with the latest portable export, checkpoint directory, and—when using Raw/Sage—the Sage_search directory. This preserves the serialized project, human-readable exports, search evidence, and stage-aware recovery options in one place.",
     "crumbs": [
       "Reproducible workflow",
       "Checkpoints & recovery"
@@ -1817,7 +1839,7 @@
     "href": "content/Pre_processing/correct_noise.html",
     "title": "Correct noise",
     "section": "",
-    "text": "The Correct Noise module loads the current ProtVis_dataset first. For older projects, it can fall back to Step2_remove_unreliable_peptide.rda.\nThe interface has two explicit operations: Rename Columns and Correct Noise.",
+    "text": "Correct Noise is the first source-independent preprocessing module. It loads the active ProtVis_dataset whenever possible, shows the expression matrix and sample information, optionally normalizes sample-column names, and applies the replicate-aware correction rule.\nThe interface has three user actions: Load data, Rename Columns, and Correct Noise.",
     "crumbs": [
       "Pre-processing",
       "Correct noise"
@@ -1828,7 +1850,18 @@
     "href": "content/Pre_processing/correct_noise.html#what-the-module-does",
     "title": "Correct noise",
     "section": "",
-    "text": "The Correct Noise module loads the current ProtVis_dataset first. For older projects, it can fall back to Step2_remove_unreliable_peptide.rda.\nThe interface has two explicit operations: Rename Columns and Correct Noise.",
+    "text": "Correct Noise is the first source-independent preprocessing module. It loads the active ProtVis_dataset whenever possible, shows the expression matrix and sample information, optionally normalizes sample-column names, and applies the replicate-aware correction rule.\nThe interface has three user actions: Load data, Rename Columns, and Correct Noise.",
+    "crumbs": [
+      "Pre-processing",
+      "Correct noise"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/correct_noise.html#where-load-data-comes-from",
+    "href": "content/Pre_processing/correct_noise.html#where-load-data-comes-from",
+    "title": "Correct noise",
+    "section": "Where Load data comes from",
+    "text": "Where Load data comes from\nThe current loader uses this priority:\n\nthe active in-memory ProtVis_dataset;\nStep2_remove_unreliable_peptide.rda;\nSage-specific compatibility snapshots such as Step2_sage_database_search.rda;\nolder project-stage fallbacks when required for recovery.\n\nStep2_remove_unreliable_peptide.rda is now the canonical data-source-independent Step2 checkpoint, even though its historical filename originated in the MaxQuant workflow. A successful Raw/Sage search publishes its completed ProtVis_dataset to this same handoff.\nIf the current object is still Sage_staging, the expression table is intentionally unavailable. Complete Search before running Correct Noise.",
     "crumbs": [
       "Pre-processing",
       "Correct noise"
@@ -1839,7 +1872,7 @@
     "href": "content/Pre_processing/correct_noise.html#step-1-rename-columns",
     "title": "Correct noise",
     "section": "Step 1: rename columns",
-    "text": "Step 1: rename columns\nProtVis maps quantitative column names through the sample-information table, using maxquant_id to recover the intended sample_id when a mapping is available. If a matrix already uses valid sample IDs, those names are retained. Final names are made unique before downstream joins and reshaping.\nThis step is important because replicate grouping and later statistical comparisons depend on stable sample names.",
+    "text": "Step 1: rename columns\nProtVis maps quantitative column names through the sample-information table using maxquant_id when that mapping exists. If the matrix already uses valid sample_id names—as is common for Sage and parser-backed ProtVis_dataset objects—those names are retained. Final names are made unique before downstream reshaping.\nStable sample names matter because replicate grouping and later statistical comparisons depend on exact identifiers.",
     "crumbs": [
       "Pre-processing",
       "Correct noise"
@@ -1850,7 +1883,7 @@
     "href": "content/Pre_processing/correct_noise.html#step-2-correct-noise",
     "title": "Correct noise",
     "section": "Step 2: correct noise",
-    "text": "Step 2: correct noise\nFor datasets that use replicate suffixes _1, _2, and _3, ProtVis groups corresponding replicate columns and evaluates each protein within that group.\n\nIf at least two replicate measurements are non-zero, missing/zero cells are replaced using half of the sum of the non-zero replicate values.\nIf fewer than two non-zero replicates are present, the replicate-group values remain zero and are subsequently converted to NA.\nIf no recognizable replicate suffixes exist, ProtVis returns the validated matrix without applying replicate-level correction.\nDuplicate protein IDs are collapsed before the correction step to prevent many-to-many joins from expanding the table.\n\n\n\n\n\n\n\nNote\n\n\n\nThis behavior differs from the older cookbook description that referred to a generic “more than half missing” rule and mean imputation. The current source implements the replicate rule described above.",
+    "text": "Step 2: correct noise\nFor datasets that use replicate suffixes _1, _2, and _3, ProtVis groups corresponding replicate columns and evaluates each protein within that group.\n\nIf at least two replicate measurements are non-zero, zero/missing cells are replaced using half of the sum of the non-zero replicate values.\nIf fewer than two non-zero replicates are present, the replicate-group values are set to zero and then converted to NA.\nIf no recognizable replicate suffixes exist, ProtVis returns the validated matrix without applying replicate-level correction.\nDuplicate protein IDs are collapsed before the correction step, retaining the largest finite intensity per sample, to prevent many-to-many joins or reshaping from expanding the table.\n\n\n\n\n\n\n\nNote\n\n\n\nThis behavior is intentionally different from a generic “more than half missing” filter or mean imputation. Missing-value imputation remains a separate downstream stage.",
     "crumbs": [
       "Pre-processing",
       "Correct noise"
@@ -1861,18 +1894,29 @@
     "href": "content/Pre_processing/correct_noise.html#gui-workflow",
     "title": "Correct noise",
     "section": "GUI workflow",
-    "text": "GUI workflow\n\nClick Load data.\nInspect Sample info and Expression Matrix.\nClick Rename Columns and review the renamed table.\nClick Correct Noise.\nInspect the corrected table before moving to transformation.",
+    "text": "GUI workflow\n\nOpen Pre-processing → Correct Noise.\nClick Load data.\nConfirm the Sample info and Expression Matrix tabs.\nClick Rename Columns and inspect the renamed matrix.\nClick Correct Noise.\nProtVis automatically switches to the Correct Noise result tab after a successful run so the new table is visible immediately.\nContinue to transformation only after checking that the matrix dimensions and sample names are sensible.\n\nLong-running actions use duplicate-run guards. A second rapid click on Load, Rename, or Correct Noise while the same action is running is ignored rather than executing the operation twice.",
     "crumbs": [
       "Pre-processing",
       "Correct noise"
     ]
   },
   {
-    "objectID": "content/Pre_processing/correct_noise.html#output",
-    "href": "content/Pre_processing/correct_noise.html#output",
+    "objectID": "content/Pre_processing/correct_noise.html#outputs",
+    "href": "content/Pre_processing/correct_noise.html#outputs",
     "title": "Correct noise",
-    "section": "Output",
-    "text": "Output\nResults are saved into the active ProtVis_dataset. The compatibility stage file is:\nStep3_correct_noise.rda\nContinue with Data transformation.",
+    "section": "Outputs",
+    "text": "Outputs\nThe corrected matrix is written back into a new traceable ProtVis_dataset analysis state. ProtVis records the noise_correction result and process entry with the method replicate_correction.\nFor compatibility and recovery, the current implementation writes both:\nStep2_remove_unreliable_peptide.rda\nStep3_correct_noise.rda\nStep2 is refreshed as the cross-source handoff, while Step3 remains the historical downstream compatibility snapshot.\nContinue with Data transformation.",
+    "crumbs": [
+      "Pre-processing",
+      "Correct noise"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/correct_noise.html#troubleshooting",
+    "href": "content/Pre_processing/correct_noise.html#troubleshooting",
+    "title": "Correct noise",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n“No completed input stage was found.” Finish the previous input route first: run Sage Search for Raw data, MaxQuant Output Preparation for MaxQuant, or the appropriate parser/import for another source.\n“The current ProtVis_dataset has no expression matrix.” The object is most likely a Raw/Sage staging project. Complete Search so Sage LFQ can create the protein matrix.\nThe corrected table looks empty although the action succeeded. Current ProtVis automatically selects the Correct Noise result tab after completion. If an older installation still behaves differently, reinstall the current dev version.\nWorking-directory errors after a restart. The module now resolves the project directory from the shared workdir, dataset metadata, checkpoint metadata, Raw input directory, and finally the current R working directory. Keeping the project directory intact makes recovery more reliable.",
     "crumbs": [
       "Pre-processing",
       "Correct noise"

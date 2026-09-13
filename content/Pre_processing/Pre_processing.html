@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Prepare quantitative proteomics data for QC and differential abundance analysis.">
+<meta name="description" content="Prepare quantitative proteomics data for QC and differential abundance analysis after any supported input route.">
 
 <title>Pre-processing workflow – ProtVis Cookbook</title>
 <style>
@@ -617,6 +617,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#data-imputation" id="toc-data-imputation" class="nav-link" data-scroll-target="#data-imputation">3. Data imputation</a></li>
   <li><a href="#data-normalization" id="toc-data-normalization" class="nav-link" data-scroll-target="#data-normalization">4. Data normalization</a></li>
   <li><a href="#stage-outputs" id="toc-stage-outputs" class="nav-link" data-scroll-target="#stage-outputs">Stage outputs</a></li>
+  <li><a href="#duplicate-run-protection" id="toc-duplicate-run-protection" class="nav-link" data-scroll-target="#duplicate-run-protection">Duplicate-run protection</a></li>
   <li><a href="#what-to-check-before-downstream-analysis" id="toc-what-to-check-before-downstream-analysis" class="nav-link" data-scroll-target="#what-to-check-before-downstream-analysis">What to check before downstream analysis</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Pre_processing/Pre_processing.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Pre_processing/Pre_processing.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -632,7 +633,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Prepare quantitative proteomics data for QC and differential abundance analysis.
+    Prepare quantitative proteomics data for QC and differential abundance analysis after any supported input route.
   </div>
 </div>
 
@@ -651,13 +652,16 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="recommended-order" class="level2">
 <h2 class="anchored" data-anchor-id="recommended-order">Recommended order</h2>
-<p>ProtVis separates preprocessing into four explicit modules:</p>
+<p>Once an input route has produced a real protein-by-sample matrix, ProtVis uses four source-independent preprocessing modules:</p>
 <p><strong>Correct Noise → Data Transformation → Data Imputation → Data Normalization</strong></p>
-<p>Keeping these decisions separate makes it easier to inspect the effect of each operation and to record the selected method in the project history.</p>
+<p>Keeping these decisions separate makes it easier to inspect the effect of each operation and to record the selected method in project history.</p>
+<p>For <strong>Raw/mzML</strong>, run <strong>Search</strong> first. A <code>Sage_staging</code> object deliberately has no expression matrix and cannot enter Correct Noise until Sage LFQ has been finalized.</p>
+<p>For <strong>MaxQuant</strong>, complete the conditional <strong>MaxQuant Output Preparation</strong> step first. Other supported tabular sources enter preprocessing after their source-specific parser/import has produced the canonical matrix.</p>
 </section>
 <section id="correct-noise" class="level2">
 <h2 class="anchored" data-anchor-id="correct-noise">1. Correct noise</h2>
-<p>The current noise-correction logic is replicate-aware. For sample groups whose names contain replicate suffixes such as <code>_1</code>, <code>_2</code>, and <code>_3</code>, zero/missing cells are corrected only when sufficient non-zero replicate evidence exists; otherwise the affected replicate group remains missing. Duplicate protein IDs are collapsed safely before reshaping to avoid accidental many-to-many expansion.</p>
+<p>Correct Noise is the first shared preprocessing stage. It prefers the active <code>ProtVis_dataset</code>; if recovery from disk is needed, <code>Step2_remove_unreliable_peptide.rda</code> is the canonical cross-source handoff. Raw/Sage also retains <code>Step2_sage_database_search.rda</code> as a compatibility snapshot.</p>
+<p>The correction itself is replicate-aware. For sample groups whose names contain replicate suffixes such as <code>_1</code>, <code>_2</code>, and <code>_3</code>, zero/missing cells are corrected only when sufficient non-zero replicate evidence exists; otherwise the affected replicate group remains missing. Duplicate protein IDs are collapsed safely before reshaping.</p>
 <p>Read <a href="../../content/Pre_processing/correct_noise.html">Correct noise</a>.</p>
 </section>
 <section id="data-transformation" class="level2">
@@ -677,7 +681,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="stage-outputs" class="level2">
 <h2 class="anchored" data-anchor-id="stage-outputs">Stage outputs</h2>
-<p>The canonical result after each step is a new <code>ProtVis_dataset</code> state. Compatibility stage files are also used by the GUI:</p>
+<p>The canonical result after every step is a new <code>ProtVis_dataset</code> state. Compatibility/recovery files used by the GUI include:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -686,6 +690,14 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td>Input/search handoff</td>
+<td><code>Step2_remove_unreliable_peptide.rda</code></td>
+</tr>
+<tr class="even">
+<td>Sage search compatibility</td>
+<td><code>Step2_sage_database_search.rda</code></td>
+</tr>
 <tr class="odd">
 <td>Correct noise</td>
 <td><code>Step3_correct_noise.rda</code></td>
@@ -704,6 +716,11 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<p>Correct Noise also refreshes the canonical Step2 handoff after successful correction so older downstream paths remain interoperable.</p>
+</section>
+<section id="duplicate-run-protection" class="level2">
+<h2 class="anchored" data-anchor-id="duplicate-run-protection">Duplicate-run protection</h2>
+<p>Current ProtVis protects important run buttons at two levels: the interface disables an active run button while Shiny is busy, and server-side guards reject the same operation if it is already executing. This is particularly important for Sage search and preprocessing steps, where an accidental double click could otherwise create duplicate work or competing output files.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
