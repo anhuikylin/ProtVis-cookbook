@@ -847,7 +847,7 @@
     "href": "content/Multi_omics_data/Nine_Quadrant.html",
     "title": "Nine quadrant",
     "section": "",
-    "text": "A nine-quadrant plot compares two effect estimates, usually log fold changes from matched contrasts. Thresholds on the x and y axes divide proteins/features into combinations such as concordant increase, concordant decrease, discordant response, or weak/no change.",
+    "text": "Use Multi-omics → Nine quadrant to compare two quantitative effect estimates, most commonly matched log2FC values from two omics layers or two related contrasts. ProtVis divides the x- and y-axes with the same absolute fold-change cutoff and assigns every row to one of nine directional classes: Up/Up, Up/NS, Up/Down, NS/Up, NS/NS, NS/Down, Down/Up, Down/NS, and Down/Down.\nThis view is useful for separating concordant changes, discordant changes, and changes detected mainly in one omics layer.",
     "crumbs": [
       "Multi-omics",
       "Nine quadrant"
@@ -858,18 +858,62 @@
     "href": "content/Multi_omics_data/Nine_Quadrant.html#purpose",
     "title": "Nine quadrant",
     "section": "",
-    "text": "A nine-quadrant plot compares two effect estimates, usually log fold changes from matched contrasts. Thresholds on the x and y axes divide proteins/features into combinations such as concordant increase, concordant decrease, discordant response, or weak/no change.",
+    "text": "Use Multi-omics → Nine quadrant to compare two quantitative effect estimates, most commonly matched log2FC values from two omics layers or two related contrasts. ProtVis divides the x- and y-axes with the same absolute fold-change cutoff and assigns every row to one of nine directional classes: Up/Up, Up/NS, Up/Down, NS/Up, NS/NS, NS/Down, Down/Up, Down/NS, and Down/Down.\nThis view is useful for separating concordant changes, discordant changes, and changes detected mainly in one omics layer.",
     "crumbs": [
       "Multi-omics",
       "Nine quadrant"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#recommended-workflow",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html#recommended-workflow",
+    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#nine-quadrant-interface",
+    "href": "content/Multi_omics_data/Nine_Quadrant.html#nine-quadrant-interface",
     "title": "Nine quadrant",
-    "section": "Recommended workflow",
-    "text": "Recommended workflow\n\nPrepare two result tables that share a stable feature identifier.\nConfirm that both effect columns use the same direction convention (for example Treatment minus Control).\nMerge only on the intended identifier.\nSet biologically/statistically justified x- and y-axis thresholds.\nInspect concordant and discordant quadrants separately.\nExport the merged classification table together with the plot.\n\n\n\n\n\n\n\nWarning\n\n\n\nIf one contrast is A - B and the other is B - A, the apparent concordance will be reversed. Always verify contrast direction before interpreting quadrants.",
+    "section": "Nine-quadrant interface",
+    "text": "Nine-quadrant interface\nThe full-resolution screenshot below shows the current module with the bundled demonstration data. The built-in example contains 2,800 rows × 4 columns: Omic1_ID, Log2FC_Omic1, Omic2_ID, and Log2FC_Omic2. The quadrant counts visible in this run are example-specific and will change with another dataset or cutoff.\n\n\n\n\n\n\nFigure 1: ProtVis Nine-quadrant interface using the built-in two-omics demonstration dataset. The left sidebar contains Data Input, Plot Settings, Color Settings and Download Settings. The center card previews the input table and the right card displays the nine-quadrant plot and quadrant-specific result panels.",
+    "crumbs": [
+      "Multi-omics",
+      "Nine quadrant"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#recommended-operating-order",
+    "href": "content/Multi_omics_data/Nine_Quadrant.html#recommended-operating-order",
+    "title": "Nine quadrant",
+    "section": "Recommended operating order",
+    "text": "Recommended operating order\n1. Load the data. Open Data Input and either upload a .csv/.xlsx file or click LOAD DEMO DATA. The demonstration dataset is not loaded automatically. Use Download example CSV when you want a template for preparing your own file.\n2. Check the preview. The Uploaded Data Preview card should show the expected row and column counts. ProtVis requires at least two numeric columns for the plot.\n3. Select the x- and y-axis variables. Choose the numeric field for Select Omic1 (X-axis) and the numeric field for Select Omic2 (Y-axis). In the built-in example these are Log2FC_Omic1 and Log2FC_Omic2.\n4. Set the fold-change cutoff. Open Plot Settings and set Log2FC Cutoff. The current default is 1. ProtVis uses +cutoff and -cutoff on both axes: values above +cutoff are Up, values below -cutoff are Down, and values between the thresholds are NS.\n5. Control quadrant labels. Keep Show Quadrant Counts selected if you want the number of rows in each of the nine regions to be displayed on the figure.\n6. Run the plot. Click Run plot. The status badge changes to Ready when the classification and plot have been generated.\n7. Inspect the biological direction classes. Up/Up and Down/Down represent concordant responses, whereas Up/Down and Down/Up represent opposite responses. Up/NS, Down/NS, NS/Up, and NS/Down indicate that only one selected layer crosses the fold-change threshold. NS/NS contains rows within the cutoff on both axes.\n8. Inspect and export the quadrant tables. Below the plot, ProtVis creates expandable panels for all nine classes. Each panel contains the corresponding rows and provides an individual CSV download button, which is useful for taking a selected directional class into enrichment or network analysis.\n9. Export the figure. Under Download Settings, set the PDF width and height and click Download PDF. The current defaults are 8 × 6 inches.",
+    "crumbs": [
+      "Multi-omics",
+      "Nine quadrant"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#input-format",
+    "href": "content/Multi_omics_data/Nine_Quadrant.html#input-format",
+    "title": "Nine quadrant",
+    "section": "Input format",
+    "text": "Input format\nA minimal file can contain separate identifiers for the two layers and one numeric effect column for each layer:\nOmic1_ID,Log2FC_Omic1,Omic2_ID,Log2FC_Omic2\nGene_001,1.52,Protein_001,1.18\nGene_002,-2.10,Protein_002,-1.43\nGene_003,0.35,Protein_003,1.76\nThe selected x- and y-axis columns must be numeric. Other columns can remain in the input and will be retained in the preview and exported quadrant tables.",
+    "crumbs": [
+      "Multi-omics",
+      "Nine quadrant"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#color-settings",
+    "href": "content/Multi_omics_data/Nine_Quadrant.html#color-settings",
+    "title": "Nine quadrant",
+    "section": "Color settings",
+    "text": "Color settings\nOpen Color Settings to customize all nine classes independently: Up_Up, Down_Down, Up_Down, Down_Up, Up_NS, Down_NS, NS_Up, NS_Down, and NS_NS. Color changes affect presentation only; they do not change class membership.",
+    "crumbs": [
+      "Multi-omics",
+      "Nine quadrant"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#interpretation",
+    "href": "content/Multi_omics_data/Nine_Quadrant.html#interpretation",
+    "title": "Nine quadrant",
+    "section": "Interpretation",
+    "text": "Interpretation\nThe nine-quadrant module performs directional classification from the selected numeric values and cutoff. It is not a substitute for formal differential statistics. When available, perform the appropriate DEP/DEG analysis first and retain adjusted p-values or significance labels alongside the fold changes.\n\n\n\n\n\n\nWarningKeep contrast direction consistent\n\n\n\nIf one layer uses Treatment - Control while the other uses Control - Treatment, biologically concordant responses will appear discordant. Verify contrast direction before interpreting the quadrant pattern.\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe built-in 2,800-row dataset is a demonstration dataset intended to show the interface and output structure. The quadrant counts in the screenshot are not expected values for real experiments.",
     "crumbs": [
       "Multi-omics",
       "Nine quadrant"
