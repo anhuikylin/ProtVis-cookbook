@@ -1,0 +1,31 @@
+name: Temporary screenshot inspection
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/inspect-screenshots.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install OCR tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr
+      - name: Inspect uploaded screenshots
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in images/screenshots/PixPin_*.png; do
+            echo "===== ${f} ====="
+            file "$f"
+            echo "--- OCR ---"
+            tesseract "$f" stdout --psm 6 2>/dev/null | sed -n '1,260p'
+            echo "--- END OCR ---"
+          done
