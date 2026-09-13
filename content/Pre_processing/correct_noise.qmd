@@ -7,7 +7,7 @@ description: "Load the cross-source Step2 handoff, rename sample columns consist
 
 **Correct Noise** is the first source-independent preprocessing module. It loads the active `ProtVis_dataset` whenever possible, shows the expression matrix and sample information, optionally normalizes sample-column names, and applies the replicate-aware correction rule.
 
-The interface has three user actions: **Load data**, **Rename Columns**, and **Correct Noise**.
+The interface has three principal actions: **Load data**, **Rename Columns**, and **Correct Noise**.
 
 ## Where Load data comes from
 
@@ -22,13 +22,7 @@ The current loader uses this priority:
 
 If the current object is still `Sage_staging`, the expression table is intentionally unavailable. Complete **Search** before running Correct Noise.
 
-## Step 1: rename columns
-
-ProtVis maps quantitative column names through the sample-information table using `maxquant_id` when that mapping exists. If the matrix already uses valid `sample_id` names—as is common for Sage and parser-backed `ProtVis_dataset` objects—those names are retained. Final names are made unique before downstream reshaping.
-
-Stable sample names matter because replicate grouping and later statistical comparisons depend on exact identifiers.
-
-## Step 2: correct noise
+## Replicate-aware correction rule
 
 For datasets that use replicate suffixes `_1`, `_2`, and `_3`, ProtVis groups corresponding replicate columns and evaluates each protein within that group.
 
@@ -43,15 +37,17 @@ This behavior is intentionally different from a generic “more than half missin
 
 ## GUI workflow
 
-1. Open **Pre-processing → Correct Noise**.
-2. Click **Load data**.
-3. Confirm the **Sample info** and **Expression Matrix** tabs.
-4. Click **Rename Columns** and inspect the renamed matrix.
-5. Click **Correct Noise**.
-6. ProtVis automatically switches to the **Correct Noise** result tab after a successful run so the new table is visible immediately.
-7. Continue to transformation only after checking that the matrix dimensions and sample names are sensible.
+The screenshot below shows the actual Correct Noise interface for the Sage-derived PXD065315 example. The red labels identify the recommended order.
 
-Long-running actions use duplicate-run guards. A second rapid click on Load, Rename, or Correct Noise while the same action is running is ignored rather than executing the operation twice.
+![Correct Noise in ProtVis. Marker 1 loads the completed input/search result, marker 2 renames or validates sample columns, and marker 3 runs replicate-aware noise correction. The main panel provides Sample info, Expression Matrix, Rename Columns and Correct Noise result tabs.](../../images/screenshots/PixPin_2026-09-13_18-15-07.png){#fig-correct-noise-gui fig-alt="Screenshot of the ProtVis Correct Noise module. Red marker 1 is Load data, marker 2 is Rename Columns, and marker 3 is Correct Noise. The main panel shows a protein abundance table with B73_C1, B73_C2, B73_C3, EA2024_C1, EA2024_C2, and EA2024_C3 columns." width="100%" fig-align="center"}
+
+Follow the numbered controls. **1. Load data.** Open **Pre-processing → Correct Noise** and click **Load data**. Wait for the green **Data loaded** status, then inspect **Sample info** and **Expression Matrix**. Check that the expected sample columns are present and that the protein table is non-empty. The 5,209 rows visible in the screenshot are specific to this example run and are not a required target count for other datasets.
+
+**2. Rename Columns.** Click **Rename Columns**. ProtVis uses `maxquant_id` mappings when they are available; otherwise already-valid `sample_id` names are retained. Inspect the **Rename Columns** result before continuing. For the illustrated Raw/Sage project, the intended columns are `B73_C1`, `B73_C2`, `B73_C3`, `EA2024_C1`, `EA2024_C2`, and `EA2024_C3`. Unexpected duplicate or unmatched sample names should be fixed before correction because replicate grouping depends on stable identifiers.
+
+**3. Correct Noise.** Click **Correct Noise**. After a successful run, ProtVis switches to the **Correct Noise** result tab automatically. Compare the corrected table with the loaded expression matrix and verify that protein IDs, sample names, row count, zero values and newly introduced `NA` values are biologically and technically plausible.
+
+Long-running actions use duplicate-run guards. A second rapid click on Load, Rename, or Correct Noise while the same operation is already running is ignored rather than executing it twice.
 
 ## Outputs
 
@@ -64,7 +60,7 @@ Step2_remove_unreliable_peptide.rda
 Step3_correct_noise.rda
 ```
 
-Step2 is refreshed as the cross-source handoff, while Step3 remains the historical downstream compatibility snapshot.
+Step2 is refreshed as the cross-source handoff, while Step3 remains the downstream compatibility snapshot.
 
 Continue with [Data transformation](data_transformed.qmd).
 
@@ -76,4 +72,4 @@ Continue with [Data transformation](data_transformed.qmd).
 
 **The corrected table looks empty although the action succeeded.** Current ProtVis automatically selects the Correct Noise result tab after completion. If an older installation still behaves differently, reinstall the current `dev` version.
 
-**Working-directory errors after a restart.** The module now resolves the project directory from the shared workdir, dataset metadata, checkpoint metadata, Raw input directory, and finally the current R working directory. Keeping the project directory intact makes recovery more reliable.
+**Working-directory errors after a restart.** The module resolves the project directory from the shared workdir, dataset metadata, checkpoint metadata, Raw input directory, and finally the current R working directory. Keeping the project directory intact makes recovery more reliable.
