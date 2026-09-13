@@ -605,7 +605,7 @@
     "href": "content/installation.html",
     "title": "Installation",
     "section": "",
-    "text": "ProtVis is an R package with a Shiny interface. Use a recent R installation and a writable R library. On Windows, installing packages from source may also require the matching Rtools release when a binary is unavailable.\n\n\n\n\n\n\nNote\n\n\n\nThis cookbook currently follows ProtVis 0.5.7 on the dev branch. The installation commands below therefore install @dev explicitly.",
+    "text": "ProtVis is an R package with a Shiny interface. Use a recent R installation and a writable R library. On Windows, installing packages from source may also require the matching Rtools release when a binary is unavailable.\n\n\n\n\n\n\nNote\n\n\n\nThis cookbook currently follows ProtVis 0.7.9 on the dev branch. The installation commands below therefore install @dev explicitly.",
     "crumbs": [
       "Getting started",
       "Installation"
@@ -616,7 +616,7 @@
     "href": "content/installation.html#requirements",
     "title": "Installation",
     "section": "",
-    "text": "ProtVis is an R package with a Shiny interface. Use a recent R installation and a writable R library. On Windows, installing packages from source may also require the matching Rtools release when a binary is unavailable.\n\n\n\n\n\n\nNote\n\n\n\nThis cookbook currently follows ProtVis 0.5.7 on the dev branch. The installation commands below therefore install @dev explicitly.",
+    "text": "ProtVis is an R package with a Shiny interface. Use a recent R installation and a writable R library. On Windows, installing packages from source may also require the matching Rtools release when a binary is unavailable.\n\n\n\n\n\n\nNote\n\n\n\nThis cookbook currently follows ProtVis 0.7.9 on the dev branch. The installation commands below therefore install @dev explicitly.",
     "crumbs": [
       "Getting started",
       "Installation"
@@ -627,7 +627,7 @@
     "href": "content/installation.html#recommended-installation",
     "title": "Installation",
     "section": "Recommended installation",
-    "text": "Recommended installation\nInstall pak once, then install ProtVis from GitHub:\noptions(repos = c(\n  CRAN = \"https://mirrors.tuna.tsinghua.edu.cn/CRAN/\"\n))\n\ninstall.packages(\"pak\")\npak::pak(\"xuebinzhang-lab/ProtVis@dev\")\nVerify the installed version:\npackageVersion(\"ProtVis\")",
+    "text": "Recommended installation\nInstall pak once, then install ProtVis from GitHub:\noptions(repos = c(\n  CRAN = \"https://mirrors.tuna.tsinghua.edu.cn/CRAN/\"\n))\n\ninstall.packages(\"pak\")\npak::pak(\"xuebinzhang-lab/ProtVis@dev\")\nVerify the installed version:\npackageVersion(\"ProtVis\")\n# 0.7.9 for the cookbook baseline\nBecause dev changes continuously, a later installation may report a newer version. In that case, prefer the current ProtVis source and Help page when a control or default differs from this cookbook.",
     "crumbs": [
       "Getting started",
       "Installation"
@@ -639,6 +639,17 @@
     "title": "Installation",
     "section": "Clean update",
     "text": "Clean update\nWhen an old installation is stale, locked, or its lazy-load database is corrupted, use the clean installer supplied by ProtVis:\nsource(\n  \"https://raw.githubusercontent.com/xuebinzhang-lab/ProtVis/dev/install_ProtVis.R\"\n)\nClose other R sessions that are currently using ProtVis before running a clean reinstall.",
+    "crumbs": [
+      "Getting started",
+      "Installation"
+    ]
+  },
+  {
+    "objectID": "content/installation.html#sage-availability",
+    "href": "content/installation.html#sage-availability",
+    "title": "Installation",
+    "section": "Sage availability",
+    "text": "Sage availability\nRaw/mzML projects can run a Sage database search from the conditional Search tab.\nOn Windows, ProtVis first looks for its bundled executable at inst/extdata/sage/windows/sage.exe. On Linux or macOS, install Sage separately and make the sage executable available on PATH. You can verify discovery from R with:\nProtVis::protvis_sage_executable()\nA valid path means the search engine is available. NULL means ProtVis could not locate Sage.",
     "crumbs": [
       "Getting started",
       "Installation"
@@ -671,7 +682,7 @@
     "href": "content/installation.html#first-launch-checklist",
     "title": "Installation",
     "section": "First launch checklist",
-    "text": "First launch checklist\nAfter the application opens, confirm that you can see Homepage, Project init, Data input, Pre-processing, Downstream analysis, Multi-omics, PTM, Release data, Toolkits, and Help in the navigation bar.\nIf the app opens but an optional module reports a missing dependency, install that dependency and restart the R session. If the package itself fails to load after an update, prefer the clean installer above rather than repeatedly installing over a corrupted package directory.",
+    "text": "First launch checklist\nAfter the application opens, confirm that you can see Homepage, Project init, Pre-processing, Downstream analysis, Multi-omics, PTM, Release data, Toolkits, and Help.\nTwo navigation items are intentionally conditional:\n\nSearch is shown when Raw is selected in Project init.\nPre-processing → MaxQuant Output Preparation is shown only when MaxQuant is selected.\n\nThe source-independent preprocessing items, including Correct Noise, remain available for all supported data sources.\nIf the app opens but an optional module reports a missing dependency, install that dependency and restart the R session. If the package itself fails to load after an update, prefer the clean installer above rather than repeatedly installing over a corrupted package directory.",
     "crumbs": [
       "Getting started",
       "Installation"
@@ -1041,7 +1052,7 @@
     "href": "index.html",
     "title": "ProtVis Cookbook",
     "section": "",
-    "text": "ProtVis combines data import, preprocessing, quality control, statistical analysis, functional interpretation, multi-omics integration, PTM analysis, and publication-ready visualization in one interactive workflow. This cookbook follows the application in the same order that a real project is analyzed.\nStart with installation · Understand ProtVis_dataset · Run the full workflow",
+    "text": "ProtVis combines data import, Raw/mzML database search, preprocessing, quality control, statistical analysis, functional interpretation, multi-omics integration, PTM analysis, and publication-ready visualization in one interactive workflow. This cookbook follows the application in the same order that a real project is analyzed.\nStart with installation · Run Raw/mzML + Sage · Understand ProtVis_dataset",
     "crumbs": [
       "Home"
     ]
@@ -1051,7 +1062,7 @@
     "href": "index.html#from-quantitative-proteomes-to-biological-insight",
     "title": "ProtVis Cookbook",
     "section": "",
-    "text": "ProtVis combines data import, preprocessing, quality control, statistical analysis, functional interpretation, multi-omics integration, PTM analysis, and publication-ready visualization in one interactive workflow. This cookbook follows the application in the same order that a real project is analyzed.\nStart with installation · Understand ProtVis_dataset · Run the full workflow",
+    "text": "ProtVis combines data import, Raw/mzML database search, preprocessing, quality control, statistical analysis, functional interpretation, multi-omics integration, PTM analysis, and publication-ready visualization in one interactive workflow. This cookbook follows the application in the same order that a real project is analyzed.\nStart with installation · Run Raw/mzML + Sage · Understand ProtVis_dataset",
     "crumbs": [
       "Home"
     ]
@@ -1061,17 +1072,17 @@
     "href": "index.html#protvis-at-a-glance",
     "title": "ProtVis Cookbook",
     "section": "ProtVis at a glance",
-    "text": "ProtVis at a glance\nThe overview below shows how heterogeneous proteomics software outputs are brought into ProtVis_dataset, processed through a shared preprocessing and quality-control workflow, and connected to differential analysis, functional interpretation, multi-omics, WGCNA, and key-protein characterization.\n\n\n\n\n\n\nFigure 1: Overview Workflow in ProtVis. Heterogeneous proteomics software outputs enter a unified ProtVis_dataset workflow spanning preprocessing, data summary, downstream analysis, multi-omics integration, WGCNA, and key-protein characterization.\n\n\n\n\n\nHeterogeneous input\n\nImport MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, Mascot, or a user-defined matrix.\n\n\n\nTraceable data object\n\nCarry expression data, sample and protein metadata, annotations, results, imported files, parameters, and process history in ProtVis_dataset.\n\n\n\nProteomics preprocessing\n\nCorrect replicate-level noise, transform intensities, inspect missingness, impute missing values, and normalize samples.\n\n\n\nQC and statistics\n\nUse correlation, expression-pattern heatmaps, PCA/PCoA/t-SNE/UMAP/NMDS, proteomics QC, and limma-based differential abundance analysis.\n\n\n\nBiological interpretation\n\nContinue from DEP results into GO/KEGG enrichment, GSEA, Pathview, STRINGdb PPI, WGCNA, and co-enrichment.\n\n\n\nBeyond standard proteomics\n\nExplore metaproteomics, expression profiles, nine-quadrant integration, Venn analysis, PTMs, strict spectra, and protein structure utilities.",
+    "text": "ProtVis at a glance\nThe overview below shows how heterogeneous proteomics software outputs are brought into ProtVis_dataset, processed through a shared preprocessing and quality-control workflow, and connected to differential analysis, functional interpretation, multi-omics, WGCNA, and key-protein characterization.\n\n\n\n\n\n\nFigure 1: Overview Workflow in ProtVis. Heterogeneous proteomics software outputs enter a unified ProtVis_dataset workflow spanning preprocessing, data summary, downstream analysis, multi-omics integration, WGCNA, and key-protein characterization.\n\n\n\n\n\nHeterogeneous input\n\nImport MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, Mascot, or a user-defined matrix.\n\n\n\nRaw/mzML + Sage\n\nRegister sample metadata, validate mzML filenames, upload a protein FASTA, run Sage, and convert LFQ results directly into the canonical project object.\n\n\n\nTraceable data object\n\nCarry expression data, sample and protein metadata, annotations, results, imported files, parameters, and process history in ProtVis_dataset.\n\n\n\nProteomics preprocessing\n\nCorrect replicate-level noise, transform intensities, inspect missingness, impute missing values, and normalize samples.\n\n\n\nQC and statistics\n\nUse correlation, expression-pattern heatmaps, PCA/PCoA/t-SNE/UMAP/NMDS, proteomics QC, and limma-based differential abundance analysis.\n\n\n\nBiological interpretation\n\nContinue from DEP results into GO/KEGG enrichment, GSEA, Pathview, STRINGdb PPI, WGCNA, and co-enrichment.\n\n\n\nBeyond standard proteomics\n\nExplore metaproteomics, expression profiles, nine-quadrant integration, Venn analysis, PTMs, strict spectra, and protein structure utilities.",
     "crumbs": [
       "Home"
     ]
   },
   {
-    "objectID": "index.html#recommended-analysis-path",
-    "href": "index.html#recommended-analysis-path",
+    "objectID": "index.html#recommended-analysis-paths",
+    "href": "index.html#recommended-analysis-paths",
     "title": "ProtVis Cookbook",
-    "section": "Recommended analysis path",
-    "text": "Recommended analysis path\n\nInstall and launch ProtVis.\nProject init: choose the working directory, load sample metadata and an expression matrix or built-in example, then select the data source.\nData input: parse and validate the source-specific quantitative evidence.\nPre-processing: Correct Noise → Data Transformation → Data Imputation → Data Normalization.\nOverview: inspect sample correlations, expression patterns, dimensionality reduction, missingness, intensity distributions, PCA, and CV.\nDEP: define one or more Group1 versus Group2 comparisons and run differential abundance analysis.\nInterpretation: use GO/KEGG enrichment, GSEA, Pathview, PPI, WGCNA, and other downstream modules as appropriate.\nRelease/export: save portable project outputs and publication-ready tables and figures.",
+    "section": "Recommended analysis paths",
+    "text": "Recommended analysis paths\nFor Raw/mzML data, use:\nProject init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP → Interpretation\nFor MaxQuant, use:\nProject init → MaxQuant Output Preparation → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP → Interpretation\nFor other supported tabular outputs, import/parse the source-specific quantitative table and continue into the shared preprocessing workflow.\nThe Raw route is intentionally different: Project init can create a sample-only Sage staging ProtVis_dataset without inventing an expression matrix. The protein-by-sample matrix is created after the Sage LFQ search succeeds.",
     "crumbs": [
       "Home"
     ]

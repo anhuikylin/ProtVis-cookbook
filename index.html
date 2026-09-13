@@ -606,7 +606,7 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#from-quantitative-proteomes-to-biological-insight" id="toc-from-quantitative-proteomes-to-biological-insight" class="nav-link active" data-scroll-target="#from-quantitative-proteomes-to-biological-insight">From quantitative proteomes to biological insight</a></li>
   <li><a href="#protvis-at-a-glance" id="toc-protvis-at-a-glance" class="nav-link" data-scroll-target="#protvis-at-a-glance">ProtVis at a glance</a></li>
-  <li><a href="#recommended-analysis-path" id="toc-recommended-analysis-path" class="nav-link" data-scroll-target="#recommended-analysis-path">Recommended analysis path</a></li>
+  <li><a href="#recommended-analysis-paths" id="toc-recommended-analysis-paths" class="nav-link" data-scroll-target="#recommended-analysis-paths">Recommended analysis paths</a></li>
   <li><a href="#two-ways-to-learn-protvis" id="toc-two-ways-to-learn-protvis" class="nav-link" data-scroll-target="#two-ways-to-learn-protvis">Two ways to learn ProtVis</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -641,8 +641,8 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="from-quantitative-proteomes-to-biological-insight" class="level2 hero">
 <h2 class="anchored" data-anchor-id="from-quantitative-proteomes-to-biological-insight">From quantitative proteomes to biological insight</h2>
-<p><strong>ProtVis</strong> combines data import, preprocessing, quality control, statistical analysis, functional interpretation, multi-omics integration, PTM analysis, and publication-ready visualization in one interactive workflow. This cookbook follows the application in the same order that a real project is analyzed.</p>
-<p><a href="./content/installation.html">Start with installation</a> · <a href="./content/reproducibility/ProtVis_dataset.html">Understand <code>ProtVis_dataset</code></a> · <a href="./content/Pre_processing/Pre_processing.html">Run the full workflow</a></p>
+<p><strong>ProtVis</strong> combines data import, Raw/mzML database search, preprocessing, quality control, statistical analysis, functional interpretation, multi-omics integration, PTM analysis, and publication-ready visualization in one interactive workflow. This cookbook follows the application in the same order that a real project is analyzed.</p>
+<p><a href="./content/installation.html">Start with installation</a> · <a href="content/data_import/raw_sage_search.qmd">Run Raw/mzML + Sage</a> · <a href="./content/reproducibility/ProtVis_dataset.html">Understand <code>ProtVis_dataset</code></a></p>
 </section>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -654,7 +654,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This edition is aligned to <strong>ProtVis 0.5.7 on the <code>dev</code> branch</strong>, reviewed on <strong>2026-09-10</strong>. ProtVis is under active development; the cookbook emphasizes stable concepts and explicitly identifies compatibility behavior where relevant.</p>
+<p>This edition is aligned to <strong>ProtVis 0.7.9 on the <code>dev</code> branch</strong>, reviewed on <strong>2026-09-13</strong>. ProtVis is under active development; the cookbook emphasizes stable concepts and explicitly identifies compatibility behavior where relevant.</p>
 </div>
 </div>
 <section id="protvis-at-a-glance" class="level2">
@@ -675,6 +675,12 @@ Figure&nbsp;1: Overview Workflow in ProtVis. Heterogeneous proteomics software o
 <strong>Heterogeneous input</strong>
 <p>
 Import MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, Mascot, or a user-defined matrix.
+</p>
+</div>
+<div class="feature-card">
+<strong>Raw/mzML + Sage</strong>
+<p>
+Register sample metadata, validate mzML filenames, upload a protein FASTA, run Sage, and convert LFQ results directly into the canonical project object.
 </p>
 </div>
 <div class="feature-card">
@@ -709,18 +715,14 @@ Explore metaproteomics, expression profiles, nine-quadrant integration, Venn ana
 </div>
 </div>
 </section>
-<section id="recommended-analysis-path" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-analysis-path">Recommended analysis path</h2>
-<ol type="1">
-<li><strong>Install and launch ProtVis.</strong></li>
-<li><strong>Project init:</strong> choose the working directory, load sample metadata and an expression matrix or built-in example, then select the data source.</li>
-<li><strong>Data input:</strong> parse and validate the source-specific quantitative evidence.</li>
-<li><strong>Pre-processing:</strong> Correct Noise → Data Transformation → Data Imputation → Data Normalization.</li>
-<li><strong>Overview:</strong> inspect sample correlations, expression patterns, dimensionality reduction, missingness, intensity distributions, PCA, and CV.</li>
-<li><strong>DEP:</strong> define one or more <code>Group1</code> versus <code>Group2</code> comparisons and run differential abundance analysis.</li>
-<li><strong>Interpretation:</strong> use GO/KEGG enrichment, GSEA, Pathview, PPI, WGCNA, and other downstream modules as appropriate.</li>
-<li><strong>Release/export:</strong> save portable project outputs and publication-ready tables and figures.</li>
-</ol>
+<section id="recommended-analysis-paths" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-analysis-paths">Recommended analysis paths</h2>
+<p>For <strong>Raw/mzML data</strong>, use:</p>
+<p><strong>Project init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP → Interpretation</strong></p>
+<p>For <strong>MaxQuant</strong>, use:</p>
+<p><strong>Project init → MaxQuant Output Preparation → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP → Interpretation</strong></p>
+<p>For <strong>other supported tabular outputs</strong>, import/parse the source-specific quantitative table and continue into the shared preprocessing workflow.</p>
+<p>The Raw route is intentionally different: Project init can create a sample-only Sage staging <code>ProtVis_dataset</code> without inventing an expression matrix. The protein-by-sample matrix is created after the Sage LFQ search succeeds.</p>
 </section>
 <section id="two-ways-to-learn-protvis" class="level2">
 <h2 class="anchored" data-anchor-id="two-ways-to-learn-protvis">Two ways to learn ProtVis</h2>

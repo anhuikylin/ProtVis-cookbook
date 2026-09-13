@@ -643,6 +643,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#requirements" id="toc-requirements" class="nav-link active" data-scroll-target="#requirements">Requirements</a></li>
   <li><a href="#recommended-installation" id="toc-recommended-installation" class="nav-link" data-scroll-target="#recommended-installation">Recommended installation</a></li>
   <li><a href="#clean-update" id="toc-clean-update" class="nav-link" data-scroll-target="#clean-update">Clean update</a></li>
+  <li><a href="#sage-availability" id="toc-sage-availability" class="nav-link" data-scroll-target="#sage-availability">Sage availability</a></li>
   <li><a href="#optional-wgcna-helper" id="toc-optional-wgcna-helper" class="nav-link" data-scroll-target="#optional-wgcna-helper">Optional WGCNA helper</a></li>
   <li><a href="#launch-protvis" id="toc-launch-protvis" class="nav-link" data-scroll-target="#launch-protvis">Launch ProtVis</a></li>
   <li><a href="#first-launch-checklist" id="toc-first-launch-checklist" class="nav-link" data-scroll-target="#first-launch-checklist">First launch checklist</a></li>
@@ -690,7 +691,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This cookbook currently follows <strong>ProtVis 0.5.7 on the <code>dev</code> branch</strong>. The installation commands below therefore install <code>@dev</code> explicitly.</p>
+<p>This cookbook currently follows <strong>ProtVis 0.7.9 on the <code>dev</code> branch</strong>. The installation commands below therefore install <code>@dev</code> explicitly.</p>
 </div>
 </div>
 </section>
@@ -704,7 +705,9 @@ Note
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pak"</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pak</span>(<span class="st">"xuebinzhang-lab/ProtVis@dev"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Verify the installed version:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">"ProtVis"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">"ProtVis"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.7.9 for the cookbook baseline</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Because <code>dev</code> changes continuously, a later installation may report a newer version. In that case, prefer the current ProtVis source and Help page when a control or default differs from this cookbook.</p>
 </section>
 <section id="clean-update" class="level2">
 <h2 class="anchored" data-anchor-id="clean-update">Clean update</h2>
@@ -714,23 +717,36 @@ Note
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Close other R sessions that are currently using ProtVis before running a clean reinstall.</p>
 </section>
+<section id="sage-availability" class="level2">
+<h2 class="anchored" data-anchor-id="sage-availability">Sage availability</h2>
+<p>Raw/mzML projects can run a Sage database search from the conditional <strong>Search</strong> tab.</p>
+<p>On Windows, ProtVis first looks for its bundled executable at <code>inst/extdata/sage/windows/sage.exe</code>. On Linux or macOS, install Sage separately and make the <code>sage</code> executable available on <code>PATH</code>. You can verify discovery from R with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ProtVis<span class="sc">::</span><span class="fu">protvis_sage_executable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A valid path means the search engine is available. <code>NULL</code> means ProtVis could not locate Sage.</p>
+</section>
 <section id="optional-wgcna-helper" class="level2">
 <h2 class="anchored" data-anchor-id="optional-wgcna-helper">Optional WGCNA helper</h2>
 <p>Some WGCNA workflows may use the optional helper package documented by ProtVis:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"ShawnWx2019/WGCNAShinyFun"</span>, <span class="at">ref =</span> <span class="st">"master"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"ShawnWx2019/WGCNAShinyFun"</span>, <span class="at">ref =</span> <span class="st">"master"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You do not need this optional dependency to launch the core application.</p>
 </section>
 <section id="launch-protvis" class="level2">
 <h2 class="anchored" data-anchor-id="launch-protvis">Launch ProtVis</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ProtVis)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">run_ProtVis</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ProtVis)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">run_ProtVis</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>or directly:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ProtVis<span class="sc">::</span><span class="fu">run_ProtVis</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ProtVis<span class="sc">::</span><span class="fu">run_ProtVis</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="first-launch-checklist" class="level2">
 <h2 class="anchored" data-anchor-id="first-launch-checklist">First launch checklist</h2>
-<p>After the application opens, confirm that you can see <strong>Homepage</strong>, <strong>Project init</strong>, <strong>Data input</strong>, <strong>Pre-processing</strong>, <strong>Downstream analysis</strong>, <strong>Multi-omics</strong>, <strong>PTM</strong>, <strong>Release data</strong>, <strong>Toolkits</strong>, and <strong>Help</strong> in the navigation bar.</p>
+<p>After the application opens, confirm that you can see <strong>Homepage</strong>, <strong>Project init</strong>, <strong>Pre-processing</strong>, <strong>Downstream analysis</strong>, <strong>Multi-omics</strong>, <strong>PTM</strong>, <strong>Release data</strong>, <strong>Toolkits</strong>, and <strong>Help</strong>.</p>
+<p>Two navigation items are intentionally conditional:</p>
+<ul>
+<li><strong>Search</strong> is shown when <strong>Raw</strong> is selected in Project init.</li>
+<li><strong>Pre-processing → MaxQuant Output Preparation</strong> is shown only when <strong>MaxQuant</strong> is selected.</li>
+</ul>
+<p>The source-independent preprocessing items, including <strong>Correct Noise</strong>, remain available for all supported data sources.</p>
 <p>If the app opens but an optional module reports a missing dependency, install that dependency and restart the R session. If the package itself fails to load after an update, prefer the clean installer above rather than repeatedly installing over a corrupted package directory.</p>
 
 
