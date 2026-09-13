@@ -18,11 +18,11 @@ The top-level **Search** tab is intentionally visible only while **Raw** is sele
 Before opening Search, complete the Raw-specific part of [Project init](../Project_init/Project_init.qmd):
 
 1. Set a writable working directory.
-2. Select **Raw**.
-3. Load or upload sample information containing `sample_id` and `mzml_file`.
+2. Load or upload sample information containing `sample_id` and `mzml_file`.
+3. Upload the matching protein FASTA.
 4. Select the directory containing the mzML files.
 5. Click **Check mzML files** and resolve every Missing or Invalid extension row.
-6. Upload the matching protein FASTA.
+6. Select **Raw**.
 7. Click **Project init** to create the Sage staging object.
 
 ::: {.callout-important}
@@ -108,14 +108,24 @@ The generated Sage configuration uses target-decoy searching with `rev_` as the 
 
 ## Run the search
 
-1. Open **Search**.
-2. Confirm that the displayed FASTA, mzML directory, output directory and Sage executable are correct.
-3. Adjust search parameters only when your acquisition/search design requires it.
-4. Click **Run Sage Search**.
-5. Follow **Search status** and **Sage log**.
-6. Inspect the **Summary**, **PSMs**, and **LFQ** tabs after completion.
+The full-resolution screenshot below shows a completed Sage run for the six PXD065315 control samples. The left side contains the search parameters and the two numbered actions; the upper-right area reports **Search status** and the **Sage log**; the lower-right area exposes the result tables.
 
-Repeated rapid clicks are guarded at both the interface and server level. If the same search is already running, the duplicate action is ignored rather than launching a second Sage process.
+![Sage Search in ProtVis after a successful six-sample search. Marker 1 is Run Sage Search and marker 2 is Download Sage Config. The Search status reports success, while the Sage log records indexing, file processing and search progress. Summary, PSMs and LFQ tabs provide result tables.](../../images/screenshots/PixPin_2026-09-13_17-58-54.png){#fig-sage-search-gui fig-alt="Screenshot of the ProtVis Search module. The sidebar contains Sage search parameters and red markers for Run Sage Search and Download Sage Config. The main panel shows Search status, Sage log, and result table tabs Summary, PSMs and LFQ. A completed example reports success with 1,170,861 PSM rows and 15,209 LFQ rows." width="100%" fig-align="center"}
+
+Before pressing the numbered controls, confirm that the FASTA path, mzML directory, output directory and resolved Sage executable are all correct. Review the enzyme, tolerances, modifications, peptide-length limits, FDR and LFQ settings; changing these values changes the database-search model and should be recorded as part of the analysis.
+
+**1. Run Sage Search.** Click **Run Sage Search** once. ProtVis writes the current settings to the Sage configuration, starts Sage against every registered mzML file, and streams progress into **Search status** and **Sage log**. While a search is running, duplicate-click protection prevents the same operation from being launched a second time.
+
+Follow the log until the status becomes **success** or an actionable error is reported. In the illustrated example, the completed run reports **1,170,861 PSM rows** and **15,209 LFQ rows**. These numbers document this particular search; they are not expected thresholds and will vary with organism, FASTA, acquisition depth, search parameters and sample number.
+
+After success, inspect the result tabs. **Summary** provides the compact search-level overview. **PSMs** contains peptide-spectrum-match level results and is useful for verifying that the search produced substantial target evidence. **LFQ** contains the quantitative output used to construct the downstream protein-by-sample matrix; verify that the expected six mzML/sample columns are represented before moving to preprocessing.
+
+**2. Download Sage Config.** Click **Download Sage Config** to save the exact generated configuration independently. The project also records the configuration and search provenance in `ProtVis_dataset`, but keeping the downloaded JSON alongside the mzML/FASTA inputs is useful for external reproduction, troubleshooting and methods reporting.
+
+::: {.callout-tip}
+## Read the log, not only the green status
+Warnings can be informative even when Sage ultimately finishes successfully. Preserve the log/configuration and check unexpected modification warnings, input-file failures, unusually small result tables, or missing LFQ sample columns before treating the search as finalized.
+:::
 
 ## Files produced by Sage
 
@@ -128,8 +138,6 @@ Sage_search/
 ├── lfq.tsv
 └── results.json
 ```
-
-The Search page also provides **Download Sage config** so the exact generated configuration can be retained independently.
 
 ## How LFQ becomes a ProtVis matrix
 
@@ -158,13 +166,13 @@ Step2_sage_database_search.rda
 Step2_remove_unreliable_peptide.rda
 ```
 
-`Step2_sage_database_search.rda` preserves the Sage-specific stage name for compatibility. The important cross-source handoff is now:
+`Step2_sage_database_search.rda` preserves the Sage-specific stage name for compatibility. The important cross-source handoff is:
 
 ```text
 Step2_remove_unreliable_peptide.rda
 ```
 
-This is the **data-source-independent Step2 checkpoint** consumed by **Correct Noise**. In other words, downstream preprocessing does not need to know whether Step2 originated from Sage, MaxQuant, or another supported input path.
+This is the **data-source-independent Step2 checkpoint** consumed by **Correct Noise**. Downstream preprocessing therefore does not need to know whether Step2 originated from Sage, MaxQuant, or another supported input path.
 
 Continue with [Correct noise](../Pre_processing/correct_noise.qmd).
 
