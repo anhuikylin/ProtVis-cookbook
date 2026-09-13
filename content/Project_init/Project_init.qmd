@@ -48,18 +48,32 @@ ProtVis validates sample/matrix alignment, creates `ProtVis_dataset`, performs a
 
 ## Raw/mzML + Sage workflow
 
-Choose this route when you have converted mass-spectrometry files in mzML format and want ProtVis to run the database search.
+Choose this route when the starting material is converted mass-spectrometry data in mzML format and you want ProtVis to run the Sage database search. The numbered screenshot below shows the recommended order for initializing the Raw/Sage example project.
 
-1. Select **Raw** as the data source.
-2. Set the project working directory.
-3. Provide sample information containing at least `sample_id` and `mzml_file`. You can click **Use built-in PXD065315 sample information** to load the six-sample maize example.
-4. Expand **Raw/mzML input (optional)** and select the directory containing the mzML files.
-5. Click **Check mzML files**. ProtVis requires unique filenames with the `.mzML` extension and verifies that every file listed in `sample_info` exists.
-6. Upload a protein FASTA (`.fa`, `.fasta`, `.faa`, or the accepted gzipped form).
-7. Review the **Raw/mzML Files** preview tab.
-8. Click **Project init**. An expression matrix is not required at this point.
+![Raw/mzML Project init workflow in ProtVis. The red labels indicate the recommended order: 1 set working directory, 2 upload sample information, 3 upload protein FASTA, 4 select the mzML input directory, 5 check mzML files, 6 select Raw as the data source, and 7 run Project init. The right panel shows the six PXD065315 control samples after successful initialization.](../../images/screenshots/project-init-raw-sage-numbered.webp){#fig-project-init-raw-sage fig-alt="Screenshot of ProtVis Project init with seven red numbered markers. Marker 1 is Set working directory; marker 2 is sample-information upload; marker 3 is protein FASTA upload; marker 4 is Select mzML input directory; marker 5 is Check mzML files; marker 6 is data source Raw; marker 7 is Project init. The preview table contains B73_C1, B73_C2, B73_C3, EA2024_C1, EA2024_C2, and EA2024_C3." width="100%" fig-align="center"}
+
+### Follow the numbered order in the figure
+
+**1. Set the working directory.** Click **Set working directory** and choose a local directory in which ProtVis can create stage files, portable exports, the `Sage_search` directory and later analysis outputs. The screenshot uses `E:/count/p_raw`. The directory must exist and be writable. Keeping all files for one analysis inside the same project directory makes checkpoint and Sage-result recovery much more reliable.
+
+**2. Load the sample information.** Upload a `.csv`, `.xlsx`, or `.xls` table with at least `sample_id` and `mzml_file`, or click **Use built-in PXD065315 sample information** for the six-sample maize control example. After loading, confirm that the upload status is complete and inspect the **Sample Info** preview. For the built-in example, the six rows should be `B73_C1`, `B73_C2`, `B73_C3`, `EA2024_C1`, `EA2024_C2`, and `EA2024_C3`, and the `mzml_file` column should point to the corresponding `.mzML` filenames.
+
+**3. Upload the protein FASTA.** Under **Raw/mzML input**, upload the protein database used for the Sage search. Accepted inputs include `.fa`, `.fasta`, `.faa`, and supported compressed FASTA forms. Use a FASTA that matches the organism and protein identifiers expected for the experiment. In the illustrated maize example, the uploaded file is `UP000007305_4577.fasta`. Wait until the interface reports that the FASTA is ready before continuing.
+
+**4. Select the mzML input directory.** Click **Select mzML input directory** and choose the folder that contains the converted mzML files. The directory can also contain the original vendor `.raw` files, but the Sage input check is based on the `.mzML` filenames registered in the sample-information table. For PXD065315, the expected local files are `B73_C1.mzML`, `B73_C2.mzML`, `B73_C3.mzML`, `EA2024_C1.mzML`, `EA2024_C2.mzML`, and `EA2024_C3.mzML`.
+
+**5. Check the mzML files.** Click **Check mzML files**. ProtVis verifies that the filenames are unique, have the `.mzML` extension, and are present in the selected directory. Resolve every Missing or Invalid extension result before initializing the project. If the check fails, compare the physical filenames with `sample_info$mzml_file` character by character; renaming either side is acceptable as long as the two remain identical.
+
+**6. Select `Raw` as the data source.** In **Select data source**, choose **Raw**. This step activates the Raw/Sage route and makes the top-level **Search** tab available. Do not upload a fabricated expression matrix simply to complete Project init; for a Raw project the expression matrix is intentionally absent until Sage LFQ results are created.
+
+**7. Run Project init.** Click the large **Project init** button at the top of the main panel. A successful Raw initialization reports **“PROJECT INIT completed — Sage ProtVis_dataset is ready.”** Inspect the preview tabs after completion. **Sample Info** should contain the expected rows, **Raw/mzML Files** should reflect the registered input files, and **Expression Matrix** can remain empty at this stage. The next step is **Search**, not Correct Noise.
 
 When an uploaded sample table contains an mzML filename column (`mzml_file`, `mzml`, `raw_file`, `file`, or `filename`), ProtVis automatically registers it for the Sage workflow.
+
+::: {.callout-important}
+## Do not create a fake expression matrix
+A Raw/Sage project does not need a protein expression matrix before Search. Project init creates a `Sage_staging` project object and fills the expression layer only after LFQ results are available. After Step 7 succeeds, continue directly to [Raw/mzML + Sage search](../data_import/raw_sage_search.qmd).
+:::
 
 ### The Sage staging object
 
@@ -70,8 +84,6 @@ ProtVis_dataset__project_init__Sage_staging__v1
 ```
 
 This is intentional. ProtVis does not fabricate protein abundances before the database search. The staging object is valid even though its expression layer is temporarily empty. `Step1_project_init.rda` and the portable export are still written, so the project has a recoverable starting state.
-
-After initialization, continue to [Raw/mzML + Sage search](../data_import/raw_sage_search.qmd).
 
 ## Built-in PXD065315 sample information
 
