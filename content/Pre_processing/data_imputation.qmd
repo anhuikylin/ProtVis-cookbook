@@ -5,9 +5,9 @@ description: "Inspect missing-value patterns and apply an explicit imputation st
 
 ## Why this is a separate step
 
-Proteomics missingness can arise from abundance limits, identification uncertainty, stochastic sampling, or technical failures. ProtVis therefore keeps missing values as `NA` until the user explicitly chooses an imputation method.
+Proteomics missingness can arise from abundance limits, identification uncertainty, stochastic sampling, or technical failures. ProtVis therefore keeps missing values explicit until the user chooses an imputation method.
 
-Before imputation, the current module coerces quantitative columns to numeric, converts non-finite values to missing, and handles not-observed sentinels such as `0` and `-8` as `NA`.
+Before imputation, the current module coerces quantitative columns to numeric, converts non-finite values to missing, and handles not-observed sentinels such as `0` and `-8` as `NA`. Rows or columns that are entirely missing are removed from the matrix used by the imputation calculation.
 
 ## Available methods
 
@@ -17,31 +17,37 @@ The current GUI provides:
 |---|---|
 | `kNN` | Local similarity-based imputation; current default |
 | `RF` | Random-forest based imputation |
-| `Mean` | Column/feature mean strategy, useful mainly as a simple baseline |
-| `Median` | Robust central-value strategy |
+| `Mean` | Column mean replacement; useful mainly as a simple baseline |
+| `Median` | Column median replacement |
 | `Zero` | Explicit zero filling; use only when zero has a valid interpretation |
-| `Minimum` | Low-value replacement strategy |
+| `Minimum` | Replace missing values with the minimum observed value in each column |
 
 Method choice should be justified by the expected missingness mechanism and downstream analysis.
 
 ## GUI workflow
 
-1. Click **Load data**.
-2. Click **Visualize missing values** before changing the matrix.
-3. Inspect the original table and missingness visualization.
-4. Select an imputation **Method**.
-5. Click **Run imputation**.
-6. Compare original and imputed distributions.
-7. Download the diagnostic plots if they are part of the analysis record.
+The screenshot below shows the full Data Imputation interface and the recommended operating order.
+
+![Data Imputation in ProtVis. Numbered controls guide the user from loading transformed data, visualizing missing values, choosing an imputation method, reviewing the q for MinProb compatibility field, and running imputation. The main panel compares original and imputed data and their missing-value visualizations.](../../images/screenshots/PixPin_2026-09-13_18-22-01.png){#fig-data-imputation-gui fig-alt="Screenshot of the ProtVis Data Imputation module. The sidebar contains Load data, Visualize missing values, Imputation Settings, a method selector, q for MinProb, and Run imputation. The main panel has Sample Info, Expression Matrix and Visualize missing values tabs with original and imputed data cards." width="100%" fig-align="center"}
+
+Follow the numbered controls in the screenshot. **1. Load data.** Click **Load data** to load the transformed `ProtVis_dataset` or its Step4 compatibility state. Confirm the green **Data loaded** status, then check the **Sample Info** and **Expression Matrix** tabs before changing any missing values.
+
+**2. Visualize missing values.** Click **Visualize missing values**. ProtVis opens the diagnostic view containing **Original Data** and **Original Data Visualization**. Inspect whether missingness is concentrated in particular proteins or samples. If a sample is almost entirely missing, investigate the input/search/QC problem before attempting to solve it by imputation.
+
+**3. Select the imputation Method.** Expand **Imputation Settings** and choose `kNN`, `RF`, `Mean`, `Median`, `Zero`, or `Minimum`. `kNN` is selected by default, but the default is not automatically the correct method for every proteomics experiment. ProtVis warns when rows with more than 50% missing values are present because similarity-based kNN estimates can become unstable for those rows.
+
+**4. Interpret `q for MinProb` correctly.** The current interface still displays a numeric **q for MinProb** control (0.01 in the screenshot) for compatibility with earlier UI designs. In the present implementation, however, the active method menu does **not** contain a `MinProb` method and the current `kNN`, `RF`, `Mean`, `Median`, `Zero`, and `Minimum` branches do not use this q value. Do not report the q field as an active parameter unless a future ProtVis version restores a MinProb method.
+
+**5. Run imputation.** Click **Run imputation**. After completion, compare **Imputed Data** and **Imputed Data Visualization** with the original panels. Confirm that missing cells were handled as intended and that the result did not create implausible sample distributions. Use the **Download** section to export the original and imputed diagnostic plots when they are needed for the analysis record.
 
 ::: {.callout-important}
 ## Default does not mean universally correct
-`kNN` is the interface default, but no imputation method is optimal for every proteomics design. Report the selected method in the Methods section of a manuscript and preserve the pre-imputation data for auditability.
+`kNN` is the interface default, but no imputation method is optimal for every missingness mechanism. Report the method actually selected in the Methods section and preserve the pre-imputation project state for auditability.
 :::
 
 ## Output
 
-The imputed state is stored in the active project object and in:
+The imputed matrix is written into the active `ProtVis_dataset`, recorded in the analysis/process history, and persisted in:
 
 ```text
 Step5_data_imputation.rda
