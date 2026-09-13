@@ -2312,7 +2312,7 @@
     "href": "content/Toolkits/DEG_Analyse.html",
     "title": "DEG analyse",
     "section": "",
-    "text": "The DEG Analyse toolkit is separate from ProtVis’s main DEP analysis. Use the main DEP module for normalized protein-abundance comparisons. Use DEG Analyse only when the supplied dataset matches the statistical assumptions and input format expected by the toolkit.",
+    "text": "Toolkits → DEG analyse is an RNA-seq-oriented utility and is separate from ProtVis’s main DEP analysis. The current implementation builds a DESeq2::DESeqDataSetFromMatrix, uses design = ~ Group, runs DESeq2::DESeq(), and produces PCA and volcano/result views.\nUse this toolkit for raw count-style gene-expression data that are appropriate for DESeq2. Do not use it for normalized continuous proteomics intensities merely because proteins and RNA-seq both have samples in columns.",
     "crumbs": [
       "Toolkits",
       "DEG analyse"
@@ -2323,18 +2323,62 @@
     "href": "content/Toolkits/DEG_Analyse.html#scope",
     "title": "DEG analyse",
     "section": "",
-    "text": "The DEG Analyse toolkit is separate from ProtVis’s main DEP analysis. Use the main DEP module for normalized protein-abundance comparisons. Use DEG Analyse only when the supplied dataset matches the statistical assumptions and input format expected by the toolkit.",
+    "text": "Toolkits → DEG analyse is an RNA-seq-oriented utility and is separate from ProtVis’s main DEP analysis. The current implementation builds a DESeq2::DESeqDataSetFromMatrix, uses design = ~ Group, runs DESeq2::DESeq(), and produces PCA and volcano/result views.\nUse this toolkit for raw count-style gene-expression data that are appropriate for DESeq2. Do not use it for normalized continuous proteomics intensities merely because proteins and RNA-seq both have samples in columns.",
     "crumbs": [
       "Toolkits",
       "DEG analyse"
     ]
   },
   {
-    "objectID": "content/Toolkits/DEG_Analyse.html#recommended-workflow",
-    "href": "content/Toolkits/DEG_Analyse.html#recommended-workflow",
+    "objectID": "content/Toolkits/DEG_Analyse.html#deg-analyse-interface",
+    "href": "content/Toolkits/DEG_Analyse.html#deg-analyse-interface",
     "title": "DEG analyse",
-    "section": "Recommended workflow",
-    "text": "Recommended workflow\n\nConfirm whether the input represents raw counts, normalized continuous values, or another measurement type.\nProvide the required sample grouping information.\nRun the statistical model only after checking that its distributional assumptions match the input.\nInspect effect size, p-value and adjusted p-value together.\nExport the full result table before thresholding.\nState the model and threshold explicitly in downstream figures and Methods.\n\n\n\n\n\n\n\nImportant\n\n\n\nDo not use an RNA-seq count model on continuous proteomics intensities merely because both datasets have samples in columns. Data type determines the appropriate statistical model.",
+    "section": "DEG Analyse interface",
+    "text": "DEG Analyse interface\nThe screenshot below shows a completed analysis with the PCA card on the left and the Volcano Plot card on the right. The displayed counts—4,559 up-regulated, 6,126 down-regulated and 10,685 significant features (19.48%)—belong to this particular uploaded example and are not fixed ProtVis results.\n\n\n\n\n\n\nFigure 1: ProtVis DEG Analyse interface showing expression and group-file upload, PCA settings, volcano settings, PCA result and differential-expression volcano plot.",
+    "crumbs": [
+      "Toolkits",
+      "DEG analyse"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/DEG_Analyse.html#required-files",
+    "href": "content/Toolkits/DEG_Analyse.html#required-files",
+    "title": "DEG analyse",
+    "section": "Required files",
+    "text": "Required files\nThe current module accepts Excel .xlsx files for both inputs.\nThe Gene Expression Data workbook must contain an exact first-column identifier named:\nGeneID\nThe remaining columns are sample count columns. The Group Information workbook must contain at least:\nSample\nGroup\nSample names must correspond to the expression-matrix sample columns because ProtVis reorders the count matrix using the row names created from the Sample field.",
+    "crumbs": [
+      "Toolkits",
+      "DEG analyse"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/DEG_Analyse.html#recommended-operating-order",
+    "href": "content/Toolkits/DEG_Analyse.html#recommended-operating-order",
+    "title": "DEG analyse",
+    "section": "Recommended operating order",
+    "text": "Recommended operating order\n1. Upload Gene Expression Data. Select the count-matrix .xlsx. Keep genes in rows and samples in columns. The first column must be named exactly GeneID.\n2. Upload Group Information. Select the grouping .xlsx. The first required field is Sample and the second is Group. Additional grouping columns can also be present and may become available for PCA color/shape mappings.\n3. Verify that the data are raw counts. Before running, confirm that sample columns represent non-negative count data appropriate for DESeq2. In the current implementation ProtVis applies ceiling() to all sample values before constructing the DESeq2 count matrix; this is not a justification for supplying normalized continuous expression values.\n4. Be aware of the current contrast. The present dev implementation extracts differential results with:\nGroup: B73 versus Y12\nspecifically contrast = c(\"Group\", \"B73\", \"Y12\"). Therefore the current toolkit expects the Group column to contain the B73 and Y12 levels for differential testing. If your biological comparison uses different group names, this utility should not be treated as a generic arbitrary-group DEG interface without changing the underlying implementation.\n5. Configure PCA Settings. Choose Color by and optionally Shape by from available grouping fields. Point size can be Small, Medium or Large. When grouping is used, ProtVis provides per-group color selectors. You can also show sample labels, encircle groups and display confidence ellipses; ellipse transparency and legend text size are configurable.\n6. Configure Volcano Plot Settings. Set colors for Up-regulated, Down-regulated, and Not Significant points, point size, transparency, and grid display. These controls alter presentation only; they do not change the DEG classification threshold in the current implementation.\n7. Click Run Analysis. ProtVis converts GeneID to row names, applies ceiling() to sample counts, aligns columns to the group-information sample order, creates a DESeq2 dataset with design = ~ Group, runs DESeq2, and extracts the B73-versus-Y12 result.\n8. Inspect PCA Analysis. The Plot tab shows sample separation in principal-component space. Use PCA Data to inspect/export the coordinates rather than relying only on the figure. The percentage of variation displayed on PC1/PC2 is dataset-specific.\n9. Inspect the Volcano Plot and DEG tables. The Plot tab displays fold change against significance. DEG Results exposes the underlying DESeq2 result table, while Statistics provides summary counts and top DEG information.\n10. Export the analysis outputs. PCA settings provide PDF and PCA-data downloads. Volcano settings provide PDF and DEG-data downloads. The PCA and DEG table tabs also include CSV export controls.",
+    "crumbs": [
+      "Toolkits",
+      "DEG analyse"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/DEG_Analyse.html#current-deg-classification-rule",
+    "href": "content/Toolkits/DEG_Analyse.html#current-deg-classification-rule",
+    "title": "DEG analyse",
+    "section": "Current DEG classification rule",
+    "text": "Current DEG classification rule\nThe current implementation classifies a gene as Up-regulated when:\nadjusted p-value &lt; 0.05\nand log2FoldChange &gt; 1\nand as Down-regulated when:\nadjusted p-value &lt; 0.05\nand log2FoldChange &lt; -1\nAll other genes are labeled Not significant. In other words, the current significance rule is padj &lt; 0.05 together with |log2FoldChange| &gt; 1.",
+    "crumbs": [
+      "Toolkits",
+      "DEG analyse"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/DEG_Analyse.html#pca-and-volcano-presentation-controls",
+    "href": "content/Toolkits/DEG_Analyse.html#pca-and-volcano-presentation-controls",
+    "title": "DEG analyse",
+    "section": "PCA and volcano presentation controls",
+    "text": "PCA and volcano presentation controls\nPCA supports grouping color, grouping shape, three point-size levels, optional sample labels, group encircling, confidence ellipses, ellipse transparency and legend-size control. Default PCA export dimensions are 8 × 7 inches.\nThe volcano plot defaults to salmon for up-regulated genes, light blue for down-regulated genes and grey for non-significant genes; default point size is 2 and transparency is 0.7. Default volcano PDF dimensions are also 8 × 7 inches.\n\n\n\n\n\n\nImportantThis is not the main proteomics DEP workflow\n\n\n\nFor normalized protein-abundance data, use Downstream analysis → DEP analysis. The DEG toolkit is built around DESeq2 count modeling and its current code contains a fixed B73-versus-Y12 contrast.\n\n\n\n\n\n\n\n\nWarning\n\n\n\nDo not convert continuous normalized measurements into pseudo-counts merely to make them pass this interface. Statistical model choice should follow the measurement process and data distribution.",
     "crumbs": [
       "Toolkits",
       "DEG analyse"
