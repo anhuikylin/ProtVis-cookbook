@@ -30,6 +30,42 @@ Before opening Search, complete the Raw-specific part of [Project init](../Proje
 A Raw/Sage project does not need a protein expression matrix before Search. ProtVis creates a `Sage_staging` project object and fills the expression layer only after LFQ results are available.
 :::
 
+## Example dataset: PXD065315
+
+The built-in Raw example is based on the public maize proteomics dataset **PXD065315**, titled *Proteomics analysis of B73 and EA2024 maize plants under control and drought conditions*. The complete dataset contains 12 Thermo `.raw` files: six control samples and six drought samples. The current ProtVis built-in example uses only the six **control** samples shown below.
+
+- [PRIDE project page](https://www.ebi.ac.uk/pride/archive/projects/PXD065315)
+- [ProteomeXchange dataset page](https://proteomecentral.proteomexchange.org/?pxid=PXD065315)
+- [Complete PRIDE download directory](https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/)
+
+| ProtVis sample | Original PRIDE RAW file | mzML filename used by ProtVis |
+|---|---|---|
+| `B73_C1` | [B73_C1.raw](https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/B73_C1.raw) | `B73_C1.mzML` |
+| `B73_C2` | [B73_C2.raw](https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/B73_C2.raw) | `B73_C2.mzML` |
+| `B73_C3` | [B73_C3.raw](https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/B73_C3.raw) | `B73_C3.mzML` |
+| `EA2024_C1` | [EA2024_C1.raw](https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/EA2024_C1.raw) | `EA2024_C1.mzML` |
+| `EA2024_C2` | [EA2024_C2.raw](https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/EA2024_C2.raw) | `EA2024_C2.mzML` |
+| `EA2024_C3` | [EA2024_C3.raw](https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/EA2024_C3.raw) | `EA2024_C3.mzML` |
+
+::: {.callout-note}
+## RAW and mzML are different files
+PRIDE hosts the original vendor `.raw` files for PXD065315. The `.mzML` files used by ProtVis are local conversions of those RAW files and are **not separate files deposited in PXD065315**. Convert the six control RAW files with ProteoWizard/MSConvert or another validated converter, and keep the output names exactly as listed in the `mzML filename used by ProtVis` column unless you also update `sample_info$mzml_file`.
+:::
+
+A convenient directory after conversion is:
+
+```text
+PXD065315_control/
+├── B73_C1.mzML
+├── B73_C2.mzML
+├── B73_C3.mzML
+├── EA2024_C1.mzML
+├── EA2024_C2.mzML
+└── EA2024_C3.mzML
+```
+
+Point **Project init → Raw/mzML input** to the directory containing these six converted files, then click **Check mzML files**.
+
 ## Sage executable
 
 ProtVis uses `protvis_sage_executable()` to resolve Sage.
