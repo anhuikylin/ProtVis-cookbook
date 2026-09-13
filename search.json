@@ -209,7 +209,7 @@
     "href": "content/Toolkits/Correlation_Chord.html",
     "title": "Correlation chord",
     "section": "",
-    "text": "A correlation chord diagram is useful for a filtered subset of relationships among proteins, traits, pathways, metabolites or other variables. It becomes difficult to interpret when every possible pair is displayed.",
+    "text": "Use Toolkits → Correlation chord to explore relationships among numeric traits, proteins, metabolites, pathways or other quantitative variables. ProtVis calculates a correlation matrix from selected columns, filters relationships by absolute correlation, retains the strongest links up to a user-defined maximum, and displays the result as a chord diagram.\nThis module is designed for a focused correlation network rather than for drawing every possible pair. Filtering keeps the diagram interpretable and makes the exact displayed relationships available as a table.",
     "crumbs": [
       "Toolkits",
       "Correlation chord"
@@ -220,18 +220,51 @@
     "href": "content/Toolkits/Correlation_Chord.html#purpose",
     "title": "Correlation chord",
     "section": "",
-    "text": "A correlation chord diagram is useful for a filtered subset of relationships among proteins, traits, pathways, metabolites or other variables. It becomes difficult to interpret when every possible pair is displayed.",
+    "text": "Use Toolkits → Correlation chord to explore relationships among numeric traits, proteins, metabolites, pathways or other quantitative variables. ProtVis calculates a correlation matrix from selected columns, filters relationships by absolute correlation, retains the strongest links up to a user-defined maximum, and displays the result as a chord diagram.\nThis module is designed for a focused correlation network rather than for drawing every possible pair. Filtering keeps the diagram interpretable and makes the exact displayed relationships available as a table.",
     "crumbs": [
       "Toolkits",
       "Correlation chord"
     ]
   },
   {
-    "objectID": "content/Toolkits/Correlation_Chord.html#recommended-workflow",
-    "href": "content/Toolkits/Correlation_Chord.html#recommended-workflow",
+    "objectID": "content/Toolkits/Correlation_Chord.html#correlation-chord-interface",
+    "href": "content/Toolkits/Correlation_Chord.html#correlation-chord-interface",
     "title": "Correlation chord",
-    "section": "Recommended workflow",
-    "text": "Recommended workflow\n\nStart from a numeric matrix or correlation table with stable variable names.\nChoose the correlation method appropriate to the data.\nApply an effect-size threshold and, when available, a significance criterion.\nKeep only biologically relevant relationships.\nDraw the chord diagram and inspect whether line width/color encodes the intended statistic.\nExport the filtered edge table used to generate the plot.\n\n\n\n\n\n\n\nWarning\n\n\n\nCorrelation does not establish causation. For high-dimensional correlation screens, p-values also require attention to multiple testing and non-independence among features.",
+    "section": "Correlation Chord interface",
+    "text": "Correlation Chord interface\nThe screenshot below shows the built-in example containing eight variables: Root_length, Shoot_length, Fresh_weight, Dry_weight, Proline, Sodium, Potassium, and Chlorophyll. In this example the analysis uses Pearson correlation and an absolute correlation threshold of 0.6; the displayed link counts belong only to this demonstration dataset.\n\n\n\n\n\n\nFigure 1: ProtVis Correlation Chord interface showing example phenotype variables, correlation matrix, selected links, analysis summary and chord diagram.",
+    "crumbs": [
+      "Toolkits",
+      "Correlation chord"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Correlation_Chord.html#recommended-operating-order",
+    "href": "content/Toolkits/Correlation_Chord.html#recommended-operating-order",
+    "title": "Correlation chord",
+    "section": "Recommended operating order",
+    "text": "Recommended operating order\n1. Load a numeric dataset. Under Input Data, upload .csv, .tsv, or .txt, or click Use Example Data. The built-in example contains 48 observations for the eight variables shown in the screenshot.\n2. Select the variables. Use Select Numeric Columns to choose at least two numeric columns. ProtVis automatically offers only numeric variables from the loaded table.\n3. Choose the correlation method. Under Analysis Settings, select pearson, spearman, or kendall. Pearson is the current default. Pearson summarizes linear association, whereas rank-based Spearman or Kendall can be more appropriate for monotonic relationships or data that do not satisfy Pearson assumptions.\n4. Set the Absolute Correlation Threshold. The default is 0.6. ProtVis retains a pair only when abs(correlation) &gt;= threshold, so the same cutoff applies to positive and negative relationships.\n5. Set Maximum Number of Links. The current control ranges from 10 to 200 and defaults to 50. After the threshold filter, ProtVis sorts relationships by absolute correlation from strongest to weakest and keeps at most this many links. This limit is especially important when many variables are selected.\n6. Click Run. ProtVis calculates the correlation matrix using pairwise-complete observations, removes self-correlations, collapses the two directions of each variable pair into one link, applies the absolute-correlation threshold, and then applies the maximum-link limit.\n7. Review the previews before interpreting the diagram. Uploaded Data Preview shows the source values, Correlation Matrix Preview shows the complete selected-variable matrix, and Selected Links Preview shows the exact filtered edges that are sent to the chord diagram.\n8. Check Analysis Summary. The summary reports status, number of selected variables, total links shown, positive and negative link counts, threshold, and correlation method. This provides a compact record of the settings behind the displayed network.\n9. Adjust Display Settings. Label Size changes variable-label size; Link Transparency controls visual opacity; Positive Correlation Color and Negative Correlation Color set the two link classes. The current defaults are red #D73027 for positive and blue #4575B4 for negative correlations.\n10. Export the result. The Download section provides PDF and PNG versions of the chord diagram plus correlation_matrix.csv. Keep the matrix together with the figure so the exact numerical relationships remain available independently of the visualization.",
+    "crumbs": [
+      "Toolkits",
+      "Correlation chord"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Correlation_Chord.html#input-format",
+    "href": "content/Toolkits/Correlation_Chord.html#input-format",
+    "title": "Correlation chord",
+    "section": "Input format",
+    "text": "Input format\nA typical input table has observations in rows and numeric variables in columns:\nRoot_length,Shoot_length,Fresh_weight,Proline,Sodium\n12.3,18.4,5.8,1.21,0.42\n10.9,16.7,5.1,1.56,0.71\n14.2,20.1,6.3,0.98,0.35\nNon-numeric columns can remain in the uploaded file, but only numeric columns are available for correlation analysis.",
+    "crumbs": [
+      "Toolkits",
+      "Correlation chord"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Correlation_Chord.html#how-links-are-selected",
+    "href": "content/Toolkits/Correlation_Chord.html#how-links-are-selected",
+    "title": "Correlation chord",
+    "section": "How links are selected",
+    "text": "How links are selected\nFor the selected variables, ProtVis calls the correlation calculation with use = \"pairwise.complete.obs\". It then removes diagonal correlations and duplicate mirrored pairs such as A–B versus B–A. Pairs failing the absolute threshold are removed. The surviving pairs are ordered by |r| or the corresponding absolute rank-correlation coefficient, and only the strongest Maximum Number of Links are retained.\nThis means the chord diagram can intentionally show fewer relationships than the full correlation matrix. Use Selected Links Preview when you need the precise edge list represented in the figure.\n\n\n\n\n\n\nWarningCorrelation is not causation\n\n\n\nA strong chord indicates statistical association, not a causal relationship. For large correlation screens, also consider sample size, multiple testing, repeated-measures structure, and confounding variables before making biological conclusions.\n\n\n\n\n\n\n\n\nTip\n\n\n\nIf the diagram is crowded, increase the absolute-correlation threshold or reduce the maximum number of links rather than shrinking labels until the network becomes unreadable.",
     "crumbs": [
       "Toolkits",
       "Correlation chord"
@@ -2147,40 +2180,51 @@
     "href": "content/Toolkits/Protein_Extract.html",
     "title": "Protein extract",
     "section": "",
-    "text": "Upload a reference protein FASTA file and provide protein IDs either by pasting them line-by-line or by uploading a .txt, .csv, or .tsv list.",
+    "text": "Use Toolkits → Protein extract when you have a reference protein FASTA and a list of candidate gene/protein IDs and need the corresponding sequences for structure prediction, primer/tag design, domain analysis or other downstream work.\nThe current ProtVis matcher is not limited to literal header equality. It first attempts an exact header-token match, then a normalized stable-ID match, and finally allows a unique one-character fuzzy match under restricted conditions. This makes the module useful for FASTA files whose headers contain transcript/protein isoform suffixes.",
     "crumbs": [
       "Toolkits",
       "Protein extract"
     ]
   },
   {
-    "objectID": "content/Toolkits/Protein_Extract.html#input",
-    "href": "content/Toolkits/Protein_Extract.html#input",
+    "objectID": "content/Toolkits/Protein_Extract.html#purpose",
+    "href": "content/Toolkits/Protein_Extract.html#purpose",
     "title": "Protein extract",
     "section": "",
-    "text": "Upload a reference protein FASTA file and provide protein IDs either by pasting them line-by-line or by uploading a .txt, .csv, or .tsv list.",
+    "text": "Use Toolkits → Protein extract when you have a reference protein FASTA and a list of candidate gene/protein IDs and need the corresponding sequences for structure prediction, primer/tag design, domain analysis or other downstream work.\nThe current ProtVis matcher is not limited to literal header equality. It first attempts an exact header-token match, then a normalized stable-ID match, and finally allows a unique one-character fuzzy match under restricted conditions. This makes the module useful for FASTA files whose headers contain transcript/protein isoform suffixes.",
     "crumbs": [
       "Toolkits",
       "Protein extract"
     ]
   },
   {
-    "objectID": "content/Toolkits/Protein_Extract.html#workflow",
-    "href": "content/Toolkits/Protein_Extract.html#workflow",
+    "objectID": "content/Toolkits/Protein_Extract.html#protein-extraction-interface",
+    "href": "content/Toolkits/Protein_Extract.html#protein-extraction-interface",
     "title": "Protein extract",
-    "section": "Workflow",
-    "text": "Workflow\n\nUpload the reference FASTA.\nEnter or upload the target protein IDs.\nClick Extract Proteins.\nReview Matched Sequences, Sequence Table, FASTA Viewer, and Unmatched IDs.\nDownload the complete result package as a ZIP archive.",
+    "section": "Protein Extraction interface",
+    "text": "Protein Extraction interface\nThe screenshot below shows a maize reference FASTA with four queried stable IDs. The example FASTA contains 72,539 entries, and one stable query can match multiple FASTA isoforms, which is why the displayed number of matched FASTA sequences can be larger than the number of queried IDs.\n\n\n\n\n\n\nFigure 1: ProtVis Protein Extraction interface showing FASTA upload, manual protein-ID input, extraction summary metrics and matched FASTA sequences.",
     "crumbs": [
       "Toolkits",
       "Protein extract"
     ]
   },
   {
-    "objectID": "content/Toolkits/Protein_Extract.html#quality-checks",
-    "href": "content/Toolkits/Protein_Extract.html#quality-checks",
+    "objectID": "content/Toolkits/Protein_Extract.html#recommended-operating-order",
+    "href": "content/Toolkits/Protein_Extract.html#recommended-operating-order",
     "title": "Protein extract",
-    "section": "Quality checks",
-    "text": "Quality checks\nProtein extraction is exact only when the ID syntax in the target list matches the FASTA headers. If many expected proteins are reported as unmatched, inspect whether the FASTA uses transcript suffixes, database prefixes, version suffixes, or pipe-delimited headers.\n\n\n\n\n\n\nTip\n\n\n\nKeep the unmatched-ID list. It is useful for diagnosing annotation-version differences and prevents silent loss of candidates before downstream structure or enrichment analysis.",
+    "section": "Recommended operating order",
+    "text": "Recommended operating order\n1. Upload the reference protein FASTA. Supported inputs include .fa, .faa, .fasta, and their gzip-compressed forms such as .fa.gz, .faa.gz, and .fasta.gz.\n2. Choose the Protein ID Input Method. Select Manual Input to paste one ID per line, or File Upload to provide a .txt, .csv, or .tsv ID list. For CSV/TSV inputs, ProtVis reads all non-empty values as candidate identifiers, so keep unrelated metadata out of the file.\n3. Review the query IDs. Remove accidental duplicates and blank lines. Stable gene IDs are often preferable when the goal is to retrieve all corresponding protein/transcript isoforms; isoform-specific IDs are appropriate when only one record is intended.\n4. Click Run Extraction. ProtVis parses the FASTA headers, matches the requested IDs and enables Download Results when at least one FASTA sequence has been recovered.\n5. Check the three summary metrics. Total FASTA Entries is the number of sequences in the reference FASTA. Queried IDs is the number of unique input IDs. The current UI label Matched IDs counts matched FASTA sequence entries, not necessarily unique input IDs; therefore it can exceed Queried IDs when one stable query maps to several isoforms.\n6. Review Matched Summary. Use this tab to confirm which input IDs were found and how they were matched. Do not assume that every returned isoform is biologically equivalent; the FASTA annotation determines which protein records are associated with a stable gene/transcript identifier.\n7. Inspect Sequence Table and FASTA Viewer. Sequence Table provides structured sequence information, while FASTA Viewer shows the matched records in FASTA format. In the screenshot, several records from the same maize stable ID are visible because the reference contains multiple protein/transcript isoforms.\n8. Check Unmatched IDs. This tab should always be reviewed before downstream analysis. An unmatched candidate may indicate a database-version mismatch, an unexpected header convention, a genuinely absent sequence, or a query too different to satisfy the controlled fuzzy-matching rule.\n9. Download the result package. Download Results generates protein_extract_results_YYYY-MM-DD.zip. The ZIP contains matched_sequences.fasta, summary.txt, and unmatched_ids.txt.",
+    "crumbs": [
+      "Toolkits",
+      "Protein extract"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Extract.html#how-id-matching-works",
+    "href": "content/Toolkits/Protein_Extract.html#how-id-matching-works",
+    "title": "Protein extract",
+    "section": "How ID matching works",
+    "text": "How ID matching works\nProtVis searches FASTA header tokens using three stages. First, it tries an exact case-insensitive token match. If that fails, it compares normalized stable IDs. Normalization removes common gene:, transcript:, or protein: prefixes, leading &gt;, trailing descriptive text, common protein/transcript/isoform suffixes such as _P001, _T002, -isoform1, and terminal numeric version suffixes.\nIf neither exact nor normalized matching succeeds, ProtVis can use a one-character fuzzy match only when the canonical query is at least eight characters long and the approximate comparison identifies a single stable ID. This last restriction reduces the risk of silently selecting one of several equally plausible near matches.\n\n\n\n\n\n\nWarningInspect multi-isoform matches\n\n\n\nA stable gene ID can legitimately return multiple FASTA entries. The summary metric therefore reflects matched sequence records rather than a strict one-query/one-sequence relationship. Use the Sequence Table and FASTA headers to decide which isoform is appropriate for downstream work.\n\n\n\n\n\n\n\n\nTip\n\n\n\nKeep the unmatched_ids.txt file even when only a few queries fail. It is a useful record for diagnosing reference-version and identifier-conversion problems later.",
     "crumbs": [
       "Toolkits",
       "Protein extract"

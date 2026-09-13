@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Extract selected protein sequences from a reference FASTA and report matched/unmatched identifiers.">
+<meta name="description" content="Extract target protein sequences from a reference FASTA with exact, normalized and controlled fuzzy ID matching.">
 
 <title>Protein extract – ProtVis Cookbook</title>
 <style>
@@ -611,9 +611,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#input" id="toc-input" class="nav-link active" data-scroll-target="#input">Input</a></li>
-  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a></li>
-  <li><a href="#quality-checks" id="toc-quality-checks" class="nav-link" data-scroll-target="#quality-checks">Quality checks</a></li>
+  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#protein-extraction-interface" id="toc-protein-extraction-interface" class="nav-link" data-scroll-target="#protein-extraction-interface">Protein Extraction interface</a></li>
+  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
+  <li><a href="#how-id-matching-works" id="toc-how-id-matching-works" class="nav-link" data-scroll-target="#how-id-matching-works">How ID matching works</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Protein_Extract.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Protein_Extract.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -628,7 +629,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Extract selected protein sequences from a reference FASTA and report matched/unmatched identifiers.
+    Extract target protein sequences from a reference FASTA with exact, normalized and controlled fuzzy ID matching.
   </div>
 </div>
 
@@ -645,23 +646,54 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="input" class="level2">
-<h2 class="anchored" data-anchor-id="input">Input</h2>
-<p>Upload a reference protein <strong>FASTA</strong> file and provide protein IDs either by pasting them line-by-line or by uploading a <code>.txt</code>, <code>.csv</code>, or <code>.tsv</code> list.</p>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>Use <strong>Toolkits → Protein extract</strong> when you have a reference protein FASTA and a list of candidate gene/protein IDs and need the corresponding sequences for structure prediction, primer/tag design, domain analysis or other downstream work.</p>
+<p>The current ProtVis matcher is not limited to literal header equality. It first attempts an exact header-token match, then a normalized stable-ID match, and finally allows a unique one-character fuzzy match under restricted conditions. This makes the module useful for FASTA files whose headers contain transcript/protein isoform suffixes.</p>
 </section>
-<section id="workflow" class="level2">
-<h2 class="anchored" data-anchor-id="workflow">Workflow</h2>
-<ol type="1">
-<li>Upload the reference FASTA.</li>
-<li>Enter or upload the target protein IDs.</li>
-<li>Click <strong>Extract Proteins</strong>.</li>
-<li>Review <strong>Matched Sequences</strong>, <strong>Sequence Table</strong>, <strong>FASTA Viewer</strong>, and <strong>Unmatched IDs</strong>.</li>
-<li>Download the complete result package as a ZIP archive.</li>
-</ol>
+<section id="protein-extraction-interface" class="level2">
+<h2 class="anchored" data-anchor-id="protein-extraction-interface">Protein Extraction interface</h2>
+<p>The screenshot below shows a maize reference FASTA with four queried stable IDs. The example FASTA contains 72,539 entries, and one stable query can match multiple FASTA isoforms, which is why the displayed number of matched FASTA sequences can be larger than the number of queried IDs.</p>
+<div id="fig-protein-extract-interface" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of ProtVis Toolkits Protein Extraction. A Zea mays FASTA is loaded, four maize stable IDs are entered manually, the result status is Completed, and the main panel contains Total FASTA Entries, Queried IDs, Matched IDs plus Matched Summary, Sequence Table, FASTA Viewer and Unmatched IDs tabs.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-protein-extract-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/screenshots/PixPin_2026-09-13_23-10-48.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Toolkits Protein Extraction. A Zea mays FASTA is loaded, four maize stable IDs are entered manually, the result status is Completed, and the main panel contains Total FASTA Entries, Queried IDs, Matched IDs plus Matched Summary, Sequence Table, FASTA Viewer and Unmatched IDs tabs.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protein-extract-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: ProtVis Protein Extraction interface showing FASTA upload, manual protein-ID input, extraction summary metrics and matched FASTA sequences.
+</figcaption>
+</figure>
+</div>
 </section>
-<section id="quality-checks" class="level2">
-<h2 class="anchored" data-anchor-id="quality-checks">Quality checks</h2>
-<p>Protein extraction is exact only when the ID syntax in the target list matches the FASTA headers. If many expected proteins are reported as unmatched, inspect whether the FASTA uses transcript suffixes, database prefixes, version suffixes, or pipe-delimited headers.</p>
+<section id="recommended-operating-order" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h2>
+<p><strong>1. Upload the reference protein FASTA.</strong> Supported inputs include <code>.fa</code>, <code>.faa</code>, <code>.fasta</code>, and their gzip-compressed forms such as <code>.fa.gz</code>, <code>.faa.gz</code>, and <code>.fasta.gz</code>.</p>
+<p><strong>2. Choose the Protein ID Input Method.</strong> Select <strong>Manual Input</strong> to paste one ID per line, or <strong>File Upload</strong> to provide a <code>.txt</code>, <code>.csv</code>, or <code>.tsv</code> ID list. For CSV/TSV inputs, ProtVis reads all non-empty values as candidate identifiers, so keep unrelated metadata out of the file.</p>
+<p><strong>3. Review the query IDs.</strong> Remove accidental duplicates and blank lines. Stable gene IDs are often preferable when the goal is to retrieve all corresponding protein/transcript isoforms; isoform-specific IDs are appropriate when only one record is intended.</p>
+<p><strong>4. Click Run Extraction.</strong> ProtVis parses the FASTA headers, matches the requested IDs and enables <strong>Download Results</strong> when at least one FASTA sequence has been recovered.</p>
+<p><strong>5. Check the three summary metrics.</strong> <strong>Total FASTA Entries</strong> is the number of sequences in the reference FASTA. <strong>Queried IDs</strong> is the number of unique input IDs. The current UI label <strong>Matched IDs</strong> counts matched FASTA sequence entries, not necessarily unique input IDs; therefore it can exceed Queried IDs when one stable query maps to several isoforms.</p>
+<p><strong>6. Review Matched Summary.</strong> Use this tab to confirm which input IDs were found and how they were matched. Do not assume that every returned isoform is biologically equivalent; the FASTA annotation determines which protein records are associated with a stable gene/transcript identifier.</p>
+<p><strong>7. Inspect Sequence Table and FASTA Viewer.</strong> <strong>Sequence Table</strong> provides structured sequence information, while <strong>FASTA Viewer</strong> shows the matched records in FASTA format. In the screenshot, several records from the same maize stable ID are visible because the reference contains multiple protein/transcript isoforms.</p>
+<p><strong>8. Check Unmatched IDs.</strong> This tab should always be reviewed before downstream analysis. An unmatched candidate may indicate a database-version mismatch, an unexpected header convention, a genuinely absent sequence, or a query too different to satisfy the controlled fuzzy-matching rule.</p>
+<p><strong>9. Download the result package.</strong> <strong>Download Results</strong> generates <code>protein_extract_results_YYYY-MM-DD.zip</code>. The ZIP contains <code>matched_sequences.fasta</code>, <code>summary.txt</code>, and <code>unmatched_ids.txt</code>.</p>
+</section>
+<section id="how-id-matching-works" class="level2">
+<h2 class="anchored" data-anchor-id="how-id-matching-works">How ID matching works</h2>
+<p>ProtVis searches FASTA header tokens using three stages. First, it tries an exact case-insensitive token match. If that fails, it compares normalized stable IDs. Normalization removes common <code>gene:</code>, <code>transcript:</code>, or <code>protein:</code> prefixes, leading <code>&gt;</code>, trailing descriptive text, common protein/transcript/isoform suffixes such as <code>_P001</code>, <code>_T002</code>, <code>-isoform1</code>, and terminal numeric version suffixes.</p>
+<p>If neither exact nor normalized matching succeeds, ProtVis can use a <strong>one-character fuzzy match</strong> only when the canonical query is at least eight characters long and the approximate comparison identifies a single stable ID. This last restriction reduces the risk of silently selecting one of several equally plausible near matches.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Inspect multi-isoform matches
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A stable gene ID can legitimately return multiple FASTA entries. The summary metric therefore reflects matched sequence records rather than a strict one-query/one-sequence relationship. Use the Sequence Table and FASTA headers to decide which isoform is appropriate for downstream work.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -672,7 +704,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Keep the unmatched-ID list. It is useful for diagnosing annotation-version differences and prevents silent loss of candidates before downstream structure or enrichment analysis.</p>
+<p>Keep the <code>unmatched_ids.txt</code> file even when only a few queries fail. It is a useful record for diagnosing reference-version and identifier-conversion problems later.</p>
 </div>
 </div>
 

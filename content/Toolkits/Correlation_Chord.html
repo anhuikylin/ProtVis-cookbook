@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Visualize selected correlation relationships as a chord diagram.">
+<meta name="description" content="Calculate pairwise correlations, retain the strongest links and visualize them as a chord diagram.">
 
 <title>Correlation chord – ProtVis Cookbook</title>
 <style>
@@ -612,7 +612,10 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#recommended-workflow" id="toc-recommended-workflow" class="nav-link" data-scroll-target="#recommended-workflow">Recommended workflow</a></li>
+  <li><a href="#correlation-chord-interface" id="toc-correlation-chord-interface" class="nav-link" data-scroll-target="#correlation-chord-interface">Correlation Chord interface</a></li>
+  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
+  <li><a href="#input-format" id="toc-input-format" class="nav-link" data-scroll-target="#input-format">Input format</a></li>
+  <li><a href="#how-links-are-selected" id="toc-how-links-are-selected" class="nav-link" data-scroll-target="#how-links-are-selected">How links are selected</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Correlation_Chord.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Correlation_Chord.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -627,7 +630,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Visualize selected correlation relationships as a chord diagram.
+    Calculate pairwise correlations, retain the strongest links and visualize them as a chord diagram.
   </div>
 </div>
 
@@ -646,29 +649,73 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>A correlation chord diagram is useful for a <strong>filtered subset</strong> of relationships among proteins, traits, pathways, metabolites or other variables. It becomes difficult to interpret when every possible pair is displayed.</p>
+<p>Use <strong>Toolkits → Correlation chord</strong> to explore relationships among numeric traits, proteins, metabolites, pathways or other quantitative variables. ProtVis calculates a correlation matrix from selected columns, filters relationships by absolute correlation, retains the strongest links up to a user-defined maximum, and displays the result as a chord diagram.</p>
+<p>This module is designed for a focused correlation network rather than for drawing every possible pair. Filtering keeps the diagram interpretable and makes the exact displayed relationships available as a table.</p>
 </section>
-<section id="recommended-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-workflow">Recommended workflow</h2>
-<ol type="1">
-<li>Start from a numeric matrix or correlation table with stable variable names.</li>
-<li>Choose the correlation method appropriate to the data.</li>
-<li>Apply an effect-size threshold and, when available, a significance criterion.</li>
-<li>Keep only biologically relevant relationships.</li>
-<li>Draw the chord diagram and inspect whether line width/color encodes the intended statistic.</li>
-<li>Export the filtered edge table used to generate the plot.</li>
-</ol>
+<section id="correlation-chord-interface" class="level2">
+<h2 class="anchored" data-anchor-id="correlation-chord-interface">Correlation Chord interface</h2>
+<p>The screenshot below shows the built-in example containing eight variables: <code>Root_length</code>, <code>Shoot_length</code>, <code>Fresh_weight</code>, <code>Dry_weight</code>, <code>Proline</code>, <code>Sodium</code>, <code>Potassium</code>, and <code>Chlorophyll</code>. In this example the analysis uses Pearson correlation and an absolute correlation threshold of <code>0.6</code>; the displayed link counts belong only to this demonstration dataset.</p>
+<div id="fig-correlation-chord-interface" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of ProtVis Toolkits Correlation Chord Diagram. Eight numeric variables are loaded from the example dataset. The interface shows Uploaded Data Preview, Correlation Matrix Preview, Selected Links Preview, Analysis Summary and Chord Diagram, with Pearson correlation, absolute threshold 0.6 and configurable maximum links and display settings.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-correlation-chord-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/screenshots/PixPin_2026-09-13_23-17-46.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Toolkits Correlation Chord Diagram. Eight numeric variables are loaded from the example dataset. The interface shows Uploaded Data Preview, Correlation Matrix Preview, Selected Links Preview, Analysis Summary and Chord Diagram, with Pearson correlation, absolute threshold 0.6 and configurable maximum links and display settings.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-correlation-chord-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: ProtVis Correlation Chord interface showing example phenotype variables, correlation matrix, selected links, analysis summary and chord diagram.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="recommended-operating-order" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h2>
+<p><strong>1. Load a numeric dataset.</strong> Under <strong>Input Data</strong>, upload <code>.csv</code>, <code>.tsv</code>, or <code>.txt</code>, or click <strong>Use Example Data</strong>. The built-in example contains 48 observations for the eight variables shown in the screenshot.</p>
+<p><strong>2. Select the variables.</strong> Use <strong>Select Numeric Columns</strong> to choose at least two numeric columns. ProtVis automatically offers only numeric variables from the loaded table.</p>
+<p><strong>3. Choose the correlation method.</strong> Under <strong>Analysis Settings</strong>, select <strong>pearson</strong>, <strong>spearman</strong>, or <strong>kendall</strong>. Pearson is the current default. Pearson summarizes linear association, whereas rank-based Spearman or Kendall can be more appropriate for monotonic relationships or data that do not satisfy Pearson assumptions.</p>
+<p><strong>4. Set the Absolute Correlation Threshold.</strong> The default is <code>0.6</code>. ProtVis retains a pair only when <code>abs(correlation) &gt;= threshold</code>, so the same cutoff applies to positive and negative relationships.</p>
+<p><strong>5. Set Maximum Number of Links.</strong> The current control ranges from 10 to 200 and defaults to 50. After the threshold filter, ProtVis sorts relationships by absolute correlation from strongest to weakest and keeps at most this many links. This limit is especially important when many variables are selected.</p>
+<p><strong>6. Click Run.</strong> ProtVis calculates the correlation matrix using pairwise-complete observations, removes self-correlations, collapses the two directions of each variable pair into one link, applies the absolute-correlation threshold, and then applies the maximum-link limit.</p>
+<p><strong>7. Review the previews before interpreting the diagram.</strong> <strong>Uploaded Data Preview</strong> shows the source values, <strong>Correlation Matrix Preview</strong> shows the complete selected-variable matrix, and <strong>Selected Links Preview</strong> shows the exact filtered edges that are sent to the chord diagram.</p>
+<p><strong>8. Check Analysis Summary.</strong> The summary reports status, number of selected variables, total links shown, positive and negative link counts, threshold, and correlation method. This provides a compact record of the settings behind the displayed network.</p>
+<p><strong>9. Adjust Display Settings.</strong> <strong>Label Size</strong> changes variable-label size; <strong>Link Transparency</strong> controls visual opacity; <strong>Positive Correlation Color</strong> and <strong>Negative Correlation Color</strong> set the two link classes. The current defaults are red <code>#D73027</code> for positive and blue <code>#4575B4</code> for negative correlations.</p>
+<p><strong>10. Export the result.</strong> The <strong>Download</strong> section provides PDF and PNG versions of the chord diagram plus <code>correlation_matrix.csv</code>. Keep the matrix together with the figure so the exact numerical relationships remain available independently of the visualization.</p>
+</section>
+<section id="input-format" class="level2">
+<h2 class="anchored" data-anchor-id="input-format">Input format</h2>
+<p>A typical input table has observations in rows and numeric variables in columns:</p>
+<pre class="text"><code>Root_length,Shoot_length,Fresh_weight,Proline,Sodium
+12.3,18.4,5.8,1.21,0.42
+10.9,16.7,5.1,1.56,0.71
+14.2,20.1,6.3,0.98,0.35</code></pre>
+<p>Non-numeric columns can remain in the uploaded file, but only numeric columns are available for correlation analysis.</p>
+</section>
+<section id="how-links-are-selected" class="level2">
+<h2 class="anchored" data-anchor-id="how-links-are-selected">How links are selected</h2>
+<p>For the selected variables, ProtVis calls the correlation calculation with <code>use = "pairwise.complete.obs"</code>. It then removes diagonal correlations and duplicate mirrored pairs such as A–B versus B–A. Pairs failing the absolute threshold are removed. The surviving pairs are ordered by <code>|r|</code> or the corresponding absolute rank-correlation coefficient, and only the strongest <code>Maximum Number of Links</code> are retained.</p>
+<p>This means the chord diagram can intentionally show fewer relationships than the full correlation matrix. Use <strong>Selected Links Preview</strong> when you need the precise edge list represented in the figure.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Warning
+<span class="screen-reader-only">Warning</span>Correlation is not causation
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Correlation does not establish causation. For high-dimensional correlation screens, p-values also require attention to multiple testing and non-independence among features.</p>
+<p>A strong chord indicates statistical association, not a causal relationship. For large correlation screens, also consider sample size, multiple testing, repeated-measures structure, and confounding variables before making biological conclusions.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If the diagram is crowded, increase the absolute-correlation threshold or reduce the maximum number of links rather than shrinking labels until the network becomes unreadable.</p>
 </div>
 </div>
 
