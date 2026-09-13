@@ -1,29 +1,76 @@
 ---
 title: "Expression profile"
-description: "Cluster proteins by abundance trend and visualize coordinated expression patterns."
+description: "Cluster proteins by abundance trend with K-means and inspect coordinated expression patterns."
 ---
 
 ## Purpose
 
-Expression-profile analysis is useful when the main question is not a single pairwise difference but a **pattern across several samples, stages, tissues or conditions**. Proteins with similar trajectories can be grouped into trend clusters and interpreted together.
+Use **Multi-omics → Expression profile** when the biological question concerns coordinated abundance trends across several samples, stages, tissues, genotypes or conditions rather than only one pairwise comparison. The current interface provides two complementary views: **Kmeans** trend clustering and a **Heatmap** trend-analysis mode.
 
-## Recommended input
+The Kmeans workflow standardizes each feature across samples before clustering, so the resulting trajectories emphasize **relative expression patterns** rather than absolute protein abundance. Cluster membership can then be exported for downstream enrichment or network analyses.
 
-Use a normalized protein abundance matrix with stable protein IDs and samples in the intended biological order. If samples represent an ordered series, arrange them chronologically or biologically before clustering so the trend plot is interpretable.
+## Expression profile interface
 
-## Workflow
+The full-resolution screenshot below shows the current **Kmeans** interface using the bundled example data. The example contains **582 features × 8 samples** and is clustered into six groups. The cluster sizes displayed in this particular run are Cluster1 = 64, Cluster2 = 169, Cluster3 = 115, Cluster4 = 105, Cluster5 = 56 and Cluster6 = 73; these counts are example-specific and will change with another matrix, sample order or number of centers.
 
-1. Load or upload the quantitative expression matrix required by the module.
-2. Confirm sample order and protein identifiers.
-3. Choose the clustering settings and number of clusters/centers.
-4. Run the expression-profile analysis.
-5. Inspect whether clusters represent stable, increasing, decreasing, transient or condition-specific patterns.
-6. Export cluster membership before using cluster IDs for enrichment or network analysis.
+![ProtVis Expression profile Kmeans interface. The left panel provides CSV upload, Load built-in example, Download example CSV and method selection. The main Kmeans card contains Parameter, Run and Download controls plus Figure, Table and Input Data tabs. Six trend clusters are displayed for the built-in 582-feature by 8-sample example.](../../images/screenshots/PixPin_2026-09-13_20-29-07.png){#fig-expression-profile-kmeans fig-alt="Screenshot of ProtVis Multi-omics Expression profile with Kmeans selected. The File Upload panel supports an expression-matrix CSV, Load built-in example and Download example CSV. The Kmeans panel contains color, centers, Run, download width and height, Figure and Table downloads, and Figure, Table and Input Data tabs. The bundled kmeans.csv example reports 582 features by 8 samples and six trend clusters." width="100%" fig-align="center"}
 
-## Interpretation
+## Recommended operating order
 
-Choose the number of clusters based on stability and biological interpretability rather than visual preference alone. Very large `K` values can split one coherent pattern into many small groups, whereas very small `K` values can merge distinct biological responses.
+**1. Choose the input data.** Upload an expression matrix as a `.csv`, or click **Load built-in example** to load the bundled `kmeans.csv`. The built-in file is not loaded automatically. After loading, confirm the green status message and inspect the **Input Data** tab before running clustering. The first column is used as the feature identifier and the remaining columns must be numeric sample values.
+
+**2. Download the example when preparing your own file.** Click **Download example CSV** to obtain the same `kmeans.csv` used by ProtVis. This is the easiest way to confirm the required file structure before replacing the example values with your own protein-expression matrix.
+
+**3. Select the analysis method.** Under **Method**, choose **Kmeans** for trend clusters or **Heatmap** for the heatmap-based trend view. The screenshot shows **Kmeans** selected.
+
+**4. Set the Kmeans parameters.** Open **Parameter**. Choose the line color and set **centers**, which is the requested number of K-means clusters. The current default is `6`. Use a biologically defensible value rather than increasing K only to make the figure appear more detailed.
+
+**5. Run Kmeans.** Open **Run** and click **Run**. ProtVis standardizes each feature across the sample columns and then applies `stats::kmeans()` with the selected number of centers. The black line in each cluster panel represents the cluster-center trajectory, while the colored lines represent individual feature trajectories.
+
+**6. Review all three result tabs.** Use **Figure** to inspect the trend panels, **Table** to review feature-to-cluster assignments, and **Input Data** to return to the matrix that generated the result. Check that the sample order on the x-axis follows the intended biological sequence; K-means does not infer chronological or treatment order for you.
+
+**7. Export the result.** In **Download**, set the desired figure width and height, then download the Kmeans **Figure** as PDF and the cluster **Table** as CSV. Keep the cluster table when using cluster-specific protein sets for enrichment, annotation or network analysis.
+
+## Input format
+
+A suitable CSV has feature identifiers in the first column and numeric samples in the remaining columns, for example:
+
+```text
+ID,Sample1,Sample2,Sample3,Sample4
+Protein_A,10.2,12.4,18.7,21.1
+Protein_B,30.5,24.2,17.9,11.6
+Protein_C,8.1,14.6,13.9,20.4
+```
+
+ProtVis requires at least two sample columns, and all sample columns must be numeric. If samples represent an ordered experiment, arrange them in the intended chronological or biological order **before** clustering because that column order becomes the trend-plot x-axis.
+
+## How Kmeans is calculated
+
+For the Kmeans view, ProtVis scales each feature across samples before clustering. Conceptually, each row is transformed to a standardized trajectory and K-means then groups rows with similar shapes. This means a highly abundant protein and a low-abundance protein can enter the same cluster when their relative trajectories are similar.
+
+The cluster title includes both the cluster number and the number of assigned features. In the bundled example shown above, six clusters contain a total of 582 features.
+
+::: {.callout-important}
+## Interpret trend shape, not absolute abundance
+Because Kmeans uses row-standardized values, the y-axis represents standardized relative change. Do not interpret the plotted y-value as the original protein intensity. Return to the original/normalized quantitative matrix when absolute abundance is required.
+:::
+
+## Heatmap mode
+
+Selecting **Heatmap** opens the **Heatmap trend analysis (K-means)** view. Set the number of K-means clusters and choose the scale mode: **Row (trend)**, **Column**, or **None**. Run the heatmap and inspect the resulting cluster structure before exporting the cluster table.
+
+Row scaling is appropriate when the goal is to emphasize within-protein trends across samples. Column scaling instead emphasizes sample-wise relative structure, while **None** retains the supplied numerical scale.
+
+## Choosing the number of clusters
+
+There is no universally correct K. Start with a moderate number, inspect cluster size and trajectory coherence, and compare nearby values when needed. Very large K values can fragment one coherent response into many small groups, whereas very small K values can merge distinct biological patterns.
+
+A useful cluster should contain a recognizable trajectory and enough members to support the intended downstream interpretation. A cluster containing only a handful of proteins is not automatically wrong, but it deserves closer inspection before biological conclusions are drawn.
+
+## Downstream use
+
+Exported cluster assignments can be used to create cluster-specific protein lists for **Enrichment analysis**, pathway interpretation, PPI/network analysis, or other multi-omics modules. Preserve the sample order, preprocessing state, selected K and cluster table as part of the analysis record so that the trend analysis can be reproduced.
 
 ::: {.callout-note}
-Trend clustering is exploratory. A cluster does not by itself establish statistical significance for every protein it contains; use appropriate differential or time-series statistics when formal inference is required.
+Trend clustering is exploratory. Membership in a K-means cluster does not establish statistical significance for every protein in that cluster. Use DEP or an appropriate time-series/repeated-measures model when formal statistical inference is required.
 :::
