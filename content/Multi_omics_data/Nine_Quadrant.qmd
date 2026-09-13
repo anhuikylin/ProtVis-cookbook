@@ -1,21 +1,66 @@
 ---
 title: "Nine quadrant"
-description: "Compare directional quantitative changes between two datasets or omics layers."
+description: "Compare directional quantitative changes between two omics layers with a configurable nine-quadrant plot."
 ---
 
 ## Purpose
 
-A nine-quadrant plot compares two effect estimates, usually log fold changes from matched contrasts. Thresholds on the x and y axes divide proteins/features into combinations such as concordant increase, concordant decrease, discordant response, or weak/no change.
+Use **Multi-omics → Nine quadrant** to compare two quantitative effect estimates, most commonly matched `log2FC` values from two omics layers or two related contrasts. ProtVis divides the x- and y-axes with the same absolute fold-change cutoff and assigns every row to one of nine directional classes: **Up/Up, Up/NS, Up/Down, NS/Up, NS/NS, NS/Down, Down/Up, Down/NS, and Down/Down**.
 
-## Recommended workflow
+This view is useful for separating concordant changes, discordant changes, and changes detected mainly in one omics layer.
 
-1. Prepare two result tables that share a stable feature identifier.
-2. Confirm that both effect columns use the same direction convention (for example Treatment minus Control).
-3. Merge only on the intended identifier.
-4. Set biologically/statistically justified x- and y-axis thresholds.
-5. Inspect concordant and discordant quadrants separately.
-6. Export the merged classification table together with the plot.
+## Nine-quadrant interface
+
+The full-resolution screenshot below shows the current module with the bundled demonstration data. The built-in example contains **2,800 rows × 4 columns**: `Omic1_ID`, `Log2FC_Omic1`, `Omic2_ID`, and `Log2FC_Omic2`. The quadrant counts visible in this run are example-specific and will change with another dataset or cutoff.
+
+![ProtVis Nine-quadrant interface using the built-in two-omics demonstration dataset. The left sidebar contains Data Input, Plot Settings, Color Settings and Download Settings. The center card previews the input table and the right card displays the nine-quadrant plot and quadrant-specific result panels.](../../images/screenshots/PixPin_2026-09-13_20-47-41.png){#fig-nine-quadrant-interface fig-alt="Screenshot of ProtVis Multi-omics Nine quadrant. The built-in example is loaded with 2800 rows and four columns. Numeric columns can be selected for the Omic1 X-axis and Omic2 Y-axis, a Log2FC cutoff defines the nine regions, and quadrant counts and result tables are available after running the plot." width="100%" fig-align="center"}
+
+## Recommended operating order
+
+**1. Load the data.** Open **Data Input** and either upload a `.csv`/`.xlsx` file or click **LOAD DEMO DATA**. The demonstration dataset is not loaded automatically. Use **Download example CSV** when you want a template for preparing your own file.
+
+**2. Check the preview.** The **Uploaded Data Preview** card should show the expected row and column counts. ProtVis requires at least two numeric columns for the plot.
+
+**3. Select the x- and y-axis variables.** Choose the numeric field for **Select Omic1 (X-axis)** and the numeric field for **Select Omic2 (Y-axis)**. In the built-in example these are `Log2FC_Omic1` and `Log2FC_Omic2`.
+
+**4. Set the fold-change cutoff.** Open **Plot Settings** and set **Log2FC Cutoff**. The current default is `1`. ProtVis uses `+cutoff` and `-cutoff` on both axes: values above `+cutoff` are **Up**, values below `-cutoff` are **Down**, and values between the thresholds are **NS**.
+
+**5. Control quadrant labels.** Keep **Show Quadrant Counts** selected if you want the number of rows in each of the nine regions to be displayed on the figure.
+
+**6. Run the plot.** Click **Run plot**. The status badge changes to **Ready** when the classification and plot have been generated.
+
+**7. Inspect the biological direction classes.** `Up/Up` and `Down/Down` represent concordant responses, whereas `Up/Down` and `Down/Up` represent opposite responses. `Up/NS`, `Down/NS`, `NS/Up`, and `NS/Down` indicate that only one selected layer crosses the fold-change threshold. `NS/NS` contains rows within the cutoff on both axes.
+
+**8. Inspect and export the quadrant tables.** Below the plot, ProtVis creates expandable panels for all nine classes. Each panel contains the corresponding rows and provides an individual CSV download button, which is useful for taking a selected directional class into enrichment or network analysis.
+
+**9. Export the figure.** Under **Download Settings**, set the PDF width and height and click **Download PDF**. The current defaults are 8 × 6 inches.
+
+## Input format
+
+A minimal file can contain separate identifiers for the two layers and one numeric effect column for each layer:
+
+```text
+Omic1_ID,Log2FC_Omic1,Omic2_ID,Log2FC_Omic2
+Gene_001,1.52,Protein_001,1.18
+Gene_002,-2.10,Protein_002,-1.43
+Gene_003,0.35,Protein_003,1.76
+```
+
+The selected x- and y-axis columns must be numeric. Other columns can remain in the input and will be retained in the preview and exported quadrant tables.
+
+## Color settings
+
+Open **Color Settings** to customize all nine classes independently: `Up_Up`, `Down_Down`, `Up_Down`, `Down_Up`, `Up_NS`, `Down_NS`, `NS_Up`, `NS_Down`, and `NS_NS`. Color changes affect presentation only; they do not change class membership.
+
+## Interpretation
+
+The nine-quadrant module performs directional classification from the selected numeric values and cutoff. It is not a substitute for formal differential statistics. When available, perform the appropriate DEP/DEG analysis first and retain adjusted p-values or significance labels alongside the fold changes.
 
 ::: {.callout-warning}
-If one contrast is `A - B` and the other is `B - A`, the apparent concordance will be reversed. Always verify contrast direction before interpreting quadrants.
+## Keep contrast direction consistent
+If one layer uses `Treatment - Control` while the other uses `Control - Treatment`, biologically concordant responses will appear discordant. Verify contrast direction before interpreting the quadrant pattern.
+:::
+
+::: {.callout-note}
+The built-in 2,800-row dataset is a demonstration dataset intended to show the interface and output structure. The quadrant counts in the screenshot are not expected values for real experiments.
 :::
