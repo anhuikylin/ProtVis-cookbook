@@ -20,25 +20,32 @@ Choose a method that matches the scale and distribution of the imported quantita
 
 ## GUI workflow
 
-1. Click **Load data**. ProtVis uses the active `ProtVis_dataset` first and can recover `Step3_correct_noise.rda` for legacy projects.
-2. Inspect the **Original Data** table and visualization.
-3. Select a **Transformation Method**.
-4. Click **Run transformation**.
-5. Compare the **Transformed Data** and its boxplot with the original distribution.
-6. Adjust the plot colors only for presentation; color settings do not alter the quantitative matrix.
-7. Download original/transformed plots as PDF when needed.
+The full-resolution screenshot below shows the transformation page after the six-sample PXD065315 example has been loaded and transformed with `log10`.
 
-## Choosing a transformation
+![Data Transformation in ProtVis. The left panel is used to load the corrected matrix, choose a transformation method, and run the transformation. The upper cards display the original protein table and sample boxplot; the lower cards display the transformed table and transformed boxplot. The screenshot uses log10 as an example.](../../images/screenshots/PixPin_2026-09-13_18-20-14.png){#fig-data-transformation-gui fig-alt="Screenshot of the ProtVis Data Transformation module. The sidebar contains Load data, a Transformation Method selector set to log10, the Run transformation control, status text, plot colors, and download settings. The main panel compares Original Data and Transformed Data tables with their boxplots." width="100%" fig-align="center"}
 
-For many intensity-based proteomics datasets, `log2` is useful when values are positive and strongly right-skewed. Standardization or Z-score transformations are useful for pattern-oriented visualization but change the meaning of absolute differences, so the intended downstream model should guide the choice.
+Follow the interface in this order. **1. Load data.** Click **Load data**. ProtVis uses the active `ProtVis_dataset` first and can recover `Step3_correct_noise.rda` for legacy projects. Confirm that the load status changes to **Data loaded** and that the upper **Original Data** table contains the expected protein IDs and sample columns.
+
+**2. Choose the Transformation Method.** Select the intended method in the sidebar. The screenshot uses **log10** only as a worked example; it is not a universal recommendation. Check the original boxplot before transforming so you know whether the values are strongly right-skewed, already logarithmic, standardized, or centered.
+
+**3. Run the transformation.** Click **Run transformation**. After completion, the status panel reports the current method and the lower **Transformed Data** table and visualization are refreshed. Compare the upper and lower panels rather than judging only from the numeric table: the transformed distributions should reflect the mathematical operation you selected without changing sample identity or protein order unexpectedly.
+
+The color selectors and plot width/height controls affect presentation and downloaded plots only; they do not alter the quantitative matrix. Download the original and transformed PDF plots when they are part of the analysis record.
+
+## Interpreting the worked `log10` example
+
+Current ProtVis applies `log10(x + 1e-8)` for the `log10` option and `log2(x + 1e-8)` for `log2`. Consequently, an exact zero can appear close to **-8.00** after `log10`, as visible in the screenshot. In the following imputation stage, ProtVis treats legacy not-observed sentinels such as `0` and `-8` as missing rather than as biological abundance.
+
+For many positive intensity-based proteomics datasets, a logarithmic transform can reduce right-skew and compress large abundance differences. Standardization or Z-score transformations are more appropriate for some pattern-oriented analyses but change the interpretation of absolute values. The intended downstream model should therefore guide the choice.
 
 ::: {.callout-warning}
-Log transformations require valid positive values. Missing measurements should remain `NA`; do not replace them with arbitrary constants merely to make a log transform succeed.
+## Check the input scale first
+Do not apply an additional log transformation to data that are already logarithmic. Also inspect zero and missing-value behavior before moving to imputation; a displayed `-8` in the current `log10` workflow can represent a transformed zero rather than a genuine measured abundance.
 :::
 
 ## Output
 
-The transformed state is written to the `ProtVis_dataset` and the compatibility file:
+The transformed state is written to the active `ProtVis_dataset`, recorded in process history with the selected method, and persisted in the compatibility file:
 
 ```text
 Step4_data_transformed.rda
