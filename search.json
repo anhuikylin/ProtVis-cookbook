@@ -1498,7 +1498,7 @@
     "href": "content/Project_init/Project_init.html#built-in-pxd065315-sample-information",
     "title": "Project init",
     "section": "Built-in PXD065315 sample information",
-    "text": "Built-in PXD065315 sample information\nThe current built-in Raw example contains six maize control samples: three B73 replicates (B73_C1, B73_C2, B73_C3) and three EA2024 replicates (EA2024_C1, EA2024_C2, EA2024_C3). Its columns include sample_id, mzml_file, genotype, treatment, group, condition, replicate, batch, tissue, organism, accession, and the PRIDE source URL.\nPublic source data:\n\nPXD065315 on PRIDE\nPXD065315 on ProteomeXchange\nDirect links for the six control RAW files and their expected mzML filenames\n\nThe built-in mzml_file values refer to locally converted files such as B73_C1.mzML and EA2024_C3.mzML. PRIDE provides the corresponding vendor .raw files; convert them to mzML before selecting the Raw/mzML directory in ProtVis.",
+    "text": "Built-in PXD065315 sample information\nThe current built-in Raw example contains six maize samples: three B73 replicates and three EA2024 replicates. Its columns include sample_id, mzml_file, genotype, treatment, group, condition, replicate, batch, tissue, organism, accession, and the PRIDE source URL.\nThe built-in filenames are a template. Replace mzml_file values with the actual filenames present in your selected directory when your downloaded files use different names.",
     "crumbs": [
       "Getting started",
       "Project init"
