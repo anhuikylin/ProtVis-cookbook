@@ -1,20 +1,72 @@
 ---
 title: "Venn"
-description: "Visualize intersections among a small number of protein or gene sets."
+description: "Visualize intersections among omics feature sets with Venn or UpSet plots."
 ---
 
-## When to use a Venn diagram
+## Purpose
 
-Venn diagrams are useful for a small number of clearly defined ID sets, such as significant proteins from two or three contrasts. They are not ideal for many sets; use an UpSet-style approach outside the module when intersections become difficult to read.
+Use **Multi-omics → Venn** to compare membership across multiple gene, protein, phosphoprotein, metabolite, or other feature sets. The current ProtVis module supports both **Venn** and **UpSet** visualization from the same input table.
 
-## Workflow
+In **Auto** mode, ProtVis uses a Venn diagram when the dataset contains **six or fewer sets** and switches to an UpSet plot when there are **more than six sets**. You can also force Venn or UpSet manually when appropriate.
 
-1. Prepare each set using the same identifier namespace.
-2. Remove empty IDs and accidental duplicates within each set.
-3. Load the sets into the Venn module.
-4. Confirm set names and intersection counts.
-5. Export both the figure and, when needed, the IDs belonging to biologically important intersections.
+## Venn / UpSet interface
+
+The screenshot below shows the current module with the built-in three-set demonstration data. The example contains **Proteome**, **Transcriptome**, and **Phosphoproteome** sets and is currently displayed in **Venn** mode. The right side contains the intersection plot and the processed binary membership table.
+
+![ProtVis Venn/UpSet module using the built-in Proteome, Transcriptome and Phosphoproteome example. The sidebar provides file input, example data, plot-type selection and per-set colors, while the main panel displays the overlap plot and processed membership table.](../../images/screenshots/PixPin_2026-09-13_20-57-25.png){#fig-venn-upset-interface fig-alt="Screenshot of ProtVis Multi-omics Venn and UpSet module. Three sets are detected: Proteome, Transcriptome and Phosphoproteome. The current mode is Venn. The sidebar contains file upload, Use example data, Auto/Venn/UpSet choices and set colors. The result area contains the Venn plot and processed table." width="100%" fig-align="center"}
+
+## Recommended operating order
+
+**1. Prepare a set-membership CSV.** Each column represents one set and each non-empty cell contains a feature identifier. The sets do not need to have the same number of members; shorter columns can contain empty/NA cells.
+
+**2. Load the data.** Use **File** to upload a `.csv`, or click **Use example data**. The built-in example contains three sets named Proteome, Transcriptome and Phosphoproteome and is displayed immediately after loading.
+
+**3. Confirm the detected set count.** The status message above the plot reports the number of sets and the current rendering mode, for example **Detected 3 sets. Current mode: VENN**.
+
+**4. Choose the plot type.** Under **Choose plot type**, select **Auto**, **Venn**, or **UpSet**. Auto uses Venn for up to six sets and UpSet for more than six. If Venn is forced for more than six sets, ProtVis warns you to use Auto or UpSet instead.
+
+**5. Set colors.** After loading data, ProtVis creates one color selector for each set. In the example these are **Select Color for Proteome**, **Select Color for Transcriptome**, and **Select Color for Phosphoproteome**. Color settings affect the Venn presentation; UpSet rendering follows the UpSet layout.
+
+**6. Run the plot when using uploaded data or after changing settings.** Click **Run** to rebuild the current Venn/UpSet result from the selected plot mode and colors. The built-in example is initialized immediately, but rerunning is appropriate after changing display settings.
+
+**7. Inspect the overlap plot.** For a small number of sets, Venn provides a direct visual summary of unique and shared members. For larger comparisons, UpSet is easier to read because intersections are represented as a matrix of active sets with frequency bars rather than increasingly complex overlapping circles.
+
+**8. Inspect the Processed Table.** ProtVis converts the source sets to a binary membership table in which each unique feature occupies one row and each set is encoded as `1` (present) or `0` (absent). The table can be searched and exported with the built-in **Copy**, **CSV**, and **Excel** controls.
+
+**9. Export the figure.** Click **Download** to save the current visualization as PDF. Venn exports use an 8 × 6 inch layout, while UpSet uses a 10 × 7 inch PDF canvas in the current implementation.
+
+## Input format
+
+A suitable CSV looks like this:
+
+```text
+Proteome,Transcriptome,Phosphoproteome
+P53,P53,AKT1
+MAPK1,MAPK1,MTOR
+AKT1,HIF1A,MAPK1
+MTOR,STAT3,EGFR
+STAT3,JUN,SRC
+EGFR,,JUN
+```
+
+ProtVis trims surrounding whitespace, treats blank cells as missing, and removes duplicate identifiers within each set before constructing the overlap representation.
+
+## Venn versus UpSet
+
+A Venn diagram is most useful for a small number of sets because the individual intersections remain visually interpretable. UpSet is preferable when the number of sets becomes larger or when many different intersections must be compared quantitatively.
+
+The **Auto** option is therefore the recommended default for general use: it preserves the intuitive Venn view for small comparisons while avoiding unreadable diagrams for larger set collections.
+
+## Interpretation
+
+Overlap size is descriptive: it tells you which identifiers are shared between sets, not whether the overlap is statistically greater than expected by chance. A formal overlap-enrichment test requires a clearly defined background universe and an appropriate statistical model.
+
+Also confirm that all columns use the same identifier namespace before interpretation. Apparent non-overlap can simply reflect incompatible gene/protein ID systems.
+
+::: {.callout-tip}
+Use the **Processed Table** when you need exact membership for downstream analysis. The figure is ideal for communication, but the binary table is the reproducible record of which features belong to each intersection.
+:::
 
 ::: {.callout-note}
-An overlap count is descriptive. Whether the overlap is more than expected by chance requires an explicit statistical test and a defined background universe.
+The P53/MAPK1/AKT1-style identifiers shown in the screenshot belong to ProtVis's built-in demonstration dataset and are intended only to illustrate input structure and plotting behavior.
 :::
