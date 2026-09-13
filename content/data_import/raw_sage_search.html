@@ -648,6 +648,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#when-to-use-this-workflow" id="toc-when-to-use-this-workflow" class="nav-link active" data-scroll-target="#when-to-use-this-workflow">When to use this workflow</a></li>
   <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#example-dataset-pxd065315" id="toc-example-dataset-pxd065315" class="nav-link" data-scroll-target="#example-dataset-pxd065315">Example dataset: PXD065315</a></li>
   <li><a href="#sage-executable" id="toc-sage-executable" class="nav-link" data-scroll-target="#sage-executable">Sage executable</a></li>
   <li><a href="#search-parameters" id="toc-search-parameters" class="nav-link" data-scroll-target="#search-parameters">Search parameters</a></li>
   <li><a href="#run-the-search" id="toc-run-the-search" class="nav-link" data-scroll-target="#run-the-search">Run the search</a></li>
@@ -720,6 +721,78 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
+<section id="example-dataset-pxd065315" class="level2">
+<h2 class="anchored" data-anchor-id="example-dataset-pxd065315">Example dataset: PXD065315</h2>
+<p>The built-in Raw example is based on the public maize proteomics dataset <strong>PXD065315</strong>, titled <em>Proteomics analysis of B73 and EA2024 maize plants under control and drought conditions</em>. The complete dataset contains 12 Thermo <code>.raw</code> files: six control samples and six drought samples. The current ProtVis built-in example uses only the six <strong>control</strong> samples shown below.</p>
+<ul>
+<li><a href="https://www.ebi.ac.uk/pride/archive/projects/PXD065315">PRIDE project page</a></li>
+<li><a href="https://proteomecentral.proteomexchange.org/?pxid=PXD065315">ProteomeXchange dataset page</a></li>
+<li><a href="https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/">Complete PRIDE download directory</a></li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>ProtVis sample</th>
+<th>Original PRIDE RAW file</th>
+<th>mzML filename used by ProtVis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>B73_C1</code></td>
+<td><a href="https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/B73_C1.raw">B73_C1.raw</a></td>
+<td><code>B73_C1.mzML</code></td>
+</tr>
+<tr class="even">
+<td><code>B73_C2</code></td>
+<td><a href="https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/B73_C2.raw">B73_C2.raw</a></td>
+<td><code>B73_C2.mzML</code></td>
+</tr>
+<tr class="odd">
+<td><code>B73_C3</code></td>
+<td><a href="https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/B73_C3.raw">B73_C3.raw</a></td>
+<td><code>B73_C3.mzML</code></td>
+</tr>
+<tr class="even">
+<td><code>EA2024_C1</code></td>
+<td><a href="https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/EA2024_C1.raw">EA2024_C1.raw</a></td>
+<td><code>EA2024_C1.mzML</code></td>
+</tr>
+<tr class="odd">
+<td><code>EA2024_C2</code></td>
+<td><a href="https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/EA2024_C2.raw">EA2024_C2.raw</a></td>
+<td><code>EA2024_C2.mzML</code></td>
+</tr>
+<tr class="even">
+<td><code>EA2024_C3</code></td>
+<td><a href="https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/EA2024_C3.raw">EA2024_C3.raw</a></td>
+<td><code>EA2024_C3.mzML</code></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>RAW and mzML are different files
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>PRIDE hosts the original vendor <code>.raw</code> files for PXD065315. The <code>.mzML</code> files used by ProtVis are local conversions of those RAW files and are <strong>not separate files deposited in PXD065315</strong>. Convert the six control RAW files with ProteoWizard/MSConvert or another validated converter, and keep the output names exactly as listed in the <code>mzML filename used by ProtVis</code> column unless you also update <code>sample_info$mzml_file</code>.</p>
+</div>
+</div>
+<p>A convenient directory after conversion is:</p>
+<pre class="text"><code>PXD065315_control/
+├── B73_C1.mzML
+├── B73_C2.mzML
+├── B73_C3.mzML
+├── EA2024_C1.mzML
+├── EA2024_C2.mzML
+└── EA2024_C3.mzML</code></pre>
+<p>Point <strong>Project init → Raw/mzML input</strong> to the directory containing these six converted files, then click <strong>Check mzML files</strong>.</p>
+</section>
 <section id="sage-executable" class="level2">
 <h2 class="anchored" data-anchor-id="sage-executable">Sage executable</h2>
 <p>ProtVis uses <code>protvis_sage_executable()</code> to resolve Sage.</p>
@@ -727,7 +800,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre class="text"><code>inst/extdata/sage/windows/sage.exe</code></pre>
 <p>On Linux or macOS, install Sage separately and make <code>sage</code> available on <code>PATH</code>.</p>
 <p>You can verify discovery from R:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ProtVis<span class="sc">::</span><span class="fu">protvis_sage_executable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ProtVis<span class="sc">::</span><span class="fu">protvis_sage_executable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The Search page shows the resolved <strong>FASTA</strong>, <strong>mzML directory</strong>, <strong>Output</strong>, and <strong>Sage</strong> paths before execution.</p>
 </section>
 <section id="search-parameters" class="level2">
@@ -817,7 +890,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The completed object uses the workflow stage <code>Sage_complete</code> and receives a traceable name such as:</p>
 <pre class="text"><code>ProtVis_dataset__Sage_database_search__v2</code></pre>
 <p>The original staging metadata and process history are retained. Search parameters, log information, configuration, result tables, and produced files are recorded under the project, including:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dataset<span class="sc">$</span>analysis_results<span class="sc">$</span>Sage_database_search</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dataset<span class="sc">$</span>analysis_results<span class="sc">$</span>Sage_database_search</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Search output files that exist on disk are also registered in <code>other_files</code> with path, filename, size, MD5 and attachment time.</p>
 </section>
 <section id="stage-handoff-to-preprocessing" class="level2">
