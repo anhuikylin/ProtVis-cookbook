@@ -648,8 +648,8 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="why-this-is-a-separate-step" class="level2">
 <h2 class="anchored" data-anchor-id="why-this-is-a-separate-step">Why this is a separate step</h2>
-<p>Proteomics missingness can arise from abundance limits, identification uncertainty, stochastic sampling, or technical failures. ProtVis therefore keeps missing values as <code>NA</code> until the user explicitly chooses an imputation method.</p>
-<p>Before imputation, the current module coerces quantitative columns to numeric, converts non-finite values to missing, and handles not-observed sentinels such as <code>0</code> and <code>-8</code> as <code>NA</code>.</p>
+<p>Proteomics missingness can arise from abundance limits, identification uncertainty, stochastic sampling, or technical failures. ProtVis therefore keeps missing values explicit until the user chooses an imputation method.</p>
+<p>Before imputation, the current module coerces quantitative columns to numeric, converts non-finite values to missing, and handles not-observed sentinels such as <code>0</code> and <code>-8</code> as <code>NA</code>. Rows or columns that are entirely missing are removed from the matrix used by the imputation calculation.</p>
 </section>
 <section id="available-methods" class="level2">
 <h2 class="anchored" data-anchor-id="available-methods">Available methods</h2>
@@ -676,11 +676,11 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td><code>Mean</code></td>
-<td>Column/feature mean strategy, useful mainly as a simple baseline</td>
+<td>Column mean replacement; useful mainly as a simple baseline</td>
 </tr>
 <tr class="even">
 <td><code>Median</code></td>
-<td>Robust central-value strategy</td>
+<td>Column median replacement</td>
 </tr>
 <tr class="odd">
 <td><code>Zero</code></td>
@@ -688,7 +688,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td><code>Minimum</code></td>
-<td>Low-value replacement strategy</td>
+<td>Replace missing values with the minimum observed value in each column</td>
 </tr>
 </tbody>
 </table>
@@ -696,15 +696,22 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="gui-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="gui-workflow">GUI workflow</h2>
-<ol type="1">
-<li>Click <strong>Load data</strong>.</li>
-<li>Click <strong>Visualize missing values</strong> before changing the matrix.</li>
-<li>Inspect the original table and missingness visualization.</li>
-<li>Select an imputation <strong>Method</strong>.</li>
-<li>Click <strong>Run imputation</strong>.</li>
-<li>Compare original and imputed distributions.</li>
-<li>Download the diagnostic plots if they are part of the analysis record.</li>
-</ol>
+<p>The screenshot below shows the full Data Imputation interface and the recommended operating order.</p>
+<div id="fig-data-imputation-gui" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of the ProtVis Data Imputation module. The sidebar contains Load data, Visualize missing values, Imputation Settings, a method selector, q for MinProb, and Run imputation. The main panel has Sample Info, Expression Matrix and Visualize missing values tabs with original and imputed data cards." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-data-imputation-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/screenshots/PixPin_2026-09-13_18-22-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of the ProtVis Data Imputation module. The sidebar contains Load data, Visualize missing values, Imputation Settings, a method selector, q for MinProb, and Run imputation. The main panel has Sample Info, Expression Matrix and Visualize missing values tabs with original and imputed data cards.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-data-imputation-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Data Imputation in ProtVis. Numbered controls guide the user from loading transformed data, visualizing missing values, choosing an imputation method, reviewing the q for MinProb compatibility field, and running imputation. The main panel compares original and imputed data and their missing-value visualizations.
+</figcaption>
+</figure>
+</div>
+<p>Follow the numbered controls in the screenshot. <strong>1. Load data.</strong> Click <strong>Load data</strong> to load the transformed <code>ProtVis_dataset</code> or its Step4 compatibility state. Confirm the green <strong>Data loaded</strong> status, then check the <strong>Sample Info</strong> and <strong>Expression Matrix</strong> tabs before changing any missing values.</p>
+<p><strong>2. Visualize missing values.</strong> Click <strong>Visualize missing values</strong>. ProtVis opens the diagnostic view containing <strong>Original Data</strong> and <strong>Original Data Visualization</strong>. Inspect whether missingness is concentrated in particular proteins or samples. If a sample is almost entirely missing, investigate the input/search/QC problem before attempting to solve it by imputation.</p>
+<p><strong>3. Select the imputation Method.</strong> Expand <strong>Imputation Settings</strong> and choose <code>kNN</code>, <code>RF</code>, <code>Mean</code>, <code>Median</code>, <code>Zero</code>, or <code>Minimum</code>. <code>kNN</code> is selected by default, but the default is not automatically the correct method for every proteomics experiment. ProtVis warns when rows with more than 50% missing values are present because similarity-based kNN estimates can become unstable for those rows.</p>
+<p><strong>4. Interpret <code>q for MinProb</code> correctly.</strong> The current interface still displays a numeric <strong>q for MinProb</strong> control (0.01 in the screenshot) for compatibility with earlier UI designs. In the present implementation, however, the active method menu does <strong>not</strong> contain a <code>MinProb</code> method and the current <code>kNN</code>, <code>RF</code>, <code>Mean</code>, <code>Median</code>, <code>Zero</code>, and <code>Minimum</code> branches do not use this q value. Do not report the q field as an active parameter unless a future ProtVis version restores a MinProb method.</p>
+<p><strong>5. Run imputation.</strong> Click <strong>Run imputation</strong>. After completion, compare <strong>Imputed Data</strong> and <strong>Imputed Data Visualization</strong> with the original panels. Confirm that missing cells were handled as intended and that the result did not create implausible sample distributions. Use the <strong>Download</strong> section to export the original and imputed diagnostic plots when they are needed for the analysis record.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -715,13 +722,13 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>kNN</code> is the interface default, but no imputation method is optimal for every proteomics design. Report the selected method in the Methods section of a manuscript and preserve the pre-imputation data for auditability.</p>
+<p><code>kNN</code> is the interface default, but no imputation method is optimal for every missingness mechanism. Report the method actually selected in the Methods section and preserve the pre-imputation project state for auditability.</p>
 </div>
 </div>
 </section>
 <section id="output" class="level2">
 <h2 class="anchored" data-anchor-id="output">Output</h2>
-<p>The imputed state is stored in the active project object and in:</p>
+<p>The imputed matrix is written into the active <code>ProtVis_dataset</code>, recorded in the analysis/process history, and persisted in:</p>
 <pre class="text"><code>Step5_data_imputation.rda</code></pre>
 <p>Continue with <a href="../../content/Pre_processing/data_normalization.html">Data normalization</a>.</p>
 

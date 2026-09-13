@@ -352,18 +352,18 @@
     "href": "content/Pre_processing/data_transformed.html#gui-workflow",
     "title": "Data transformation",
     "section": "GUI workflow",
-    "text": "GUI workflow\n\nClick Load data. ProtVis uses the active ProtVis_dataset first and can recover Step3_correct_noise.rda for legacy projects.\nInspect the Original Data table and visualization.\nSelect a Transformation Method.\nClick Run transformation.\nCompare the Transformed Data and its boxplot with the original distribution.\nAdjust the plot colors only for presentation; color settings do not alter the quantitative matrix.\nDownload original/transformed plots as PDF when needed.",
+    "text": "GUI workflow\nThe full-resolution screenshot below shows the transformation page after the six-sample PXD065315 example has been loaded and transformed with log10.\n\n\n\n\n\n\nFigure 1: Data Transformation in ProtVis. The left panel is used to load the corrected matrix, choose a transformation method, and run the transformation. The upper cards display the original protein table and sample boxplot; the lower cards display the transformed table and transformed boxplot. The screenshot uses log10 as an example.\n\n\n\nFollow the interface in this order. 1. Load data. Click Load data. ProtVis uses the active ProtVis_dataset first and can recover Step3_correct_noise.rda for legacy projects. Confirm that the load status changes to Data loaded and that the upper Original Data table contains the expected protein IDs and sample columns.\n2. Choose the Transformation Method. Select the intended method in the sidebar. The screenshot uses log10 only as a worked example; it is not a universal recommendation. Check the original boxplot before transforming so you know whether the values are strongly right-skewed, already logarithmic, standardized, or centered.\n3. Run the transformation. Click Run transformation. After completion, the status panel reports the current method and the lower Transformed Data table and visualization are refreshed. Compare the upper and lower panels rather than judging only from the numeric table: the transformed distributions should reflect the mathematical operation you selected without changing sample identity or protein order unexpectedly.\nThe color selectors and plot width/height controls affect presentation and downloaded plots only; they do not alter the quantitative matrix. Download the original and transformed PDF plots when they are part of the analysis record.",
     "crumbs": [
       "Pre-processing",
       "Data transformation"
     ]
   },
   {
-    "objectID": "content/Pre_processing/data_transformed.html#choosing-a-transformation",
-    "href": "content/Pre_processing/data_transformed.html#choosing-a-transformation",
+    "objectID": "content/Pre_processing/data_transformed.html#interpreting-the-worked-log10-example",
+    "href": "content/Pre_processing/data_transformed.html#interpreting-the-worked-log10-example",
     "title": "Data transformation",
-    "section": "Choosing a transformation",
-    "text": "Choosing a transformation\nFor many intensity-based proteomics datasets, log2 is useful when values are positive and strongly right-skewed. Standardization or Z-score transformations are useful for pattern-oriented visualization but change the meaning of absolute differences, so the intended downstream model should guide the choice.\n\n\n\n\n\n\nWarning\n\n\n\nLog transformations require valid positive values. Missing measurements should remain NA; do not replace them with arbitrary constants merely to make a log transform succeed.",
+    "section": "Interpreting the worked log10 example",
+    "text": "Interpreting the worked log10 example\nCurrent ProtVis applies log10(x + 1e-8) for the log10 option and log2(x + 1e-8) for log2. Consequently, an exact zero can appear close to -8.00 after log10, as visible in the screenshot. In the following imputation stage, ProtVis treats legacy not-observed sentinels such as 0 and -8 as missing rather than as biological abundance.\nFor many positive intensity-based proteomics datasets, a logarithmic transform can reduce right-skew and compress large abundance differences. Standardization or Z-score transformations are more appropriate for some pattern-oriented analyses but change the interpretation of absolute values. The intended downstream model should therefore guide the choice.\n\n\n\n\n\n\nWarningCheck the input scale first\n\n\n\nDo not apply an additional log transformation to data that are already logarithmic. Also inspect zero and missing-value behavior before moving to imputation; a displayed -8 in the current log10 workflow can represent a transformed zero rather than a genuine measured abundance.",
     "crumbs": [
       "Pre-processing",
       "Data transformation"
@@ -374,7 +374,7 @@
     "href": "content/Pre_processing/data_transformed.html#output",
     "title": "Data transformation",
     "section": "Output",
-    "text": "Output\nThe transformed state is written to the ProtVis_dataset and the compatibility file:\nStep4_data_transformed.rda\nContinue with Data imputation.",
+    "text": "Output\nThe transformed state is written to the active ProtVis_dataset, recorded in process history with the selected method, and persisted in the compatibility file:\nStep4_data_transformed.rda\nContinue with Data imputation.",
     "crumbs": [
       "Pre-processing",
       "Data transformation"
@@ -506,7 +506,7 @@
     "href": "content/Pre_processing/data_normalization.html#gui-workflow",
     "title": "Data normalization",
     "section": "GUI workflow",
-    "text": "GUI workflow\n\nClick Load data. The module uses the imputed ProtVis_dataset/Step5_data_imputation.rda.\nInspect the original data and boxplot.\nClick Run normalization.\nCompare the normalized data and boxplot with the input.\nAdjust display colors if desired.\nDownload the original and normalized PDF plots for reporting.",
+    "text": "GUI workflow\nThe screenshot below shows the normalization page after the six-sample example has passed transformation and imputation.\n\n\n\n\n\n\nFigure 1: Data Normalization in ProtVis. The numbered controls show the recommended order: 1 load the imputed data and 2 run median-subtraction normalization. The upper panels show original values and their boxplot; the lower panels show normalized values and the normalized boxplot.\n\n\n\nFollow the two numbered controls. 1. Load data. Click Load data. The module uses the current imputed ProtVis_dataset first and can recover Step5_data_imputation.rda for compatibility. Confirm that the interface reports Data loaded, then inspect the upper Original Data table and boxplot. Sample columns should still match the project sample information.\n2. Run normalization. Click Run normalization. ProtVis subtracts each sample column’s median and reports Median subtraction normalization completed when the operation succeeds. Inspect the lower Normalized Data table and visualization immediately after completion.\nCompare the upper and lower boxplots rather than relying on the status message alone. Median subtraction should center broad sample-level offsets while preserving within-sample rank differences. The plot-color controls and download dimensions are presentation settings only; they do not change the stored normalized matrix.",
     "crumbs": [
       "Pre-processing",
       "Data normalization"
@@ -517,7 +517,7 @@
     "href": "content/Pre_processing/data_normalization.html#interpretation",
     "title": "Data normalization",
     "section": "Interpretation",
-    "text": "Interpretation\nMedian subtraction is useful when broad sample-level offsets are considered technical rather than biological. It is not appropriate to assume this for every experimental design. If most proteins are expected to shift globally in one direction for biological reasons, inspect the distributions carefully before interpreting normalized fold changes.",
+    "text": "Interpretation\nMedian subtraction is useful when broad sample-level offsets are considered technical rather than biological. It is not appropriate to assume this for every experimental design. If most proteins are expected to shift globally in one biological direction, inspect the distributions carefully before interpreting normalized fold changes.\n\n\n\n\n\n\nTipCheck the full preprocessing sequence\n\n\n\nThe screenshot belongs at the end of the shared preprocessing route: Correct Noise → Data Transformation → Data Imputation → Data Normalization. Before moving to differential abundance analysis, confirm that sample names are unchanged, imputation did not create implausible distributions, and normalization improved technical comparability without erasing the expected group pattern.",
     "crumbs": [
       "Pre-processing",
       "Data normalization"
@@ -528,7 +528,7 @@
     "href": "content/Pre_processing/data_normalization.html#output",
     "title": "Data normalization",
     "section": "Output",
-    "text": "Output\nThe normalized project state is persisted as a ProtVis_dataset and as:\nStep6_data_normalization.rda\nThis stage is the standard input for Overview and DEP analysis.\n\n\n\n\n\n\nTip\n\n\n\nBefore differential abundance analysis, open Overview and check sample total intensity, missingness, intensity distributions, PCA, CV, and group structure. Normalization should improve technical comparability without destroying the expected experimental pattern.",
+    "text": "Output\nThe normalized project state is written to the active ProtVis_dataset and persisted as:\nStep6_data_normalization.rda\nThis stage is the standard input for Overview and DEP analysis.",
     "crumbs": [
       "Pre-processing",
       "Data normalization"
@@ -1828,7 +1828,7 @@
     "href": "content/Pre_processing/data_imputation.html",
     "title": "Data imputation",
     "section": "",
-    "text": "Proteomics missingness can arise from abundance limits, identification uncertainty, stochastic sampling, or technical failures. ProtVis therefore keeps missing values as NA until the user explicitly chooses an imputation method.\nBefore imputation, the current module coerces quantitative columns to numeric, converts non-finite values to missing, and handles not-observed sentinels such as 0 and -8 as NA.",
+    "text": "Proteomics missingness can arise from abundance limits, identification uncertainty, stochastic sampling, or technical failures. ProtVis therefore keeps missing values explicit until the user chooses an imputation method.\nBefore imputation, the current module coerces quantitative columns to numeric, converts non-finite values to missing, and handles not-observed sentinels such as 0 and -8 as NA. Rows or columns that are entirely missing are removed from the matrix used by the imputation calculation.",
     "crumbs": [
       "Pre-processing",
       "Data imputation"
@@ -1839,7 +1839,7 @@
     "href": "content/Pre_processing/data_imputation.html#why-this-is-a-separate-step",
     "title": "Data imputation",
     "section": "",
-    "text": "Proteomics missingness can arise from abundance limits, identification uncertainty, stochastic sampling, or technical failures. ProtVis therefore keeps missing values as NA until the user explicitly chooses an imputation method.\nBefore imputation, the current module coerces quantitative columns to numeric, converts non-finite values to missing, and handles not-observed sentinels such as 0 and -8 as NA.",
+    "text": "Proteomics missingness can arise from abundance limits, identification uncertainty, stochastic sampling, or technical failures. ProtVis therefore keeps missing values explicit until the user chooses an imputation method.\nBefore imputation, the current module coerces quantitative columns to numeric, converts non-finite values to missing, and handles not-observed sentinels such as 0 and -8 as NA. Rows or columns that are entirely missing are removed from the matrix used by the imputation calculation.",
     "crumbs": [
       "Pre-processing",
       "Data imputation"
@@ -1850,7 +1850,7 @@
     "href": "content/Pre_processing/data_imputation.html#available-methods",
     "title": "Data imputation",
     "section": "Available methods",
-    "text": "Available methods\nThe current GUI provides:\n\n\n\n\n\n\n\nMethod\nTypical use\n\n\n\n\nkNN\nLocal similarity-based imputation; current default\n\n\nRF\nRandom-forest based imputation\n\n\nMean\nColumn/feature mean strategy, useful mainly as a simple baseline\n\n\nMedian\nRobust central-value strategy\n\n\nZero\nExplicit zero filling; use only when zero has a valid interpretation\n\n\nMinimum\nLow-value replacement strategy\n\n\n\nMethod choice should be justified by the expected missingness mechanism and downstream analysis.",
+    "text": "Available methods\nThe current GUI provides:\n\n\n\n\n\n\n\nMethod\nTypical use\n\n\n\n\nkNN\nLocal similarity-based imputation; current default\n\n\nRF\nRandom-forest based imputation\n\n\nMean\nColumn mean replacement; useful mainly as a simple baseline\n\n\nMedian\nColumn median replacement\n\n\nZero\nExplicit zero filling; use only when zero has a valid interpretation\n\n\nMinimum\nReplace missing values with the minimum observed value in each column\n\n\n\nMethod choice should be justified by the expected missingness mechanism and downstream analysis.",
     "crumbs": [
       "Pre-processing",
       "Data imputation"
@@ -1861,7 +1861,7 @@
     "href": "content/Pre_processing/data_imputation.html#gui-workflow",
     "title": "Data imputation",
     "section": "GUI workflow",
-    "text": "GUI workflow\n\nClick Load data.\nClick Visualize missing values before changing the matrix.\nInspect the original table and missingness visualization.\nSelect an imputation Method.\nClick Run imputation.\nCompare original and imputed distributions.\nDownload the diagnostic plots if they are part of the analysis record.\n\n\n\n\n\n\n\nImportantDefault does not mean universally correct\n\n\n\nkNN is the interface default, but no imputation method is optimal for every proteomics design. Report the selected method in the Methods section of a manuscript and preserve the pre-imputation data for auditability.",
+    "text": "GUI workflow\nThe screenshot below shows the full Data Imputation interface and the recommended operating order.\n\n\n\n\n\n\nFigure 1: Data Imputation in ProtVis. Numbered controls guide the user from loading transformed data, visualizing missing values, choosing an imputation method, reviewing the q for MinProb compatibility field, and running imputation. The main panel compares original and imputed data and their missing-value visualizations.\n\n\n\nFollow the numbered controls in the screenshot. 1. Load data. Click Load data to load the transformed ProtVis_dataset or its Step4 compatibility state. Confirm the green Data loaded status, then check the Sample Info and Expression Matrix tabs before changing any missing values.\n2. Visualize missing values. Click Visualize missing values. ProtVis opens the diagnostic view containing Original Data and Original Data Visualization. Inspect whether missingness is concentrated in particular proteins or samples. If a sample is almost entirely missing, investigate the input/search/QC problem before attempting to solve it by imputation.\n3. Select the imputation Method. Expand Imputation Settings and choose kNN, RF, Mean, Median, Zero, or Minimum. kNN is selected by default, but the default is not automatically the correct method for every proteomics experiment. ProtVis warns when rows with more than 50% missing values are present because similarity-based kNN estimates can become unstable for those rows.\n4. Interpret q for MinProb correctly. The current interface still displays a numeric q for MinProb control (0.01 in the screenshot) for compatibility with earlier UI designs. In the present implementation, however, the active method menu does not contain a MinProb method and the current kNN, RF, Mean, Median, Zero, and Minimum branches do not use this q value. Do not report the q field as an active parameter unless a future ProtVis version restores a MinProb method.\n5. Run imputation. Click Run imputation. After completion, compare Imputed Data and Imputed Data Visualization with the original panels. Confirm that missing cells were handled as intended and that the result did not create implausible sample distributions. Use the Download section to export the original and imputed diagnostic plots when they are needed for the analysis record.\n\n\n\n\n\n\nImportantDefault does not mean universally correct\n\n\n\nkNN is the interface default, but no imputation method is optimal for every missingness mechanism. Report the method actually selected in the Methods section and preserve the pre-imputation project state for auditability.",
     "crumbs": [
       "Pre-processing",
       "Data imputation"
@@ -1872,7 +1872,7 @@
     "href": "content/Pre_processing/data_imputation.html#output",
     "title": "Data imputation",
     "section": "Output",
-    "text": "Output\nThe imputed state is stored in the active project object and in:\nStep5_data_imputation.rda\nContinue with Data normalization.",
+    "text": "Output\nThe imputed matrix is written into the active ProtVis_dataset, recorded in the analysis/process history, and persisted in:\nStep5_data_imputation.rda\nContinue with Data normalization.",
     "crumbs": [
       "Pre-processing",
       "Data imputation"

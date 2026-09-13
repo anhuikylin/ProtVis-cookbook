@@ -683,37 +683,43 @@ window.Quarto = {
 </section>
 <section id="gui-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="gui-workflow">GUI workflow</h2>
-<ol type="1">
-<li>Click <strong>Load data</strong>. The module uses the imputed <code>ProtVis_dataset</code>/<code>Step5_data_imputation.rda</code>.</li>
-<li>Inspect the original data and boxplot.</li>
-<li>Click <strong>Run normalization</strong>.</li>
-<li>Compare the normalized data and boxplot with the input.</li>
-<li>Adjust display colors if desired.</li>
-<li>Download the original and normalized PDF plots for reporting.</li>
-</ol>
+<p>The screenshot below shows the normalization page after the six-sample example has passed transformation and imputation.</p>
+<div id="fig-data-normalization-gui" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of the ProtVis Data Normalization module. Marker 1 identifies Load data and marker 2 identifies Run normalization. Original Data and Original Data Visualization are displayed above Normalized Data and Normalized Data Visualization. The sidebar reports Median subtraction normalization completed and includes color and download controls." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-data-normalization-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/screenshots/PixPin_2026-09-13_18-24-25.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of the ProtVis Data Normalization module. Marker 1 identifies Load data and marker 2 identifies Run normalization. Original Data and Original Data Visualization are displayed above Normalized Data and Normalized Data Visualization. The sidebar reports Median subtraction normalization completed and includes color and download controls.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-data-normalization-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Data Normalization in ProtVis. The numbered controls show the recommended order: 1 load the imputed data and 2 run median-subtraction normalization. The upper panels show original values and their boxplot; the lower panels show normalized values and the normalized boxplot.
+</figcaption>
+</figure>
+</div>
+<p>Follow the two numbered controls. <strong>1. Load data.</strong> Click <strong>Load data</strong>. The module uses the current imputed <code>ProtVis_dataset</code> first and can recover <code>Step5_data_imputation.rda</code> for compatibility. Confirm that the interface reports <strong>Data loaded</strong>, then inspect the upper <strong>Original Data</strong> table and boxplot. Sample columns should still match the project sample information.</p>
+<p><strong>2. Run normalization.</strong> Click <strong>Run normalization</strong>. ProtVis subtracts each sample column’s median and reports <strong>Median subtraction normalization completed</strong> when the operation succeeds. Inspect the lower <strong>Normalized Data</strong> table and visualization immediately after completion.</p>
+<p>Compare the upper and lower boxplots rather than relying on the status message alone. Median subtraction should center broad sample-level offsets while preserving within-sample rank differences. The plot-color controls and download dimensions are presentation settings only; they do not change the stored normalized matrix.</p>
 </section>
 <section id="interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
-<p>Median subtraction is useful when broad sample-level offsets are considered technical rather than biological. It is not appropriate to assume this for every experimental design. If most proteins are expected to shift globally in one direction for biological reasons, inspect the distributions carefully before interpreting normalized fold changes.</p>
-</section>
-<section id="output" class="level2">
-<h2 class="anchored" data-anchor-id="output">Output</h2>
-<p>The normalized project state is persisted as a <code>ProtVis_dataset</code> and as:</p>
-<pre class="text"><code>Step6_data_normalization.rda</code></pre>
-<p>This stage is the standard input for <strong>Overview</strong> and <strong>DEP analysis</strong>.</p>
+<p>Median subtraction is useful when broad sample-level offsets are considered technical rather than biological. It is not appropriate to assume this for every experimental design. If most proteins are expected to shift globally in one biological direction, inspect the distributions carefully before interpreting normalized fold changes.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tip
+<span class="screen-reader-only">Tip</span>Check the full preprocessing sequence
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Before differential abundance analysis, open <strong>Overview</strong> and check sample total intensity, missingness, intensity distributions, PCA, CV, and group structure. Normalization should improve technical comparability without destroying the expected experimental pattern.</p>
+<p>The screenshot belongs at the end of the shared preprocessing route: <strong>Correct Noise → Data Transformation → Data Imputation → Data Normalization</strong>. Before moving to differential abundance analysis, confirm that sample names are unchanged, imputation did not create implausible distributions, and normalization improved technical comparability without erasing the expected group pattern.</p>
 </div>
 </div>
+</section>
+<section id="output" class="level2">
+<h2 class="anchored" data-anchor-id="output">Output</h2>
+<p>The normalized project state is written to the active <code>ProtVis_dataset</code> and persisted as:</p>
+<pre class="text"><code>Step6_data_normalization.rda</code></pre>
+<p>This stage is the standard input for <strong>Overview</strong> and <strong>DEP analysis</strong>.</p>
 
 
 </section>
