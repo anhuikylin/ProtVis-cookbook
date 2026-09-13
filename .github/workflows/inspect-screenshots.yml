@@ -1,4 +1,4 @@
-name: Temporary screenshot inspection
+name: Temporary screenshot history inspection
 
 on:
   push:
@@ -14,28 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inspect bundled original assets
+        with:
+          fetch-depth: 0
+      - name: Search screenshot assets across history
         shell: bash
         run: |
           set -euo pipefail
-          if [ -d .original_asset_bundle ]; then
-            cat .original_asset_bundle/part.* | tr -d '\n\r' | base64 -d > /tmp/original-assets.tar.xz
-            file /tmp/original-assets.tar.xz
-            echo "--- archive members ---"
-            tar -tJf /tmp/original-assets.tar.xz
-          fi
-      - name: Install OCR tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y tesseract-ocr
-      - name: Inspect uploaded screenshots
-        shell: bash
-        run: |
-          set -euo pipefail
-          for f in images/screenshots/PixPin_*.png; do
-            echo "===== ${f} ====="
-            file "$f"
-            echo "--- OCR ---"
-            tesseract "$f" stdout --psm 6 2>/dev/null | sed -n '1,260p'
-            echo "--- END OCR ---"
-          done
+          echo "--- screenshot-like paths across history ---"
+          git rev-list --objects --all | grep -Ei 'screenshots|homepage|project-init|PixPin|4136172|6517d164|\.png$|\.webp$|\.avif$' | tail -n 300 || true
+          echo "--- large historical blobs ---"
+          git rev-list --objects --all | while read sha path; do
+            size=$(git cat-file -s "$sha" 2>/dev/null || echo 0)
+            if [ "$size" -ge 500000 ]; then printf '%s %s %s\n' "$size" "$sha" "$path"; fi
+          done | sort -nr | head -n 100
