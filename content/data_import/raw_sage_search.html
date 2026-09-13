@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="A practical, reproducible user guide for ProtVis proteomics analysis.">
+<meta name="description" content="Validate Raw-project inputs, run Sage 0.14.7, inspect PSM/LFQ results, and hand the protein matrix to shared preprocessing.">
 
-<title>ProtVis Cookbook</title>
+<title>Raw/mzML + Sage search – ProtVis Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -27,31 +27,65 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./content/introduce.html" rel="next">
-<link href="./assets/protvis-favicon.svg" rel="icon" type="image/svg+xml">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-85a3acc908edc3a11a86c47ee3a95dc2.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-545e005913f22807a5f02a55d21089a3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-1c931d852c6002c731d968fd7cae3727.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-545e005913f22807a5f02a55d21089a3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../assets/protvis-favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-85a3acc908edc3a11a86c47ee3a95dc2.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-545e005913f22807a5f02a55d21089a3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-1c931d852c6002c731d968fd7cae3727.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-545e005913f22807a5f02a55d21089a3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -254,7 +288,9 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Home</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      ProtVis Cookbook
+      </li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -269,7 +305,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">ProtVis Cookbook</a> 
+      <a href="../../">ProtVis Cookbook</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/xuebinzhang-lab/ProtVis" title="ProtVis source" class="quarto-navigation-tool px-1" aria-label="ProtVis source"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
@@ -285,7 +321,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -300,25 +336,25 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/introduce.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/introduce.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/installation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/installation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Installation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Project_init/Project_init.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Project_init/Project_init.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Project init</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/data_import/data_import.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/data_import/data_import.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data input</span></a>
   </div>
 </li>
@@ -335,13 +371,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/reproducibility/ProtVis_dataset.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/reproducibility/ProtVis_dataset.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">ProtVis_dataset</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/reproducibility/checkpoints.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/reproducibility/checkpoints.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Checkpoints &amp; recovery</span></a>
   </div>
 </li>
@@ -358,31 +394,31 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Pre_processing/Pre_processing.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Pre_processing/Pre_processing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Workflow overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Pre_processing/correct_noise.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Pre_processing/correct_noise.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Correct noise</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Pre_processing/data_transformed.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Pre_processing/data_transformed.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data transformation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Pre_processing/data_imputation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Pre_processing/data_imputation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data imputation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Pre_processing/data_normalization.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Pre_processing/data_normalization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data normalization</span></a>
   </div>
 </li>
@@ -399,37 +435,37 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Downstream_analysis/Downstream_analysis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Downstream_analysis/Downstream_analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Workflow overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Downstream_analysis/Overview.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Downstream_analysis/Overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview &amp; QC</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Downstream_analysis/DEP_analysis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Downstream_analysis/DEP_analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">DEP analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Downstream_analysis/Enrichment_analysis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Downstream_analysis/Enrichment_analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Enrichment analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Downstream_analysis/GSEA.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Downstream_analysis/GSEA.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GSEA</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Downstream_analysis/Pathview.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Downstream_analysis/Pathview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Pathview</span></a>
   </div>
 </li>
@@ -446,43 +482,43 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Multi_omics_data/Multi_omics_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Multi_omics_data/Multi_omics_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Module overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Multi_omics_data/Expression_Profile.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Multi_omics_data/Expression_Profile.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Expression profile</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Multi_omics_data/WGCNA.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Multi_omics_data/WGCNA.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">WGCNA</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Multi_omics_data/Metaproteomics.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Multi_omics_data/Metaproteomics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Metaproteomics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Multi_omics_data/Nine_Quadrant.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Multi_omics_data/Nine_Quadrant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Nine quadrant</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Multi_omics_data/Co_enrichment.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Multi_omics_data/Co_enrichment.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Co-enrichment</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Multi_omics_data/venn.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Multi_omics_data/venn.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Venn</span></a>
   </div>
 </li>
@@ -499,13 +535,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/PTM/PTM.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/PTM/PTM.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">PTM analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/PTM/PD_Strict_Spectrum.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/PTM/PD_Strict_Spectrum.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">PD strict spectrum</span></a>
   </div>
 </li>
@@ -513,7 +549,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Release_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Release_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Release data</span></a>
   </div>
 </li>
@@ -528,67 +564,67 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/Toolkits.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Toolkits.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Toolkit overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/Protein_Extract.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Protein_Extract.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Protein extract</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/Background_Make.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Background_Make.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Background make</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/Protein_Links.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Protein_Links.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Protein links</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/Protein_Structure.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Protein_Structure.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Protein structure</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/SwissModel.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/SwissModel.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">SwissModel</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/STRINGdb_PPI.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/STRINGdb_PPI.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">STRINGdb PPI</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/Boxplot.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Boxplot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Boxplot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/Stacked_Column.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Stacked_Column.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Stacked column</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/Correlation_Chord.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Correlation_Chord.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Correlation chord</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/Toolkits/DEG_Analyse.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/DEG_Analyse.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">DEG analyse</span></a>
   </div>
 </li>
@@ -604,12 +640,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#from-quantitative-proteomes-to-biological-insight" id="toc-from-quantitative-proteomes-to-biological-insight" class="nav-link active" data-scroll-target="#from-quantitative-proteomes-to-biological-insight">From quantitative proteomes to biological insight</a></li>
-  <li><a href="#protvis-at-a-glance" id="toc-protvis-at-a-glance" class="nav-link" data-scroll-target="#protvis-at-a-glance">ProtVis at a glance</a></li>
-  <li><a href="#recommended-analysis-paths" id="toc-recommended-analysis-paths" class="nav-link" data-scroll-target="#recommended-analysis-paths">Recommended analysis paths</a></li>
-  <li><a href="#two-ways-to-learn-protvis" id="toc-two-ways-to-learn-protvis" class="nav-link" data-scroll-target="#two-ways-to-learn-protvis">Two ways to learn ProtVis</a></li>
+  <li><a href="#when-to-use-this-workflow" id="toc-when-to-use-this-workflow" class="nav-link active" data-scroll-target="#when-to-use-this-workflow">When to use this workflow</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#sage-executable" id="toc-sage-executable" class="nav-link" data-scroll-target="#sage-executable">Sage executable</a></li>
+  <li><a href="#search-parameters" id="toc-search-parameters" class="nav-link" data-scroll-target="#search-parameters">Search parameters</a></li>
+  <li><a href="#run-the-search" id="toc-run-the-search" class="nav-link" data-scroll-target="#run-the-search">Run the search</a></li>
+  <li><a href="#files-produced-by-sage" id="toc-files-produced-by-sage" class="nav-link" data-scroll-target="#files-produced-by-sage">Files produced by Sage</a></li>
+  <li><a href="#how-lfq-becomes-a-protvis-matrix" id="toc-how-lfq-becomes-a-protvis-matrix" class="nav-link" data-scroll-target="#how-lfq-becomes-a-protvis-matrix">How LFQ becomes a ProtVis matrix</a></li>
+  <li><a href="#stage-handoff-to-preprocessing" id="toc-stage-handoff-to-preprocessing" class="nav-link" data-scroll-target="#stage-handoff-to-preprocessing">Stage handoff to preprocessing</a></li>
+  <li><a href="#recovery-after-restarting-protvis" id="toc-recovery-after-restarting-protvis" class="nav-link" data-scroll-target="#recovery-after-restarting-protvis">Recovery after restarting ProtVis</a></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/data_import/raw_sage_search.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/data_import/raw_sage_search.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -617,12 +659,12 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">ProtVis Cookbook</h1>
+<h1 class="title">Raw/mzML + Sage search</h1>
 </div>
 
 <div>
   <div class="description">
-    A practical, reproducible user guide for ProtVis proteomics analysis.
+    Validate Raw-project inputs, run Sage 0.14.7, inspect PSM/LFQ results, and hand the protein matrix to shared preprocessing.
   </div>
 </div>
 
@@ -639,95 +681,174 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="from-quantitative-proteomes-to-biological-insight" class="level2 hero">
-<h2 class="anchored" data-anchor-id="from-quantitative-proteomes-to-biological-insight">From quantitative proteomes to biological insight</h2>
-<p><strong>ProtVis</strong> combines data import, Raw/mzML database search, preprocessing, quality control, statistical analysis, functional interpretation, multi-omics integration, PTM analysis, and publication-ready visualization in one interactive workflow. This cookbook follows the application in the same order that a real project is analyzed.</p>
-<p><a href="./content/installation.html">Start with installation</a> · <a href="./content/data_import/raw_sage_search.html">Run Raw/mzML + Sage</a> · <a href="./content/reproducibility/ProtVis_dataset.html">Understand <code>ProtVis_dataset</code></a></p>
+<section id="when-to-use-this-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="when-to-use-this-workflow">When to use this workflow</h2>
+<p>Use <strong>Project init → Search</strong> when your starting point is converted <code>.mzML</code> files rather than a precomputed protein-abundance table. ProtVis registers sample metadata, the mzML directory and a protein FASTA, runs Sage, then converts Sage LFQ output into the same canonical <code>ProtVis_dataset</code> used by all downstream modules.</p>
+<p>The route is:</p>
+<p><strong>Project init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization</strong></p>
+<p>The top-level <strong>Search</strong> tab is intentionally visible only while <strong>Raw</strong> is selected in Project init.</p>
 </section>
-<div class="callout callout-style-default callout-note callout-titled">
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<p>Before opening Search, complete the Raw-specific part of <a href="../../content/Project_init/Project_init.html">Project init</a>:</p>
+<ol type="1">
+<li>Set a writable working directory.</li>
+<li>Select <strong>Raw</strong>.</li>
+<li>Load or upload sample information containing <code>sample_id</code> and <code>mzml_file</code>.</li>
+<li>Select the directory containing the mzML files.</li>
+<li>Click <strong>Check mzML files</strong> and resolve every Missing or Invalid extension row.</li>
+<li>Upload the matching protein FASTA.</li>
+<li>Click <strong>Project init</strong> to create the Sage staging object.</li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Documentation version
+<span class="screen-reader-only">Important</span>Do not create a fake expression matrix
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This edition is aligned to <strong>ProtVis 0.7.9 on the <code>dev</code> branch</strong>, reviewed on <strong>2026-09-13</strong>. ProtVis is under active development; the cookbook emphasizes stable concepts and explicitly identifies compatibility behavior where relevant.</p>
-</div>
-</div>
-<section id="protvis-at-a-glance" class="level2">
-<h2 class="anchored" data-anchor-id="protvis-at-a-glance">ProtVis at a glance</h2>
-<p>The overview below shows how heterogeneous proteomics software outputs are brought into <code>ProtVis_dataset</code>, processed through a shared preprocessing and quality-control workflow, and connected to differential analysis, functional interpretation, multi-omics, WGCNA, and key-protein characterization.</p>
-<div id="fig-protvis-overview-workflow" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Overview of the ProtVis workflow. MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, and user-defined matrices feed into ProtVis_dataset. The workflow includes noise correction, data transformation, missing-value imputation, normalization, data summary, differential abundance analysis, enrichment, GSEA, pathway analysis, multi-omics analysis, WGCNA, and key-protein functional and modification analyses.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-protvis-overview-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/protvis-overview-workflow.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%" alt="Overview of the ProtVis workflow. MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, and user-defined matrices feed into ProtVis_dataset. The workflow includes noise correction, data transformation, missing-value imputation, normalization, data summary, differential abundance analysis, enrichment, GSEA, pathway analysis, multi-omics analysis, WGCNA, and key-protein functional and modification analyses.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protvis-overview-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Overview Workflow in ProtVis. Heterogeneous proteomics software outputs enter a unified <code>ProtVis_dataset</code> workflow spanning preprocessing, data summary, downstream analysis, multi-omics integration, WGCNA, and key-protein characterization.
-</figcaption>
-</figure>
-</div>
-<div class="feature-grid">
-<div class="feature-card">
-<strong>Heterogeneous input</strong>
-<p>
-Import MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, Mascot, or a user-defined matrix.
-</p>
-</div>
-<div class="feature-card">
-<strong>Raw/mzML + Sage</strong>
-<p>
-Register sample metadata, validate mzML filenames, upload a protein FASTA, run Sage, and convert LFQ results directly into the canonical project object.
-</p>
-</div>
-<div class="feature-card">
-<strong>Traceable data object</strong>
-<p>
-Carry expression data, sample and protein metadata, annotations, results, imported files, parameters, and process history in <code>ProtVis_dataset</code>.
-</p>
-</div>
-<div class="feature-card">
-<strong>Proteomics preprocessing</strong>
-<p>
-Correct replicate-level noise, transform intensities, inspect missingness, impute missing values, and normalize samples.
-</p>
-</div>
-<div class="feature-card">
-<strong>QC and statistics</strong>
-<p>
-Use correlation, expression-pattern heatmaps, PCA/PCoA/t-SNE/UMAP/NMDS, proteomics QC, and limma-based differential abundance analysis.
-</p>
-</div>
-<div class="feature-card">
-<strong>Biological interpretation</strong>
-<p>
-Continue from DEP results into GO/KEGG enrichment, GSEA, Pathview, STRINGdb PPI, WGCNA, and co-enrichment.
-</p>
-</div>
-<div class="feature-card">
-<strong>Beyond standard proteomics</strong>
-<p>
-Explore metaproteomics, expression profiles, nine-quadrant integration, Venn analysis, PTMs, strict spectra, and protein structure utilities.
-</p>
+<p>A Raw/Sage project does not need a protein expression matrix before Search. ProtVis creates a <code>Sage_staging</code> project object and fills the expression layer only after LFQ results are available.</p>
 </div>
 </div>
 </section>
-<section id="recommended-analysis-paths" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-analysis-paths">Recommended analysis paths</h2>
-<p>For <strong>Raw/mzML data</strong>, use:</p>
-<p><strong>Project init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP → Interpretation</strong></p>
-<p>For <strong>MaxQuant</strong>, use:</p>
-<p><strong>Project init → MaxQuant Output Preparation → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP → Interpretation</strong></p>
-<p>For <strong>other supported tabular outputs</strong>, import/parse the source-specific quantitative table and continue into the shared preprocessing workflow.</p>
-<p>The Raw route is intentionally different: Project init can create a sample-only Sage staging <code>ProtVis_dataset</code> without inventing an expression matrix. The protein-by-sample matrix is created after the Sage LFQ search succeeds.</p>
+<section id="sage-executable" class="level2">
+<h2 class="anchored" data-anchor-id="sage-executable">Sage executable</h2>
+<p>ProtVis uses <code>protvis_sage_executable()</code> to resolve Sage.</p>
+<p>On <strong>Windows</strong>, the package can use the bundled Sage executable at:</p>
+<pre class="text"><code>inst/extdata/sage/windows/sage.exe</code></pre>
+<p>On Linux or macOS, install Sage separately and make <code>sage</code> available on <code>PATH</code>.</p>
+<p>You can verify discovery from R:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ProtVis<span class="sc">::</span><span class="fu">protvis_sage_executable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The Search page shows the resolved <strong>FASTA</strong>, <strong>mzML directory</strong>, <strong>Output</strong>, and <strong>Sage</strong> paths before execution.</p>
 </section>
-<section id="two-ways-to-learn-protvis" class="level2">
-<h2 class="anchored" data-anchor-id="two-ways-to-learn-protvis">Two ways to learn ProtVis</h2>
-<p><strong>GUI-first users</strong> can follow the chapter order in the sidebar. Each page explains prerequisites, the controls to use, expected outputs, and common failure points.</p>
-<p><strong>Reproducible-workflow users</strong> should also read <a href="./content/reproducibility/ProtVis_dataset.html"><code>ProtVis_dataset</code></a> and <a href="./content/reproducibility/checkpoints.html">Checkpoints &amp; recovery</a>. These chapters explain how ProtVis preserves analysis provenance and how projects can be resumed without rebuilding every previous step.</p>
+<section id="search-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="search-parameters">Search parameters</h2>
+<p>The current Search interface exposes the following defaults:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th style="text-align: right;">Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Precursor tolerance</td>
+<td style="text-align: right;">20 ppm</td>
+</tr>
+<tr class="even">
+<td>Fragment tolerance</td>
+<td style="text-align: right;">0.5 Da</td>
+</tr>
+<tr class="odd">
+<td>Enzyme</td>
+<td style="text-align: right;">Trypsin/P</td>
+</tr>
+<tr class="even">
+<td>Missed cleavages</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td>Minimum peptide length</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td>Maximum peptide length</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr class="odd">
+<td>Carbamidomethyl (C), fixed</td>
+<td style="text-align: right;">enabled</td>
+</tr>
+<tr class="even">
+<td>Oxidation (M), variable</td>
+<td style="text-align: right;">enabled</td>
+</tr>
+<tr class="odd">
+<td>Protein N-term acetyl, variable</td>
+<td style="text-align: right;">enabled</td>
+</tr>
+<tr class="even">
+<td>Spectrum/peptide/protein FDR</td>
+<td style="text-align: right;">0.01</td>
+</tr>
+<tr class="odd">
+<td>LFQ</td>
+<td style="text-align: right;">enabled</td>
+</tr>
+</tbody>
+</table>
+<p>The generated Sage configuration uses target-decoy searching with <code>rev_</code> as the decoy prefix. LFQ should remain enabled when the goal is to create a protein-by-sample matrix for downstream ProtVis analysis.</p>
+</section>
+<section id="run-the-search" class="level2">
+<h2 class="anchored" data-anchor-id="run-the-search">Run the search</h2>
+<ol type="1">
+<li>Open <strong>Search</strong>.</li>
+<li>Confirm that the displayed FASTA, mzML directory, output directory and Sage executable are correct.</li>
+<li>Adjust search parameters only when your acquisition/search design requires it.</li>
+<li>Click <strong>Run Sage Search</strong>.</li>
+<li>Follow <strong>Search status</strong> and <strong>Sage log</strong>.</li>
+<li>Inspect the <strong>Summary</strong>, <strong>PSMs</strong>, and <strong>LFQ</strong> tabs after completion.</li>
+</ol>
+<p>Repeated rapid clicks are guarded at both the interface and server level. If the same search is already running, the duplicate action is ignored rather than launching a second Sage process.</p>
+</section>
+<section id="files-produced-by-sage" class="level2">
+<h2 class="anchored" data-anchor-id="files-produced-by-sage">Files produced by Sage</h2>
+<p>ProtVis writes the search into the project <code>Sage_search</code> directory. The principal files are:</p>
+<pre class="text"><code>Sage_search/
+├── sage_config.json
+├── results.sage.tsv
+├── lfq.tsv
+└── results.json</code></pre>
+<p>The Search page also provides <strong>Download Sage config</strong> so the exact generated configuration can be retained independently.</p>
+</section>
+<section id="how-lfq-becomes-a-protvis-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="how-lfq-becomes-a-protvis-matrix">How LFQ becomes a ProtVis matrix</h2>
+<p>After a successful search, ProtVis reads the Sage LFQ table, finds the <code>proteins</code>/<code>protein</code> field, matches LFQ sample columns to the registered mzML filenames and <code>sample_id</code> values, removes <code>rev_</code> decoy identifiers, and aggregates target intensities into a protein-by-sample matrix.</p>
+<p>The completed object uses the workflow stage <code>Sage_complete</code> and receives a traceable name such as:</p>
+<pre class="text"><code>ProtVis_dataset__Sage_database_search__v2</code></pre>
+<p>The original staging metadata and process history are retained. Search parameters, log information, configuration, result tables, and produced files are recorded under the project, including:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dataset<span class="sc">$</span>analysis_results<span class="sc">$</span>Sage_database_search</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Search output files that exist on disk are also registered in <code>other_files</code> with path, filename, size, MD5 and attachment time.</p>
+</section>
+<section id="stage-handoff-to-preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="stage-handoff-to-preprocessing">Stage handoff to preprocessing</h2>
+<p>A successful Search writes two compatibility snapshots:</p>
+<pre class="text"><code>Step2_sage_database_search.rda
+Step2_remove_unreliable_peptide.rda</code></pre>
+<p><code>Step2_sage_database_search.rda</code> preserves the Sage-specific stage name for compatibility. The important cross-source handoff is now:</p>
+<pre class="text"><code>Step2_remove_unreliable_peptide.rda</code></pre>
+<p>This is the <strong>data-source-independent Step2 checkpoint</strong> consumed by <strong>Correct Noise</strong>. In other words, downstream preprocessing does not need to know whether Step2 originated from Sage, MaxQuant, or another supported input path.</p>
+<p>Continue with <a href="../../content/Pre_processing/correct_noise.html">Correct noise</a>.</p>
+</section>
+<section id="recovery-after-restarting-protvis" class="level2">
+<h2 class="anchored" data-anchor-id="recovery-after-restarting-protvis">Recovery after restarting ProtVis</h2>
+<p>ProtVis can recover a completed Sage search from the existing <code>Sage_search</code> directory when <code>lfq.tsv</code> is present and the configuration still resolves the FASTA and mzML inputs. Recovery reads the prior configuration and result tables instead of requiring the database search to be repeated simply because the Shiny session restarted.</p>
+<p>Correct Noise also checks the active <code>ProtVis_dataset</code> first. If no in-memory object is available, it looks for the canonical <code>Step2_remove_unreliable_peptide.rda</code>, then Sage-specific/older stage files as fallbacks.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Keep the complete project directory
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For a recoverable Raw/Sage project, keep the working directory, <code>Sage_search</code> folder, stage files, and portable <code>ProtVis_dataset</code> export together. Moving only <code>lfq.tsv</code> away from the FASTA/configuration context weakens provenance and may prevent automatic recovery.</p>
+</div>
+</div>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
+<p><strong>Search tab is missing.</strong> Return to Project init and select <strong>Raw</strong>. Search is hidden for other source types by design.</p>
+<p><strong>Sage is shown as Not found.</strong> On Windows, reinstall the current ProtVis build and confirm the bundled executable is present. On Linux/macOS, install Sage and place it on <code>PATH</code>.</p>
+<p><strong>No <code>.mzML</code> files were found.</strong> Select the directory that directly contains the converted files and rerun <strong>Check mzML files</strong>.</p>
+<p><strong>Sample names do not map to LFQ columns.</strong> Confirm that <code>sample_info$mzml_file</code> matches the registered mzML filenames. ProtVis falls back to filename stems only when a direct sample mapping is unavailable.</p>
+<p><strong>Correct Noise says the expression matrix is unavailable.</strong> The current object is probably still a Sage staging object. Complete Search successfully first so LFQ can be converted to the protein abundance matrix.</p>
 
 
 </section>
@@ -1151,15 +1272,6 @@ Explore metaproteomics, expression profiles, nine-quadrant integration, Venn ana
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./content/introduce.html" class="pagination-link" aria-label="Overview">
-        <span class="nav-page-text">Overview</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -1168,7 +1280,7 @@ Explore metaproteomics, expression profiles, nine-quadrant integration, Venn ana
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/data_import/raw_sage_search.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/data_import/raw_sage_search.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org/">Quarto</a></p>
 </div>
