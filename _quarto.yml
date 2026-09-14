@@ -34,14 +34,16 @@ website:
             text: Project init
           - href: content/data_import/data_import.qmd
             text: Data input
-          - href: content/data_import/msconvert_raw_to_mzml.qmd
-            text: RAW → mzML overview
-          - href: content/data_import/raw_to_mzml_windows.qmd
-            text: Windows · MSConvert
-          - href: content/data_import/raw_to_mzml_linux.qmd
-            text: Linux · RAW → mzML
-          - href: content/data_import/raw_to_mzml_macos.qmd
-            text: macOS · RAW → mzML
+          - section: "RAW → mzML"
+            contents:
+              - href: content/data_import/msconvert_raw_to_mzml.qmd
+                text: Overview
+              - href: content/data_import/raw_to_mzml_windows.qmd
+                text: Windows · MSConvert
+              - href: content/data_import/raw_to_mzml_linux.qmd
+                text: Linux · RAW → mzML
+              - href: content/data_import/raw_to_mzml_macos.qmd
+                text: macOS · RAW → mzML
           - href: content/data_import/raw_sage_search.qmd
             text: Raw/mzML + Sage
       - section: "Reproducible workflow"
