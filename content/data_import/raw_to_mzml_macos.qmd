@@ -1,0 +1,287 @@
+---
+title: "RAW → mzML on macOS"
+description: "Convert Thermo RAW files to mzML on macOS with ThermoRawFileParser, verify the output, and continue into ProtVis/Sage."
+---
+
+## Recommended macOS route
+
+For **Thermo Scientific `.raw`** files on macOS, use **ThermoRawFileParser**. The current project provides self-contained macOS releases and a framework-based package that can run with the **.NET 8 runtime**.
+
+The recommended route is:
+
+**Thermo RAW → ThermoRawFileParser → mzML → ProtVis Project init → Sage Search → ProtVis_dataset**
+
+::: {.callout-important}
+## MSConvertGUI is primarily a Windows workflow for vendor RAW
+ProteoWizard/MSConvert is the preferred direct vendor-RAW converter on Windows because many proprietary readers are Windows-dependent. For the Thermo RAW files used by the ProtVis example, ThermoRawFileParser is the practical native macOS route.
+:::
+
+## Download ThermoRawFileParser
+
+Official resources:
+
+- [ThermoRawFileParser repository](https://github.com/CompOmics/ThermoRawFileParser)
+- [ThermoRawFileParser releases](https://github.com/CompOmics/ThermoRawFileParser/releases)
+- [ThermoRawFileParser publication](https://pubmed.ncbi.nlm.nih.gov/31755270/)
+
+The current project README states that releases include **self-contained OSX/macOS builds** and a framework-based release. The framework-based release requires the **.NET 8 runtime**.
+
+## Option A — self-contained macOS release
+
+### 1. Download the matching release
+
+Download the current macOS/OSX release asset from the official Releases page. Choose the architecture that matches your Mac when multiple assets are provided.
+
+Create a local software directory, for example:
+
+```bash
+mkdir -p ~/Applications/ThermoRawFileParser
+cd ~/Applications/ThermoRawFileParser
+```
+
+Extract the downloaded release there.
+
+### 2. Allow execution
+
+If required:
+
+```bash
+chmod +x ThermoRawFileParser
+```
+
+### 3. Verify the executable
+
+```bash
+./ThermoRawFileParser --version
+./ThermoRawFileParser --help
+```
+
+If macOS blocks the downloaded binary, confirm that it came from the official ThermoRawFileParser release page, then use the normal macOS Privacy & Security workflow to allow the trusted application. Do not bypass system security for an unverified download.
+
+## Option B — framework-based release with .NET 8
+
+Install the current **.NET 8 runtime** for macOS from Microsoft:
+
+- [Download .NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+
+Choose the runtime for your Mac architecture, then verify:
+
+```bash
+dotnet --info
+```
+
+Run the framework-based parser with:
+
+```bash
+dotnet ThermoRawFileParser.dll --help
+```
+
+## Option C — Docker
+
+Docker is useful when you want a reproducible containerized conversion environment. Install Docker Desktop for macOS and use a current BioContainers ThermoRawFileParser image.
+
+General pattern:
+
+```bash
+docker run --rm -it \
+  -v "$HOME/PXD065315_control/raw:/data_input" \
+  -v "$HOME/PXD065315_control/mzML:/data_output" \
+  quay.io/biocontainers/thermorawfileparser:<tag> \
+  ThermoRawFileParser.sh --help
+```
+
+Replace `<tag>` with a current BioContainers tag.
+
+## Prepare the project directories
+
+```bash
+mkdir -p ~/PXD065315_control/raw
+mkdir -p ~/PXD065315_control/mzML
+```
+
+Example input:
+
+```text
+~/PXD065315_control/raw/
+├── B73_C1.raw
+├── B73_C2.raw
+├── B73_C3.raw
+├── EA2024_C1.raw
+├── EA2024_C2.raw
+└── EA2024_C3.raw
+```
+
+## Convert one RAW file
+
+Self-contained executable:
+
+```bash
+./ThermoRawFileParser \
+  -i="$HOME/PXD065315_control/raw/B73_C1.raw" \
+  -o="$HOME/PXD065315_control/mzML" \
+  -f=2
+```
+
+Framework-based build:
+
+```bash
+dotnet ThermoRawFileParser.dll \
+  -i="$HOME/PXD065315_control/raw/B73_C1.raw" \
+  -o="$HOME/PXD065315_control/mzML" \
+  -f=2
+```
+
+`-f=2` requests **indexed mzML**. Indexed mzML retains the `.mzML` extension and works as an mzML input for the ProtVis/Sage workflow. Use `-f=1` for ordinary non-indexed mzML.
+
+## Convert all RAW files in the directory
+
+```bash
+./ThermoRawFileParser \
+  -d="$HOME/PXD065315_control/raw" \
+  -o="$HOME/PXD065315_control/mzML" \
+  -f=2
+```
+
+Framework-based equivalent:
+
+```bash
+dotnet ThermoRawFileParser.dll \
+  -d="$HOME/PXD065315_control/raw" \
+  -o="$HOME/PXD065315_control/mzML" \
+  -f=2
+```
+
+## Peak picking and zlib compression
+
+Current ThermoRawFileParser behavior:
+
+- Thermo native peak picking is **enabled by default**;
+- zlib compression is **enabled by default**;
+- `-p` disables native peak picking;
+- `-z` disables zlib compression.
+
+For the usual Thermo RAW → Sage route, do not disable these defaults unless you have a documented reason.
+
+You can restrict exported MS levels with `-L`. For example, to keep MS1 and MS2:
+
+```bash
+./ThermoRawFileParser \
+  -d="$HOME/PXD065315_control/raw" \
+  -o="$HOME/PXD065315_control/mzML" \
+  -f=2 \
+  -L=1-2
+```
+
+::: {.callout-warning}
+## Keep acquisition and conversion strategy consistent
+Do not change centroiding or MS-level filters between biological samples. If the acquisition is already centroided, document how peak picking is handled and use the same policy for every file.
+:::
+
+## Docker conversion example
+
+```bash
+docker run --rm \
+  -v "$HOME/PXD065315_control/raw:/data_input" \
+  -v "$HOME/PXD065315_control/mzML:/data_output" \
+  quay.io/biocontainers/thermorawfileparser:<tag> \
+  ThermoRawFileParser.sh \
+  -d=/data_input \
+  -o=/data_output \
+  -f=2
+```
+
+## Expected output
+
+```text
+~/PXD065315_control/mzML/
+├── B73_C1.mzML
+├── B73_C2.mzML
+├── B73_C3.mzML
+├── EA2024_C1.mzML
+├── EA2024_C2.mzML
+└── EA2024_C3.mzML
+```
+
+## Verify the mzML files
+
+Check the generated files:
+
+```bash
+find ~/PXD065315_control/mzML -maxdepth 1 -type f -name '*.mzML' -print
+ls -lh ~/PXD065315_control/mzML/*.mzML
+```
+
+Confirm:
+
+1. every expected RAW file produced a matching mzML;
+2. outputs are not empty;
+3. filename stems match the sample metadata;
+4. conversion completed without errors;
+5. expected MS1/MS2 spectra are present for DDA proteomics;
+6. every sample used identical conversion settings.
+
+## Continue into ProtVis on macOS
+
+If ProtVis is running locally on the same Mac:
+
+1. open **Project init**;
+2. select **Raw**;
+3. load or upload sample information containing `sample_id` and `mzml_file`;
+4. upload the protein FASTA;
+5. select the mzML directory;
+6. click **Check mzML files**;
+7. resolve any missing/invalid file rows;
+8. click **Project init**;
+9. open **Search** and run Sage.
+
+Example directory:
+
+```text
+/Users/yourname/PXD065315_control/mzML
+```
+
+Continue with [Raw/mzML + Sage search](raw_sage_search.qmd).
+
+## If ProtVis/Sage runs on another computer or server
+
+After conversion, copy the complete `mzML` directory and FASTA to the target machine. Keep filenames unchanged so that `sample_info$mzml_file` still matches the files.
+
+For example:
+
+```bash
+rsync -av ~/PXD065315_control/mzML/ user@server:/data/PXD065315_control/mzML/
+```
+
+Then use the server-side mzML path in ProtVis.
+
+## If the instrument is not Thermo
+
+ThermoRawFileParser is specific to Thermo RAW. Other vendors may require their own converter or a Windows ProteoWizard/MSConvert workflow. If a proprietary format cannot be read reliably on macOS, convert it on a supported Windows system and transfer the resulting `.mzML` files to macOS or the analysis server.
+
+## Troubleshooting
+
+**macOS reports that the executable cannot be opened.** Verify the release source, executable permissions, architecture, and macOS Privacy & Security settings.
+
+**`dotnet` is unavailable.** Install the matching .NET 8 runtime or use a self-contained release.
+
+**The parser fails on a RAW file.** Confirm the file is a valid, fully copied Thermo RAW file and that the parser build matches the Mac architecture.
+
+**ProtVis cannot see the output.** Confirm the selected directory contains ordinary `.mzML` files directly and that `sample_info$mzml_file` matches exactly.
+
+**Sage produces very few identifications.** Check MS2 content, centroiding, FASTA, enzyme, modifications, and mass tolerances before changing search thresholds.
+
+## Reproducibility checklist
+
+```text
+Operating system: macOS
+Mac architecture:
+ThermoRawFileParser version:
+Installation type: self-contained / .NET / Docker
+Original vendor format: Thermo RAW
+Output format: mzML / indexed mzML
+Native peak picking: enabled/disabled
+zlib compression: enabled/disabled
+MS-level selection:
+Additional options:
+Conversion date:
+```
