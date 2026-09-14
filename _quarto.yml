@@ -10,7 +10,7 @@ website:
   search: true
   favicon: assets/protvis-favicon.svg
   page-footer:
-    left: "Author: **Fei Liang** · Henan University"
+    left: "Author: **Fei Liang** · State Key Laboratory of Crop Stress Adaptation and Improvement, Henan Joint International Laboratory for Crop Multi‐Omics Research, School of Life Sciences, Henan University, Zhengzhou 475004, China"
     center: "ProtVis Cookbook · Documentation for reproducible proteomics workflows"
     right: "Built with [Quarto](https://quarto.org/)"
   sidebar:
