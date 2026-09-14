@@ -220,7 +220,7 @@
     "href": "content/Toolkits/Protein_Structure.html",
     "title": "Protein structure",
     "section": "",
-    "text": "Use Toolkits → Protein structure for general structural interpretation after a candidate protein has been identified. This page focuses on how to connect a protein, mutation, PTM, domain, or other candidate feature to structural context.\nFor Swiss-Model sequence submission and model prediction, use Toolkits → SwissModel. The Swiss-Model interface screenshot and step-by-step modeling instructions are maintained on that dedicated page.",
+    "text": "Use Toolkits → Protein Structure to analyze a protein structure from a .pdb file with ProtVis’s current bio3d workflow. The module reads the PDB structure, performs Normal Mode Analysis (NMA), plots residue-level fluctuations, overlays alpha-helix and beta-sheet annotations, and summarizes the loaded structure.\nThis module is different from Toolkits → SwissModel. SwissModel is used to generate or retrieve a predicted structure from a protein sequence; Protein Structure starts from an existing PDB file and performs structural fluctuation analysis.",
     "crumbs": [
       "Toolkits",
       "Protein structure"
@@ -231,29 +231,62 @@
     "href": "content/Toolkits/Protein_Structure.html#purpose",
     "title": "Protein structure",
     "section": "",
-    "text": "Use Toolkits → Protein structure for general structural interpretation after a candidate protein has been identified. This page focuses on how to connect a protein, mutation, PTM, domain, or other candidate feature to structural context.\nFor Swiss-Model sequence submission and model prediction, use Toolkits → SwissModel. The Swiss-Model interface screenshot and step-by-step modeling instructions are maintained on that dedicated page.",
+    "text": "Use Toolkits → Protein Structure to analyze a protein structure from a .pdb file with ProtVis’s current bio3d workflow. The module reads the PDB structure, performs Normal Mode Analysis (NMA), plots residue-level fluctuations, overlays alpha-helix and beta-sheet annotations, and summarizes the loaded structure.\nThis module is different from Toolkits → SwissModel. SwissModel is used to generate or retrieve a predicted structure from a protein sequence; Protein Structure starts from an existing PDB file and performs structural fluctuation analysis.",
     "crumbs": [
       "Toolkits",
       "Protein structure"
     ]
   },
   {
-    "objectID": "content/Toolkits/Protein_Structure.html#recommended-workflow",
-    "href": "content/Toolkits/Protein_Structure.html#recommended-workflow",
+    "objectID": "content/Toolkits/Protein_Structure.html#protein-structure-interface",
+    "href": "content/Toolkits/Protein_Structure.html#protein-structure-interface",
     "title": "Protein structure",
-    "section": "Recommended workflow",
-    "text": "Recommended workflow\n\nResolve the candidate to a stable protein identifier and confirm the expected protein sequence.\nObtain an experimental structure or an appropriate predicted model.\nConfirm chain and residue numbering before mapping mutations, PTMs, domains, or functional residues.\nInspect the three-dimensional context and any relevant quality/confidence information.\nRecord the structure source, model/entry identifier, and quality evidence in the figure legend or Methods.",
+    "section": "Protein Structure interface",
+    "text": "Protein Structure interface\nThe screenshot below shows the current Protein Structure interface. The left sidebar contains File Upload, Demo Data, Parameters, Run, and Download controls. The main area contains the Secondary Structure Plot and Structure Summary panels.\n\n\n\n\n\n\nFigure 1: ProtVis Protein Structure interface showing PDB input, built-in demo data, NMA plotting parameters, export controls, the residue-fluctuation plot and the structure summary table.",
     "crumbs": [
       "Toolkits",
       "Protein structure"
     ]
   },
   {
-    "objectID": "content/Toolkits/Protein_Structure.html#interpretation",
-    "href": "content/Toolkits/Protein_Structure.html#interpretation",
+    "objectID": "content/Toolkits/Protein_Structure.html#recommended-operating-order",
+    "href": "content/Toolkits/Protein_Structure.html#recommended-operating-order",
     "title": "Protein structure",
-    "section": "Interpretation",
-    "text": "Interpretation\nStructural visualization is most useful when it is tied back to the biological question. For example, a differentially abundant protein may be examined for whether a candidate mutation or PTM lies near an active site, interface, conserved domain, or structurally constrained region.\n\n\n\n\n\n\nTip\n\n\n\nFor a ProtVis-generated Swiss-Model prediction, continue to Toolkits → SwissModel for sequence submission, project information, model-quality results, PDB information, Ramachandran diagnostics, residue composition, 3D visualization, and downloads.\n\n\n\n\n\n\n\n\nWarning\n\n\n\nPredicted structures and experimentally determined structures are not equivalent evidence. When using a model, report its source and relevant confidence/quality metrics and avoid over-interpreting poorly supported regions.",
+    "section": "Recommended operating order",
+    "text": "Recommended operating order\n1. Load a PDB structure. Under File Upload, upload a .pdb file. ProtVis validates the extension before accepting the file. Alternatively, open Demo Data and click Use Demo PDB to load the bundled 1hel.pdb example.\n2. Confirm the active source. The Demo Data panel reports the current source and active file name. When the built-in example is selected, ProtVis immediately triggers the same analysis workflow used by the Run button.\n3. Adjust the display parameters. Under Parameters, set Beta sheet color, Alpha helix color, and Line width. The current defaults use an orange beta-sheet color, a purple alpha-helix color, and a line width of 2.5.\n4. Run the analysis. Click Run for an uploaded PDB file. If no file has been explicitly selected, the current implementation can fall back to the bundled demo PDB when it is available.\n5. Inspect the Secondary Structure Plot. ProtVis reads the PDB with bio3d::read.pdb(), calculates normal modes with bio3d::nma(), and plots modes$fluctuations using bio3d::plot.bio3d(). The x-axis represents residue position and the y-axis represents Fluctuations from NMA. Secondary-structure information from the PDB is overlaid so helices and sheets can be interpreted together with the fluctuation profile.\n6. Inspect the Structure Summary. The summary panel reports structural information derived from the parsed PDB, including structure size and available secondary-structure information. Use this panel to confirm that the intended structure was analyzed before interpreting the fluctuation plot.\n7. Export the figure. Under Download, set plot width, height, units, resolution, and file format. ProtVis currently supports PDF, PNG, JPEG, TIFF, and SVG. PDF and SVG are vector outputs; PNG, JPEG, and TIFF use the selected DPI.",
+    "crumbs": [
+      "Toolkits",
+      "Protein structure"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Structure.html#what-the-plot-represents",
+    "href": "content/Toolkits/Protein_Structure.html#what-the-plot-represents",
+    "title": "Protein structure",
+    "section": "What the plot represents",
+    "text": "What the plot represents\nNormal Mode Analysis approximates collective motions that are accessible around the current protein conformation. In the ProtVis plot, larger residue-level fluctuation values indicate regions predicted to participate more strongly in these low-frequency motions, whereas lower values indicate comparatively constrained regions.\nThe secondary-structure overlay helps distinguish whether flexible or constrained regions correspond to alpha helices, beta sheets, or less structured segments. These patterns are useful for structural interpretation of domains, loops, mutation sites, PTMs, or candidate functional regions.",
+    "crumbs": [
+      "Toolkits",
+      "Protein structure"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Structure.html#current-protvis-implementation",
+    "href": "content/Toolkits/Protein_Structure.html#current-protvis-implementation",
+    "title": "Protein structure",
+    "section": "Current ProtVis implementation",
+    "text": "Current ProtVis implementation\nThe core calculation follows the standard bio3d workflow:\npdb &lt;- bio3d::read.pdb(pdb_file)\nmodes &lt;- bio3d::nma(pdb)\n\nbio3d::plot.bio3d(\n  modes$fluctuations,\n  sse = pdb,\n  sheet.col = sheet_color,\n  helix.col = helix_color,\n  typ = \"l\",\n  lwd = line_width,\n  xlab = \"Residue\",\n  ylab = \"Fluctuations from NMA\"\n)\nThis means the plotted line is the NMA fluctuation profile itself rather than a generic abundance or confidence score.",
+    "crumbs": [
+      "Toolkits",
+      "Protein structure"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Structure.html#input-requirements",
+    "href": "content/Toolkits/Protein_Structure.html#input-requirements",
+    "title": "Protein structure",
+    "section": "Input requirements",
+    "text": "Input requirements\nThe uploaded file must be a valid protein .pdb file that can be parsed by bio3d and contains the structural atoms required for NMA. If the structure lacks suitable protein C-alpha atoms or cannot be processed by the normal-mode calculation, ProtVis reports an analysis failure rather than producing a misleading plot.\n\n\n\n\n\n\nTip\n\n\n\nUse the bundled 1hel.pdb example first when checking a new installation. If the demo works but an uploaded structure fails, the issue is more likely to be the PDB content than the Protein Structure module itself.\n\n\n\n\n\n\n\n\nWarning\n\n\n\nNormal Mode Analysis is a model of collective structural motions, not a direct experimental measurement of residue dynamics. Interpret NMA together with the structure source, model quality, experimental evidence, domains, interfaces, and known functional sites.",
     "crumbs": [
       "Toolkits",
       "Protein structure"

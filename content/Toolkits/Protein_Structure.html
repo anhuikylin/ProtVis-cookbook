@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Inspect protein structures and connect quantitative candidates to structural context.">
+<meta name="description" content="Run bio3d-based normal mode analysis on PDB structures and inspect residue-level fluctuations with secondary-structure context.">
 
 <title>Protein structure – ProtVis Cookbook</title>
 <style>
@@ -26,6 +26,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -612,8 +647,11 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#recommended-workflow" id="toc-recommended-workflow" class="nav-link" data-scroll-target="#recommended-workflow">Recommended workflow</a></li>
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#protein-structure-interface" id="toc-protein-structure-interface" class="nav-link" data-scroll-target="#protein-structure-interface">Protein Structure interface</a></li>
+  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
+  <li><a href="#what-the-plot-represents" id="toc-what-the-plot-represents" class="nav-link" data-scroll-target="#what-the-plot-represents">What the plot represents</a></li>
+  <li><a href="#current-protvis-implementation" id="toc-current-protvis-implementation" class="nav-link" data-scroll-target="#current-protvis-implementation">Current ProtVis implementation</a></li>
+  <li><a href="#input-requirements" id="toc-input-requirements" class="nav-link" data-scroll-target="#input-requirements">Input requirements</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Protein_Structure.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Protein_Structure.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -628,7 +666,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Inspect protein structures and connect quantitative candidates to structural context.
+    Run bio3d-based normal mode analysis on PDB structures and inspect residue-level fluctuations with secondary-structure context.
   </div>
 </div>
 
@@ -647,22 +685,59 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>Use <strong>Toolkits → Protein structure</strong> for general structural interpretation after a candidate protein has been identified. This page focuses on how to connect a protein, mutation, PTM, domain, or other candidate feature to structural context.</p>
-<p>For <strong>Swiss-Model sequence submission and model prediction</strong>, use <strong>Toolkits → SwissModel</strong>. The Swiss-Model interface screenshot and step-by-step modeling instructions are maintained on that dedicated page.</p>
+<p>Use <strong>Toolkits → Protein Structure</strong> to analyze a protein structure from a <code>.pdb</code> file with ProtVis’s current <code>bio3d</code> workflow. The module reads the PDB structure, performs <strong>Normal Mode Analysis (NMA)</strong>, plots residue-level fluctuations, overlays alpha-helix and beta-sheet annotations, and summarizes the loaded structure.</p>
+<p>This module is different from <strong>Toolkits → SwissModel</strong>. SwissModel is used to generate or retrieve a predicted structure from a protein sequence; <strong>Protein Structure</strong> starts from an existing PDB file and performs structural fluctuation analysis.</p>
 </section>
-<section id="recommended-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-workflow">Recommended workflow</h2>
-<ol type="1">
-<li>Resolve the candidate to a stable protein identifier and confirm the expected protein sequence.</li>
-<li>Obtain an experimental structure or an appropriate predicted model.</li>
-<li>Confirm chain and residue numbering before mapping mutations, PTMs, domains, or functional residues.</li>
-<li>Inspect the three-dimensional context and any relevant quality/confidence information.</li>
-<li>Record the structure source, model/entry identifier, and quality evidence in the figure legend or Methods.</li>
-</ol>
+<section id="protein-structure-interface" class="level2">
+<h2 class="anchored" data-anchor-id="protein-structure-interface">Protein Structure interface</h2>
+<p>The screenshot below shows the current Protein Structure interface. The left sidebar contains <strong>File Upload</strong>, <strong>Demo Data</strong>, <strong>Parameters</strong>, <strong>Run</strong>, and <strong>Download</strong> controls. The main area contains the <strong>Secondary Structure Plot</strong> and <strong>Structure Summary</strong> panels.</p>
+<div id="fig-protein-structure-interface" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of ProtVis Toolkits Protein Structure. A PDB structure can be uploaded or the built-in 1hel.pdb demo can be used. Parameters control beta-sheet color, alpha-helix color and line width. The result area displays a Normal Mode Analysis fluctuation plot with secondary-structure annotation and a structure summary table.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-protein-structure-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/screenshots/PixPin_2026-09-14_10-05-57.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Toolkits Protein Structure. A PDB structure can be uploaded or the built-in 1hel.pdb demo can be used. Parameters control beta-sheet color, alpha-helix color and line width. The result area displays a Normal Mode Analysis fluctuation plot with secondary-structure annotation and a structure summary table.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protein-structure-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: ProtVis Protein Structure interface showing PDB input, built-in demo data, NMA plotting parameters, export controls, the residue-fluctuation plot and the structure summary table.
+</figcaption>
+</figure>
+</div>
 </section>
-<section id="interpretation" class="level2">
-<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
-<p>Structural visualization is most useful when it is tied back to the biological question. For example, a differentially abundant protein may be examined for whether a candidate mutation or PTM lies near an active site, interface, conserved domain, or structurally constrained region.</p>
+<section id="recommended-operating-order" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h2>
+<p><strong>1. Load a PDB structure.</strong> Under <strong>File Upload</strong>, upload a <code>.pdb</code> file. ProtVis validates the extension before accepting the file. Alternatively, open <strong>Demo Data</strong> and click <strong>Use Demo PDB</strong> to load the bundled <code>1hel.pdb</code> example.</p>
+<p><strong>2. Confirm the active source.</strong> The Demo Data panel reports the current source and active file name. When the built-in example is selected, ProtVis immediately triggers the same analysis workflow used by the <strong>Run</strong> button.</p>
+<p><strong>3. Adjust the display parameters.</strong> Under <strong>Parameters</strong>, set <strong>Beta sheet color</strong>, <strong>Alpha helix color</strong>, and <strong>Line width</strong>. The current defaults use an orange beta-sheet color, a purple alpha-helix color, and a line width of <code>2.5</code>.</p>
+<p><strong>4. Run the analysis.</strong> Click <strong>Run</strong> for an uploaded PDB file. If no file has been explicitly selected, the current implementation can fall back to the bundled demo PDB when it is available.</p>
+<p><strong>5. Inspect the Secondary Structure Plot.</strong> ProtVis reads the PDB with <code>bio3d::read.pdb()</code>, calculates normal modes with <code>bio3d::nma()</code>, and plots <code>modes$fluctuations</code> using <code>bio3d::plot.bio3d()</code>. The x-axis represents residue position and the y-axis represents <strong>Fluctuations from NMA</strong>. Secondary-structure information from the PDB is overlaid so helices and sheets can be interpreted together with the fluctuation profile.</p>
+<p><strong>6. Inspect the Structure Summary.</strong> The summary panel reports structural information derived from the parsed PDB, including structure size and available secondary-structure information. Use this panel to confirm that the intended structure was analyzed before interpreting the fluctuation plot.</p>
+<p><strong>7. Export the figure.</strong> Under <strong>Download</strong>, set plot width, height, units, resolution, and file format. ProtVis currently supports <strong>PDF, PNG, JPEG, TIFF, and SVG</strong>. PDF and SVG are vector outputs; PNG, JPEG, and TIFF use the selected DPI.</p>
+</section>
+<section id="what-the-plot-represents" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-plot-represents">What the plot represents</h2>
+<p>Normal Mode Analysis approximates collective motions that are accessible around the current protein conformation. In the ProtVis plot, larger residue-level fluctuation values indicate regions predicted to participate more strongly in these low-frequency motions, whereas lower values indicate comparatively constrained regions.</p>
+<p>The secondary-structure overlay helps distinguish whether flexible or constrained regions correspond to alpha helices, beta sheets, or less structured segments. These patterns are useful for structural interpretation of domains, loops, mutation sites, PTMs, or candidate functional regions.</p>
+</section>
+<section id="current-protvis-implementation" class="level2">
+<h2 class="anchored" data-anchor-id="current-protvis-implementation">Current ProtVis implementation</h2>
+<p>The core calculation follows the standard <code>bio3d</code> workflow:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pdb <span class="ot">&lt;-</span> bio3d<span class="sc">::</span><span class="fu">read.pdb</span>(pdb_file)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>modes <span class="ot">&lt;-</span> bio3d<span class="sc">::</span><span class="fu">nma</span>(pdb)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>bio3d<span class="sc">::</span><span class="fu">plot.bio3d</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  modes<span class="sc">$</span>fluctuations,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">sse =</span> pdb,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sheet.col =</span> sheet_color,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">helix.col =</span> helix_color,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">typ =</span> <span class="st">"l"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> line_width,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Residue"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Fluctuations from NMA"</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This means the plotted line is the NMA fluctuation profile itself rather than a generic abundance or confidence score.</p>
+</section>
+<section id="input-requirements" class="level2">
+<h2 class="anchored" data-anchor-id="input-requirements">Input requirements</h2>
+<p>The uploaded file must be a valid protein <code>.pdb</code> file that can be parsed by <code>bio3d</code> and contains the structural atoms required for NMA. If the structure lacks suitable protein C-alpha atoms or cannot be processed by the normal-mode calculation, ProtVis reports an analysis failure rather than producing a misleading plot.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -673,7 +748,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For a ProtVis-generated Swiss-Model prediction, continue to <strong>Toolkits → SwissModel</strong> for sequence submission, project information, model-quality results, PDB information, Ramachandran diagnostics, residue composition, 3D visualization, and downloads.</p>
+<p>Use the bundled <code>1hel.pdb</code> example first when checking a new installation. If the demo works but an uploaded structure fails, the issue is more likely to be the PDB content than the Protein Structure module itself.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -686,7 +761,7 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Predicted structures and experimentally determined structures are not equivalent evidence. When using a model, report its source and relevant confidence/quality metrics and avoid over-interpreting poorly supported regions.</p>
+<p>Normal Mode Analysis is a model of collective structural motions, not a direct experimental measurement of residue dynamics. Interpret NMA together with the structure source, model quality, experimental evidence, domains, interfaces, and known functional sites.</p>
 </div>
 </div>
 
