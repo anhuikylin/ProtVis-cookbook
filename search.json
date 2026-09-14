@@ -220,7 +220,7 @@
     "href": "content/Toolkits/Protein_Structure.html",
     "title": "Protein structure",
     "section": "",
-    "text": "The Protein Structure toolkit connects a protein sequence to a Swiss-Model prediction workflow and then brings the returned structural information back into ProtVis for inspection. The current implementation combines Swiss-Model project information with bio3d-based structure parsing and r3dmol visualization.",
+    "text": "The Protein Structure toolkit connects a protein sequence to a Swiss-Model prediction workflow and then brings the returned structural information back into ProtVis for inspection. The current implementation combines Swiss-Model project information with bio3d-based structure parsing and r3dmol visualization.\nFor the complete identifier-to-annotation-to-structure route, start from Toolkits → Protein Links. The current Swiss-Model interface screenshot is documented there because it represents the structure follow-up step after a protein has been resolved.",
     "crumbs": [
       "Toolkits",
       "Protein structure"
@@ -231,18 +231,7 @@
     "href": "content/Toolkits/Protein_Structure.html#purpose",
     "title": "Protein structure",
     "section": "",
-    "text": "The Protein Structure toolkit connects a protein sequence to a Swiss-Model prediction workflow and then brings the returned structural information back into ProtVis for inspection. The current implementation combines Swiss-Model project information with bio3d-based structure parsing and r3dmol visualization.",
-    "crumbs": [
-      "Toolkits",
-      "Protein structure"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Protein_Structure.html#swiss-model-interface",
-    "href": "content/Toolkits/Protein_Structure.html#swiss-model-interface",
-    "title": "Protein structure",
-    "section": "Swiss-Model interface",
-    "text": "Swiss-Model interface\nThe screenshot below shows a completed Swiss-Model run using the built-in example protein sequence. ProtVis displays the project information and model-quality table at the top, while the lower result tabs provide PDB Information, Ramachandran Plot, Residue Composition, and an interactive 3D Structure view.\n\n\n\n\n\n\nFigure 1: ProtVis Swiss-Model interface showing the protein-sequence input, completed project information, model-quality results and structure-analysis tabs. The API-token value has been redacted for safe publication.\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nTreat the Swiss-Model API token as a credential. Do not publish it in screenshots, manuscripts, repositories or shared project files. The token field in the figure above is intentionally redacted.",
+    "text": "The Protein Structure toolkit connects a protein sequence to a Swiss-Model prediction workflow and then brings the returned structural information back into ProtVis for inspection. The current implementation combines Swiss-Model project information with bio3d-based structure parsing and r3dmol visualization.\nFor the complete identifier-to-annotation-to-structure route, start from Toolkits → Protein Links. The current Swiss-Model interface screenshot is documented there because it represents the structure follow-up step after a protein has been resolved.",
     "crumbs": [
       "Toolkits",
       "Protein structure"
@@ -253,7 +242,7 @@
     "href": "content/Toolkits/Protein_Structure.html#input-and-run",
     "title": "Protein structure",
     "section": "Input and run",
-    "text": "Input and run\nEnter a protein sequence in the Protein sequence field and provide a valid Swiss-Model API token. ProtVis includes an Example button that restores the bundled demonstration sequence, a Clear button that clears inputs and results, and a Run button that starts the prediction workflow.\nWhen Run is clicked, ProtVis removes whitespace from the sequence, validates that both a sequence and API token are present, configures the Swiss-Model token, and submits the sequence through the automated modeling workflow. After Swiss-Model returns the project, ProtVis reads the downloaded structure, parses the project information and calculates model-quality summaries for display.",
+    "text": "Input and run\nEnter a protein sequence in the Protein sequence field and provide a valid Swiss-Model API token. ProtVis includes an Example button that restores the bundled demonstration sequence, a Clear button that clears inputs and results, and a Run button that starts the prediction workflow.\nWhen Run is clicked, ProtVis removes whitespace from the sequence, validates that both a sequence and API token are present, configures the Swiss-Model token, and submits the sequence through the automated modeling workflow. After Swiss-Model returns the project, ProtVis reads the downloaded structure, parses the project information and calculates model-quality summaries for display.\n\n\n\n\n\n\nImportant\n\n\n\nTreat the Swiss-Model API token as a credential. Do not publish it in screenshots, manuscripts, repositories or shared project files.",
     "crumbs": [
       "Toolkits",
       "Protein structure"
@@ -2477,7 +2466,7 @@
     "href": "content/Toolkits/Protein_Links.html",
     "title": "Protein links",
     "section": "",
-    "text": "Use Toolkits → Protein links when you want to move quickly from a gene/protein identifier or an amino-acid sequence to external protein resources. ProtVis supports two routes: a direct identifier lookup through the UniProt REST service, or a local BLASTP fallback against user-configured Swiss-Prot and TrEMBL databases.\nAfter a UniProt accession has been resolved, ProtVis provides quick links to UniProt, InterPro, and the SWISS-MODEL Repository.",
+    "text": "Use Toolkits → Protein links when you want to move quickly from a gene/protein identifier or an amino-acid sequence to external protein resources. ProtVis supports two routes: a direct identifier lookup through the UniProt REST service, or a local BLASTP fallback against user-configured Swiss-Prot and TrEMBL databases.\nAfter a UniProt accession has been resolved, ProtVis provides quick links to UniProt, InterPro, and the SWISS-MODEL Repository. This makes Protein Links the natural entry point for moving from an identifier to annotation and then to structure-oriented inspection.",
     "crumbs": [
       "Toolkits",
       "Protein links"
@@ -2488,7 +2477,7 @@
     "href": "content/Toolkits/Protein_Links.html#purpose",
     "title": "Protein links",
     "section": "",
-    "text": "Use Toolkits → Protein links when you want to move quickly from a gene/protein identifier or an amino-acid sequence to external protein resources. ProtVis supports two routes: a direct identifier lookup through the UniProt REST service, or a local BLASTP fallback against user-configured Swiss-Prot and TrEMBL databases.\nAfter a UniProt accession has been resolved, ProtVis provides quick links to UniProt, InterPro, and the SWISS-MODEL Repository.",
+    "text": "Use Toolkits → Protein links when you want to move quickly from a gene/protein identifier or an amino-acid sequence to external protein resources. ProtVis supports two routes: a direct identifier lookup through the UniProt REST service, or a local BLASTP fallback against user-configured Swiss-Prot and TrEMBL databases.\nAfter a UniProt accession has been resolved, ProtVis provides quick links to UniProt, InterPro, and the SWISS-MODEL Repository. This makes Protein Links the natural entry point for moving from an identifier to annotation and then to structure-oriented inspection.",
     "crumbs": [
       "Toolkits",
       "Protein links"
@@ -2500,6 +2489,17 @@
     "title": "Protein links",
     "section": "Protein Links interface",
     "text": "Protein Links interface\nThe full-resolution screenshot below shows the current interface using AT5G22800 as an example query. The right side illustrates the external annotation pages reached from the resolved protein entry. The Windows BLAST database and executable paths visible in the screenshot belong to that computer only and should not be copied literally to another machine.\n\n\n\n\n\n\nFigure 1: ProtVis Protein Links interface showing direct gene-ID lookup, protein-sequence input, local Swiss-Prot/TrEMBL BLAST database paths, BLASTP executable configuration and linked external protein resources.",
+    "crumbs": [
+      "Toolkits",
+      "Protein links"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Links.html#swiss-model-structure-result-from-protein-links",
+    "href": "content/Toolkits/Protein_Links.html#swiss-model-structure-result-from-protein-links",
+    "title": "Protein links",
+    "section": "Swiss-Model structure result from Protein Links",
+    "text": "Swiss-Model structure result from Protein Links\nAfter the protein identity has been resolved, the structure-related link can be used to continue into Swiss-Model-oriented inspection. The screenshot below belongs in this Protein Links workflow because it illustrates the structure follow-up reached after protein identification and annotation rather than the initial identifier-mapping step itself.\n\n\n\n\n\n\nFigure 2: Swiss-Model result view used as the structure follow-up in the Protein Links workflow. The protein sequence, project information, model-quality table and structure-analysis tabs are visible. The API-token value has been redacted for safe publication.\n\n\n\nThe structure view should be interpreted in the following order: first confirm the resolved protein and sequence; then inspect the returned Project Information and Model Quality; finally use PDB Information, Ramachandran Plot, Residue Composition, and 3D Structure to evaluate the model. If the structure is used in a figure or candidate-gene interpretation, record the model/project identifier and quality information together with the protein accession.\n\n\n\n\n\n\nImportant\n\n\n\nTreat a Swiss-Model API token as a credential. Do not publish it in screenshots, manuscripts, repositories, or shared project files. The token field in the screenshot above has been redacted.",
     "crumbs": [
       "Toolkits",
       "Protein links"
