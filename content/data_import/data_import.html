@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/data_import/raw_sage_search.html" rel="next">
+<link href="../../content/data_import/msconvert_raw_to_mzml.html" rel="next">
 <link href="../../content/Project_init/Project_init.html" rel="prev">
 <link href="../../assets/protvis-favicon.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -356,6 +356,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../content/data_import/data_import.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Data input</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/data_import/msconvert_raw_to_mzml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RAW → mzML with MSConvert</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -730,7 +736,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="rawmzml" class="level2">
 <h2 class="anchored" data-anchor-id="rawmzml">Raw/mzML</h2>
 <p>For Raw data, do not upload an artificial protein matrix simply to satisfy Project init. Register sample information, the mzML directory and FASTA; Project init creates a <code>Sage_staging</code> object. The conditional <strong>Search</strong> tab then runs Sage and creates the quantitative LFQ matrix.</p>
-<p>Read <a href="../../content/data_import/raw_sage_search.html">Raw/mzML + Sage search</a> for the complete workflow.</p>
+<p>If your mass spectrometer produced vendor files such as Thermo <code>.raw</code> rather than <code>.mzML</code>, first follow <a href="../../content/data_import/msconvert_raw_to_mzml.html">RAW → mzML with MSConvert</a>. That tutorial covers the official ProteoWizard download, Windows installation, MSConvertGUI, command-line batch conversion, centroiding/Peak Picking, zlib compression, file validation, and the PXD065315 example used by ProtVis.</p>
+<p>Then read <a href="../../content/data_import/raw_sage_search.html">Raw/mzML + Sage search</a> for the complete ProtVis workflow.</p>
 </section>
 <section id="maxquant" class="level2">
 <h2 class="anchored" data-anchor-id="maxquant">MaxQuant</h2>
@@ -1208,8 +1215,8 @@ Step2_remove_unreliable_peptide.rda</code></pre>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/data_import/raw_sage_search.html" class="pagination-link" aria-label="Raw/mzML + Sage">
-        <span class="nav-page-text">Raw/mzML + Sage</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/data_import/msconvert_raw_to_mzml.html" class="pagination-link" aria-label="RAW → mzML with MSConvert">
+        <span class="nav-page-text">RAW → mzML with MSConvert</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
