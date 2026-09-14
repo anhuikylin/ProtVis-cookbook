@@ -14,17 +14,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: OCR screenshots for module identification
+      - name: Inspect screenshots and OCR coordinates
         shell: bash
         run: |
           set -euo pipefail
-          if ! command -v tesseract >/dev/null 2>&1; then
-            sudo apt-get update -qq
-            sudo apt-get install -y -qq tesseract-ocr
-          fi
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr imagemagick
           for f in \
             PixPin_2026-09-14_09-22-35.png \
             PixPin_2026-09-14_09-25-27.png; do
-            echo "===== ${f} ====="
+            echo "===== ${f} dimensions ====="
+            identify "images/screenshots/${f}"
+            echo "===== ${f} OCR ====="
             tesseract "images/screenshots/${f}" stdout --psm 11 2>/dev/null | head -n 420 || true
           done
+          echo "===== token-area TSV ====="
+          tesseract "images/screenshots/PixPin_2026-09-14_09-22-35.png" stdout --psm 11 tsv 2>/dev/null | grep -Ei 'API|Token|c823|swiss|project|Click|here' || true
