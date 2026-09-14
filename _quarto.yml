@@ -8,7 +8,6 @@ website:
   repo-actions: [edit, source, issue]
   page-navigation: true
   search: true
-  favicon: https://raw.githubusercontent.com/xuebinzhang-lab/ProtVis/dev/app/www/ProtVis_ico.ico
   page-footer:
     left: "Author: **Fei Liang** · State Key Laboratory of Crop Stress Adaptation and Improvement, Henan Joint International Laboratory for Crop Multi‐Omics Research, School of Life Sciences, Henan University, Zhengzhou 475004, China"
     center: "ProtVis Cookbook · Documentation for reproducible proteomics workflows"
@@ -17,7 +16,6 @@ website:
     style: docked
     pinned: true
     collapse-level: 1
-    logo: https://raw.githubusercontent.com/xuebinzhang-lab/ProtVis/dev/app/www/ProtVis_ico.ico
     tools:
       - icon: github
         href: https://github.com/xuebinzhang-lab/ProtVis
@@ -133,6 +131,7 @@ format:
     theme:
       light: [cosmo, assets/theme.scss]
       dark: [darkly, assets/theme-dark.scss]
+    include-in-header: assets/protvis-icon.html
     toc: true
     toc-depth: 3
     toc-title: "On this page"
