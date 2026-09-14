@@ -1,31 +1,60 @@
 ---
 title: "SwissModel"
-description: "Submit a protein sequence for structure modeling and inspect model quality, PDB information and 3D output."
+description: "Submit a protein sequence to Swiss-Model, inspect project/model quality information, and explore the predicted structure in ProtVis."
 ---
 
-## Inputs
+## Purpose
 
-The current SwissModel module accepts:
+Use **Toolkits → SwissModel** when you want to submit a protein sequence to Swiss-Model and inspect the returned structural results directly in ProtVis. The current module combines Swiss-Model project information with structure parsing and interactive visualization, so this is the correct tutorial page for the Swiss-Model interface shown below.
 
-- a **protein sequence**;
-- a **Swiss-Model API token**.
+## SwissModel interface
 
-An example sequence can be inserted from the interface to verify the workflow.
+The screenshot below shows a completed Swiss-Model run using the bundled example sequence. ProtVis displays **Project Information** and **Model Quality** in the upper result area, while the lower tabs provide **PDB Information**, **Ramachandran Plot**, **Residue Composition**, and an interactive **3D Structure** view.
 
-## Workflow
+![ProtVis SwissModel interface showing sequence input, project information, model-quality results and structure-analysis tabs. The API-token field has been redacted for safe documentation.](../../images/screenshots/PixPin_2026-09-14_09-22-35.png){#fig-swissmodel-interface fig-alt="Screenshot of ProtVis Toolkits SwissModel. A protein sequence is submitted to Swiss-Model and the result area displays project information, model-quality information, PDB information, Ramachandran plot, residue composition and an interactive 3D structure. The API-token value is redacted." width="100%" fig-align="center"}
 
-1. Paste the protein sequence.
-2. Enter a valid API token.
-3. Click **Run**.
-4. Open the generated project link when available.
-5. Review **Project Information** and the **Model Quality** table.
-6. Inspect **PDB Information**, the **Ramachandran Plot**, **Residue Composition**, and the interactive **3D Structure**.
-7. Download the project information, PDB file and model-quality results.
+## Recommended operating order
+
+**1. Enter the protein sequence.** Paste the amino-acid sequence into **Protein sequence**. Whitespace is removed before submission. The **Example** button restores the bundled demonstration sequence and is useful for checking that the module is working.
+
+**2. Enter a Swiss-Model API token.** Supply a valid token in **API Token**. The token is used to authenticate the modeling request and should be treated as a private credential.
+
+**3. Start modeling.** Click **Run**. ProtVis validates that both sequence and token are present, configures the Swiss-Model token, submits the sequence through the automated modeling workflow, waits for the returned project, downloads the predicted structure, and parses the project information.
+
+**4. Review Project Information.** The **Project Information** panel reports the returned Swiss-Model project metadata and model records. When a project link is available, open **Project Link → Open Swiss-Model result page** to inspect the corresponding project on the Swiss-Model website.
+
+**5. Review Model Quality.** The **Model Quality** panel summarizes calculated quality information for the downloaded model. Structural interpretation should only proceed after checking the available quality metrics and model coverage.
+
+**6. Inspect PDB Information.** Open the **PDB Information** tab to review the parsed structure, including basic atom/residue/chain information from the downloaded model.
+
+**7. Inspect the Ramachandran Plot.** Use **Ramachandran Plot** as a stereochemical diagnostic of backbone conformations. Unusual distributions should be interpreted together with model quality and local structural context.
+
+**8. Inspect Residue Composition.** The **Residue Composition** tab summarizes the amino-acid composition of the returned structure and provides a quick check of the modeled sequence content.
+
+**9. Explore the 3D structure.** Open **3D Structure** to interactively inspect the predicted protein structure in the embedded `r3dmol` viewer.
+
+**10. Download the outputs.** The Download section provides the project information, predicted PDB file, and model-quality table. The current output filenames are `swissmodel_project_info.json`, `swissmodel_model.pdb`, and `swissmodel_model_quality.csv`.
+
+## Buttons and controls
+
+- **Run** starts the Swiss-Model workflow.
+- **Example** restores the built-in protein sequence.
+- **Clear** removes the sequence/token inputs and clears current results.
+- **Project Link** opens the corresponding Swiss-Model result page after a successful run.
+- **Uploaded / Predicted File Info** reports downloaded model-file information.
+- **Download** exports project information, the PDB model, and model-quality results.
 
 ## Interpretation
 
-Model quality should be assessed before structural conclusions are drawn. Pay particular attention to template support, global/local quality estimates, unresolved/disordered regions and stereochemical diagnostics.
+A successful modeling job does not by itself establish that every region of the model is reliable. Review the available quality metrics, model coverage, stereochemical diagnostics, and any unsupported or poorly modeled regions before mapping mutations, PTMs, domains, or functional residues.
+
+When the structure is used in a figure or manuscript, record the Swiss-Model project/model identifier and preserve the downloaded PDB and model-quality outputs so that the structural interpretation remains traceable.
+
+::: {.callout-important}
+## Keep API tokens private
+Do not publish API tokens in screenshots, manuscripts, repositories, notebooks, or exported project files. The token field in the documentation screenshot has therefore been redacted.
+:::
 
 ::: {.callout-warning}
-Do not publish or share API tokens in screenshots, notebooks, repositories or exported project files. Treat the token as a credential.
+Predicted structures and experimentally determined structures are not equivalent evidence. Report the prediction source and relevant model-quality information, and avoid strong mechanistic claims for poorly supported regions without additional evidence.
 :::
