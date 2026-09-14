@@ -7,21 +7,17 @@ description: "Run the Swiss-Model workflow, inspect model quality and explore pr
 
 The **Protein Structure** toolkit connects a protein sequence to a Swiss-Model prediction workflow and then brings the returned structural information back into ProtVis for inspection. The current implementation combines Swiss-Model project information with `bio3d`-based structure parsing and `r3dmol` visualization.
 
-## Swiss-Model interface
-
-The screenshot below shows a completed Swiss-Model run using the built-in example protein sequence. ProtVis displays the project information and model-quality table at the top, while the lower result tabs provide **PDB Information**, **Ramachandran Plot**, **Residue Composition**, and an interactive **3D Structure** view.
-
-![ProtVis Swiss-Model interface showing the protein-sequence input, completed project information, model-quality results and structure-analysis tabs. The API-token value has been redacted for safe publication.](../../images/screenshots/PixPin_2026-09-14_09-22-35.png){#fig-swissmodel-interface fig-cap="ProtVis Swiss-Model interface. A protein sequence is submitted to Swiss-Model, and ProtVis collects project information, model-quality metrics and structural outputs for downstream inspection. The API-token value is redacted in this documentation screenshot." width=100%}
-
-::: {.callout-important}
-Treat the Swiss-Model API token as a credential. Do not publish it in screenshots, manuscripts, repositories or shared project files. The token field in the figure above is intentionally redacted.
-:::
+For the complete identifier-to-annotation-to-structure route, start from **Toolkits → Protein Links**. The current Swiss-Model interface screenshot is documented there because it represents the structure follow-up step after a protein has been resolved.
 
 ## Input and run
 
 Enter a protein sequence in the **Protein sequence** field and provide a valid Swiss-Model API token. ProtVis includes an **Example** button that restores the bundled demonstration sequence, a **Clear** button that clears inputs and results, and a **Run** button that starts the prediction workflow.
 
 When **Run** is clicked, ProtVis removes whitespace from the sequence, validates that both a sequence and API token are present, configures the Swiss-Model token, and submits the sequence through the automated modeling workflow. After Swiss-Model returns the project, ProtVis reads the downloaded structure, parses the project information and calculates model-quality summaries for display.
+
+::: {.callout-important}
+Treat the Swiss-Model API token as a credential. Do not publish it in screenshots, manuscripts, repositories or shared project files.
+:::
 
 ## Results
 
