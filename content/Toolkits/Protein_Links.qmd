@@ -1,32 +1,92 @@
 ---
 title: "Protein links"
-description: "Resolve protein identifiers and open UniProt, InterPro and structure resources."
+description: "Resolve a gene/protein identifier or sequence to UniProt and open linked annotation and structure resources."
 ---
 
-## Direct identifier lookup
+## Purpose
 
-Enter a gene identifier or UniProt accession. When a compatible identifier can be resolved, ProtVis provides direct links to resources such as **UniProt**, **InterPro**, and **Swiss-Model**.
+Use **Toolkits → Protein links** when you want to move quickly from a gene/protein identifier or an amino-acid sequence to external protein resources. ProtVis supports two routes: a direct identifier lookup through the UniProt REST service, or a local **BLASTP** fallback against user-configured Swiss-Prot and TrEMBL databases.
 
-## Sequence-based fallback
+After a UniProt accession has been resolved, ProtVis provides quick links to **UniProt**, **InterPro**, and the **SWISS-MODEL Repository**.
 
-If an identifier is unavailable, the toolkit can use a protein sequence as a fallback and run local **BLASTP** against configured UniProt databases.
+## Protein Links interface
 
-Local sequence search requires paths to:
+The full-resolution screenshot below shows the current interface using `AT5G22800` as an example query. The right side illustrates the external annotation pages reached from the resolved protein entry. The Windows BLAST database and executable paths visible in the screenshot belong to that computer only and should not be copied literally to another machine.
 
-- a Swiss-Prot BLAST database;
-- a TrEMBL BLAST database;
-- the `blastp` executable.
+![ProtVis Protein Links interface showing direct gene-ID lookup, protein-sequence input, local Swiss-Prot/TrEMBL BLAST database paths, BLASTP executable configuration and linked external protein resources.](../../images/screenshots/PixPin_2026-09-14_09-10-56.png){#fig-protein-links-interface fig-alt="Screenshot of ProtVis Toolkits Protein Links. The left panel contains Enter Gene ID or Protein Sequence, a protein-sequence box, SwissProt and TrEMBL database paths, the BLASTp executable path and Run BLASTp. The example query AT5G22800 is resolved to a UniProt entry and external UniProt and InterPro annotation pages are shown on the right." width="100%" fig-align="center"}
 
-The exact paths are machine-specific and should not be copied from another user's computer.
+## Route 1: direct gene or protein identifier lookup
 
-## Recommended workflow
+**1. Enter a gene identifier or UniProt-compatible identifier.** Type the identifier in **Enter Gene ID or Protein Sequence**. In the screenshot, the example is `AT5G22800`.
 
-1. Prefer a stable gene/UniProt identifier when available.
-2. Use sequence-based BLAST only when ID mapping fails.
-3. Review the best match, coverage and identity before accepting the mapping.
-4. Open UniProt/InterPro/structure resources from the resolved accession.
-5. Record the accession used in subsequent analysis.
+**2. Let ProtVis query UniProt.** For a non-empty identifier, the current implementation sends a UniProtKB search request and uses the **first returned primary accession**. No local BLAST database is required for this route.
+
+**3. Check the resolved protein before interpreting it.** Open **UniProt** and verify the organism, gene/protein name, sequence length and functional annotation. In the screenshot, the example resolves to an Arabidopsis protein entry. The exact accession and annotation displayed are example-specific and should not be treated as expected output for another identifier.
+
+**4. Follow the Quick Links.** Once a UniProt accession is available, ProtVis builds direct links to **UniProt**, **InterPro**, and **SWISS-MODEL Repository**. UniProt and InterPro may themselves expose additional links to resources such as AlphaFold or other structural/domain services, but these are external-site links rather than additional ProtVis mapping steps.
+
+## Route 2: sequence-based BLASTP fallback
+
+Use this route when a stable identifier is unavailable or direct UniProt mapping does not resolve the protein.
+
+**1. Paste the amino-acid sequence.** Enter the protein sequence in **Enter protein sequence**. Remove FASTA description text unless it is intentionally part of the sequence input.
+
+**2. Set the Swiss-Prot database path.** **SwissProt database path** must point to a local BLAST-formatted Swiss-Prot protein database.
+
+**3. Set the TrEMBL database path.** **TrEMBL database path** must point to a local BLAST-formatted TrEMBL protein database.
+
+**4. Set the BLASTP executable path.** **BLASTp executable path** must point to the local NCBI BLAST+ `blastp` executable. For example, on Windows this is typically a path ending in `blastp.exe`.
+
+**5. Click Run BLASTP.** ProtVis writes the sequence to a temporary FASTA file and runs BLASTP in XML output mode. The current search strategy queries **Swiss-Prot first** and only searches **TrEMBL if no Swiss-Prot hit is returned**.
+
+**6. Verify the mapped hit.** The underlying BLAST helper retrieves the top hit and calculates sequence identity from the HSP identity count divided by aligned length. Treat this result as a candidate mapping that still requires biological review.
+
+**7. Use the resolved accession to open external resources.** When a UniProt accession can be obtained, the same UniProt, InterPro and SWISS-MODEL quick links become available.
+
+## Local BLAST setup
+
+The paths shown in the screenshot are examples from one Windows installation:
+
+```text
+SwissProt database path: G:/blastdb/UniProt/uniprot_sprot
+TrEMBL database path:    G:/blastdb/UniProt/uniprot_trembl
+BLASTp executable path:  F:/NCBI/blast-2.17.0+/bin/blastp.exe
+```
+
+Replace all three with paths that exist on your own computer. The Swiss-Prot and TrEMBL databases must already be prepared in a BLAST-compatible format; entering the path to a downloaded FASTA file alone is not equivalent to providing a formatted BLAST database.
+
+## How the current lookup priority works
+
+The current server logic follows this order:
+
+```text
+Gene/protein identifier
+        ↓
+UniProt REST search
+        ↓
+first primary accession
+        ↓
+UniProt / InterPro / SWISS-MODEL links
+```
+
+If direct identifier mapping is unavailable and a protein sequence is supplied, ProtVis uses:
+
+```text
+protein sequence
+      ↓
+Swiss-Prot BLASTP
+      ↓ no hit
+TrEMBL BLASTP
+      ↓
+resolved UniProt candidate
+```
 
 ::: {.callout-warning}
-The top BLAST hit is not automatically an ortholog or the biologically correct mapping. Check species, sequence coverage, identity, domain structure and database annotation before transferring functional interpretation.
+## Verify the biological identity
+The first UniProt search result or the top BLAST hit is not automatically the correct ortholog, isoform, or functional counterpart. Check species, sequence coverage, identity, domain architecture and curated annotation before transferring biological interpretation.
+:::
+
+::: {.callout-important}
+## Database paths are machine-specific
+The `G:/...` and `F:/...` paths visible in the screenshot are demonstration paths from that Windows computer. They are not bundled with ProtVis and will not work unless the same local databases and BLAST+ installation exist at those locations.
 :::
