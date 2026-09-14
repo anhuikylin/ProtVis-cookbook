@@ -2354,34 +2354,78 @@
   {
     "objectID": "content/Toolkits/Stacked_Column.html",
     "href": "content/Toolkits/Stacked_Column.html",
-    "title": "Stacked column",
+    "title": "Stacked Column Diagram",
     "section": "",
-    "text": "The stacked-column utility is suited to composition-style data such as taxonomic categories, functional categories, pathway classes or other features whose contributions should be compared across samples.",
+    "text": "Use Toolkits → Stacked Column Diagram to compare category composition across tissues, samples, treatments, or other groups. The current ProtVis module supports three display modes from the same input table: Stacked columns, Grouped columns, and 100% stacked columns.\nThis module is useful for summaries such as up/down/not-significant counts, functional-category composition, pathway classes, taxonomic composition, or any other set of numeric categories that should be compared across groups.",
     "crumbs": [
       "Toolkits",
-      "Stacked column"
+      "Stacked Column Diagram"
     ]
   },
   {
     "objectID": "content/Toolkits/Stacked_Column.html#purpose",
     "href": "content/Toolkits/Stacked_Column.html#purpose",
-    "title": "Stacked column",
+    "title": "Stacked Column Diagram",
     "section": "",
-    "text": "The stacked-column utility is suited to composition-style data such as taxonomic categories, functional categories, pathway classes or other features whose contributions should be compared across samples.",
+    "text": "Use Toolkits → Stacked Column Diagram to compare category composition across tissues, samples, treatments, or other groups. The current ProtVis module supports three display modes from the same input table: Stacked columns, Grouped columns, and 100% stacked columns.\nThis module is useful for summaries such as up/down/not-significant counts, functional-category composition, pathway classes, taxonomic composition, or any other set of numeric categories that should be compared across groups.",
     "crumbs": [
       "Toolkits",
-      "Stacked column"
+      "Stacked Column Diagram"
     ]
   },
   {
-    "objectID": "content/Toolkits/Stacked_Column.html#recommended-workflow",
-    "href": "content/Toolkits/Stacked_Column.html#recommended-workflow",
-    "title": "Stacked column",
-    "section": "Recommended workflow",
-    "text": "Recommended workflow\n\nPrepare a table with explicit sample/group labels, category labels and numeric values.\nDecide whether values should represent absolute abundance or proportions.\nAggregate rare categories into Other when a long legend would obscure the signal.\nGenerate the stacked-column plot.\nCheck that the category order and sample order support the biological comparison.\nExport the underlying summarized table together with the figure.\n\n\n\n\n\n\n\nTip\n\n\n\nFor relative-abundance plots, verify that each sample sums to the intended denominator after filtering. Removing categories before renormalization changes the apparent proportions.",
+    "objectID": "content/Toolkits/Stacked_Column.html#stacked-column-diagram-interface",
+    "href": "content/Toolkits/Stacked_Column.html#stacked-column-diagram-interface",
+    "title": "Stacked Column Diagram",
+    "section": "Stacked Column Diagram interface",
+    "text": "Stacked Column Diagram interface\nThe screenshot below shows the current ProtVis interface. The left sidebar contains Data Input, Plot Settings, and Download controls. The main area contains the generated Column Chart and a Data Preview panel showing the first eight rows of the current dataset.\n\n\n\n\n\n\nFigure 1: ProtVis Stacked Column Diagram interface showing the data-input controls, chart settings, category-color controls, generated column chart and data preview.",
     "crumbs": [
       "Toolkits",
-      "Stacked column"
+      "Stacked Column Diagram"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Stacked_Column.html#recommended-operating-order",
+    "href": "content/Toolkits/Stacked_Column.html#recommended-operating-order",
+    "title": "Stacked Column Diagram",
+    "section": "Recommended operating order",
+    "text": "Recommended operating order\n1. Load the data. Under Data Input, either upload a tidy .csv file with Upload CSV File or click USE DEMO DATA. ProtVis also provides DOWNLOAD DEMO CSV so the required input structure can be reused as a template.\n2. Confirm the input structure. The current implementation requires a column named exactly Tissue. Every other column intended for plotting must be numeric. After loading data, the status box reports the current data source and the Data Preview card shows the first eight rows together with row and column counts.\n3. Choose the chart type. Under Plot Settings, select one of the three supported modes:\n\nStacked columns — category values are stacked and retain their original magnitude.\nGrouped columns — categories are displayed side by side within each tissue/group.\n100% stacked columns — each column is normalized to the same total height, emphasizing relative composition rather than absolute totals.\n\n4. Adjust the layout. Enable Flip Coordinates when horizontal bars are easier to read. Enable Show Bar Border to draw a black border around each bar segment.\n5. Edit labels and typography. Set X-Axis Label, Y-Axis Label, Legend Title, and Base Font Size. The current defaults are Tissue, Count, Category, and a base font size of 12.\n6. Set category colors. Once valid data has been loaded, ProtVis creates one color selector for each numeric category column. The category order follows the numeric-column order in the input table, so arrange columns deliberately when a particular legend/stack order is required.\n7. Generate the chart. Click RUN CHART. Before the first run, the main panel reports Ready to run; after successful plotting, the status changes to Chart ready and the download button becomes available.\n8. Inspect the preview and biological pattern. Check that totals, group order, category order, and relative proportions match the source table. For 100% stacked columns, focus on composition rather than absolute abundance because each group is normalized independently.\n9. Export the figure. Under Download, choose PDF, PNG, JPG, or SVG, set width and height in inches, and set DPI for PNG/JPG output. The current defaults are 8 × 6 inches and 300 DPI.",
+    "crumbs": [
+      "Toolkits",
+      "Stacked Column Diagram"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Stacked_Column.html#input-format",
+    "href": "content/Toolkits/Stacked_Column.html#input-format",
+    "title": "Stacked Column Diagram",
+    "section": "Input format",
+    "text": "Input format\nThe first column must be named Tissue; the remaining plotting columns must be numeric. For example:\nTissue,Down,Not_Significant,Up\nRoot,120,300,150\nStem,95,280,170\nLeaf,140,260,190\nPanicle,80,210,130\nThis is also the structure used by the built-in demonstration dataset.",
+    "crumbs": [
+      "Toolkits",
+      "Stacked Column Diagram"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Stacked_Column.html#how-protvis-constructs-the-plot",
+    "href": "content/Toolkits/Stacked_Column.html#how-protvis-constructs-the-plot",
+    "title": "Stacked Column Diagram",
+    "section": "How ProtVis constructs the plot",
+    "text": "How ProtVis constructs the plot\nProtVis keeps Tissue as the grouping variable and converts the remaining numeric category columns from wide format to long format. It then draws the categories with ggplot2::geom_bar(stat = \"identity\"). The selected chart type determines the position mode: stack, dodge, or fill.\nFor 100% stacked columns, the plotting layer uses the fill position, so each tissue/group is scaled to the same total height. The underlying numeric values are not replaced in the uploaded dataset; normalization is performed for visualization.",
+    "crumbs": [
+      "Toolkits",
+      "Stacked Column Diagram"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Stacked_Column.html#choosing-the-right-display",
+    "href": "content/Toolkits/Stacked_Column.html#choosing-the-right-display",
+    "title": "Stacked Column Diagram",
+    "section": "Choosing the right display",
+    "text": "Choosing the right display\nUse Stacked columns when both total magnitude and composition matter. Use Grouped columns when direct category-by-category comparisons are more important than the total. Use 100% stacked columns when comparing relative composition among groups with very different totals.\n\n\n\n\n\n\nTip\n\n\n\nIf the legend or stack order is biologically important, arrange the numeric category columns in the desired order before upload. ProtVis preserves that column order when constructing the category factor.\n\n\n\n\n\n\n\n\nWarning\n\n\n\nThe module currently requires the grouping column to be named exactly Tissue. A differently named first column will not be recognized automatically. Rename the grouping column before upload if necessary.",
+    "crumbs": [
+      "Toolkits",
+      "Stacked Column Diagram"
     ]
   },
   {
