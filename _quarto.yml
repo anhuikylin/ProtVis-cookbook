@@ -34,6 +34,8 @@ website:
             text: Project init
           - href: content/data_import/data_import.qmd
             text: Data input
+          - href: content/data_import/msconvert_raw_to_mzml.qmd
+            text: RAW → mzML with MSConvert
           - href: content/data_import/raw_sage_search.qmd
             text: Raw/mzML + Sage
       - section: "Reproducible workflow"
