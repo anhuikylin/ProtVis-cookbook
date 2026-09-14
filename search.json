@@ -220,7 +220,7 @@
     "href": "content/Toolkits/Protein_Structure.html",
     "title": "Protein structure",
     "section": "",
-    "text": "The Protein Structure toolkit connects a protein sequence to a Swiss-Model prediction workflow and then brings the returned structural information back into ProtVis for inspection. The current implementation combines Swiss-Model project information with bio3d-based structure parsing and r3dmol visualization.\nFor the complete identifier-to-annotation-to-structure route, start from Toolkits → Protein Links. The current Swiss-Model interface screenshot is documented there because it represents the structure follow-up step after a protein has been resolved.",
+    "text": "Use Toolkits → Protein structure for general structural interpretation after a candidate protein has been identified. This page focuses on how to connect a protein, mutation, PTM, domain, or other candidate feature to structural context.\nFor Swiss-Model sequence submission and model prediction, use Toolkits → SwissModel. The Swiss-Model interface screenshot and step-by-step modeling instructions are maintained on that dedicated page.",
     "crumbs": [
       "Toolkits",
       "Protein structure"
@@ -231,40 +231,7 @@
     "href": "content/Toolkits/Protein_Structure.html#purpose",
     "title": "Protein structure",
     "section": "",
-    "text": "The Protein Structure toolkit connects a protein sequence to a Swiss-Model prediction workflow and then brings the returned structural information back into ProtVis for inspection. The current implementation combines Swiss-Model project information with bio3d-based structure parsing and r3dmol visualization.\nFor the complete identifier-to-annotation-to-structure route, start from Toolkits → Protein Links. The current Swiss-Model interface screenshot is documented there because it represents the structure follow-up step after a protein has been resolved.",
-    "crumbs": [
-      "Toolkits",
-      "Protein structure"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Protein_Structure.html#input-and-run",
-    "href": "content/Toolkits/Protein_Structure.html#input-and-run",
-    "title": "Protein structure",
-    "section": "Input and run",
-    "text": "Input and run\nEnter a protein sequence in the Protein sequence field and provide a valid Swiss-Model API token. ProtVis includes an Example button that restores the bundled demonstration sequence, a Clear button that clears inputs and results, and a Run button that starts the prediction workflow.\nWhen Run is clicked, ProtVis removes whitespace from the sequence, validates that both a sequence and API token are present, configures the Swiss-Model token, and submits the sequence through the automated modeling workflow. After Swiss-Model returns the project, ProtVis reads the downloaded structure, parses the project information and calculates model-quality summaries for display.\n\n\n\n\n\n\nImportant\n\n\n\nTreat the Swiss-Model API token as a credential. Do not publish it in screenshots, manuscripts, repositories or shared project files.",
-    "crumbs": [
-      "Toolkits",
-      "Protein structure"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Protein_Structure.html#results",
-    "href": "content/Toolkits/Protein_Structure.html#results",
-    "title": "Protein structure",
-    "section": "Results",
-    "text": "Results\nThe main result area is organized into several complementary views:\n\nProject Information reports the returned Swiss-Model project metadata and model records.\nModel Quality presents calculated quality metrics in a searchable table.\nPDB Information summarizes the parsed structure.\nRamachandran Plot provides a backbone-conformation diagnostic.\nResidue Composition summarizes residue composition in the returned model.\n3D Structure opens an interactive r3dmol representation of the predicted structure.\n\nOnce a project has completed, Project Link provides a direct link to the corresponding Swiss-Model result page.",
-    "crumbs": [
-      "Toolkits",
-      "Protein structure"
-    ]
-  },
-  {
-    "objectID": "content/Toolkits/Protein_Structure.html#download-outputs",
-    "href": "content/Toolkits/Protein_Structure.html#download-outputs",
-    "title": "Protein structure",
-    "section": "Download outputs",
-    "text": "Download outputs\nProtVis can export three structure-related outputs from this module: swissmodel_project_info.json, swissmodel_model.pdb, and swissmodel_model_quality.csv. Keep these files together when the predicted structure is used in a figure, candidate-gene interpretation or downstream mutation/PTM mapping so the model can be traced back to its project and quality assessment.",
+    "text": "Use Toolkits → Protein structure for general structural interpretation after a candidate protein has been identified. This page focuses on how to connect a protein, mutation, PTM, domain, or other candidate feature to structural context.\nFor Swiss-Model sequence submission and model prediction, use Toolkits → SwissModel. The Swiss-Model interface screenshot and step-by-step modeling instructions are maintained on that dedicated page.",
     "crumbs": [
       "Toolkits",
       "Protein structure"
@@ -275,7 +242,18 @@
     "href": "content/Toolkits/Protein_Structure.html#recommended-workflow",
     "title": "Protein structure",
     "section": "Recommended workflow",
-    "text": "Recommended workflow\n\nConfirm the protein sequence and species/source before modeling.\nSubmit the sequence with a private Swiss-Model API token.\nReview the returned project and model-quality metrics before interpreting the structure.\nInspect PDB information, Ramachandran distribution, residue composition and the 3D model.\nRecord the Swiss-Model project/model identifier and export the project information, structure file and quality table.\nWhen mapping mutations, PTMs or domains, verify chain and residue numbering against the downloaded structure.\n\n\n\n\n\n\n\nWarning\n\n\n\nPredicted structures and experimentally determined structures are not equivalent evidence. Report the model source and relevant quality/confidence metrics, and avoid strong mechanistic claims for poorly supported regions without additional evidence.",
+    "text": "Recommended workflow\n\nResolve the candidate to a stable protein identifier and confirm the expected protein sequence.\nObtain an experimental structure or an appropriate predicted model.\nConfirm chain and residue numbering before mapping mutations, PTMs, domains, or functional residues.\nInspect the three-dimensional context and any relevant quality/confidence information.\nRecord the structure source, model/entry identifier, and quality evidence in the figure legend or Methods.",
+    "crumbs": [
+      "Toolkits",
+      "Protein structure"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Structure.html#interpretation",
+    "href": "content/Toolkits/Protein_Structure.html#interpretation",
+    "title": "Protein structure",
+    "section": "Interpretation",
+    "text": "Interpretation\nStructural visualization is most useful when it is tied back to the biological question. For example, a differentially abundant protein may be examined for whether a candidate mutation or PTM lies near an active site, interface, conserved domain, or structurally constrained region.\n\n\n\n\n\n\nTip\n\n\n\nFor a ProtVis-generated Swiss-Model prediction, continue to Toolkits → SwissModel for sequence submission, project information, model-quality results, PDB information, Ramachandran diagnostics, residue composition, 3D visualization, and downloads.\n\n\n\n\n\n\n\n\nWarning\n\n\n\nPredicted structures and experimentally determined structures are not equivalent evidence. When using a model, report its source and relevant confidence/quality metrics and avoid over-interpreting poorly supported regions.",
     "crumbs": [
       "Toolkits",
       "Protein structure"
@@ -2312,29 +2290,51 @@
     "href": "content/Toolkits/SwissModel.html",
     "title": "SwissModel",
     "section": "",
-    "text": "The current SwissModel module accepts:\n\na protein sequence;\na Swiss-Model API token.\n\nAn example sequence can be inserted from the interface to verify the workflow.",
+    "text": "Use Toolkits → SwissModel when you want to submit a protein sequence to Swiss-Model and inspect the returned structural results directly in ProtVis. The current module combines Swiss-Model project information with structure parsing and interactive visualization, so this is the correct tutorial page for the Swiss-Model interface shown below.",
     "crumbs": [
       "Toolkits",
       "SwissModel"
     ]
   },
   {
-    "objectID": "content/Toolkits/SwissModel.html#inputs",
-    "href": "content/Toolkits/SwissModel.html#inputs",
+    "objectID": "content/Toolkits/SwissModel.html#purpose",
+    "href": "content/Toolkits/SwissModel.html#purpose",
     "title": "SwissModel",
     "section": "",
-    "text": "The current SwissModel module accepts:\n\na protein sequence;\na Swiss-Model API token.\n\nAn example sequence can be inserted from the interface to verify the workflow.",
+    "text": "Use Toolkits → SwissModel when you want to submit a protein sequence to Swiss-Model and inspect the returned structural results directly in ProtVis. The current module combines Swiss-Model project information with structure parsing and interactive visualization, so this is the correct tutorial page for the Swiss-Model interface shown below.",
     "crumbs": [
       "Toolkits",
       "SwissModel"
     ]
   },
   {
-    "objectID": "content/Toolkits/SwissModel.html#workflow",
-    "href": "content/Toolkits/SwissModel.html#workflow",
+    "objectID": "content/Toolkits/SwissModel.html#swissmodel-interface",
+    "href": "content/Toolkits/SwissModel.html#swissmodel-interface",
     "title": "SwissModel",
-    "section": "Workflow",
-    "text": "Workflow\n\nPaste the protein sequence.\nEnter a valid API token.\nClick Run.\nOpen the generated project link when available.\nReview Project Information and the Model Quality table.\nInspect PDB Information, the Ramachandran Plot, Residue Composition, and the interactive 3D Structure.\nDownload the project information, PDB file and model-quality results.",
+    "section": "SwissModel interface",
+    "text": "SwissModel interface\nThe screenshot below shows a completed Swiss-Model run using the bundled example sequence. ProtVis displays Project Information and Model Quality in the upper result area, while the lower tabs provide PDB Information, Ramachandran Plot, Residue Composition, and an interactive 3D Structure view.\n\n\n\n\n\n\nFigure 1: ProtVis SwissModel interface showing sequence input, project information, model-quality results and structure-analysis tabs. The API-token field has been redacted for safe documentation.",
+    "crumbs": [
+      "Toolkits",
+      "SwissModel"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/SwissModel.html#recommended-operating-order",
+    "href": "content/Toolkits/SwissModel.html#recommended-operating-order",
+    "title": "SwissModel",
+    "section": "Recommended operating order",
+    "text": "Recommended operating order\n1. Enter the protein sequence. Paste the amino-acid sequence into Protein sequence. Whitespace is removed before submission. The Example button restores the bundled demonstration sequence and is useful for checking that the module is working.\n2. Enter a Swiss-Model API token. Supply a valid token in API Token. The token is used to authenticate the modeling request and should be treated as a private credential.\n3. Start modeling. Click Run. ProtVis validates that both sequence and token are present, configures the Swiss-Model token, submits the sequence through the automated modeling workflow, waits for the returned project, downloads the predicted structure, and parses the project information.\n4. Review Project Information. The Project Information panel reports the returned Swiss-Model project metadata and model records. When a project link is available, open Project Link → Open Swiss-Model result page to inspect the corresponding project on the Swiss-Model website.\n5. Review Model Quality. The Model Quality panel summarizes calculated quality information for the downloaded model. Structural interpretation should only proceed after checking the available quality metrics and model coverage.\n6. Inspect PDB Information. Open the PDB Information tab to review the parsed structure, including basic atom/residue/chain information from the downloaded model.\n7. Inspect the Ramachandran Plot. Use Ramachandran Plot as a stereochemical diagnostic of backbone conformations. Unusual distributions should be interpreted together with model quality and local structural context.\n8. Inspect Residue Composition. The Residue Composition tab summarizes the amino-acid composition of the returned structure and provides a quick check of the modeled sequence content.\n9. Explore the 3D structure. Open 3D Structure to interactively inspect the predicted protein structure in the embedded r3dmol viewer.\n10. Download the outputs. The Download section provides the project information, predicted PDB file, and model-quality table. The current output filenames are swissmodel_project_info.json, swissmodel_model.pdb, and swissmodel_model_quality.csv.",
+    "crumbs": [
+      "Toolkits",
+      "SwissModel"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/SwissModel.html#buttons-and-controls",
+    "href": "content/Toolkits/SwissModel.html#buttons-and-controls",
+    "title": "SwissModel",
+    "section": "Buttons and controls",
+    "text": "Buttons and controls\n\nRun starts the Swiss-Model workflow.\nExample restores the built-in protein sequence.\nClear removes the sequence/token inputs and clears current results.\nProject Link opens the corresponding Swiss-Model result page after a successful run.\nUploaded / Predicted File Info reports downloaded model-file information.\nDownload exports project information, the PDB model, and model-quality results.",
     "crumbs": [
       "Toolkits",
       "SwissModel"
@@ -2345,7 +2345,7 @@
     "href": "content/Toolkits/SwissModel.html#interpretation",
     "title": "SwissModel",
     "section": "Interpretation",
-    "text": "Interpretation\nModel quality should be assessed before structural conclusions are drawn. Pay particular attention to template support, global/local quality estimates, unresolved/disordered regions and stereochemical diagnostics.\n\n\n\n\n\n\nWarning\n\n\n\nDo not publish or share API tokens in screenshots, notebooks, repositories or exported project files. Treat the token as a credential.",
+    "text": "Interpretation\nA successful modeling job does not by itself establish that every region of the model is reliable. Review the available quality metrics, model coverage, stereochemical diagnostics, and any unsupported or poorly modeled regions before mapping mutations, PTMs, domains, or functional residues.\nWhen the structure is used in a figure or manuscript, record the Swiss-Model project/model identifier and preserve the downloaded PDB and model-quality outputs so that the structural interpretation remains traceable.\n\n\n\n\n\n\nImportantKeep API tokens private\n\n\n\nDo not publish API tokens in screenshots, manuscripts, repositories, notebooks, or exported project files. The token field in the documentation screenshot has therefore been redacted.\n\n\n\n\n\n\n\n\nWarning\n\n\n\nPredicted structures and experimentally determined structures are not equivalent evidence. Report the prediction source and relevant model-quality information, and avoid strong mechanistic claims for poorly supported regions without additional evidence.",
     "crumbs": [
       "Toolkits",
       "SwissModel"

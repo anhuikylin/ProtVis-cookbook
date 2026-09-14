@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Submit a protein sequence for structure modeling and inspect model quality, PDB information and 3D output.">
+<meta name="description" content="Submit a protein sequence to Swiss-Model, inspect project/model quality information, and explore the predicted structure in ProtVis.">
 
 <title>SwissModel – ProtVis Cookbook</title>
 <style>
@@ -611,8 +611,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#inputs" id="toc-inputs" class="nav-link active" data-scroll-target="#inputs">Inputs</a></li>
-  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a></li>
+  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#swissmodel-interface" id="toc-swissmodel-interface" class="nav-link" data-scroll-target="#swissmodel-interface">SwissModel interface</a></li>
+  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
+  <li><a href="#buttons-and-controls" id="toc-buttons-and-controls" class="nav-link" data-scroll-target="#buttons-and-controls">Buttons and controls</a></li>
   <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/SwissModel.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/SwissModel.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -628,7 +630,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Submit a protein sequence for structure modeling and inspect model quality, PDB information and 3D output.
+    Submit a protein sequence to Swiss-Model, inspect project/model quality information, and explore the predicted structure in ProtVis.
   </div>
 </div>
 
@@ -645,30 +647,65 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="inputs" class="level2">
-<h2 class="anchored" data-anchor-id="inputs">Inputs</h2>
-<p>The current SwissModel module accepts:</p>
-<ul>
-<li>a <strong>protein sequence</strong>;</li>
-<li>a <strong>Swiss-Model API token</strong>.</li>
-</ul>
-<p>An example sequence can be inserted from the interface to verify the workflow.</p>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>Use <strong>Toolkits → SwissModel</strong> when you want to submit a protein sequence to Swiss-Model and inspect the returned structural results directly in ProtVis. The current module combines Swiss-Model project information with structure parsing and interactive visualization, so this is the correct tutorial page for the Swiss-Model interface shown below.</p>
 </section>
-<section id="workflow" class="level2">
-<h2 class="anchored" data-anchor-id="workflow">Workflow</h2>
-<ol type="1">
-<li>Paste the protein sequence.</li>
-<li>Enter a valid API token.</li>
-<li>Click <strong>Run</strong>.</li>
-<li>Open the generated project link when available.</li>
-<li>Review <strong>Project Information</strong> and the <strong>Model Quality</strong> table.</li>
-<li>Inspect <strong>PDB Information</strong>, the <strong>Ramachandran Plot</strong>, <strong>Residue Composition</strong>, and the interactive <strong>3D Structure</strong>.</li>
-<li>Download the project information, PDB file and model-quality results.</li>
-</ol>
+<section id="swissmodel-interface" class="level2">
+<h2 class="anchored" data-anchor-id="swissmodel-interface">SwissModel interface</h2>
+<p>The screenshot below shows a completed Swiss-Model run using the bundled example sequence. ProtVis displays <strong>Project Information</strong> and <strong>Model Quality</strong> in the upper result area, while the lower tabs provide <strong>PDB Information</strong>, <strong>Ramachandran Plot</strong>, <strong>Residue Composition</strong>, and an interactive <strong>3D Structure</strong> view.</p>
+<div id="fig-swissmodel-interface" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of ProtVis Toolkits SwissModel. A protein sequence is submitted to Swiss-Model and the result area displays project information, model-quality information, PDB information, Ramachandran plot, residue composition and an interactive 3D structure. The API-token value is redacted." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-swissmodel-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/screenshots/PixPin_2026-09-14_09-22-35.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Toolkits SwissModel. A protein sequence is submitted to Swiss-Model and the result area displays project information, model-quality information, PDB information, Ramachandran plot, residue composition and an interactive 3D structure. The API-token value is redacted.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-swissmodel-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: ProtVis SwissModel interface showing sequence input, project information, model-quality results and structure-analysis tabs. The API-token field has been redacted for safe documentation.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="recommended-operating-order" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h2>
+<p><strong>1. Enter the protein sequence.</strong> Paste the amino-acid sequence into <strong>Protein sequence</strong>. Whitespace is removed before submission. The <strong>Example</strong> button restores the bundled demonstration sequence and is useful for checking that the module is working.</p>
+<p><strong>2. Enter a Swiss-Model API token.</strong> Supply a valid token in <strong>API Token</strong>. The token is used to authenticate the modeling request and should be treated as a private credential.</p>
+<p><strong>3. Start modeling.</strong> Click <strong>Run</strong>. ProtVis validates that both sequence and token are present, configures the Swiss-Model token, submits the sequence through the automated modeling workflow, waits for the returned project, downloads the predicted structure, and parses the project information.</p>
+<p><strong>4. Review Project Information.</strong> The <strong>Project Information</strong> panel reports the returned Swiss-Model project metadata and model records. When a project link is available, open <strong>Project Link → Open Swiss-Model result page</strong> to inspect the corresponding project on the Swiss-Model website.</p>
+<p><strong>5. Review Model Quality.</strong> The <strong>Model Quality</strong> panel summarizes calculated quality information for the downloaded model. Structural interpretation should only proceed after checking the available quality metrics and model coverage.</p>
+<p><strong>6. Inspect PDB Information.</strong> Open the <strong>PDB Information</strong> tab to review the parsed structure, including basic atom/residue/chain information from the downloaded model.</p>
+<p><strong>7. Inspect the Ramachandran Plot.</strong> Use <strong>Ramachandran Plot</strong> as a stereochemical diagnostic of backbone conformations. Unusual distributions should be interpreted together with model quality and local structural context.</p>
+<p><strong>8. Inspect Residue Composition.</strong> The <strong>Residue Composition</strong> tab summarizes the amino-acid composition of the returned structure and provides a quick check of the modeled sequence content.</p>
+<p><strong>9. Explore the 3D structure.</strong> Open <strong>3D Structure</strong> to interactively inspect the predicted protein structure in the embedded <code>r3dmol</code> viewer.</p>
+<p><strong>10. Download the outputs.</strong> The Download section provides the project information, predicted PDB file, and model-quality table. The current output filenames are <code>swissmodel_project_info.json</code>, <code>swissmodel_model.pdb</code>, and <code>swissmodel_model_quality.csv</code>.</p>
+</section>
+<section id="buttons-and-controls" class="level2">
+<h2 class="anchored" data-anchor-id="buttons-and-controls">Buttons and controls</h2>
+<ul>
+<li><strong>Run</strong> starts the Swiss-Model workflow.</li>
+<li><strong>Example</strong> restores the built-in protein sequence.</li>
+<li><strong>Clear</strong> removes the sequence/token inputs and clears current results.</li>
+<li><strong>Project Link</strong> opens the corresponding Swiss-Model result page after a successful run.</li>
+<li><strong>Uploaded / Predicted File Info</strong> reports downloaded model-file information.</li>
+<li><strong>Download</strong> exports project information, the PDB model, and model-quality results.</li>
+</ul>
 </section>
 <section id="interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
-<p>Model quality should be assessed before structural conclusions are drawn. Pay particular attention to template support, global/local quality estimates, unresolved/disordered regions and stereochemical diagnostics.</p>
+<p>A successful modeling job does not by itself establish that every region of the model is reliable. Review the available quality metrics, model coverage, stereochemical diagnostics, and any unsupported or poorly modeled regions before mapping mutations, PTMs, domains, or functional residues.</p>
+<p>When the structure is used in a figure or manuscript, record the Swiss-Model project/model identifier and preserve the downloaded PDB and model-quality outputs so that the structural interpretation remains traceable.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Keep API tokens private
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do not publish API tokens in screenshots, manuscripts, repositories, notebooks, or exported project files. The token field in the documentation screenshot has therefore been redacted.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -679,7 +716,7 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Do not publish or share API tokens in screenshots, notebooks, repositories or exported project files. Treat the token as a credential.</p>
+<p>Predicted structures and experimentally determined structures are not equivalent evidence. Report the prediction source and relevant model-quality information, and avoid strong mechanistic claims for poorly supported regions without additional evidence.</p>
 </div>
 </div>
 
