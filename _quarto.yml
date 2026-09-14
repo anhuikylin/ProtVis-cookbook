@@ -106,12 +106,12 @@ website:
             text: Protein structure
           - href: content/Toolkits/SwissModel.qmd
             text: SwissModel
+          - href: content/Toolkits/Stacked_Column.qmd
+            text: Stacked Column Diagram
           - href: content/Toolkits/STRINGdb_PPI.qmd
             text: STRINGdb PPI
           - href: content/Toolkits/Boxplot.qmd
             text: Boxplot
-          - href: content/Toolkits/Stacked_Column.qmd
-            text: Stacked column
           - href: content/Toolkits/Correlation_Chord.qmd
             text: Correlation chord
           - href: content/Toolkits/DEG_Analyse.qmd
