@@ -27,7 +27,9 @@ Parser-backed inputs are converted into a common protein-by-sample representatio
 
 For Raw data, do not upload an artificial protein matrix simply to satisfy Project init. Register sample information, the mzML directory and FASTA; Project init creates a `Sage_staging` object. The conditional **Search** tab then runs Sage and creates the quantitative LFQ matrix.
 
-Read [Raw/mzML + Sage search](raw_sage_search.qmd) for the complete workflow.
+If your mass spectrometer produced vendor files such as Thermo `.raw` rather than `.mzML`, first follow [RAW → mzML with MSConvert](msconvert_raw_to_mzml.qmd). That tutorial covers the official ProteoWizard download, Windows installation, MSConvertGUI, command-line batch conversion, centroiding/Peak Picking, zlib compression, file validation, and the PXD065315 example used by ProtVis.
+
+Then read [Raw/mzML + Sage search](raw_sage_search.qmd) for the complete ProtVis workflow.
 
 ## MaxQuant
 
