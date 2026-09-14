@@ -361,7 +361,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/data_import/msconvert_raw_to_mzml.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">RAW → mzML with MSConvert</span></a>
+ <span class="menu-text">RAW → mzML overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/data_import/raw_to_mzml_windows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Windows · MSConvert</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/data_import/raw_to_mzml_linux.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linux · RAW → mzML</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/data_import/raw_to_mzml_macos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">macOS · RAW → mzML</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -736,7 +754,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="rawmzml" class="level2">
 <h2 class="anchored" data-anchor-id="rawmzml">Raw/mzML</h2>
 <p>For Raw data, do not upload an artificial protein matrix simply to satisfy Project init. Register sample information, the mzML directory and FASTA; Project init creates a <code>Sage_staging</code> object. The conditional <strong>Search</strong> tab then runs Sage and creates the quantitative LFQ matrix.</p>
-<p>If your mass spectrometer produced vendor files such as Thermo <code>.raw</code> rather than <code>.mzML</code>, first follow <a href="../../content/data_import/msconvert_raw_to_mzml.html">RAW → mzML with MSConvert</a>. That tutorial covers the official ProteoWizard download, Windows installation, MSConvertGUI, command-line batch conversion, centroiding/Peak Picking, zlib compression, file validation, and the PXD065315 example used by ProtVis.</p>
+<p>If the instrument produced vendor RAW rather than <code>.mzML</code>, first use the <a href="../../content/data_import/msconvert_raw_to_mzml.html">RAW → mzML conversion overview</a> and choose the tutorial for your operating system:</p>
+<ul>
+<li><a href="../../content/data_import/raw_to_mzml_windows.html">Windows · MSConvert</a> — ProteoWizard/MSConvertGUI and <code>msconvert.exe</code>;</li>
+<li><a href="../../content/data_import/raw_to_mzml_linux.html">Linux · RAW → mzML</a> — ThermoRawFileParser for Thermo RAW, including self-contained, .NET 8 and Docker routes;</li>
+<li><a href="../../content/data_import/raw_to_mzml_macos.html">macOS · RAW → mzML</a> — ThermoRawFileParser for Thermo RAW, including self-contained, .NET 8 and Docker routes.</li>
+</ul>
 <p>Then read <a href="../../content/data_import/raw_sage_search.html">Raw/mzML + Sage search</a> for the complete ProtVis workflow.</p>
 </section>
 <section id="maxquant" class="level2">
@@ -1215,8 +1238,8 @@ Step2_remove_unreliable_peptide.rda</code></pre>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/data_import/msconvert_raw_to_mzml.html" class="pagination-link" aria-label="RAW → mzML with MSConvert">
-        <span class="nav-page-text">RAW → mzML with MSConvert</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/data_import/msconvert_raw_to_mzml.html" class="pagination-link" aria-label="RAW → mzML overview">
+        <span class="nav-page-text">RAW → mzML overview</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
