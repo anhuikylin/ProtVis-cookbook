@@ -1,0 +1,30 @@
+name: Temporary inspect new screenshots 2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/inspect-new-screenshots-2.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: OCR screenshots for module identification
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v tesseract >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq tesseract-ocr
+          fi
+          for f in \
+            PixPin_2026-09-14_09-22-35.png \
+            PixPin_2026-09-14_09-25-27.png; do
+            echo "===== ${f} ====="
+            tesseract "images/screenshots/${f}" stdout --psm 11 2>/dev/null | head -n 420 || true
+          done
