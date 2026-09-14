@@ -1,4 +1,4 @@
-name: Temporary inspect new screenshots 2
+name: Prepare safe Swiss-Model screenshot
 
 on:
   push:
@@ -7,26 +7,30 @@ on:
       - ".github/workflows/inspect-new-screenshots-2.yml"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  inspect:
+  redact:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inspect screenshots and OCR coordinates
+      - name: Redact API token field and commit
         shell: bash
         run: |
           set -euo pipefail
           sudo apt-get update -qq
-          sudo apt-get install -y -qq tesseract-ocr imagemagick
-          for f in \
-            PixPin_2026-09-14_09-22-35.png \
-            PixPin_2026-09-14_09-25-27.png; do
-            echo "===== ${f} dimensions ====="
-            identify "images/screenshots/${f}"
-            echo "===== ${f} OCR ====="
-            tesseract "images/screenshots/${f}" stdout --psm 11 2>/dev/null | head -n 420 || true
-          done
-          echo "===== token-area TSV ====="
-          tesseract "images/screenshots/PixPin_2026-09-14_09-22-35.png" stdout --psm 11 tsv 2>/dev/null | grep -Ei 'API|Token|c823|swiss|project|Click|here' || true
+          sudo apt-get install -y -qq imagemagick
+          src="images/screenshots/PixPin_2026-09-14_09-22-35.png"
+          tmp="images/screenshots/.swissmodel-redacted.png"
+          convert "$src" \
+            -fill "#F7F7F7" -stroke "#D0D7DE" -strokewidth 2 \
+            -draw "rectangle 55,1180 650,1265" \
+            -fill "#6B7280" -stroke none -pointsize 26 \
+            -draw "text 80,1232 'REDACTED'" \
+            "$tmp"
+          mv "$tmp" "$src"
+          git config user.name "liangfei"
+          git config user.email "103125590+anhuikylin@users.noreply.github.com"
+          git add "$src"
+          git commit -m "docs: redact Swiss-Model API token from screenshot"
+          git push origin HEAD:main
