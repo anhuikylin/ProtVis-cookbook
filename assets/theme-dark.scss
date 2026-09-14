@@ -28,15 +28,19 @@ h2 { margin-top: 2.25rem; padding-bottom: .35rem; border-bottom: 1px solid var(-
 
 #quarto-sidebar { border-right: 1px solid var(--pv-border); background: #121e26; }
 .sidebar-title { font-weight: 800; }
-.sidebar-item .active { color: $primary; font-weight: 750; }
-#quarto-sidebar .sidebar-logo,
-#quarto-sidebar img.sidebar-logo {
+.sidebar-title > a {
+  display: inline-flex;
+  align-items: center;
+}
+.sidebar-title > a::before {
+  content: "";
   width: 30px;
   height: 30px;
-  max-width: 30px;
-  max-height: 30px;
-  object-fit: contain;
+  flex: 0 0 30px;
+  margin-right: .55rem;
+  background: url("https://raw.githubusercontent.com/xuebinzhang-lab/ProtVis/dev/app/www/ProtVis_ico.ico") center / contain no-repeat;
 }
+.sidebar-item .active { color: $primary; font-weight: 750; }
 
 .hero {
   padding: 2.1rem 2.2rem;
@@ -81,11 +85,9 @@ table thead th { background: var(--pv-surface-soft); }
 }
 
 @media (max-width: 700px) {
-  #quarto-sidebar .sidebar-logo,
-  #quarto-sidebar img.sidebar-logo {
+  .sidebar-title > a::before {
     width: 28px;
     height: 28px;
-    max-width: 28px;
-    max-height: 28px;
+    flex-basis: 28px;
   }
 }
