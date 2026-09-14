@@ -29,6 +29,14 @@ h2 { margin-top: 2.25rem; padding-bottom: .35rem; border-bottom: 1px solid var(-
 #quarto-sidebar { border-right: 1px solid var(--pv-border); background: #121e26; }
 .sidebar-title { font-weight: 800; }
 .sidebar-item .active { color: $primary; font-weight: 750; }
+#quarto-sidebar .sidebar-logo,
+#quarto-sidebar img.sidebar-logo {
+  width: 30px;
+  height: 30px;
+  max-width: 30px;
+  max-height: 30px;
+  object-fit: contain;
+}
 
 .hero {
   padding: 2.1rem 2.2rem;
@@ -70,4 +78,14 @@ table thead th { background: var(--pv-surface-soft); }
   border: 0;
   border-radius: 0;
   box-shadow: none;
+}
+
+@media (max-width: 700px) {
+  #quarto-sidebar .sidebar-logo,
+  #quarto-sidebar img.sidebar-logo {
+    width: 28px;
+    height: 28px;
+    max-width: 28px;
+    max-height: 28px;
+  }
 }
