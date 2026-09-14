@@ -40,124 +40,234 @@
     ]
   },
   {
-    "objectID": "content/data_import/msconvert_raw_to_mzml.html",
-    "href": "content/data_import/msconvert_raw_to_mzml.html",
-    "title": "RAW → mzML with MSConvert",
+    "objectID": "content/data_import/raw_sage_search.html",
+    "href": "content/data_import/raw_sage_search.html",
+    "title": "Raw/mzML + Sage search",
     "section": "",
-    "text": "ProtVis’s Raw workflow currently starts from .mzML + FASTA, whereas many mass spectrometers produce vendor-specific raw files such as Thermo Scientific .raw. Before Project init → Raw and Search (Sage), convert the vendor files to the open mzML format.\nFor Windows users, the recommended route is ProteoWizard MSConvert. ProteoWizard provides both the graphical MSConvertGUI application and the command-line msconvert.exe utility.\nThe complete route is:\nVendor RAW → ProteoWizard/MSConvert → mzML → ProtVis Project init → Sage Search → ProtVis_dataset\n\n\n\n\n\n\nImportantVendor RAW conversion is best performed on Windows\n\n\n\nProteoWizard can read and write open formats across platforms, but reading most vendor-specific formats depends on vendor libraries. The official ProteoWizard documentation recommends Windows for direct vendor-format conversion. For the Thermo .raw files used by the ProtVis example, perform conversion on Windows before moving the resulting .mzML files to Windows, Linux, or macOS for downstream analysis.",
+    "text": "Use Project init → Search when your starting point is converted .mzML files rather than a precomputed protein-abundance table. ProtVis registers sample metadata, the mzML directory and a protein FASTA, runs Sage, then converts Sage LFQ output into the same canonical ProtVis_dataset used by all downstream modules.\nThe route is:\nProject init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization\nThe top-level Search tab is intentionally visible only while Raw is selected in Project init.",
     "crumbs": [
       "Getting started",
-      "RAW → mzML with MSConvert"
+      "Raw/mzML + Sage"
     ]
   },
   {
-    "objectID": "content/data_import/msconvert_raw_to_mzml.html#why-this-step-is-needed",
-    "href": "content/data_import/msconvert_raw_to_mzml.html#why-this-step-is-needed",
-    "title": "RAW → mzML with MSConvert",
+    "objectID": "content/data_import/raw_sage_search.html#when-to-use-this-workflow",
+    "href": "content/data_import/raw_sage_search.html#when-to-use-this-workflow",
+    "title": "Raw/mzML + Sage search",
     "section": "",
-    "text": "ProtVis’s Raw workflow currently starts from .mzML + FASTA, whereas many mass spectrometers produce vendor-specific raw files such as Thermo Scientific .raw. Before Project init → Raw and Search (Sage), convert the vendor files to the open mzML format.\nFor Windows users, the recommended route is ProteoWizard MSConvert. ProteoWizard provides both the graphical MSConvertGUI application and the command-line msconvert.exe utility.\nThe complete route is:\nVendor RAW → ProteoWizard/MSConvert → mzML → ProtVis Project init → Sage Search → ProtVis_dataset\n\n\n\n\n\n\nImportantVendor RAW conversion is best performed on Windows\n\n\n\nProteoWizard can read and write open formats across platforms, but reading most vendor-specific formats depends on vendor libraries. The official ProteoWizard documentation recommends Windows for direct vendor-format conversion. For the Thermo .raw files used by the ProtVis example, perform conversion on Windows before moving the resulting .mzML files to Windows, Linux, or macOS for downstream analysis.",
+    "text": "Use Project init → Search when your starting point is converted .mzML files rather than a precomputed protein-abundance table. ProtVis registers sample metadata, the mzML directory and a protein FASTA, runs Sage, then converts Sage LFQ output into the same canonical ProtVis_dataset used by all downstream modules.\nThe route is:\nProject init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization\nThe top-level Search tab is intentionally visible only while Raw is selected in Project init.",
     "crumbs": [
       "Getting started",
-      "RAW → mzML with MSConvert"
+      "Raw/mzML + Sage"
     ]
   },
   {
-    "objectID": "content/data_import/msconvert_raw_to_mzml.html#download-proteowizard-msconvert",
-    "href": "content/data_import/msconvert_raw_to_mzml.html#download-proteowizard-msconvert",
-    "title": "RAW → mzML with MSConvert",
-    "section": "Download ProteoWizard / MSConvert",
-    "text": "Download ProteoWizard / MSConvert\nUse the official ProteoWizard download page:\n\nProteoWizard official download page\nProteoWizard user documentation\nMSConvert documentation\n\nOn the download page:\n\nSelect the ProteoWizard binary distribution for Windows.\nPrefer the current 64-bit Windows installer on a modern 64-bit Windows system.\nRead and accept the required license agreements for bundled vendor readers.\nDownload the installer.\n\nProteoWizard is currently released as version 3.x, but the detailed build number changes frequently. For reproducibility, record the installed ProteoWizard/MSConvert version in your Methods or analysis notes rather than documenting only “MSConvert”.",
+    "objectID": "content/data_import/raw_sage_search.html#prerequisites",
+    "href": "content/data_import/raw_sage_search.html#prerequisites",
+    "title": "Raw/mzML + Sage search",
+    "section": "Prerequisites",
+    "text": "Prerequisites\nBefore opening Search, complete the Raw-specific part of Project init:\n\nSet a writable working directory.\nLoad or upload sample information containing sample_id and mzml_file.\nUpload the matching protein FASTA.\nSelect the directory containing the mzML files.\nClick Check mzML files and resolve every Missing or Invalid extension row.\nSelect Raw.\nClick Project init to create the Sage staging object.\n\n\n\n\n\n\n\nImportantDo not create a fake expression matrix\n\n\n\nA Raw/Sage project does not need a protein expression matrix before Search. ProtVis creates a Sage_staging project object and fills the expression layer only after LFQ results are available.",
     "crumbs": [
       "Getting started",
-      "RAW → mzML with MSConvert"
+      "Raw/mzML + Sage"
     ]
   },
   {
-    "objectID": "content/data_import/msconvert_raw_to_mzml.html#install-on-windows",
-    "href": "content/data_import/msconvert_raw_to_mzml.html#install-on-windows",
-    "title": "RAW → mzML with MSConvert",
-    "section": "Install on Windows",
-    "text": "Install on Windows\nRun the downloaded installer and keep the default components unless your local IT policy requires another location. The current ProteoWizard download page states that the Windows installer requires Microsoft .NET Framework 4.7.2 or newer.\nAfter installation, Windows should provide the ProteoWizard tools, including:\n\nMSConvertGUI — graphical conversion interface;\nmsconvert.exe — command-line converter;\nother ProteoWizard utilities such as SeeMS.\n\nA typical installation is under a versioned ProteoWizard directory inside C:\\Program Files\\ProteoWizard\\, although the exact path depends on the installed build. If several ProteoWizard versions are present, use the newest validated version consistently for a project.\n\nConfirm the installation\nOpen Command Prompt or PowerShell, navigate to the ProteoWizard installation directory if necessary, and run:\nmsconvert.exe --help\nIf Windows cannot find msconvert.exe, either run it with its full path or add the ProteoWizard installation directory to your PATH.\nYou can also confirm the graphical installation by searching the Start menu for MSConvert or MSConvertGUI.",
+    "objectID": "content/data_import/raw_sage_search.html#example-dataset-pxd065315",
+    "href": "content/data_import/raw_sage_search.html#example-dataset-pxd065315",
+    "title": "Raw/mzML + Sage search",
+    "section": "Example dataset: PXD065315",
+    "text": "Example dataset: PXD065315\nThe built-in Raw example is based on the public maize proteomics dataset PXD065315, titled Proteomics analysis of B73 and EA2024 maize plants under control and drought conditions. The complete dataset contains 12 Thermo .raw files: six control samples and six drought samples. The current ProtVis built-in example uses only the six control samples shown below.\n\nPRIDE project page\nProteomeXchange dataset page\nComplete PRIDE download directory\n\n\n\n\nProtVis sample\nOriginal PRIDE RAW file\nmzML filename used by ProtVis\n\n\n\n\nB73_C1\nB73_C1.raw\nB73_C1.mzML\n\n\nB73_C2\nB73_C2.raw\nB73_C2.mzML\n\n\nB73_C3\nB73_C3.raw\nB73_C3.mzML\n\n\nEA2024_C1\nEA2024_C1.raw\nEA2024_C1.mzML\n\n\nEA2024_C2\nEA2024_C2.raw\nEA2024_C2.mzML\n\n\nEA2024_C3\nEA2024_C3.raw\nEA2024_C3.mzML\n\n\n\n\n\n\n\n\n\nNoteRAW and mzML are different files\n\n\n\nPRIDE hosts the original vendor .raw files for PXD065315. The .mzML files used by ProtVis are local conversions of those RAW files and are not separate files deposited in PXD065315. Convert the six control RAW files with ProteoWizard/MSConvert or another validated converter, and keep the output names exactly as listed in the mzML filename used by ProtVis column unless you also update sample_info$mzml_file.\n\n\nA convenient directory after conversion is:\nPXD065315_control/\n├── B73_C1.mzML\n├── B73_C2.mzML\n├── B73_C3.mzML\n├── EA2024_C1.mzML\n├── EA2024_C2.mzML\n└── EA2024_C3.mzML\nPoint Project init → Raw/mzML input to the directory containing these six converted files, then click Check mzML files.",
     "crumbs": [
       "Getting started",
-      "RAW → mzML with MSConvert"
+      "Raw/mzML + Sage"
     ]
   },
   {
-    "objectID": "content/data_import/msconvert_raw_to_mzml.html#recommended-conversion-with-msconvertgui",
-    "href": "content/data_import/msconvert_raw_to_mzml.html#recommended-conversion-with-msconvertgui",
-    "title": "RAW → mzML with MSConvert",
-    "section": "Recommended conversion with MSConvertGUI",
-    "text": "Recommended conversion with MSConvertGUI\nFor most ProtVis users, the graphical interface is the easiest route. The annotated example below shows the three core actions: 1 select the vendor RAW files, 2 choose mzML as the output format, and 3 start the conversion. Before clicking Start, also verify the output directory, zlib compression, and whether Peak Picking is required for the acquisition data.\n\n\n\n\n\n\nFigure 1: MSConvertGUI example for converting the six PXD065315 control RAW files to mzML. Red markers indicate the core sequence: select the RAW files, choose mzML as the output format, and click Start. Review the output directory and optional Peak Picking settings before starting conversion.\n\n\n\n\n1. Start MSConvertGUI\nOpen MSConvertGUI from the Windows Start menu or from the ProteoWizard installation directory.\n\n\n2. Add RAW files\nUse Browse / Add to select one or more vendor RAW files. Batch conversion is recommended so that all samples are processed with exactly the same settings.\nFor the six-control-sample ProtVis example based on PXD065315, the source files are:\nB73_C1.raw\nB73_C2.raw\nB73_C3.raw\nEA2024_C1.raw\nEA2024_C2.raw\nEA2024_C3.raw\n\n\n3. Select the output directory\nChoose a clean output directory containing only the converted files for the current ProtVis project, for example:\nE:\\PXD065315\\mzML\\\nKeeping vendor RAW and converted mzML in separate directories makes file validation and reproducibility easier.\n\n\n4. Set the output format to mzML\nUse:\nOutput format: mzML\nmzML is ProteoWizard’s default open output format and is the format expected by the current ProtVis Raw/Sage workflow.\n\n\n5. Use zlib compression\nEnable zlib compression to reduce mzML file size without changing the underlying numerical spectra.\nFor general proteomics conversion, keep the default m/z precision unless you have a validated reason to reduce it. ProteoWizard currently defaults to 64-bit m/z encoding and 32-bit intensity encoding.\n\n\n6. Add Peak Picking when the RAW file contains profile spectra\nFor profile-mode data that should be centroided before database search, add the Peak Picking filter and apply it to all MS levels:\npeakPicking true 1-\nWhen vendor centroiding is required, keep Peak Picking first in the filter list. ProteoWizard’s own msconvert documentation notes that vendor peak-picking algorithms operate on raw, untransformed data and therefore must be applied before other filters.\nFor typical Thermo proteomics RAW → Sage workflows, this is a practical default when the source data are profile-mode. If the instrument method already exported centroid spectra, do not apply redundant centroiding simply because the option exists.\n\n\n\n\n\n\nWarningDo not add filters without a reason\n\n\n\nFilters change the spectra passed to Sage. Avoid aggressive thresholding, scan removal, mass-window restriction, or other transformations unless they are part of a documented analysis plan. For a general ProtVis workflow, mzML output + zlib compression + appropriate centroiding is usually sufficient.\n\n\n\n\n7. Start conversion\nClick Start and wait until every file has completed without error.\nThe output should preserve the original filename stem:\nB73_C1.raw     → B73_C1.mzML\nB73_C2.raw     → B73_C2.mzML\nEA2024_C1.raw  → EA2024_C1.mzML\nThis naming is important because ProtVis maps sample_info$mzml_file to the files in the selected mzML directory.",
+    "objectID": "content/data_import/raw_sage_search.html#sage-executable",
+    "href": "content/data_import/raw_sage_search.html#sage-executable",
+    "title": "Raw/mzML + Sage search",
+    "section": "Sage executable",
+    "text": "Sage executable\nProtVis uses protvis_sage_executable() to resolve Sage.\nOn Windows, the package can use the bundled Sage executable at:\ninst/extdata/sage/windows/sage.exe\nOn Linux or macOS, install Sage separately and make sage available on PATH.\nYou can verify discovery from R:\nProtVis::protvis_sage_executable()\nThe Search page shows the resolved FASTA, mzML directory, Output, and Sage paths before execution.",
     "crumbs": [
       "Getting started",
-      "RAW → mzML with MSConvert"
+      "Raw/mzML + Sage"
     ]
   },
   {
-    "objectID": "content/data_import/msconvert_raw_to_mzml.html#command-line-conversion-with-msconvert.exe",
-    "href": "content/data_import/msconvert_raw_to_mzml.html#command-line-conversion-with-msconvert.exe",
-    "title": "RAW → mzML with MSConvert",
-    "section": "Command-line conversion with msconvert.exe",
-    "text": "Command-line conversion with msconvert.exe\nThe command-line utility is convenient for scripted or repeated conversions.\n\nConvert one RAW file\nmsconvert.exe \"E:\\RAW\\B73_C1.raw\" --mzML --zlib --filter \"peakPicking true 1-\" -o \"E:\\mzML\"\n\n\nConvert all RAW files in a directory\nmsconvert.exe \"E:\\RAW\\*.raw\" --mzML --zlib --filter \"peakPicking true 1-\" -o \"E:\\mzML\"\nThe important options are:\n\n\n\n\n\n\n\nOption\nMeaning\n\n\n\n\n--mzML\nwrite mzML output; mzML is also the current default\n\n\n--zlib\ncompress binary arrays with zlib\n\n\n--filter \"peakPicking true 1-\"\ncentroid spectra at MS1 and higher levels when appropriate\n\n\n-o\nset the output directory\n\n\n\nFor data that are already centroided, omit the peak-picking filter:\nmsconvert.exe \"E:\\RAW\\*.raw\" --mzML --zlib -o \"E:\\mzML\"\nTo inspect the exact options supported by your installed build:\nmsconvert.exe --help\nmsconvert.exe --show-examples",
+    "objectID": "content/data_import/raw_sage_search.html#search-parameters",
+    "href": "content/data_import/raw_sage_search.html#search-parameters",
+    "title": "Raw/mzML + Sage search",
+    "section": "Search parameters",
+    "text": "Search parameters\nThe current Search interface exposes the following defaults:\n\n\n\nParameter\nDefault\n\n\n\n\nPrecursor tolerance\n20 ppm\n\n\nFragment tolerance\n0.5 Da\n\n\nEnzyme\nTrypsin/P\n\n\nMissed cleavages\n2\n\n\nMinimum peptide length\n7\n\n\nMaximum peptide length\n50\n\n\nCarbamidomethyl (C), fixed\nenabled\n\n\nOxidation (M), variable\nenabled\n\n\nProtein N-term acetyl, variable\nenabled\n\n\nSpectrum/peptide/protein FDR\n0.01\n\n\nLFQ\nenabled\n\n\n\nThe generated Sage configuration uses target-decoy searching with rev_ as the decoy prefix. LFQ should remain enabled when the goal is to create a protein-by-sample matrix for downstream ProtVis analysis.",
     "crumbs": [
       "Getting started",
-      "RAW → mzML with MSConvert"
+      "Raw/mzML + Sage"
     ]
   },
   {
-    "objectID": "content/data_import/msconvert_raw_to_mzml.html#example-prepare-pxd065315-for-protvis",
-    "href": "content/data_import/msconvert_raw_to_mzml.html#example-prepare-pxd065315-for-protvis",
-    "title": "RAW → mzML with MSConvert",
-    "section": "Example: prepare PXD065315 for ProtVis",
-    "text": "Example: prepare PXD065315 for ProtVis\nThe built-in ProtVis Raw/Sage example uses six control samples from PXD065315. One reproducible layout is:\nPXD065315_control/\n├── raw/\n│   ├── B73_C1.raw\n│   ├── B73_C2.raw\n│   ├── B73_C3.raw\n│   ├── EA2024_C1.raw\n│   ├── EA2024_C2.raw\n│   └── EA2024_C3.raw\n└── mzML/\n    ├── B73_C1.mzML\n    ├── B73_C2.mzML\n    ├── B73_C3.mzML\n    ├── EA2024_C1.mzML\n    ├── EA2024_C2.mzML\n    └── EA2024_C3.mzML\nAfter conversion, point ProtVis → Project init → Raw/mzML input to the mzML directory, not the original raw directory.",
+    "objectID": "content/data_import/raw_sage_search.html#run-the-search",
+    "href": "content/data_import/raw_sage_search.html#run-the-search",
+    "title": "Raw/mzML + Sage search",
+    "section": "Run the search",
+    "text": "Run the search\nThe full-resolution screenshot below shows a completed Sage run for the six PXD065315 control samples. The left side contains the search parameters and the two numbered actions; the upper-right area reports Search status and the Sage log; the lower-right area exposes the result tables.\n\n\n\n\n\n\nFigure 1: Sage Search in ProtVis after a successful six-sample search. Marker 1 is Run Sage Search and marker 2 is Download Sage Config. The Search status reports success, while the Sage log records indexing, file processing and search progress. Summary, PSMs and LFQ tabs provide result tables.\n\n\n\nBefore pressing the numbered controls, confirm that the FASTA path, mzML directory, output directory and resolved Sage executable are all correct. Review the enzyme, tolerances, modifications, peptide-length limits, FDR and LFQ settings; changing these values changes the database-search model and should be recorded as part of the analysis.\n1. Run Sage Search. Click Run Sage Search once. ProtVis writes the current settings to the Sage configuration, starts Sage against every registered mzML file, and streams progress into Search status and Sage log. While a search is running, duplicate-click protection prevents the same operation from being launched a second time.\nFollow the log until the status becomes success or an actionable error is reported. In the illustrated example, the completed run reports 1,170,861 PSM rows and 15,209 LFQ rows. These numbers document this particular search; they are not expected thresholds and will vary with organism, FASTA, acquisition depth, search parameters and sample number.\nAfter success, inspect the result tabs. Summary provides the compact search-level overview. PSMs contains peptide-spectrum-match level results and is useful for verifying that the search produced substantial target evidence. LFQ contains the quantitative output used to construct the downstream protein-by-sample matrix; verify that the expected six mzML/sample columns are represented before moving to preprocessing.\n2. Download Sage Config. Click Download Sage Config to save the exact generated configuration independently. The project also records the configuration and search provenance in ProtVis_dataset, but keeping the downloaded JSON alongside the mzML/FASTA inputs is useful for external reproduction, troubleshooting and methods reporting.\n\n\n\n\n\n\nTipRead the log, not only the green status\n\n\n\nWarnings can be informative even when Sage ultimately finishes successfully. Preserve the log/configuration and check unexpected modification warnings, input-file failures, unusually small result tables, or missing LFQ sample columns before treating the search as finalized.",
     "crumbs": [
       "Getting started",
-      "RAW → mzML with MSConvert"
+      "Raw/mzML + Sage"
     ]
   },
   {
-    "objectID": "content/data_import/msconvert_raw_to_mzml.html#verify-the-converted-files-before-protvis",
-    "href": "content/data_import/msconvert_raw_to_mzml.html#verify-the-converted-files-before-protvis",
-    "title": "RAW → mzML with MSConvert",
-    "section": "Verify the converted files before ProtVis",
-    "text": "Verify the converted files before ProtVis\nDo not rely only on the .mzML extension. Confirm that:\n\nthe number of mzML files equals the expected number of RAW files;\neach mzML file is non-empty and has a plausible file size;\nfilenames match sample_info$mzml_file exactly;\nconversion completed without MSConvert errors;\nthe files contain MS spectra and, for DDA proteomics, expected MS1/MS2 scans;\nthe same conversion settings were used for every sample in the comparison.\n\nIf needed, ProteoWizard’s SeeMS can be used to open an mzML file and visually inspect spectra before database searching.",
+    "objectID": "content/data_import/raw_sage_search.html#files-produced-by-sage",
+    "href": "content/data_import/raw_sage_search.html#files-produced-by-sage",
+    "title": "Raw/mzML + Sage search",
+    "section": "Files produced by Sage",
+    "text": "Files produced by Sage\nProtVis writes the search into the project Sage_search directory. The principal files are:\nSage_search/\n├── sage_config.json\n├── results.sage.tsv\n├── lfq.tsv\n└── results.json",
     "crumbs": [
       "Getting started",
-      "RAW → mzML with MSConvert"
+      "Raw/mzML + Sage"
     ]
   },
   {
-    "objectID": "content/data_import/msconvert_raw_to_mzml.html#connect-the-mzml-files-to-protvis",
-    "href": "content/data_import/msconvert_raw_to_mzml.html#connect-the-mzml-files-to-protvis",
-    "title": "RAW → mzML with MSConvert",
-    "section": "Connect the mzML files to ProtVis",
-    "text": "Connect the mzML files to ProtVis\nOnce conversion is complete:\n\nOpen Project init.\nSelect Raw as the data source.\nLoad or upload sample information containing sample_id and mzml_file.\nUpload the matching protein FASTA.\nSelect the directory containing the converted .mzML files.\nClick Check mzML files and resolve every Missing/Invalid row.\nClick Project init.\nOpen Search and run Sage.\n\nContinue with Raw/mzML + Sage search.",
+    "objectID": "content/data_import/raw_sage_search.html#how-lfq-becomes-a-protvis-matrix",
+    "href": "content/data_import/raw_sage_search.html#how-lfq-becomes-a-protvis-matrix",
+    "title": "Raw/mzML + Sage search",
+    "section": "How LFQ becomes a ProtVis matrix",
+    "text": "How LFQ becomes a ProtVis matrix\nAfter a successful search, ProtVis reads the Sage LFQ table, finds the proteins/protein field, matches LFQ sample columns to the registered mzML filenames and sample_id values, removes rev_ decoy identifiers, and aggregates target intensities into a protein-by-sample matrix.\nThe completed object uses the workflow stage Sage_complete and receives a traceable name such as:\nProtVis_dataset__Sage_database_search__v2\nThe original staging metadata and process history are retained. Search parameters, log information, configuration, result tables, and produced files are recorded under the project, including:\ndataset$analysis_results$Sage_database_search\nSearch output files that exist on disk are also registered in other_files with path, filename, size, MD5 and attachment time.",
     "crumbs": [
       "Getting started",
-      "RAW → mzML with MSConvert"
+      "Raw/mzML + Sage"
     ]
   },
   {
-    "objectID": "content/data_import/msconvert_raw_to_mzml.html#troubleshooting",
-    "href": "content/data_import/msconvert_raw_to_mzml.html#troubleshooting",
-    "title": "RAW → mzML with MSConvert",
+    "objectID": "content/data_import/raw_sage_search.html#stage-handoff-to-preprocessing",
+    "href": "content/data_import/raw_sage_search.html#stage-handoff-to-preprocessing",
+    "title": "Raw/mzML + Sage search",
+    "section": "Stage handoff to preprocessing",
+    "text": "Stage handoff to preprocessing\nA successful Search writes two compatibility snapshots:\nStep2_sage_database_search.rda\nStep2_remove_unreliable_peptide.rda\nStep2_sage_database_search.rda preserves the Sage-specific stage name for compatibility. The important cross-source handoff is:\nStep2_remove_unreliable_peptide.rda\nThis is the data-source-independent Step2 checkpoint consumed by Correct Noise. Downstream preprocessing therefore does not need to know whether Step2 originated from Sage, MaxQuant, or another supported input path.\nContinue with Correct noise.",
+    "crumbs": [
+      "Getting started",
+      "Raw/mzML + Sage"
+    ]
+  },
+  {
+    "objectID": "content/data_import/raw_sage_search.html#recovery-after-restarting-protvis",
+    "href": "content/data_import/raw_sage_search.html#recovery-after-restarting-protvis",
+    "title": "Raw/mzML + Sage search",
+    "section": "Recovery after restarting ProtVis",
+    "text": "Recovery after restarting ProtVis\nProtVis can recover a completed Sage search from the existing Sage_search directory when lfq.tsv is present and the configuration still resolves the FASTA and mzML inputs. Recovery reads the prior configuration and result tables instead of requiring the database search to be repeated simply because the Shiny session restarted.\nCorrect Noise also checks the active ProtVis_dataset first. If no in-memory object is available, it looks for the canonical Step2_remove_unreliable_peptide.rda, then Sage-specific/older stage files as fallbacks.\n\n\n\n\n\n\nTipKeep the complete project directory\n\n\n\nFor a recoverable Raw/Sage project, keep the working directory, Sage_search folder, stage files, and portable ProtVis_dataset export together. Moving only lfq.tsv away from the FASTA/configuration context weakens provenance and may prevent automatic recovery.",
+    "crumbs": [
+      "Getting started",
+      "Raw/mzML + Sage"
+    ]
+  },
+  {
+    "objectID": "content/data_import/raw_sage_search.html#troubleshooting",
+    "href": "content/data_import/raw_sage_search.html#troubleshooting",
+    "title": "Raw/mzML + Sage search",
     "section": "Troubleshooting",
-    "text": "Troubleshooting\nMSConvert cannot open the vendor RAW file. Perform vendor-format conversion on Windows and confirm that you installed a ProteoWizard build with the required vendor readers. Do not assume a native Linux build can read proprietary vendor data.\nThe mzML files are extremely large. Confirm that zlib compression is enabled. If the source is profile-mode and your downstream search requires centroided spectra, confirm that Peak Picking was applied appropriately.\nSage finds no spectra or very few PSMs. First verify that the mzML contains valid MS1/MS2 spectra and that centroiding was appropriate. Then check the FASTA, precursor/fragment tolerances, enzyme, modifications, and acquisition type.\nProtVis reports missing mzML files. The filename in sample_info$mzml_file must match the converted file name exactly, including the .mzML extension.\nThe conversion works on one sample but fails on others. Inspect the MSConvert log for the failing files and confirm that all source files were completely downloaded/copied and were acquired using a vendor format supported by your installed ProteoWizard build.",
+    "text": "Troubleshooting\nSearch tab is missing. Return to Project init and select Raw. Search is hidden for other source types by design.\nSage is shown as Not found. On Windows, reinstall the current ProtVis build and confirm the bundled executable is present. On Linux/macOS, install Sage and place it on PATH.\nNo .mzML files were found. Select the directory that directly contains the converted files and rerun Check mzML files.\nSample names do not map to LFQ columns. Confirm that sample_info$mzml_file matches the registered mzML filenames. ProtVis falls back to filename stems only when a direct sample mapping is unavailable.\nCorrect Noise says the expression matrix is unavailable. The current object is probably still a Sage staging object. Complete Search successfully first so LFQ can be converted to the protein abundance matrix.",
     "crumbs": [
       "Getting started",
-      "RAW → mzML with MSConvert"
+      "Raw/mzML + Sage"
     ]
   },
   {
-    "objectID": "content/data_import/msconvert_raw_to_mzml.html#reproducibility-checklist",
-    "href": "content/data_import/msconvert_raw_to_mzml.html#reproducibility-checklist",
-    "title": "RAW → mzML with MSConvert",
-    "section": "Reproducibility checklist",
-    "text": "Reproducibility checklist\nRecord the following information with the project:\nProteoWizard/MSConvert version:\nOperating system:\nOriginal vendor format:\nOutput format: mzML\nzlib compression: yes/no\nPeak Picking: yes/no\nPeak Picking MS levels:\nAdditional filters:\nConversion date:\nKeeping these settings together with the original RAW files, converted mzML files, FASTA, Sage configuration, and ProtVis project directory makes the Raw → Sage workflow substantially easier to reproduce.",
+    "objectID": "content/data_import/data_import.html",
+    "href": "content/data_import/data_import.html",
+    "title": "Data input",
+    "section": "",
+    "text": "ProtVis no longer forces every source through one identical import screen. Project init selects the route, and each route produces or restores a validated ProtVis_dataset before the shared preprocessing stages begin.\nThe three practical routes are:\n\n\n\n\n\n\n\n\nRoute\nNext source-specific step\nShared handoff\n\n\n\n\nRaw/mzML\nSearch (Sage)\nStep2_remove_unreliable_peptide.rda\n\n\nMaxQuant\nPre-processing → MaxQuant Output Preparation\nStep2_remove_unreliable_peptide.rda\n\n\nOther supported tabular sources\nSource parser/import\nactive ProtVis_dataset and preprocessing-compatible handoff\n\n\n\nThe source-independent workflow begins at Correct Noise.",
     "crumbs": [
       "Getting started",
-      "RAW → mzML with MSConvert"
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#purpose",
+    "href": "content/data_import/data_import.html#purpose",
+    "title": "Data input",
+    "section": "",
+    "text": "ProtVis no longer forces every source through one identical import screen. Project init selects the route, and each route produces or restores a validated ProtVis_dataset before the shared preprocessing stages begin.\nThe three practical routes are:\n\n\n\n\n\n\n\n\nRoute\nNext source-specific step\nShared handoff\n\n\n\n\nRaw/mzML\nSearch (Sage)\nStep2_remove_unreliable_peptide.rda\n\n\nMaxQuant\nPre-processing → MaxQuant Output Preparation\nStep2_remove_unreliable_peptide.rda\n\n\nOther supported tabular sources\nSource parser/import\nactive ProtVis_dataset and preprocessing-compatible handoff\n\n\n\nThe source-independent workflow begins at Correct Noise.",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#supported-source-selections",
+    "href": "content/data_import/data_import.html#supported-source-selections",
+    "title": "Data input",
+    "section": "Supported source selections",
+    "text": "Supported source selections\nProject init currently exposes Raw, MaxQuant, ProteomeDiscoverer / Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix.\nParser-backed inputs are converted into a common protein-by-sample representation rather than being interpreted with MaxQuant-specific column rules.",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#rawmzml",
+    "href": "content/data_import/data_import.html#rawmzml",
+    "title": "Data input",
+    "section": "Raw/mzML",
+    "text": "Raw/mzML\nFor Raw data, do not upload an artificial protein matrix simply to satisfy Project init. Register sample information, the mzML directory and FASTA; Project init creates a Sage_staging object. The conditional Search tab then runs Sage and creates the quantitative LFQ matrix.\nIf your mass spectrometer produced vendor files such as Thermo .raw rather than .mzML, first follow RAW → mzML with MSConvert. That tutorial covers the official ProteoWizard download, Windows installation, MSConvertGUI, command-line batch conversion, centroiding/Peak Picking, zlib compression, file validation, and the PXD065315 example used by ProtVis.\nThen read Raw/mzML + Sage search for the complete ProtVis workflow.",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#maxquant",
+    "href": "content/data_import/data_import.html#maxquant",
+    "title": "Data input",
+    "section": "MaxQuant",
+    "text": "MaxQuant\nWhen MaxQuant is selected, the source-specific MaxQuant Output Preparation item appears under Pre-processing. This is where MaxQuant-only unreliable evidence handling belongs. After that step, the dataset enters the same Correct Noise → Transformation → Imputation → Normalization sequence used by other sources.",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#other-tabular-sources",
+    "href": "content/data_import/data_import.html#other-tabular-sources",
+    "title": "Data input",
+    "section": "Other tabular sources",
+    "text": "Other tabular sources\nFor Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and user-defined matrices, use the appropriate source parser/import path. ProtVis preserves the source identity in project metadata while standardizing the result for downstream modules.\nBuilt-in compact examples are available for several input ecosystems and are useful for verifying that a parser and package installation are operational.\nA programmatic example is:\nlibrary(ProtVis)\n\nexample_data &lt;- load_protvis_builtin_data(\n  source = \"DIA-NN\",\n  auto_export = FALSE\n)\n\nexample_data",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#missing-values-at-the-import-boundary",
+    "href": "content/data_import/data_import.html#missing-values-at-the-import-boundary",
+    "title": "Data input",
+    "section": "Missing values at the import boundary",
+    "text": "Missing values at the import boundary\n\n\n\n\n\n\nWarningDo not treat zeros or sentinel values as biological abundance\n\n\n\nMissing or not-observed measurements must remain missing until the explicit imputation stage. Where applicable, legacy values such as 0 and -8 are converted to NA before imputation rather than being presented as measured abundance.",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#the-shared-step2-handoff",
+    "href": "content/data_import/data_import.html#the-shared-step2-handoff",
+    "title": "Data input",
+    "section": "The shared Step2 handoff",
+    "text": "The shared Step2 handoff\nThe current Raw/Sage route writes both a Sage-specific snapshot and the canonical cross-source file:\nStep2_sage_database_search.rda\nStep2_remove_unreliable_peptide.rda\nStep2_remove_unreliable_peptide.rda is now the data-source-independent handoff consumed by Correct Noise. The filename is retained for compatibility even when the input did not originate from MaxQuant.\nThe active ProtVis_dataset remains the preferred source. Stage .rda files are recovery/compatibility snapshots, not separate primary data models.",
+    "crumbs": [
+      "Getting started",
+      "Data input"
+    ]
+  },
+  {
+    "objectID": "content/data_import/data_import.html#before-continuing",
+    "href": "content/data_import/data_import.html#before-continuing",
+    "title": "Data input",
+    "section": "Before continuing",
+    "text": "Before continuing\nConfirm that the current project has a real protein-by-sample expression matrix, correct sample identifiers, and the expected grouping metadata. A Sage_staging object is the exception: it is deliberately matrix-free until Search finishes.\nThen continue to Correct noise.",
+    "crumbs": [
+      "Getting started",
+      "Data input"
     ]
   },
   {
@@ -2759,234 +2869,320 @@
     ]
   },
   {
-    "objectID": "content/data_import/data_import.html",
-    "href": "content/data_import/data_import.html",
-    "title": "Data input",
+    "objectID": "content/data_import/raw_to_mzml_linux.html",
+    "href": "content/data_import/raw_to_mzml_linux.html",
+    "title": "RAW → mzML on Linux",
     "section": "",
-    "text": "ProtVis no longer forces every source through one identical import screen. Project init selects the route, and each route produces or restores a validated ProtVis_dataset before the shared preprocessing stages begin.\nThe three practical routes are:\n\n\n\n\n\n\n\n\nRoute\nNext source-specific step\nShared handoff\n\n\n\n\nRaw/mzML\nSearch (Sage)\nStep2_remove_unreliable_peptide.rda\n\n\nMaxQuant\nPre-processing → MaxQuant Output Preparation\nStep2_remove_unreliable_peptide.rda\n\n\nOther supported tabular sources\nSource parser/import\nactive ProtVis_dataset and preprocessing-compatible handoff\n\n\n\nThe source-independent workflow begins at Correct Noise.",
-    "crumbs": [
-      "Getting started",
-      "Data input"
-    ]
+    "text": "For Thermo Scientific .raw files on Linux, use ThermoRawFileParser rather than relying on Windows-only vendor readers in MSConvert. ThermoRawFileParser is cross-platform and the current project provides self-contained Linux releases as well as a framework-based build for systems with the .NET 8 runtime.\nThe recommended route is:\nThermo RAW → ThermoRawFileParser → mzML → ProtVis Project init → Sage Search → ProtVis_dataset\n\n\n\n\n\n\nImportantWhy not use MSConvert directly for Thermo RAW on Linux?\n\n\n\nProteoWizard can work with open mass-spectrometry formats on multiple platforms, but direct reading of many proprietary vendor RAW formats depends on vendor libraries. For the Thermo RAW workflow used in the ProtVis example, ThermoRawFileParser is the practical native Linux converter."
   },
   {
-    "objectID": "content/data_import/data_import.html#purpose",
-    "href": "content/data_import/data_import.html#purpose",
-    "title": "Data input",
+    "objectID": "content/data_import/raw_to_mzml_linux.html#recommended-linux-route",
+    "href": "content/data_import/raw_to_mzml_linux.html#recommended-linux-route",
+    "title": "RAW → mzML on Linux",
     "section": "",
-    "text": "ProtVis no longer forces every source through one identical import screen. Project init selects the route, and each route produces or restores a validated ProtVis_dataset before the shared preprocessing stages begin.\nThe three practical routes are:\n\n\n\n\n\n\n\n\nRoute\nNext source-specific step\nShared handoff\n\n\n\n\nRaw/mzML\nSearch (Sage)\nStep2_remove_unreliable_peptide.rda\n\n\nMaxQuant\nPre-processing → MaxQuant Output Preparation\nStep2_remove_unreliable_peptide.rda\n\n\nOther supported tabular sources\nSource parser/import\nactive ProtVis_dataset and preprocessing-compatible handoff\n\n\n\nThe source-independent workflow begins at Correct Noise.",
-    "crumbs": [
-      "Getting started",
-      "Data input"
-    ]
+    "text": "For Thermo Scientific .raw files on Linux, use ThermoRawFileParser rather than relying on Windows-only vendor readers in MSConvert. ThermoRawFileParser is cross-platform and the current project provides self-contained Linux releases as well as a framework-based build for systems with the .NET 8 runtime.\nThe recommended route is:\nThermo RAW → ThermoRawFileParser → mzML → ProtVis Project init → Sage Search → ProtVis_dataset\n\n\n\n\n\n\nImportantWhy not use MSConvert directly for Thermo RAW on Linux?\n\n\n\nProteoWizard can work with open mass-spectrometry formats on multiple platforms, but direct reading of many proprietary vendor RAW formats depends on vendor libraries. For the Thermo RAW workflow used in the ProtVis example, ThermoRawFileParser is the practical native Linux converter."
   },
   {
-    "objectID": "content/data_import/data_import.html#supported-source-selections",
-    "href": "content/data_import/data_import.html#supported-source-selections",
-    "title": "Data input",
-    "section": "Supported source selections",
-    "text": "Supported source selections\nProject init currently exposes Raw, MaxQuant, ProteomeDiscoverer / Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix.\nParser-backed inputs are converted into a common protein-by-sample representation rather than being interpreted with MaxQuant-specific column rules.",
-    "crumbs": [
-      "Getting started",
-      "Data input"
-    ]
+    "objectID": "content/data_import/raw_to_mzml_linux.html#download-thermorawfileparser",
+    "href": "content/data_import/raw_to_mzml_linux.html#download-thermorawfileparser",
+    "title": "RAW → mzML on Linux",
+    "section": "Download ThermoRawFileParser",
+    "text": "Download ThermoRawFileParser\nOfficial resources:\n\nThermoRawFileParser repository\nThermoRawFileParser releases\nThermoRawFileParser publication\n\nThe current project README states that releases include self-contained Linux builds and a framework-based build. The framework-based build requires the .NET 8 runtime."
   },
   {
-    "objectID": "content/data_import/data_import.html#rawmzml",
-    "href": "content/data_import/data_import.html#rawmzml",
-    "title": "Data input",
-    "section": "Raw/mzML",
-    "text": "Raw/mzML\nFor Raw data, do not upload an artificial protein matrix simply to satisfy Project init. Register sample information, the mzML directory and FASTA; Project init creates a Sage_staging object. The conditional Search tab then runs Sage and creates the quantitative LFQ matrix.\nIf your mass spectrometer produced vendor files such as Thermo .raw rather than .mzML, first follow RAW → mzML with MSConvert. That tutorial covers the official ProteoWizard download, Windows installation, MSConvertGUI, command-line batch conversion, centroiding/Peak Picking, zlib compression, file validation, and the PXD065315 example used by ProtVis.\nThen read Raw/mzML + Sage search for the complete ProtVis workflow.",
-    "crumbs": [
-      "Getting started",
-      "Data input"
-    ]
+    "objectID": "content/data_import/raw_to_mzml_linux.html#option-a-self-contained-linux-release",
+    "href": "content/data_import/raw_to_mzml_linux.html#option-a-self-contained-linux-release",
+    "title": "RAW → mzML on Linux",
+    "section": "Option A — self-contained Linux release",
+    "text": "Option A — self-contained Linux release\nThis is the simplest route when a release asset compatible with your Linux architecture is available.\n\n1. Download and unpack\nDownload the current Linux release asset from the official Releases page and extract it, for example into:\nmkdir -p ~/software/ThermoRawFileParser\ncd ~/software/ThermoRawFileParser\n# unpack the downloaded release archive here\nThe exact archive filename changes between releases, so use the filename provided on the current Releases page.\n\n\n2. Make the executable runnable\nIf needed:\nchmod +x ThermoRawFileParser\n\n\n3. Verify installation\n./ThermoRawFileParser --version\n./ThermoRawFileParser --help"
   },
   {
-    "objectID": "content/data_import/data_import.html#maxquant",
-    "href": "content/data_import/data_import.html#maxquant",
-    "title": "Data input",
-    "section": "MaxQuant",
-    "text": "MaxQuant\nWhen MaxQuant is selected, the source-specific MaxQuant Output Preparation item appears under Pre-processing. This is where MaxQuant-only unreliable evidence handling belongs. After that step, the dataset enters the same Correct Noise → Transformation → Imputation → Normalization sequence used by other sources.",
-    "crumbs": [
-      "Getting started",
-      "Data input"
-    ]
+    "objectID": "content/data_import/raw_to_mzml_linux.html#option-b-framework-based-release-with-.net-8",
+    "href": "content/data_import/raw_to_mzml_linux.html#option-b-framework-based-release-with-.net-8",
+    "title": "RAW → mzML on Linux",
+    "section": "Option B — framework-based release with .NET 8",
+    "text": "Option B — framework-based release with .NET 8\nIf you use the framework-based package, first install the .NET 8 runtime for your Linux distribution from Microsoft:\n\nDownload .NET 8\n\nConfirm it is available:\ndotnet --info\nThen run the parser with:\ndotnet ThermoRawFileParser.dll --help"
   },
   {
-    "objectID": "content/data_import/data_import.html#other-tabular-sources",
-    "href": "content/data_import/data_import.html#other-tabular-sources",
-    "title": "Data input",
-    "section": "Other tabular sources",
-    "text": "Other tabular sources\nFor Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and user-defined matrices, use the appropriate source parser/import path. ProtVis preserves the source identity in project metadata while standardizing the result for downstream modules.\nBuilt-in compact examples are available for several input ecosystems and are useful for verifying that a parser and package installation are operational.\nA programmatic example is:\nlibrary(ProtVis)\n\nexample_data &lt;- load_protvis_builtin_data(\n  source = \"DIA-NN\",\n  auto_export = FALSE\n)\n\nexample_data",
-    "crumbs": [
-      "Getting started",
-      "Data input"
-    ]
+    "objectID": "content/data_import/raw_to_mzml_linux.html#option-c-docker-biocontainers",
+    "href": "content/data_import/raw_to_mzml_linux.html#option-c-docker-biocontainers",
+    "title": "RAW → mzML on Linux",
+    "section": "Option C — Docker / BioContainers",
+    "text": "Option C — Docker / BioContainers\nFor servers and reproducible environments, Docker is convenient. The ThermoRawFileParser project documents BioContainers images.\nFirst identify the current tag, then pull/run it. A general pattern is:\ndocker run --rm -it \\\n  -v /home/user/raw:/data_input \\\n  -v /home/user/mzML:/data_output \\\n  quay.io/biocontainers/thermorawfileparser:&lt;tag&gt; \\\n  ThermoRawFileParser.sh --help\nReplace &lt;tag&gt; with an actual current BioContainers tag."
   },
   {
-    "objectID": "content/data_import/data_import.html#missing-values-at-the-import-boundary",
-    "href": "content/data_import/data_import.html#missing-values-at-the-import-boundary",
-    "title": "Data input",
-    "section": "Missing values at the import boundary",
-    "text": "Missing values at the import boundary\n\n\n\n\n\n\nWarningDo not treat zeros or sentinel values as biological abundance\n\n\n\nMissing or not-observed measurements must remain missing until the explicit imputation stage. Where applicable, legacy values such as 0 and -8 are converted to NA before imputation rather than being presented as measured abundance.",
-    "crumbs": [
-      "Getting started",
-      "Data input"
-    ]
+    "objectID": "content/data_import/raw_to_mzml_linux.html#prepare-input-and-output-directories",
+    "href": "content/data_import/raw_to_mzml_linux.html#prepare-input-and-output-directories",
+    "title": "RAW → mzML on Linux",
+    "section": "Prepare input and output directories",
+    "text": "Prepare input and output directories\nKeep source RAW and converted mzML files separate:\nmkdir -p ~/PXD065315_control/raw\nmkdir -p ~/PXD065315_control/mzML\nExample input:\n~/PXD065315_control/raw/\n├── B73_C1.raw\n├── B73_C2.raw\n├── B73_C3.raw\n├── EA2024_C1.raw\n├── EA2024_C2.raw\n└── EA2024_C3.raw"
   },
   {
-    "objectID": "content/data_import/data_import.html#the-shared-step2-handoff",
-    "href": "content/data_import/data_import.html#the-shared-step2-handoff",
-    "title": "Data input",
-    "section": "The shared Step2 handoff",
-    "text": "The shared Step2 handoff\nThe current Raw/Sage route writes both a Sage-specific snapshot and the canonical cross-source file:\nStep2_sage_database_search.rda\nStep2_remove_unreliable_peptide.rda\nStep2_remove_unreliable_peptide.rda is now the data-source-independent handoff consumed by Correct Noise. The filename is retained for compatibility even when the input did not originate from MaxQuant.\nThe active ProtVis_dataset remains the preferred source. Stage .rda files are recovery/compatibility snapshots, not separate primary data models.",
-    "crumbs": [
-      "Getting started",
-      "Data input"
-    ]
+    "objectID": "content/data_import/raw_to_mzml_linux.html#convert-one-raw-file",
+    "href": "content/data_import/raw_to_mzml_linux.html#convert-one-raw-file",
+    "title": "RAW → mzML on Linux",
+    "section": "Convert one RAW file",
+    "text": "Convert one RAW file\nWith a self-contained executable:\n./ThermoRawFileParser \\\n  -i=$HOME/PXD065315_control/raw/B73_C1.raw \\\n  -o=$HOME/PXD065315_control/mzML \\\n  -f=2\nWith the framework-based build:\ndotnet ThermoRawFileParser.dll \\\n  -i=$HOME/PXD065315_control/raw/B73_C1.raw \\\n  -o=$HOME/PXD065315_control/mzML \\\n  -f=2\n-f=2 requests indexed mzML. Indexed mzML still uses the .mzML extension and is suitable for the ProtVis/Sage workflow. Use -f=1 if you specifically need non-indexed mzML."
   },
   {
-    "objectID": "content/data_import/data_import.html#before-continuing",
-    "href": "content/data_import/data_import.html#before-continuing",
-    "title": "Data input",
-    "section": "Before continuing",
-    "text": "Before continuing\nConfirm that the current project has a real protein-by-sample expression matrix, correct sample identifiers, and the expected grouping metadata. A Sage_staging object is the exception: it is deliberately matrix-free until Search finishes.\nThen continue to Correct noise.",
-    "crumbs": [
-      "Getting started",
-      "Data input"
-    ]
+    "objectID": "content/data_import/raw_to_mzml_linux.html#convert-every-raw-file-in-a-directory",
+    "href": "content/data_import/raw_to_mzml_linux.html#convert-every-raw-file-in-a-directory",
+    "title": "RAW → mzML on Linux",
+    "section": "Convert every RAW file in a directory",
+    "text": "Convert every RAW file in a directory\n./ThermoRawFileParser \\\n  -d=$HOME/PXD065315_control/raw \\\n  -o=$HOME/PXD065315_control/mzML \\\n  -f=2\nFramework-based equivalent:\ndotnet ThermoRawFileParser.dll \\\n  -d=$HOME/PXD065315_control/raw \\\n  -o=$HOME/PXD065315_control/mzML \\\n  -f=2"
   },
   {
-    "objectID": "content/data_import/raw_sage_search.html",
-    "href": "content/data_import/raw_sage_search.html",
-    "title": "Raw/mzML + Sage search",
-    "section": "",
-    "text": "Use Project init → Search when your starting point is converted .mzML files rather than a precomputed protein-abundance table. ProtVis registers sample metadata, the mzML directory and a protein FASTA, runs Sage, then converts Sage LFQ output into the same canonical ProtVis_dataset used by all downstream modules.\nThe route is:\nProject init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization\nThe top-level Search tab is intentionally visible only while Raw is selected in Project init.",
-    "crumbs": [
-      "Getting started",
-      "Raw/mzML + Sage"
-    ]
+    "objectID": "content/data_import/raw_to_mzml_linux.html#peak-picking-and-compression",
+    "href": "content/data_import/raw_to_mzml_linux.html#peak-picking-and-compression",
+    "title": "RAW → mzML on Linux",
+    "section": "Peak picking and compression",
+    "text": "Peak picking and compression\nThermoRawFileParser’s current defaults are useful for the ProtVis workflow:\n\nThermo native peak picking is enabled by default;\nzlib compression is enabled by default;\n-p disables native peak picking;\n-z disables zlib compression.\n\nTherefore, for ordinary Thermo RAW → Sage conversion, do not add -p or -z unless you deliberately want to disable those defaults.\n\n\n\n\n\n\nWarningConfirm centroiding strategy\n\n\n\nIf your experiment already contains centroided spectra, verify whether native peak picking is appropriate for that acquisition. Conversion settings should be consistent across all samples and documented as part of the analysis.\n\n\nYou can limit output to selected MS levels with -L. For example:\n./ThermoRawFileParser \\\n  -d=$HOME/PXD065315_control/raw \\\n  -o=$HOME/PXD065315_control/mzML \\\n  -f=2 \\\n  -L=1-2\nFor general DDA proteomics, retaining both MS1 and MS2 is appropriate. Do not remove scans unless it is part of a validated analysis plan."
   },
   {
-    "objectID": "content/data_import/raw_sage_search.html#when-to-use-this-workflow",
-    "href": "content/data_import/raw_sage_search.html#when-to-use-this-workflow",
-    "title": "Raw/mzML + Sage search",
-    "section": "",
-    "text": "Use Project init → Search when your starting point is converted .mzML files rather than a precomputed protein-abundance table. ProtVis registers sample metadata, the mzML directory and a protein FASTA, runs Sage, then converts Sage LFQ output into the same canonical ProtVis_dataset used by all downstream modules.\nThe route is:\nProject init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization\nThe top-level Search tab is intentionally visible only while Raw is selected in Project init.",
-    "crumbs": [
-      "Getting started",
-      "Raw/mzML + Sage"
-    ]
+    "objectID": "content/data_import/raw_to_mzml_linux.html#docker-conversion-example",
+    "href": "content/data_import/raw_to_mzml_linux.html#docker-conversion-example",
+    "title": "RAW → mzML on Linux",
+    "section": "Docker conversion example",
+    "text": "Docker conversion example\nAssuming:\n/home/user/PXD065315_control/raw\n/home/user/PXD065315_control/mzML\nA containerized conversion follows this pattern:\ndocker run --rm \\\n  -v /home/user/PXD065315_control/raw:/data_input \\\n  -v /home/user/PXD065315_control/mzML:/data_output \\\n  quay.io/biocontainers/thermorawfileparser:&lt;tag&gt; \\\n  ThermoRawFileParser.sh \\\n  -d=/data_input \\\n  -o=/data_output \\\n  -f=2"
   },
   {
-    "objectID": "content/data_import/raw_sage_search.html#prerequisites",
-    "href": "content/data_import/raw_sage_search.html#prerequisites",
-    "title": "Raw/mzML + Sage search",
-    "section": "Prerequisites",
-    "text": "Prerequisites\nBefore opening Search, complete the Raw-specific part of Project init:\n\nSet a writable working directory.\nLoad or upload sample information containing sample_id and mzml_file.\nUpload the matching protein FASTA.\nSelect the directory containing the mzML files.\nClick Check mzML files and resolve every Missing or Invalid extension row.\nSelect Raw.\nClick Project init to create the Sage staging object.\n\n\n\n\n\n\n\nImportantDo not create a fake expression matrix\n\n\n\nA Raw/Sage project does not need a protein expression matrix before Search. ProtVis creates a Sage_staging project object and fills the expression layer only after LFQ results are available.",
-    "crumbs": [
-      "Getting started",
-      "Raw/mzML + Sage"
-    ]
+    "objectID": "content/data_import/raw_to_mzml_linux.html#expected-output",
+    "href": "content/data_import/raw_to_mzml_linux.html#expected-output",
+    "title": "RAW → mzML on Linux",
+    "section": "Expected output",
+    "text": "Expected output\n~/PXD065315_control/mzML/\n├── B73_C1.mzML\n├── B73_C2.mzML\n├── B73_C3.mzML\n├── EA2024_C1.mzML\n├── EA2024_C2.mzML\n└── EA2024_C3.mzML"
   },
   {
-    "objectID": "content/data_import/raw_sage_search.html#example-dataset-pxd065315",
-    "href": "content/data_import/raw_sage_search.html#example-dataset-pxd065315",
-    "title": "Raw/mzML + Sage search",
-    "section": "Example dataset: PXD065315",
-    "text": "Example dataset: PXD065315\nThe built-in Raw example is based on the public maize proteomics dataset PXD065315, titled Proteomics analysis of B73 and EA2024 maize plants under control and drought conditions. The complete dataset contains 12 Thermo .raw files: six control samples and six drought samples. The current ProtVis built-in example uses only the six control samples shown below.\n\nPRIDE project page\nProteomeXchange dataset page\nComplete PRIDE download directory\n\n\n\n\nProtVis sample\nOriginal PRIDE RAW file\nmzML filename used by ProtVis\n\n\n\n\nB73_C1\nB73_C1.raw\nB73_C1.mzML\n\n\nB73_C2\nB73_C2.raw\nB73_C2.mzML\n\n\nB73_C3\nB73_C3.raw\nB73_C3.mzML\n\n\nEA2024_C1\nEA2024_C1.raw\nEA2024_C1.mzML\n\n\nEA2024_C2\nEA2024_C2.raw\nEA2024_C2.mzML\n\n\nEA2024_C3\nEA2024_C3.raw\nEA2024_C3.mzML\n\n\n\n\n\n\n\n\n\nNoteRAW and mzML are different files\n\n\n\nPRIDE hosts the original vendor .raw files for PXD065315. The .mzML files used by ProtVis are local conversions of those RAW files and are not separate files deposited in PXD065315. Convert the six control RAW files with ProteoWizard/MSConvert or another validated converter, and keep the output names exactly as listed in the mzML filename used by ProtVis column unless you also update sample_info$mzml_file.\n\n\nA convenient directory after conversion is:\nPXD065315_control/\n├── B73_C1.mzML\n├── B73_C2.mzML\n├── B73_C3.mzML\n├── EA2024_C1.mzML\n├── EA2024_C2.mzML\n└── EA2024_C3.mzML\nPoint Project init → Raw/mzML input to the directory containing these six converted files, then click Check mzML files.",
-    "crumbs": [
-      "Getting started",
-      "Raw/mzML + Sage"
-    ]
+    "objectID": "content/data_import/raw_to_mzml_linux.html#verify-the-converted-mzml-files",
+    "href": "content/data_import/raw_to_mzml_linux.html#verify-the-converted-mzml-files",
+    "title": "RAW → mzML on Linux",
+    "section": "Verify the converted mzML files",
+    "text": "Verify the converted mzML files\nBefore ProtVis, check file counts and sizes:\nfind ~/PXD065315_control/mzML -maxdepth 1 -type f -name '*.mzML' -print\nls -lh ~/PXD065315_control/mzML/*.mzML\nConfirm:\n\nevery RAW file has a matching mzML file;\noutputs are non-empty;\nfilenames match the expected sample names;\nthe converter exited without errors;\nMS1/MS2 spectra are present for DDA data;\nall samples used the same conversion settings."
   },
   {
-    "objectID": "content/data_import/raw_sage_search.html#sage-executable",
-    "href": "content/data_import/raw_sage_search.html#sage-executable",
-    "title": "Raw/mzML + Sage search",
-    "section": "Sage executable",
-    "text": "Sage executable\nProtVis uses protvis_sage_executable() to resolve Sage.\nOn Windows, the package can use the bundled Sage executable at:\ninst/extdata/sage/windows/sage.exe\nOn Linux or macOS, install Sage separately and make sage available on PATH.\nYou can verify discovery from R:\nProtVis::protvis_sage_executable()\nThe Search page shows the resolved FASTA, mzML directory, Output, and Sage paths before execution.",
-    "crumbs": [
-      "Getting started",
-      "Raw/mzML + Sage"
-    ]
+    "objectID": "content/data_import/raw_to_mzml_linux.html#connect-linux-mzml-files-to-protvis",
+    "href": "content/data_import/raw_to_mzml_linux.html#connect-linux-mzml-files-to-protvis",
+    "title": "RAW → mzML on Linux",
+    "section": "Connect Linux mzML files to ProtVis",
+    "text": "Connect Linux mzML files to ProtVis\nIf ProtVis is running on the same Linux computer/server:\n\nstart ProtVis;\nopen Project init;\nselect Raw;\nload/upload sample_info containing sample_id and mzml_file;\nupload the matching FASTA;\nselect the Linux mzML directory;\nclick Check mzML files;\nclick Project init;\nopen Search and run Sage.\n\nExample mzML directory:\n/home/user/PXD065315_control/mzML\nContinue with Raw/mzML + Sage search."
   },
   {
-    "objectID": "content/data_import/raw_sage_search.html#search-parameters",
-    "href": "content/data_import/raw_sage_search.html#search-parameters",
-    "title": "Raw/mzML + Sage search",
-    "section": "Search parameters",
-    "text": "Search parameters\nThe current Search interface exposes the following defaults:\n\n\n\nParameter\nDefault\n\n\n\n\nPrecursor tolerance\n20 ppm\n\n\nFragment tolerance\n0.5 Da\n\n\nEnzyme\nTrypsin/P\n\n\nMissed cleavages\n2\n\n\nMinimum peptide length\n7\n\n\nMaximum peptide length\n50\n\n\nCarbamidomethyl (C), fixed\nenabled\n\n\nOxidation (M), variable\nenabled\n\n\nProtein N-term acetyl, variable\nenabled\n\n\nSpectrum/peptide/protein FDR\n0.01\n\n\nLFQ\nenabled\n\n\n\nThe generated Sage configuration uses target-decoy searching with rev_ as the decoy prefix. LFQ should remain enabled when the goal is to create a protein-by-sample matrix for downstream ProtVis analysis.",
-    "crumbs": [
-      "Getting started",
-      "Raw/mzML + Sage"
-    ]
+    "objectID": "content/data_import/raw_to_mzml_linux.html#if-the-instrument-is-not-thermo",
+    "href": "content/data_import/raw_to_mzml_linux.html#if-the-instrument-is-not-thermo",
+    "title": "RAW → mzML on Linux",
+    "section": "If the instrument is not Thermo",
+    "text": "If the instrument is not Thermo\nThermoRawFileParser is specifically for Thermo RAW. For Bruker, SCIEX, Waters, Agilent, Shimadzu, or another vendor format, use a converter that officially supports that vendor and operating system. When vendor conversion requires Windows, convert there first and move the resulting .mzML files to Linux for ProtVis/Sage."
   },
   {
-    "objectID": "content/data_import/raw_sage_search.html#run-the-search",
-    "href": "content/data_import/raw_sage_search.html#run-the-search",
-    "title": "Raw/mzML + Sage search",
-    "section": "Run the search",
-    "text": "Run the search\nThe full-resolution screenshot below shows a completed Sage run for the six PXD065315 control samples. The left side contains the search parameters and the two numbered actions; the upper-right area reports Search status and the Sage log; the lower-right area exposes the result tables.\n\n\n\n\n\n\nFigure 1: Sage Search in ProtVis after a successful six-sample search. Marker 1 is Run Sage Search and marker 2 is Download Sage Config. The Search status reports success, while the Sage log records indexing, file processing and search progress. Summary, PSMs and LFQ tabs provide result tables.\n\n\n\nBefore pressing the numbered controls, confirm that the FASTA path, mzML directory, output directory and resolved Sage executable are all correct. Review the enzyme, tolerances, modifications, peptide-length limits, FDR and LFQ settings; changing these values changes the database-search model and should be recorded as part of the analysis.\n1. Run Sage Search. Click Run Sage Search once. ProtVis writes the current settings to the Sage configuration, starts Sage against every registered mzML file, and streams progress into Search status and Sage log. While a search is running, duplicate-click protection prevents the same operation from being launched a second time.\nFollow the log until the status becomes success or an actionable error is reported. In the illustrated example, the completed run reports 1,170,861 PSM rows and 15,209 LFQ rows. These numbers document this particular search; they are not expected thresholds and will vary with organism, FASTA, acquisition depth, search parameters and sample number.\nAfter success, inspect the result tabs. Summary provides the compact search-level overview. PSMs contains peptide-spectrum-match level results and is useful for verifying that the search produced substantial target evidence. LFQ contains the quantitative output used to construct the downstream protein-by-sample matrix; verify that the expected six mzML/sample columns are represented before moving to preprocessing.\n2. Download Sage Config. Click Download Sage Config to save the exact generated configuration independently. The project also records the configuration and search provenance in ProtVis_dataset, but keeping the downloaded JSON alongside the mzML/FASTA inputs is useful for external reproduction, troubleshooting and methods reporting.\n\n\n\n\n\n\nTipRead the log, not only the green status\n\n\n\nWarnings can be informative even when Sage ultimately finishes successfully. Preserve the log/configuration and check unexpected modification warnings, input-file failures, unusually small result tables, or missing LFQ sample columns before treating the search as finalized.",
-    "crumbs": [
-      "Getting started",
-      "Raw/mzML + Sage"
-    ]
-  },
-  {
-    "objectID": "content/data_import/raw_sage_search.html#files-produced-by-sage",
-    "href": "content/data_import/raw_sage_search.html#files-produced-by-sage",
-    "title": "Raw/mzML + Sage search",
-    "section": "Files produced by Sage",
-    "text": "Files produced by Sage\nProtVis writes the search into the project Sage_search directory. The principal files are:\nSage_search/\n├── sage_config.json\n├── results.sage.tsv\n├── lfq.tsv\n└── results.json",
-    "crumbs": [
-      "Getting started",
-      "Raw/mzML + Sage"
-    ]
-  },
-  {
-    "objectID": "content/data_import/raw_sage_search.html#how-lfq-becomes-a-protvis-matrix",
-    "href": "content/data_import/raw_sage_search.html#how-lfq-becomes-a-protvis-matrix",
-    "title": "Raw/mzML + Sage search",
-    "section": "How LFQ becomes a ProtVis matrix",
-    "text": "How LFQ becomes a ProtVis matrix\nAfter a successful search, ProtVis reads the Sage LFQ table, finds the proteins/protein field, matches LFQ sample columns to the registered mzML filenames and sample_id values, removes rev_ decoy identifiers, and aggregates target intensities into a protein-by-sample matrix.\nThe completed object uses the workflow stage Sage_complete and receives a traceable name such as:\nProtVis_dataset__Sage_database_search__v2\nThe original staging metadata and process history are retained. Search parameters, log information, configuration, result tables, and produced files are recorded under the project, including:\ndataset$analysis_results$Sage_database_search\nSearch output files that exist on disk are also registered in other_files with path, filename, size, MD5 and attachment time.",
-    "crumbs": [
-      "Getting started",
-      "Raw/mzML + Sage"
-    ]
-  },
-  {
-    "objectID": "content/data_import/raw_sage_search.html#stage-handoff-to-preprocessing",
-    "href": "content/data_import/raw_sage_search.html#stage-handoff-to-preprocessing",
-    "title": "Raw/mzML + Sage search",
-    "section": "Stage handoff to preprocessing",
-    "text": "Stage handoff to preprocessing\nA successful Search writes two compatibility snapshots:\nStep2_sage_database_search.rda\nStep2_remove_unreliable_peptide.rda\nStep2_sage_database_search.rda preserves the Sage-specific stage name for compatibility. The important cross-source handoff is:\nStep2_remove_unreliable_peptide.rda\nThis is the data-source-independent Step2 checkpoint consumed by Correct Noise. Downstream preprocessing therefore does not need to know whether Step2 originated from Sage, MaxQuant, or another supported input path.\nContinue with Correct noise.",
-    "crumbs": [
-      "Getting started",
-      "Raw/mzML + Sage"
-    ]
-  },
-  {
-    "objectID": "content/data_import/raw_sage_search.html#recovery-after-restarting-protvis",
-    "href": "content/data_import/raw_sage_search.html#recovery-after-restarting-protvis",
-    "title": "Raw/mzML + Sage search",
-    "section": "Recovery after restarting ProtVis",
-    "text": "Recovery after restarting ProtVis\nProtVis can recover a completed Sage search from the existing Sage_search directory when lfq.tsv is present and the configuration still resolves the FASTA and mzML inputs. Recovery reads the prior configuration and result tables instead of requiring the database search to be repeated simply because the Shiny session restarted.\nCorrect Noise also checks the active ProtVis_dataset first. If no in-memory object is available, it looks for the canonical Step2_remove_unreliable_peptide.rda, then Sage-specific/older stage files as fallbacks.\n\n\n\n\n\n\nTipKeep the complete project directory\n\n\n\nFor a recoverable Raw/Sage project, keep the working directory, Sage_search folder, stage files, and portable ProtVis_dataset export together. Moving only lfq.tsv away from the FASTA/configuration context weakens provenance and may prevent automatic recovery.",
-    "crumbs": [
-      "Getting started",
-      "Raw/mzML + Sage"
-    ]
-  },
-  {
-    "objectID": "content/data_import/raw_sage_search.html#troubleshooting",
-    "href": "content/data_import/raw_sage_search.html#troubleshooting",
-    "title": "Raw/mzML + Sage search",
+    "objectID": "content/data_import/raw_to_mzml_linux.html#troubleshooting",
+    "href": "content/data_import/raw_to_mzml_linux.html#troubleshooting",
+    "title": "RAW → mzML on Linux",
     "section": "Troubleshooting",
-    "text": "Troubleshooting\nSearch tab is missing. Return to Project init and select Raw. Search is hidden for other source types by design.\nSage is shown as Not found. On Windows, reinstall the current ProtVis build and confirm the bundled executable is present. On Linux/macOS, install Sage and place it on PATH.\nNo .mzML files were found. Select the directory that directly contains the converted files and rerun Check mzML files.\nSample names do not map to LFQ columns. Confirm that sample_info$mzml_file matches the registered mzML filenames. ProtVis falls back to filename stems only when a direct sample mapping is unavailable.\nCorrect Noise says the expression matrix is unavailable. The current object is probably still a Sage staging object. Complete Search successfully first so LFQ can be converted to the protein abundance matrix.",
+    "text": "Troubleshooting\nPermission denied. Run chmod +x ThermoRawFileParser for a self-contained executable and verify that the filesystem allows execution.\ndotnet: command not found. Install the .NET 8 runtime or switch to a compatible self-contained release.\nThe parser cannot read the RAW file. Confirm that the file is a complete Thermo RAW file and that the downloaded release matches your operating system and architecture.\nProtVis cannot find the mzML files. Confirm that the selected directory directly contains the .mzML files and that sample_info$mzml_file matches their names exactly.\nSage identifies almost nothing. Verify MS2 spectra, FASTA, enzyme, modifications, precursor/fragment tolerances, and conversion/centroiding choices."
+  },
+  {
+    "objectID": "content/data_import/raw_to_mzml_linux.html#reproducibility-checklist",
+    "href": "content/data_import/raw_to_mzml_linux.html#reproducibility-checklist",
+    "title": "RAW → mzML on Linux",
+    "section": "Reproducibility checklist",
+    "text": "Reproducibility checklist\nOperating system: Linux\nThermoRawFileParser version:\nInstallation type: self-contained / .NET / Docker\nOriginal vendor format: Thermo RAW\nOutput format: mzML / indexed mzML\nNative peak picking: enabled/disabled\nzlib compression: enabled/disabled\nMS-level selection:\nAdditional options:\nConversion date:"
+  },
+  {
+    "objectID": "content/data_import/msconvert_raw_to_mzml.html",
+    "href": "content/data_import/msconvert_raw_to_mzml.html",
+    "title": "RAW → mzML with MSConvert",
+    "section": "",
+    "text": "ProtVis’s Raw workflow currently starts from .mzML + FASTA, whereas many mass spectrometers produce vendor-specific raw files such as Thermo Scientific .raw. Before Project init → Raw and Search (Sage), convert the vendor files to the open mzML format.\nFor Windows users, the recommended route is ProteoWizard MSConvert. ProteoWizard provides both the graphical MSConvertGUI application and the command-line msconvert.exe utility.\nThe complete route is:\nVendor RAW → ProteoWizard/MSConvert → mzML → ProtVis Project init → Sage Search → ProtVis_dataset\n\n\n\n\n\n\nImportantVendor RAW conversion is best performed on Windows\n\n\n\nProteoWizard can read and write open formats across platforms, but reading most vendor-specific formats depends on vendor libraries. The official ProteoWizard documentation recommends Windows for direct vendor-format conversion. For the Thermo .raw files used by the ProtVis example, perform conversion on Windows before moving the resulting .mzML files to Windows, Linux, or macOS for downstream analysis.",
     "crumbs": [
       "Getting started",
-      "Raw/mzML + Sage"
+      "RAW → mzML with MSConvert"
     ]
+  },
+  {
+    "objectID": "content/data_import/msconvert_raw_to_mzml.html#why-this-step-is-needed",
+    "href": "content/data_import/msconvert_raw_to_mzml.html#why-this-step-is-needed",
+    "title": "RAW → mzML with MSConvert",
+    "section": "",
+    "text": "ProtVis’s Raw workflow currently starts from .mzML + FASTA, whereas many mass spectrometers produce vendor-specific raw files such as Thermo Scientific .raw. Before Project init → Raw and Search (Sage), convert the vendor files to the open mzML format.\nFor Windows users, the recommended route is ProteoWizard MSConvert. ProteoWizard provides both the graphical MSConvertGUI application and the command-line msconvert.exe utility.\nThe complete route is:\nVendor RAW → ProteoWizard/MSConvert → mzML → ProtVis Project init → Sage Search → ProtVis_dataset\n\n\n\n\n\n\nImportantVendor RAW conversion is best performed on Windows\n\n\n\nProteoWizard can read and write open formats across platforms, but reading most vendor-specific formats depends on vendor libraries. The official ProteoWizard documentation recommends Windows for direct vendor-format conversion. For the Thermo .raw files used by the ProtVis example, perform conversion on Windows before moving the resulting .mzML files to Windows, Linux, or macOS for downstream analysis.",
+    "crumbs": [
+      "Getting started",
+      "RAW → mzML with MSConvert"
+    ]
+  },
+  {
+    "objectID": "content/data_import/msconvert_raw_to_mzml.html#download-proteowizard-msconvert",
+    "href": "content/data_import/msconvert_raw_to_mzml.html#download-proteowizard-msconvert",
+    "title": "RAW → mzML with MSConvert",
+    "section": "Download ProteoWizard / MSConvert",
+    "text": "Download ProteoWizard / MSConvert\nUse the official ProteoWizard download page:\n\nProteoWizard official download page\nProteoWizard user documentation\nMSConvert documentation\n\nOn the download page:\n\nSelect the ProteoWizard binary distribution for Windows.\nPrefer the current 64-bit Windows installer on a modern 64-bit Windows system.\nRead and accept the required license agreements for bundled vendor readers.\nDownload the installer.\n\nProteoWizard is currently released as version 3.x, but the detailed build number changes frequently. For reproducibility, record the installed ProteoWizard/MSConvert version in your Methods or analysis notes rather than documenting only “MSConvert”.",
+    "crumbs": [
+      "Getting started",
+      "RAW → mzML with MSConvert"
+    ]
+  },
+  {
+    "objectID": "content/data_import/msconvert_raw_to_mzml.html#install-on-windows",
+    "href": "content/data_import/msconvert_raw_to_mzml.html#install-on-windows",
+    "title": "RAW → mzML with MSConvert",
+    "section": "Install on Windows",
+    "text": "Install on Windows\nRun the downloaded installer and keep the default components unless your local IT policy requires another location. The current ProteoWizard download page states that the Windows installer requires Microsoft .NET Framework 4.7.2 or newer.\nAfter installation, Windows should provide the ProteoWizard tools, including:\n\nMSConvertGUI — graphical conversion interface;\nmsconvert.exe — command-line converter;\nother ProteoWizard utilities such as SeeMS.\n\nA typical installation is under a versioned ProteoWizard directory inside C:\\Program Files\\ProteoWizard\\, although the exact path depends on the installed build. If several ProteoWizard versions are present, use the newest validated version consistently for a project.\n\nConfirm the installation\nOpen Command Prompt or PowerShell, navigate to the ProteoWizard installation directory if necessary, and run:\nmsconvert.exe --help\nIf Windows cannot find msconvert.exe, either run it with its full path or add the ProteoWizard installation directory to your PATH.\nYou can also confirm the graphical installation by searching the Start menu for MSConvert or MSConvertGUI.",
+    "crumbs": [
+      "Getting started",
+      "RAW → mzML with MSConvert"
+    ]
+  },
+  {
+    "objectID": "content/data_import/msconvert_raw_to_mzml.html#recommended-conversion-with-msconvertgui",
+    "href": "content/data_import/msconvert_raw_to_mzml.html#recommended-conversion-with-msconvertgui",
+    "title": "RAW → mzML with MSConvert",
+    "section": "Recommended conversion with MSConvertGUI",
+    "text": "Recommended conversion with MSConvertGUI\nFor most ProtVis users, the graphical interface is the easiest route. The annotated example below shows the three core actions: 1 select the vendor RAW files, 2 choose mzML as the output format, and 3 start the conversion. Before clicking Start, also verify the output directory, zlib compression, and whether Peak Picking is required for the acquisition data.\n\n\n\n\n\n\nFigure 1: MSConvertGUI example for converting the six PXD065315 control RAW files to mzML. Red markers indicate the core sequence: select the RAW files, choose mzML as the output format, and click Start. Review the output directory and optional Peak Picking settings before starting conversion.\n\n\n\n\n1. Start MSConvertGUI\nOpen MSConvertGUI from the Windows Start menu or from the ProteoWizard installation directory.\n\n\n2. Add RAW files\nUse Browse / Add to select one or more vendor RAW files. Batch conversion is recommended so that all samples are processed with exactly the same settings.\nFor the six-control-sample ProtVis example based on PXD065315, the source files are:\nB73_C1.raw\nB73_C2.raw\nB73_C3.raw\nEA2024_C1.raw\nEA2024_C2.raw\nEA2024_C3.raw\n\n\n3. Select the output directory\nChoose a clean output directory containing only the converted files for the current ProtVis project, for example:\nE:\\PXD065315\\mzML\\\nKeeping vendor RAW and converted mzML in separate directories makes file validation and reproducibility easier.\n\n\n4. Set the output format to mzML\nUse:\nOutput format: mzML\nmzML is ProteoWizard’s default open output format and is the format expected by the current ProtVis Raw/Sage workflow.\n\n\n5. Use zlib compression\nEnable zlib compression to reduce mzML file size without changing the underlying numerical spectra.\nFor general proteomics conversion, keep the default m/z precision unless you have a validated reason to reduce it. ProteoWizard currently defaults to 64-bit m/z encoding and 32-bit intensity encoding.\n\n\n6. Add Peak Picking when the RAW file contains profile spectra\nFor profile-mode data that should be centroided before database search, add the Peak Picking filter and apply it to all MS levels:\npeakPicking true 1-\nWhen vendor centroiding is required, keep Peak Picking first in the filter list. ProteoWizard’s own msconvert documentation notes that vendor peak-picking algorithms operate on raw, untransformed data and therefore must be applied before other filters.\nFor typical Thermo proteomics RAW → Sage workflows, this is a practical default when the source data are profile-mode. If the instrument method already exported centroid spectra, do not apply redundant centroiding simply because the option exists.\n\n\n\n\n\n\nWarningDo not add filters without a reason\n\n\n\nFilters change the spectra passed to Sage. Avoid aggressive thresholding, scan removal, mass-window restriction, or other transformations unless they are part of a documented analysis plan. For a general ProtVis workflow, mzML output + zlib compression + appropriate centroiding is usually sufficient.\n\n\n\n\n7. Start conversion\nClick Start and wait until every file has completed without error.\nThe output should preserve the original filename stem:\nB73_C1.raw     → B73_C1.mzML\nB73_C2.raw     → B73_C2.mzML\nEA2024_C1.raw  → EA2024_C1.mzML\nThis naming is important because ProtVis maps sample_info$mzml_file to the files in the selected mzML directory.",
+    "crumbs": [
+      "Getting started",
+      "RAW → mzML with MSConvert"
+    ]
+  },
+  {
+    "objectID": "content/data_import/msconvert_raw_to_mzml.html#command-line-conversion-with-msconvert.exe",
+    "href": "content/data_import/msconvert_raw_to_mzml.html#command-line-conversion-with-msconvert.exe",
+    "title": "RAW → mzML with MSConvert",
+    "section": "Command-line conversion with msconvert.exe",
+    "text": "Command-line conversion with msconvert.exe\nThe command-line utility is convenient for scripted or repeated conversions.\n\nConvert one RAW file\nmsconvert.exe \"E:\\RAW\\B73_C1.raw\" --mzML --zlib --filter \"peakPicking true 1-\" -o \"E:\\mzML\"\n\n\nConvert all RAW files in a directory\nmsconvert.exe \"E:\\RAW\\*.raw\" --mzML --zlib --filter \"peakPicking true 1-\" -o \"E:\\mzML\"\nThe important options are:\n\n\n\n\n\n\n\nOption\nMeaning\n\n\n\n\n--mzML\nwrite mzML output; mzML is also the current default\n\n\n--zlib\ncompress binary arrays with zlib\n\n\n--filter \"peakPicking true 1-\"\ncentroid spectra at MS1 and higher levels when appropriate\n\n\n-o\nset the output directory\n\n\n\nFor data that are already centroided, omit the peak-picking filter:\nmsconvert.exe \"E:\\RAW\\*.raw\" --mzML --zlib -o \"E:\\mzML\"\nTo inspect the exact options supported by your installed build:\nmsconvert.exe --help\nmsconvert.exe --show-examples",
+    "crumbs": [
+      "Getting started",
+      "RAW → mzML with MSConvert"
+    ]
+  },
+  {
+    "objectID": "content/data_import/msconvert_raw_to_mzml.html#example-prepare-pxd065315-for-protvis",
+    "href": "content/data_import/msconvert_raw_to_mzml.html#example-prepare-pxd065315-for-protvis",
+    "title": "RAW → mzML with MSConvert",
+    "section": "Example: prepare PXD065315 for ProtVis",
+    "text": "Example: prepare PXD065315 for ProtVis\nThe built-in ProtVis Raw/Sage example uses six control samples from PXD065315. One reproducible layout is:\nPXD065315_control/\n├── raw/\n│   ├── B73_C1.raw\n│   ├── B73_C2.raw\n│   ├── B73_C3.raw\n│   ├── EA2024_C1.raw\n│   ├── EA2024_C2.raw\n│   └── EA2024_C3.raw\n└── mzML/\n    ├── B73_C1.mzML\n    ├── B73_C2.mzML\n    ├── B73_C3.mzML\n    ├── EA2024_C1.mzML\n    ├── EA2024_C2.mzML\n    └── EA2024_C3.mzML\nAfter conversion, point ProtVis → Project init → Raw/mzML input to the mzML directory, not the original raw directory.",
+    "crumbs": [
+      "Getting started",
+      "RAW → mzML with MSConvert"
+    ]
+  },
+  {
+    "objectID": "content/data_import/msconvert_raw_to_mzml.html#verify-the-converted-files-before-protvis",
+    "href": "content/data_import/msconvert_raw_to_mzml.html#verify-the-converted-files-before-protvis",
+    "title": "RAW → mzML with MSConvert",
+    "section": "Verify the converted files before ProtVis",
+    "text": "Verify the converted files before ProtVis\nDo not rely only on the .mzML extension. Confirm that:\n\nthe number of mzML files equals the expected number of RAW files;\neach mzML file is non-empty and has a plausible file size;\nfilenames match sample_info$mzml_file exactly;\nconversion completed without MSConvert errors;\nthe files contain MS spectra and, for DDA proteomics, expected MS1/MS2 scans;\nthe same conversion settings were used for every sample in the comparison.\n\nIf needed, ProteoWizard’s SeeMS can be used to open an mzML file and visually inspect spectra before database searching.",
+    "crumbs": [
+      "Getting started",
+      "RAW → mzML with MSConvert"
+    ]
+  },
+  {
+    "objectID": "content/data_import/msconvert_raw_to_mzml.html#connect-the-mzml-files-to-protvis",
+    "href": "content/data_import/msconvert_raw_to_mzml.html#connect-the-mzml-files-to-protvis",
+    "title": "RAW → mzML with MSConvert",
+    "section": "Connect the mzML files to ProtVis",
+    "text": "Connect the mzML files to ProtVis\nOnce conversion is complete:\n\nOpen Project init.\nSelect Raw as the data source.\nLoad or upload sample information containing sample_id and mzml_file.\nUpload the matching protein FASTA.\nSelect the directory containing the converted .mzML files.\nClick Check mzML files and resolve every Missing/Invalid row.\nClick Project init.\nOpen Search and run Sage.\n\nContinue with Raw/mzML + Sage search.",
+    "crumbs": [
+      "Getting started",
+      "RAW → mzML with MSConvert"
+    ]
+  },
+  {
+    "objectID": "content/data_import/msconvert_raw_to_mzml.html#troubleshooting",
+    "href": "content/data_import/msconvert_raw_to_mzml.html#troubleshooting",
+    "title": "RAW → mzML with MSConvert",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\nMSConvert cannot open the vendor RAW file. Perform vendor-format conversion on Windows and confirm that you installed a ProteoWizard build with the required vendor readers. Do not assume a native Linux build can read proprietary vendor data.\nThe mzML files are extremely large. Confirm that zlib compression is enabled. If the source is profile-mode and your downstream search requires centroided spectra, confirm that Peak Picking was applied appropriately.\nSage finds no spectra or very few PSMs. First verify that the mzML contains valid MS1/MS2 spectra and that centroiding was appropriate. Then check the FASTA, precursor/fragment tolerances, enzyme, modifications, and acquisition type.\nProtVis reports missing mzML files. The filename in sample_info$mzml_file must match the converted file name exactly, including the .mzML extension.\nThe conversion works on one sample but fails on others. Inspect the MSConvert log for the failing files and confirm that all source files were completely downloaded/copied and were acquired using a vendor format supported by your installed ProteoWizard build.",
+    "crumbs": [
+      "Getting started",
+      "RAW → mzML with MSConvert"
+    ]
+  },
+  {
+    "objectID": "content/data_import/msconvert_raw_to_mzml.html#reproducibility-checklist",
+    "href": "content/data_import/msconvert_raw_to_mzml.html#reproducibility-checklist",
+    "title": "RAW → mzML with MSConvert",
+    "section": "Reproducibility checklist",
+    "text": "Reproducibility checklist\nRecord the following information with the project:\nProteoWizard/MSConvert version:\nOperating system:\nOriginal vendor format:\nOutput format: mzML\nzlib compression: yes/no\nPeak Picking: yes/no\nPeak Picking MS levels:\nAdditional filters:\nConversion date:\nKeeping these settings together with the original RAW files, converted mzML files, FASTA, Sage configuration, and ProtVis project directory makes the Raw → Sage workflow substantially easier to reproduce.",
+    "crumbs": [
+      "Getting started",
+      "RAW → mzML with MSConvert"
+    ]
+  },
+  {
+    "objectID": "content/data_import/raw_to_mzml_windows.html",
+    "href": "content/data_import/raw_to_mzml_windows.html",
+    "title": "RAW → mzML on Windows",
+    "section": "",
+    "text": "On Windows, use ProteoWizard MSConvert for direct conversion of supported vendor RAW files to mzML. This is the preferred route for the Thermo .raw files used by the ProtVis PXD065315 example because ProteoWizard can use the Windows vendor readers required for direct RAW access.\nThe route is:\nVendor RAW → MSConvertGUI / msconvert.exe → mzML → ProtVis Project init → Sage Search → ProtVis_dataset"
+  },
+  {
+    "objectID": "content/data_import/raw_to_mzml_windows.html#recommended-windows-route",
+    "href": "content/data_import/raw_to_mzml_windows.html#recommended-windows-route",
+    "title": "RAW → mzML on Windows",
+    "section": "",
+    "text": "On Windows, use ProteoWizard MSConvert for direct conversion of supported vendor RAW files to mzML. This is the preferred route for the Thermo .raw files used by the ProtVis PXD065315 example because ProteoWizard can use the Windows vendor readers required for direct RAW access.\nThe route is:\nVendor RAW → MSConvertGUI / msconvert.exe → mzML → ProtVis Project init → Sage Search → ProtVis_dataset"
+  },
+  {
+    "objectID": "content/data_import/raw_to_mzml_windows.html#download-proteowizard-msconvert",
+    "href": "content/data_import/raw_to_mzml_windows.html#download-proteowizard-msconvert",
+    "title": "RAW → mzML on Windows",
+    "section": "Download ProteoWizard / MSConvert",
+    "text": "Download ProteoWizard / MSConvert\nUse the official ProteoWizard resources:\n\nProteoWizard download page\nProteoWizard user documentation\nMSConvert documentation\n\nDownload the current 64-bit Windows installer unless your computer specifically requires another build. Record the ProteoWizard version used for conversion because conversion software is part of the analysis provenance."
+  },
+  {
+    "objectID": "content/data_import/raw_to_mzml_windows.html#install-on-windows",
+    "href": "content/data_import/raw_to_mzml_windows.html#install-on-windows",
+    "title": "RAW → mzML on Windows",
+    "section": "Install on Windows",
+    "text": "Install on Windows\nRun the installer and keep the standard MSConvert components. The current ProteoWizard Windows installer documentation requires Microsoft .NET Framework 4.7.2 or newer.\nAfter installation, you should have:\n\nMSConvertGUI for graphical conversion;\nmsconvert.exe for command-line conversion;\nSeeMS for inspecting open-format spectra.\n\nA typical installation is inside a versioned directory under:\nC:\\Program Files\\ProteoWizard\\\nThe exact subdirectory depends on the installed build.\n\nVerify the installation\nOpen PowerShell or Command Prompt and run:\nmsconvert.exe --help\nIf the command is not found, either run msconvert.exe using its full path or add the ProteoWizard installation directory to PATH."
+  },
+  {
+    "objectID": "content/data_import/raw_to_mzml_windows.html#convert-with-msconvertgui",
+    "href": "content/data_import/raw_to_mzml_windows.html#convert-with-msconvertgui",
+    "title": "RAW → mzML on Windows",
+    "section": "Convert with MSConvertGUI",
+    "text": "Convert with MSConvertGUI\nThe annotated screenshot below shows the six PXD065315 control RAW files. The three red markers indicate the core workflow: 1 choose the RAW files, 2 select mzML, and 3 start conversion.\n\n\n\n\n\n\nFigure 1: MSConvertGUI example for converting the six PXD065315 control RAW files to mzML. Red markers indicate the main sequence: select the RAW files, choose mzML as the output format, and click Start.\n\n\n\n\n1. Add RAW files\nClick Browse and add one or more vendor RAW files. Convert all samples in one batch whenever possible so they receive identical settings.\nFor the ProtVis PXD065315 control example:\nB73_C1.raw\nB73_C2.raw\nB73_C3.raw\nEA2024_C1.raw\nEA2024_C2.raw\nEA2024_C3.raw\n\n\n2. Use a separate output directory\nDo not mix converted mzML files with the original RAW files. For example:\nE:\\count\\p_raw\\      # original RAW\nE:\\count\\p_mzML\\     # converted mzML\nSelect E:\\count\\p_mzML\\ as the Output Directory.\n\n\n3. Set the output format\nUse:\nOutput format: mzML\nLeave Package in gzip off because ProtVis expects ordinary .mzML filenames in the current Raw workflow.\n\n\n4. Keep zlib compression enabled\nRecommended:\nWrite index: enabled\nUse zlib compression: enabled\nBinary encoding precision: 64-bit\nzlib reduces file size without changing the numerical spectra. Numpress options are not required for this workflow and can remain disabled unless they are part of a validated pipeline.\n\n\n5. Decide whether Peak Picking is required\nIf the RAW file contains profile-mode spectra that should be centroided before Sage searching, add the Peak Picking filter. For Thermo data, use vendor peak picking when available and place Peak Picking first in the filter list.\nA commonly used command-line equivalent is:\npeakPicking true 1-\nThis means peak picking from MS1 upward.\n\n\n\n\n\n\nWarningDo not centroid twice\n\n\n\nIf the acquisition is already centroided, do not add Peak Picking simply because the option exists. Redundant centroiding can unnecessarily alter the spectra. Confirm the acquisition mode before conversion.\n\n\n\n\n6. Choose a reasonable parallel file count\nFor a six-file conversion, 2–4 files in parallel is usually a safer starting point than launching all files simultaneously. Conversion can be disk-I/O and memory intensive.\n\n\n7. Start conversion\nClick Start and wait until all files complete without errors. The output filename stems should remain unchanged:\nB73_C1.raw     → B73_C1.mzML\nB73_C2.raw     → B73_C2.mzML\nEA2024_C1.raw  → EA2024_C1.mzML"
+  },
+  {
+    "objectID": "content/data_import/raw_to_mzml_windows.html#convert-from-the-command-line",
+    "href": "content/data_import/raw_to_mzml_windows.html#convert-from-the-command-line",
+    "title": "RAW → mzML on Windows",
+    "section": "Convert from the command line",
+    "text": "Convert from the command line\n\nOne file\nmsconvert.exe \"E:\\count\\p_raw\\B73_C1.raw\" --mzML --zlib --filter \"peakPicking true 1-\" -o \"E:\\count\\p_mzML\"\n\n\nAll RAW files in a directory\nmsconvert.exe \"E:\\count\\p_raw\\*.raw\" --mzML --zlib --filter \"peakPicking true 1-\" -o \"E:\\count\\p_mzML\"\nIf the data are already centroided, omit the Peak Picking filter:\nmsconvert.exe \"E:\\count\\p_raw\\*.raw\" --mzML --zlib -o \"E:\\count\\p_mzML\"\nInspect the exact options provided by the installed build with:\nmsconvert.exe --help\nmsconvert.exe --show-examples"
+  },
+  {
+    "objectID": "content/data_import/raw_to_mzml_windows.html#verify-the-mzml-output",
+    "href": "content/data_import/raw_to_mzml_windows.html#verify-the-mzml-output",
+    "title": "RAW → mzML on Windows",
+    "section": "Verify the mzML output",
+    "text": "Verify the mzML output\nBefore opening ProtVis, confirm:\n\nthe number of .mzML files matches the number of RAW files;\neach output file is non-empty and has a plausible file size;\nthe filename stems are unchanged;\nthe MSConvert log contains no conversion errors;\nthe data contain the expected MS levels, especially MS1 and MS2 for DDA proteomics;\nevery sample was converted with the same settings.\n\nUse SeeMS if you need to open an mzML file and inspect spectra manually."
+  },
+  {
+    "objectID": "content/data_import/raw_to_mzml_windows.html#pxd065315-example-layout",
+    "href": "content/data_import/raw_to_mzml_windows.html#pxd065315-example-layout",
+    "title": "RAW → mzML on Windows",
+    "section": "PXD065315 example layout",
+    "text": "PXD065315 example layout\nPXD065315_control/\n├── raw/\n│   ├── B73_C1.raw\n│   ├── B73_C2.raw\n│   ├── B73_C3.raw\n│   ├── EA2024_C1.raw\n│   ├── EA2024_C2.raw\n│   └── EA2024_C3.raw\n└── mzML/\n    ├── B73_C1.mzML\n    ├── B73_C2.mzML\n    ├── B73_C3.mzML\n    ├── EA2024_C1.mzML\n    ├── EA2024_C2.mzML\n    └── EA2024_C3.mzML"
+  },
+  {
+    "objectID": "content/data_import/raw_to_mzml_windows.html#continue-into-protvis",
+    "href": "content/data_import/raw_to_mzml_windows.html#continue-into-protvis",
+    "title": "RAW → mzML on Windows",
+    "section": "Continue into ProtVis",
+    "text": "Continue into ProtVis\n\nOpen Project init.\nSelect Raw.\nLoad/upload sample information containing sample_id and mzml_file.\nUpload the matching protein FASTA.\nSelect the directory containing the .mzML files.\nClick Check mzML files.\nResolve every missing or invalid row.\nClick Project init.\nOpen Search and run Sage.\n\nContinue with Raw/mzML + Sage search."
+  },
+  {
+    "objectID": "content/data_import/raw_to_mzml_windows.html#troubleshooting",
+    "href": "content/data_import/raw_to_mzml_windows.html#troubleshooting",
+    "title": "RAW → mzML on Windows",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\nMSConvert cannot read a RAW file. Confirm that the file is complete, the correct vendor reader is available, and conversion is being performed with a current Windows ProteoWizard installation.\nThe mzML files are unexpectedly huge. Confirm that zlib compression is enabled. Profile-mode data can also be much larger than centroided data.\nSage finds very few or no PSMs. First verify that the mzML contains valid MS2 spectra and that centroiding was appropriate. Then check FASTA, enzyme, modifications, precursor tolerance and fragment tolerance.\nProtVis reports files as missing. sample_info$mzml_file must exactly match the converted filename, including .mzML."
+  },
+  {
+    "objectID": "content/data_import/raw_to_mzml_windows.html#reproducibility-checklist",
+    "href": "content/data_import/raw_to_mzml_windows.html#reproducibility-checklist",
+    "title": "RAW → mzML on Windows",
+    "section": "Reproducibility checklist",
+    "text": "Reproducibility checklist\nRecord:\nOperating system: Windows\nProteoWizard/MSConvert version:\nOriginal vendor format:\nOutput format: mzML\nzlib compression: yes/no\nPeak Picking: yes/no\nPeak Picking MS levels:\nAdditional filters:\nConversion date:"
   }
 ]

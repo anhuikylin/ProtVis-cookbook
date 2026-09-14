@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Submit a protein sequence to Swiss-Model, inspect project/model quality information, and explore the predicted structure in ProtVis.">
+<meta name="description" content="Convert Thermo RAW files to mzML on Linux with ThermoRawFileParser, verify the output, and continue into ProtVis/Sage.">
 
-<title>SwissModel – ProtVis Cookbook</title>
+<title>RAW → mzML on Linux – ProtVis Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -27,6 +27,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -36,8 +71,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/Toolkits/Stacked_Column.html" rel="next">
-<link href="../../content/Toolkits/Protein_Structure.html" rel="prev">
 <link href="../../assets/protvis-favicon.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -255,7 +288,9 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/SwissModel.html">SwissModel</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      ProtVis Cookbook
+      </li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -532,13 +567,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
  <span class="menu-text">Toolkits</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Toolkits/Toolkits.html" class="sidebar-item-text sidebar-link">
@@ -571,7 +606,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/Toolkits/SwissModel.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../content/Toolkits/SwissModel.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">SwissModel</span></a>
   </div>
 </li>
@@ -617,26 +652,42 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#swissmodel-interface" id="toc-swissmodel-interface" class="nav-link" data-scroll-target="#swissmodel-interface">SwissModel interface</a></li>
-  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
-  <li><a href="#buttons-and-controls" id="toc-buttons-and-controls" class="nav-link" data-scroll-target="#buttons-and-controls">Buttons and controls</a></li>
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#recommended-linux-route" id="toc-recommended-linux-route" class="nav-link active" data-scroll-target="#recommended-linux-route">Recommended Linux route</a></li>
+  <li><a href="#download-thermorawfileparser" id="toc-download-thermorawfileparser" class="nav-link" data-scroll-target="#download-thermorawfileparser">Download ThermoRawFileParser</a></li>
+  <li><a href="#option-a-self-contained-linux-release" id="toc-option-a-self-contained-linux-release" class="nav-link" data-scroll-target="#option-a-self-contained-linux-release">Option A — self-contained Linux release</a>
+  <ul class="collapse">
+  <li><a href="#download-and-unpack" id="toc-download-and-unpack" class="nav-link" data-scroll-target="#download-and-unpack">1. Download and unpack</a></li>
+  <li><a href="#make-the-executable-runnable" id="toc-make-the-executable-runnable" class="nav-link" data-scroll-target="#make-the-executable-runnable">2. Make the executable runnable</a></li>
+  <li><a href="#verify-installation" id="toc-verify-installation" class="nav-link" data-scroll-target="#verify-installation">3. Verify installation</a></li>
+  </ul></li>
+  <li><a href="#option-b-framework-based-release-with-.net-8" id="toc-option-b-framework-based-release-with-.net-8" class="nav-link" data-scroll-target="#option-b-framework-based-release-with-.net-8">Option B — framework-based release with .NET 8</a></li>
+  <li><a href="#option-c-docker-biocontainers" id="toc-option-c-docker-biocontainers" class="nav-link" data-scroll-target="#option-c-docker-biocontainers">Option C — Docker / BioContainers</a></li>
+  <li><a href="#prepare-input-and-output-directories" id="toc-prepare-input-and-output-directories" class="nav-link" data-scroll-target="#prepare-input-and-output-directories">Prepare input and output directories</a></li>
+  <li><a href="#convert-one-raw-file" id="toc-convert-one-raw-file" class="nav-link" data-scroll-target="#convert-one-raw-file">Convert one RAW file</a></li>
+  <li><a href="#convert-every-raw-file-in-a-directory" id="toc-convert-every-raw-file-in-a-directory" class="nav-link" data-scroll-target="#convert-every-raw-file-in-a-directory">Convert every RAW file in a directory</a></li>
+  <li><a href="#peak-picking-and-compression" id="toc-peak-picking-and-compression" class="nav-link" data-scroll-target="#peak-picking-and-compression">Peak picking and compression</a></li>
+  <li><a href="#docker-conversion-example" id="toc-docker-conversion-example" class="nav-link" data-scroll-target="#docker-conversion-example">Docker conversion example</a></li>
+  <li><a href="#expected-output" id="toc-expected-output" class="nav-link" data-scroll-target="#expected-output">Expected output</a></li>
+  <li><a href="#verify-the-converted-mzml-files" id="toc-verify-the-converted-mzml-files" class="nav-link" data-scroll-target="#verify-the-converted-mzml-files">Verify the converted mzML files</a></li>
+  <li><a href="#connect-linux-mzml-files-to-protvis" id="toc-connect-linux-mzml-files-to-protvis" class="nav-link" data-scroll-target="#connect-linux-mzml-files-to-protvis">Connect Linux mzML files to ProtVis</a></li>
+  <li><a href="#if-the-instrument-is-not-thermo" id="toc-if-the-instrument-is-not-thermo" class="nav-link" data-scroll-target="#if-the-instrument-is-not-thermo">If the instrument is not Thermo</a></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
+  <li><a href="#reproducibility-checklist" id="toc-reproducibility-checklist" class="nav-link" data-scroll-target="#reproducibility-checklist">Reproducibility checklist</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/SwissModel.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/SwissModel.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/data_import/raw_to_mzml_linux.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/data_import/raw_to_mzml_linux.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/SwissModel.html">SwissModel</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">SwissModel</h1>
+<h1 class="title">RAW → mzML on Linux</h1>
 </div>
 
 <div>
   <div class="description">
-    Submit a protein sequence to Swiss-Model, inspect project/model quality information, and explore the predicted structure in ProtVis.
+    Convert Thermo RAW files to mzML on Linux with ThermoRawFileParser, verify the output, and continue into ProtVis/Sage.
   </div>
 </div>
 
@@ -653,78 +704,232 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="purpose" class="level2">
-<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>Use <strong>Toolkits → SwissModel</strong> when you want to submit a protein sequence to Swiss-Model and inspect the returned structural results directly in ProtVis. The current module combines Swiss-Model project information with structure parsing and interactive visualization, so this is the correct tutorial page for the Swiss-Model interface shown below.</p>
-</section>
-<section id="swissmodel-interface" class="level2">
-<h2 class="anchored" data-anchor-id="swissmodel-interface">SwissModel interface</h2>
-<p>The screenshot below shows a completed Swiss-Model run using the bundled example sequence. ProtVis displays <strong>Project Information</strong> and <strong>Model Quality</strong> in the upper result area, while the lower tabs provide <strong>PDB Information</strong>, <strong>Ramachandran Plot</strong>, <strong>Residue Composition</strong>, and an interactive <strong>3D Structure</strong> view.</p>
-<div id="fig-swissmodel-interface" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of ProtVis Toolkits SwissModel. A protein sequence is submitted to Swiss-Model and the result area displays project information, model-quality information, PDB information, Ramachandran plot, residue composition and an interactive 3D structure. The API-token value is redacted.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-swissmodel-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/screenshots/PixPin_2026-09-14_09-22-35.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Toolkits SwissModel. A protein sequence is submitted to Swiss-Model and the result area displays project information, model-quality information, PDB information, Ramachandran plot, residue composition and an interactive 3D structure. The API-token value is redacted.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-swissmodel-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: ProtVis SwissModel interface showing sequence input, project information, model-quality results and structure-analysis tabs. The API-token field has been redacted for safe documentation.
-</figcaption>
-</figure>
-</div>
-</section>
-<section id="recommended-operating-order" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h2>
-<p><strong>1. Enter the protein sequence.</strong> Paste the amino-acid sequence into <strong>Protein sequence</strong>. Whitespace is removed before submission. The <strong>Example</strong> button restores the bundled demonstration sequence and is useful for checking that the module is working.</p>
-<p><strong>2. Enter a Swiss-Model API token.</strong> Supply a valid token in <strong>API Token</strong>. The token is used to authenticate the modeling request and should be treated as a private credential.</p>
-<p><strong>3. Start modeling.</strong> Click <strong>Run</strong>. ProtVis validates that both sequence and token are present, configures the Swiss-Model token, submits the sequence through the automated modeling workflow, waits for the returned project, downloads the predicted structure, and parses the project information.</p>
-<p><strong>4. Review Project Information.</strong> The <strong>Project Information</strong> panel reports the returned Swiss-Model project metadata and model records. When a project link is available, open <strong>Project Link → Open Swiss-Model result page</strong> to inspect the corresponding project on the Swiss-Model website.</p>
-<p><strong>5. Review Model Quality.</strong> The <strong>Model Quality</strong> panel summarizes calculated quality information for the downloaded model. Structural interpretation should only proceed after checking the available quality metrics and model coverage.</p>
-<p><strong>6. Inspect PDB Information.</strong> Open the <strong>PDB Information</strong> tab to review the parsed structure, including basic atom/residue/chain information from the downloaded model.</p>
-<p><strong>7. Inspect the Ramachandran Plot.</strong> Use <strong>Ramachandran Plot</strong> as a stereochemical diagnostic of backbone conformations. Unusual distributions should be interpreted together with model quality and local structural context.</p>
-<p><strong>8. Inspect Residue Composition.</strong> The <strong>Residue Composition</strong> tab summarizes the amino-acid composition of the returned structure and provides a quick check of the modeled sequence content.</p>
-<p><strong>9. Explore the 3D structure.</strong> Open <strong>3D Structure</strong> to interactively inspect the predicted protein structure in the embedded <code>r3dmol</code> viewer.</p>
-<p><strong>10. Download the outputs.</strong> The Download section provides the project information, predicted PDB file, and model-quality table. The current output filenames are <code>swissmodel_project_info.json</code>, <code>swissmodel_model.pdb</code>, and <code>swissmodel_model_quality.csv</code>.</p>
-</section>
-<section id="buttons-and-controls" class="level2">
-<h2 class="anchored" data-anchor-id="buttons-and-controls">Buttons and controls</h2>
-<ul>
-<li><strong>Run</strong> starts the Swiss-Model workflow.</li>
-<li><strong>Example</strong> restores the built-in protein sequence.</li>
-<li><strong>Clear</strong> removes the sequence/token inputs and clears current results.</li>
-<li><strong>Project Link</strong> opens the corresponding Swiss-Model result page after a successful run.</li>
-<li><strong>Uploaded / Predicted File Info</strong> reports downloaded model-file information.</li>
-<li><strong>Download</strong> exports project information, the PDB model, and model-quality results.</li>
-</ul>
-</section>
-<section id="interpretation" class="level2">
-<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
-<p>A successful modeling job does not by itself establish that every region of the model is reliable. Review the available quality metrics, model coverage, stereochemical diagnostics, and any unsupported or poorly modeled regions before mapping mutations, PTMs, domains, or functional residues.</p>
-<p>When the structure is used in a figure or manuscript, record the Swiss-Model project/model identifier and preserve the downloaded PDB and model-quality outputs so that the structural interpretation remains traceable.</p>
+<section id="recommended-linux-route" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-linux-route">Recommended Linux route</h2>
+<p>For <strong>Thermo Scientific <code>.raw</code></strong> files on Linux, use <strong>ThermoRawFileParser</strong> rather than relying on Windows-only vendor readers in MSConvert. ThermoRawFileParser is cross-platform and the current project provides self-contained Linux releases as well as a framework-based build for systems with the <strong>.NET 8 runtime</strong>.</p>
+<p>The recommended route is:</p>
+<p><strong>Thermo RAW → ThermoRawFileParser → mzML → ProtVis Project init → Sage Search → ProtVis_dataset</strong></p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Keep API tokens private
+<span class="screen-reader-only">Important</span>Why not use MSConvert directly for Thermo RAW on Linux?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Do not publish API tokens in screenshots, manuscripts, repositories, notebooks, or exported project files. The token field in the documentation screenshot has therefore been redacted.</p>
+<p>ProteoWizard can work with open mass-spectrometry formats on multiple platforms, but direct reading of many proprietary vendor RAW formats depends on vendor libraries. For the Thermo RAW workflow used in the ProtVis example, ThermoRawFileParser is the practical native Linux converter.</p>
 </div>
 </div>
+</section>
+<section id="download-thermorawfileparser" class="level2">
+<h2 class="anchored" data-anchor-id="download-thermorawfileparser">Download ThermoRawFileParser</h2>
+<p>Official resources:</p>
+<ul>
+<li><a href="https://github.com/CompOmics/ThermoRawFileParser">ThermoRawFileParser repository</a></li>
+<li><a href="https://github.com/CompOmics/ThermoRawFileParser/releases">ThermoRawFileParser releases</a></li>
+<li><a href="https://pubmed.ncbi.nlm.nih.gov/31755270/">ThermoRawFileParser publication</a></li>
+</ul>
+<p>The current project README states that releases include <strong>self-contained Linux builds</strong> and a framework-based build. The framework-based build requires the <strong>.NET 8 runtime</strong>.</p>
+</section>
+<section id="option-a-self-contained-linux-release" class="level2">
+<h2 class="anchored" data-anchor-id="option-a-self-contained-linux-release">Option A — self-contained Linux release</h2>
+<p>This is the simplest route when a release asset compatible with your Linux architecture is available.</p>
+<section id="download-and-unpack" class="level3">
+<h3 class="anchored" data-anchor-id="download-and-unpack">1. Download and unpack</h3>
+<p>Download the current Linux release asset from the official Releases page and extract it, for example into:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/software/ThermoRawFileParser</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/software/ThermoRawFileParser</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># unpack the downloaded release archive here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The exact archive filename changes between releases, so use the filename provided on the current Releases page.</p>
+</section>
+<section id="make-the-executable-runnable" class="level3">
+<h3 class="anchored" data-anchor-id="make-the-executable-runnable">2. Make the executable runnable</h3>
+<p>If needed:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x ThermoRawFileParser</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="verify-installation" class="level3">
+<h3 class="anchored" data-anchor-id="verify-installation">3. Verify installation</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./ThermoRawFileParser</span> <span class="at">--version</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./ThermoRawFileParser</span> <span class="at">--help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="option-b-framework-based-release-with-.net-8" class="level2">
+<h2 class="anchored" data-anchor-id="option-b-framework-based-release-with-.net-8">Option B — framework-based release with .NET 8</h2>
+<p>If you use the framework-based package, first install the <strong>.NET 8 runtime</strong> for your Linux distribution from Microsoft:</p>
+<ul>
+<li><a href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0">Download .NET 8</a></li>
+</ul>
+<p>Confirm it is available:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> <span class="at">--info</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then run the parser with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> ThermoRawFileParser.dll <span class="at">--help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="option-c-docker-biocontainers" class="level2">
+<h2 class="anchored" data-anchor-id="option-c-docker-biocontainers">Option C — Docker / BioContainers</h2>
+<p>For servers and reproducible environments, Docker is convenient. The ThermoRawFileParser project documents BioContainers images.</p>
+<p>First identify the current tag, then pull/run it. A general pattern is:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">-it</span> <span class="dt">\</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> /home/user/raw:/data_input <span class="dt">\</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> /home/user/mzML:/data_output <span class="dt">\</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  quay.io/biocontainers/thermorawfileparser:<span class="op">&lt;</span>tag<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  ThermoRawFileParser.sh <span class="at">--help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Replace <code>&lt;tag&gt;</code> with an actual current BioContainers tag.</p>
+</section>
+<section id="prepare-input-and-output-directories" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-input-and-output-directories">Prepare input and output directories</h2>
+<p>Keep source RAW and converted mzML files separate:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/PXD065315_control/raw</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/PXD065315_control/mzML</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Example input:</p>
+<pre class="text"><code>~/PXD065315_control/raw/
+├── B73_C1.raw
+├── B73_C2.raw
+├── B73_C3.raw
+├── EA2024_C1.raw
+├── EA2024_C2.raw
+└── EA2024_C3.raw</code></pre>
+</section>
+<section id="convert-one-raw-file" class="level2">
+<h2 class="anchored" data-anchor-id="convert-one-raw-file">Convert one RAW file</h2>
+<p>With a self-contained executable:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./ThermoRawFileParser</span> <span class="dt">\</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-i</span><span class="op">=</span><span class="va">$HOME</span>/PXD065315_control/raw/B73_C1.raw <span class="dt">\</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span><span class="op">=</span><span class="va">$HOME</span>/PXD065315_control/mzML <span class="dt">\</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-f</span><span class="op">=</span>2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>With the framework-based build:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> ThermoRawFileParser.dll <span class="dt">\</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-i</span><span class="op">=</span><span class="va">$HOME</span>/PXD065315_control/raw/B73_C1.raw <span class="dt">\</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span><span class="op">=</span><span class="va">$HOME</span>/PXD065315_control/mzML <span class="dt">\</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-f</span><span class="op">=</span>2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>-f=2</code> requests <strong>indexed mzML</strong>. Indexed mzML still uses the <code>.mzML</code> extension and is suitable for the ProtVis/Sage workflow. Use <code>-f=1</code> if you specifically need non-indexed mzML.</p>
+</section>
+<section id="convert-every-raw-file-in-a-directory" class="level2">
+<h2 class="anchored" data-anchor-id="convert-every-raw-file-in-a-directory">Convert every RAW file in a directory</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./ThermoRawFileParser</span> <span class="dt">\</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span><span class="op">=</span><span class="va">$HOME</span>/PXD065315_control/raw <span class="dt">\</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span><span class="op">=</span><span class="va">$HOME</span>/PXD065315_control/mzML <span class="dt">\</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-f</span><span class="op">=</span>2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Framework-based equivalent:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> ThermoRawFileParser.dll <span class="dt">\</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span><span class="op">=</span><span class="va">$HOME</span>/PXD065315_control/raw <span class="dt">\</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span><span class="op">=</span><span class="va">$HOME</span>/PXD065315_control/mzML <span class="dt">\</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-f</span><span class="op">=</span>2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="peak-picking-and-compression" class="level2">
+<h2 class="anchored" data-anchor-id="peak-picking-and-compression">Peak picking and compression</h2>
+<p>ThermoRawFileParser’s current defaults are useful for the ProtVis workflow:</p>
+<ul>
+<li><strong>Thermo native peak picking is enabled by default</strong>;</li>
+<li><strong>zlib compression is enabled by default</strong>;</li>
+<li><code>-p</code> disables native peak picking;</li>
+<li><code>-z</code> disables zlib compression.</li>
+</ul>
+<p>Therefore, for ordinary Thermo RAW → Sage conversion, do <strong>not</strong> add <code>-p</code> or <code>-z</code> unless you deliberately want to disable those defaults.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Warning
+<span class="screen-reader-only">Warning</span>Confirm centroiding strategy
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Predicted structures and experimentally determined structures are not equivalent evidence. Report the prediction source and relevant model-quality information, and avoid strong mechanistic claims for poorly supported regions without additional evidence.</p>
+<p>If your experiment already contains centroided spectra, verify whether native peak picking is appropriate for that acquisition. Conversion settings should be consistent across all samples and documented as part of the analysis.</p>
 </div>
 </div>
+<p>You can limit output to selected MS levels with <code>-L</code>. For example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./ThermoRawFileParser</span> <span class="dt">\</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span><span class="op">=</span><span class="va">$HOME</span>/PXD065315_control/raw <span class="dt">\</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span><span class="op">=</span><span class="va">$HOME</span>/PXD065315_control/mzML <span class="dt">\</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-f</span><span class="op">=</span>2 <span class="dt">\</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">-L</span><span class="op">=</span>1-2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For general DDA proteomics, retaining both MS1 and MS2 is appropriate. Do not remove scans unless it is part of a validated analysis plan.</p>
+</section>
+<section id="docker-conversion-example" class="level2">
+<h2 class="anchored" data-anchor-id="docker-conversion-example">Docker conversion example</h2>
+<p>Assuming:</p>
+<pre class="text"><code>/home/user/PXD065315_control/raw
+/home/user/PXD065315_control/mzML</code></pre>
+<p>A containerized conversion follows this pattern:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="dt">\</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> /home/user/PXD065315_control/raw:/data_input <span class="dt">\</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> /home/user/PXD065315_control/mzML:/data_output <span class="dt">\</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  quay.io/biocontainers/thermorawfileparser:<span class="op">&lt;</span>tag<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  ThermoRawFileParser.sh <span class="dt">\</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span><span class="op">=</span>/data_input <span class="dt">\</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span><span class="op">=</span>/data_output <span class="dt">\</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">-f</span><span class="op">=</span>2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="expected-output" class="level2">
+<h2 class="anchored" data-anchor-id="expected-output">Expected output</h2>
+<pre class="text"><code>~/PXD065315_control/mzML/
+├── B73_C1.mzML
+├── B73_C2.mzML
+├── B73_C3.mzML
+├── EA2024_C1.mzML
+├── EA2024_C2.mzML
+└── EA2024_C3.mzML</code></pre>
+</section>
+<section id="verify-the-converted-mzml-files" class="level2">
+<h2 class="anchored" data-anchor-id="verify-the-converted-mzml-files">Verify the converted mzML files</h2>
+<p>Before ProtVis, check file counts and sizes:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> ~/PXD065315_control/mzML <span class="at">-maxdepth</span> 1 <span class="at">-type</span> f <span class="at">-name</span> <span class="st">'*.mzML'</span> <span class="at">-print</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> ~/PXD065315_control/mzML/<span class="pp">*</span>.mzML</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Confirm:</p>
+<ol type="1">
+<li>every RAW file has a matching mzML file;</li>
+<li>outputs are non-empty;</li>
+<li>filenames match the expected sample names;</li>
+<li>the converter exited without errors;</li>
+<li>MS1/MS2 spectra are present for DDA data;</li>
+<li>all samples used the same conversion settings.</li>
+</ol>
+</section>
+<section id="connect-linux-mzml-files-to-protvis" class="level2">
+<h2 class="anchored" data-anchor-id="connect-linux-mzml-files-to-protvis">Connect Linux mzML files to ProtVis</h2>
+<p>If ProtVis is running on the same Linux computer/server:</p>
+<ol type="1">
+<li>start ProtVis;</li>
+<li>open <strong>Project init</strong>;</li>
+<li>select <strong>Raw</strong>;</li>
+<li>load/upload <code>sample_info</code> containing <code>sample_id</code> and <code>mzml_file</code>;</li>
+<li>upload the matching FASTA;</li>
+<li>select the Linux mzML directory;</li>
+<li>click <strong>Check mzML files</strong>;</li>
+<li>click <strong>Project init</strong>;</li>
+<li>open <strong>Search</strong> and run Sage.</li>
+</ol>
+<p>Example mzML directory:</p>
+<pre class="text"><code>/home/user/PXD065315_control/mzML</code></pre>
+<p>Continue with <a href="../../content/data_import/raw_sage_search.html">Raw/mzML + Sage search</a>.</p>
+</section>
+<section id="if-the-instrument-is-not-thermo" class="level2">
+<h2 class="anchored" data-anchor-id="if-the-instrument-is-not-thermo">If the instrument is not Thermo</h2>
+<p>ThermoRawFileParser is specifically for Thermo RAW. For Bruker, SCIEX, Waters, Agilent, Shimadzu, or another vendor format, use a converter that officially supports that vendor and operating system. When vendor conversion requires Windows, convert there first and move the resulting <code>.mzML</code> files to Linux for ProtVis/Sage.</p>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
+<p><strong><code>Permission denied</code>.</strong> Run <code>chmod +x ThermoRawFileParser</code> for a self-contained executable and verify that the filesystem allows execution.</p>
+<p><strong><code>dotnet: command not found</code>.</strong> Install the .NET 8 runtime or switch to a compatible self-contained release.</p>
+<p><strong>The parser cannot read the RAW file.</strong> Confirm that the file is a complete Thermo RAW file and that the downloaded release matches your operating system and architecture.</p>
+<p><strong>ProtVis cannot find the mzML files.</strong> Confirm that the selected directory directly contains the <code>.mzML</code> files and that <code>sample_info$mzml_file</code> matches their names exactly.</p>
+<p><strong>Sage identifies almost nothing.</strong> Verify MS2 spectra, FASTA, enzyme, modifications, precursor/fragment tolerances, and conversion/centroiding choices.</p>
+</section>
+<section id="reproducibility-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="reproducibility-checklist">Reproducibility checklist</h2>
+<pre class="text"><code>Operating system: Linux
+ThermoRawFileParser version:
+Installation type: self-contained / .NET / Docker
+Original vendor format: Thermo RAW
+Output format: mzML / indexed mzML
+Native peak picking: enabled/disabled
+zlib compression: enabled/disabled
+MS-level selection:
+Additional options:
+Conversion date:</code></pre>
 
 
 </section>
@@ -1148,18 +1353,6 @@ Warning
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../../content/Toolkits/Protein_Structure.html" class="pagination-link" aria-label="Protein structure">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Protein structure</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../../content/Toolkits/Stacked_Column.html" class="pagination-link" aria-label="Stacked Column Diagram">
-        <span class="nav-page-text">Stacked Column Diagram</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -1168,7 +1361,7 @@ Warning
 </div>   
     <div class="nav-footer-center">
 <p>ProtVis Cookbook · Documentation for reproducible proteomics workflows</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/SwissModel.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/SwissModel.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/data_import/raw_to_mzml_linux.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/data_import/raw_to_mzml_linux.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org/">Quarto</a></p>
 </div>

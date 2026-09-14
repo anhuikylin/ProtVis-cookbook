@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Submit a protein sequence to Swiss-Model, inspect project/model quality information, and explore the predicted structure in ProtVis.">
+<meta name="description" content="Install ProteoWizard/MSConvert on Windows, convert vendor RAW files to mzML, verify the output, and continue into the ProtVis Raw/Sage workflow.">
 
-<title>SwissModel – ProtVis Cookbook</title>
+<title>RAW → mzML on Windows – ProtVis Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -27,6 +27,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -36,8 +71,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/Toolkits/Stacked_Column.html" rel="next">
-<link href="../../content/Toolkits/Protein_Structure.html" rel="prev">
 <link href="../../assets/protvis-favicon.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -255,7 +288,9 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/SwissModel.html">SwissModel</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      ProtVis Cookbook
+      </li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -532,13 +567,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
  <span class="menu-text">Toolkits</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Toolkits/Toolkits.html" class="sidebar-item-text sidebar-link">
@@ -571,7 +606,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/Toolkits/SwissModel.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../content/Toolkits/SwissModel.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">SwissModel</span></a>
   </div>
 </li>
@@ -617,26 +652,47 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#swissmodel-interface" id="toc-swissmodel-interface" class="nav-link" data-scroll-target="#swissmodel-interface">SwissModel interface</a></li>
-  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
-  <li><a href="#buttons-and-controls" id="toc-buttons-and-controls" class="nav-link" data-scroll-target="#buttons-and-controls">Buttons and controls</a></li>
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#recommended-windows-route" id="toc-recommended-windows-route" class="nav-link active" data-scroll-target="#recommended-windows-route">Recommended Windows route</a></li>
+  <li><a href="#download-proteowizard-msconvert" id="toc-download-proteowizard-msconvert" class="nav-link" data-scroll-target="#download-proteowizard-msconvert">Download ProteoWizard / MSConvert</a></li>
+  <li><a href="#install-on-windows" id="toc-install-on-windows" class="nav-link" data-scroll-target="#install-on-windows">Install on Windows</a>
+  <ul class="collapse">
+  <li><a href="#verify-the-installation" id="toc-verify-the-installation" class="nav-link" data-scroll-target="#verify-the-installation">Verify the installation</a></li>
+  </ul></li>
+  <li><a href="#convert-with-msconvertgui" id="toc-convert-with-msconvertgui" class="nav-link" data-scroll-target="#convert-with-msconvertgui">Convert with MSConvertGUI</a>
+  <ul class="collapse">
+  <li><a href="#add-raw-files" id="toc-add-raw-files" class="nav-link" data-scroll-target="#add-raw-files">1. Add RAW files</a></li>
+  <li><a href="#use-a-separate-output-directory" id="toc-use-a-separate-output-directory" class="nav-link" data-scroll-target="#use-a-separate-output-directory">2. Use a separate output directory</a></li>
+  <li><a href="#set-the-output-format" id="toc-set-the-output-format" class="nav-link" data-scroll-target="#set-the-output-format">3. Set the output format</a></li>
+  <li><a href="#keep-zlib-compression-enabled" id="toc-keep-zlib-compression-enabled" class="nav-link" data-scroll-target="#keep-zlib-compression-enabled">4. Keep zlib compression enabled</a></li>
+  <li><a href="#decide-whether-peak-picking-is-required" id="toc-decide-whether-peak-picking-is-required" class="nav-link" data-scroll-target="#decide-whether-peak-picking-is-required">5. Decide whether Peak Picking is required</a></li>
+  <li><a href="#choose-a-reasonable-parallel-file-count" id="toc-choose-a-reasonable-parallel-file-count" class="nav-link" data-scroll-target="#choose-a-reasonable-parallel-file-count">6. Choose a reasonable parallel file count</a></li>
+  <li><a href="#start-conversion" id="toc-start-conversion" class="nav-link" data-scroll-target="#start-conversion">7. Start conversion</a></li>
+  </ul></li>
+  <li><a href="#convert-from-the-command-line" id="toc-convert-from-the-command-line" class="nav-link" data-scroll-target="#convert-from-the-command-line">Convert from the command line</a>
+  <ul class="collapse">
+  <li><a href="#one-file" id="toc-one-file" class="nav-link" data-scroll-target="#one-file">One file</a></li>
+  <li><a href="#all-raw-files-in-a-directory" id="toc-all-raw-files-in-a-directory" class="nav-link" data-scroll-target="#all-raw-files-in-a-directory">All RAW files in a directory</a></li>
+  </ul></li>
+  <li><a href="#verify-the-mzml-output" id="toc-verify-the-mzml-output" class="nav-link" data-scroll-target="#verify-the-mzml-output">Verify the mzML output</a></li>
+  <li><a href="#pxd065315-example-layout" id="toc-pxd065315-example-layout" class="nav-link" data-scroll-target="#pxd065315-example-layout">PXD065315 example layout</a></li>
+  <li><a href="#continue-into-protvis" id="toc-continue-into-protvis" class="nav-link" data-scroll-target="#continue-into-protvis">Continue into ProtVis</a></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
+  <li><a href="#reproducibility-checklist" id="toc-reproducibility-checklist" class="nav-link" data-scroll-target="#reproducibility-checklist">Reproducibility checklist</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/SwissModel.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/SwissModel.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/data_import/raw_to_mzml_windows.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/data_import/raw_to_mzml_windows.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/SwissModel.html">SwissModel</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">SwissModel</h1>
+<h1 class="title">RAW → mzML on Windows</h1>
 </div>
 
 <div>
   <div class="description">
-    Submit a protein sequence to Swiss-Model, inspect project/model quality information, and explore the predicted structure in ProtVis.
+    Install ProteoWizard/MSConvert on Windows, convert vendor RAW files to mzML, verify the output, and continue into the ProtVis Raw/Sage workflow.
   </div>
 </div>
 
@@ -653,78 +709,199 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="purpose" class="level2">
-<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>Use <strong>Toolkits → SwissModel</strong> when you want to submit a protein sequence to Swiss-Model and inspect the returned structural results directly in ProtVis. The current module combines Swiss-Model project information with structure parsing and interactive visualization, so this is the correct tutorial page for the Swiss-Model interface shown below.</p>
+<section id="recommended-windows-route" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-windows-route">Recommended Windows route</h2>
+<p>On Windows, use <strong>ProteoWizard MSConvert</strong> for direct conversion of supported vendor RAW files to mzML. This is the preferred route for the Thermo <code>.raw</code> files used by the ProtVis PXD065315 example because ProteoWizard can use the Windows vendor readers required for direct RAW access.</p>
+<p>The route is:</p>
+<p><strong>Vendor RAW → MSConvertGUI / msconvert.exe → mzML → ProtVis Project init → Sage Search → ProtVis_dataset</strong></p>
 </section>
-<section id="swissmodel-interface" class="level2">
-<h2 class="anchored" data-anchor-id="swissmodel-interface">SwissModel interface</h2>
-<p>The screenshot below shows a completed Swiss-Model run using the bundled example sequence. ProtVis displays <strong>Project Information</strong> and <strong>Model Quality</strong> in the upper result area, while the lower tabs provide <strong>PDB Information</strong>, <strong>Ramachandran Plot</strong>, <strong>Residue Composition</strong>, and an interactive <strong>3D Structure</strong> view.</p>
-<div id="fig-swissmodel-interface" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of ProtVis Toolkits SwissModel. A protein sequence is submitted to Swiss-Model and the result area displays project information, model-quality information, PDB information, Ramachandran plot, residue composition and an interactive 3D structure. The API-token value is redacted.">
+<section id="download-proteowizard-msconvert" class="level2">
+<h2 class="anchored" data-anchor-id="download-proteowizard-msconvert">Download ProteoWizard / MSConvert</h2>
+<p>Use the official ProteoWizard resources:</p>
+<ul>
+<li><a href="https://proteowizard.sourceforge.io/download.html">ProteoWizard download page</a></li>
+<li><a href="https://proteowizard.sourceforge.io/doc_users.html">ProteoWizard user documentation</a></li>
+<li><a href="https://proteowizard.sourceforge.io/tools/msconvert.html">MSConvert documentation</a></li>
+</ul>
+<p>Download the current <strong>64-bit Windows installer</strong> unless your computer specifically requires another build. Record the ProteoWizard version used for conversion because conversion software is part of the analysis provenance.</p>
+</section>
+<section id="install-on-windows" class="level2">
+<h2 class="anchored" data-anchor-id="install-on-windows">Install on Windows</h2>
+<p>Run the installer and keep the standard MSConvert components. The current ProteoWizard Windows installer documentation requires <strong>Microsoft .NET Framework 4.7.2 or newer</strong>.</p>
+<p>After installation, you should have:</p>
+<ul>
+<li><strong>MSConvertGUI</strong> for graphical conversion;</li>
+<li><strong>msconvert.exe</strong> for command-line conversion;</li>
+<li><strong>SeeMS</strong> for inspecting open-format spectra.</li>
+</ul>
+<p>A typical installation is inside a versioned directory under:</p>
+<pre class="text"><code>C:\Program Files\ProteoWizard\</code></pre>
+<p>The exact subdirectory depends on the installed build.</p>
+<section id="verify-the-installation" class="level3">
+<h3 class="anchored" data-anchor-id="verify-the-installation">Verify the installation</h3>
+<p>Open PowerShell or Command Prompt and run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>msconvert<span class="op">.</span><span class="fu">exe</span> <span class="op">--</span>help</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If the command is not found, either run <code>msconvert.exe</code> using its full path or add the ProteoWizard installation directory to <code>PATH</code>.</p>
+</section>
+</section>
+<section id="convert-with-msconvertgui" class="level2">
+<h2 class="anchored" data-anchor-id="convert-with-msconvertgui">Convert with MSConvertGUI</h2>
+<p>The annotated screenshot below shows the six PXD065315 control RAW files. The three red markers indicate the core workflow: <strong>1</strong> choose the RAW files, <strong>2</strong> select <code>mzML</code>, and <strong>3</strong> start conversion.</p>
+<div id="fig-msconvert-windows" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Annotated screenshot of MSConvertGUI with six Thermo RAW files loaded. Marker 1 indicates selecting RAW files, marker 2 highlights mzML as output format, and marker 3 highlights Start." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-swissmodel-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/screenshots/PixPin_2026-09-14_09-22-35.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Toolkits SwissModel. A protein sequence is submitted to Swiss-Model and the result area displays project information, model-quality information, PDB information, Ramachandran plot, residue composition and an interactive 3D structure. The API-token value is redacted.">
+<div aria-describedby="fig-msconvert-windows-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/screenshots/PixPin_2026-09-14_23-11-49.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Annotated screenshot of MSConvertGUI with six Thermo RAW files loaded. Marker 1 indicates selecting RAW files, marker 2 highlights mzML as output format, and marker 3 highlights Start.">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-swissmodel-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: ProtVis SwissModel interface showing sequence input, project information, model-quality results and structure-analysis tabs. The API-token field has been redacted for safe documentation.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-msconvert-windows-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: MSConvertGUI example for converting the six PXD065315 control RAW files to mzML. Red markers indicate the main sequence: select the RAW files, choose mzML as the output format, and click Start.
 </figcaption>
 </figure>
 </div>
+<section id="add-raw-files" class="level3">
+<h3 class="anchored" data-anchor-id="add-raw-files">1. Add RAW files</h3>
+<p>Click <strong>Browse</strong> and add one or more vendor RAW files. Convert all samples in one batch whenever possible so they receive identical settings.</p>
+<p>For the ProtVis PXD065315 control example:</p>
+<pre class="text"><code>B73_C1.raw
+B73_C2.raw
+B73_C3.raw
+EA2024_C1.raw
+EA2024_C2.raw
+EA2024_C3.raw</code></pre>
 </section>
-<section id="recommended-operating-order" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h2>
-<p><strong>1. Enter the protein sequence.</strong> Paste the amino-acid sequence into <strong>Protein sequence</strong>. Whitespace is removed before submission. The <strong>Example</strong> button restores the bundled demonstration sequence and is useful for checking that the module is working.</p>
-<p><strong>2. Enter a Swiss-Model API token.</strong> Supply a valid token in <strong>API Token</strong>. The token is used to authenticate the modeling request and should be treated as a private credential.</p>
-<p><strong>3. Start modeling.</strong> Click <strong>Run</strong>. ProtVis validates that both sequence and token are present, configures the Swiss-Model token, submits the sequence through the automated modeling workflow, waits for the returned project, downloads the predicted structure, and parses the project information.</p>
-<p><strong>4. Review Project Information.</strong> The <strong>Project Information</strong> panel reports the returned Swiss-Model project metadata and model records. When a project link is available, open <strong>Project Link → Open Swiss-Model result page</strong> to inspect the corresponding project on the Swiss-Model website.</p>
-<p><strong>5. Review Model Quality.</strong> The <strong>Model Quality</strong> panel summarizes calculated quality information for the downloaded model. Structural interpretation should only proceed after checking the available quality metrics and model coverage.</p>
-<p><strong>6. Inspect PDB Information.</strong> Open the <strong>PDB Information</strong> tab to review the parsed structure, including basic atom/residue/chain information from the downloaded model.</p>
-<p><strong>7. Inspect the Ramachandran Plot.</strong> Use <strong>Ramachandran Plot</strong> as a stereochemical diagnostic of backbone conformations. Unusual distributions should be interpreted together with model quality and local structural context.</p>
-<p><strong>8. Inspect Residue Composition.</strong> The <strong>Residue Composition</strong> tab summarizes the amino-acid composition of the returned structure and provides a quick check of the modeled sequence content.</p>
-<p><strong>9. Explore the 3D structure.</strong> Open <strong>3D Structure</strong> to interactively inspect the predicted protein structure in the embedded <code>r3dmol</code> viewer.</p>
-<p><strong>10. Download the outputs.</strong> The Download section provides the project information, predicted PDB file, and model-quality table. The current output filenames are <code>swissmodel_project_info.json</code>, <code>swissmodel_model.pdb</code>, and <code>swissmodel_model_quality.csv</code>.</p>
+<section id="use-a-separate-output-directory" class="level3">
+<h3 class="anchored" data-anchor-id="use-a-separate-output-directory">2. Use a separate output directory</h3>
+<p>Do not mix converted mzML files with the original RAW files. For example:</p>
+<pre class="text"><code>E:\count\p_raw\      # original RAW
+E:\count\p_mzML\     # converted mzML</code></pre>
+<p>Select <code>E:\count\p_mzML\</code> as the <strong>Output Directory</strong>.</p>
 </section>
-<section id="buttons-and-controls" class="level2">
-<h2 class="anchored" data-anchor-id="buttons-and-controls">Buttons and controls</h2>
-<ul>
-<li><strong>Run</strong> starts the Swiss-Model workflow.</li>
-<li><strong>Example</strong> restores the built-in protein sequence.</li>
-<li><strong>Clear</strong> removes the sequence/token inputs and clears current results.</li>
-<li><strong>Project Link</strong> opens the corresponding Swiss-Model result page after a successful run.</li>
-<li><strong>Uploaded / Predicted File Info</strong> reports downloaded model-file information.</li>
-<li><strong>Download</strong> exports project information, the PDB model, and model-quality results.</li>
-</ul>
+<section id="set-the-output-format" class="level3">
+<h3 class="anchored" data-anchor-id="set-the-output-format">3. Set the output format</h3>
+<p>Use:</p>
+<pre class="text"><code>Output format: mzML</code></pre>
+<p>Leave <strong>Package in gzip</strong> off because ProtVis expects ordinary <code>.mzML</code> filenames in the current Raw workflow.</p>
 </section>
-<section id="interpretation" class="level2">
-<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
-<p>A successful modeling job does not by itself establish that every region of the model is reliable. Review the available quality metrics, model coverage, stereochemical diagnostics, and any unsupported or poorly modeled regions before mapping mutations, PTMs, domains, or functional residues.</p>
-<p>When the structure is used in a figure or manuscript, record the Swiss-Model project/model identifier and preserve the downloaded PDB and model-quality outputs so that the structural interpretation remains traceable.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Keep API tokens private
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Do not publish API tokens in screenshots, manuscripts, repositories, notebooks, or exported project files. The token field in the documentation screenshot has therefore been redacted.</p>
-</div>
-</div>
+<section id="keep-zlib-compression-enabled" class="level3">
+<h3 class="anchored" data-anchor-id="keep-zlib-compression-enabled">4. Keep zlib compression enabled</h3>
+<p>Recommended:</p>
+<pre class="text"><code>Write index: enabled
+Use zlib compression: enabled
+Binary encoding precision: 64-bit</code></pre>
+<p>zlib reduces file size without changing the numerical spectra. Numpress options are not required for this workflow and can remain disabled unless they are part of a validated pipeline.</p>
+</section>
+<section id="decide-whether-peak-picking-is-required" class="level3">
+<h3 class="anchored" data-anchor-id="decide-whether-peak-picking-is-required">5. Decide whether Peak Picking is required</h3>
+<p>If the RAW file contains <strong>profile-mode spectra</strong> that should be centroided before Sage searching, add the <strong>Peak Picking</strong> filter. For Thermo data, use vendor peak picking when available and place Peak Picking first in the filter list.</p>
+<p>A commonly used command-line equivalent is:</p>
+<pre class="text"><code>peakPicking true 1-</code></pre>
+<p>This means peak picking from MS1 upward.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Warning
+<span class="screen-reader-only">Warning</span>Do not centroid twice
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Predicted structures and experimentally determined structures are not equivalent evidence. Report the prediction source and relevant model-quality information, and avoid strong mechanistic claims for poorly supported regions without additional evidence.</p>
+<p>If the acquisition is already centroided, do not add Peak Picking simply because the option exists. Redundant centroiding can unnecessarily alter the spectra. Confirm the acquisition mode before conversion.</p>
 </div>
 </div>
+</section>
+<section id="choose-a-reasonable-parallel-file-count" class="level3">
+<h3 class="anchored" data-anchor-id="choose-a-reasonable-parallel-file-count">6. Choose a reasonable parallel file count</h3>
+<p>For a six-file conversion, <strong>2–4 files in parallel</strong> is usually a safer starting point than launching all files simultaneously. Conversion can be disk-I/O and memory intensive.</p>
+</section>
+<section id="start-conversion" class="level3">
+<h3 class="anchored" data-anchor-id="start-conversion">7. Start conversion</h3>
+<p>Click <strong>Start</strong> and wait until all files complete without errors. The output filename stems should remain unchanged:</p>
+<pre class="text"><code>B73_C1.raw     → B73_C1.mzML
+B73_C2.raw     → B73_C2.mzML
+EA2024_C1.raw  → EA2024_C1.mzML</code></pre>
+</section>
+</section>
+<section id="convert-from-the-command-line" class="level2">
+<h2 class="anchored" data-anchor-id="convert-from-the-command-line">Convert from the command line</h2>
+<section id="one-file" class="level3">
+<h3 class="anchored" data-anchor-id="one-file">One file</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>msconvert<span class="op">.</span><span class="fu">exe</span> <span class="st">"E:\count\p_raw\B73_C1.raw"</span> <span class="op">--</span>mzML <span class="op">--</span>zlib <span class="op">--</span>filter <span class="st">"peakPicking true 1-"</span> <span class="op">-</span>o <span class="st">"E:\count\p_mzML"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="all-raw-files-in-a-directory" class="level3">
+<h3 class="anchored" data-anchor-id="all-raw-files-in-a-directory">All RAW files in a directory</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>msconvert<span class="op">.</span><span class="fu">exe</span> <span class="st">"E:\count\p_raw\*.raw"</span> <span class="op">--</span>mzML <span class="op">--</span>zlib <span class="op">--</span>filter <span class="st">"peakPicking true 1-"</span> <span class="op">-</span>o <span class="st">"E:\count\p_mzML"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If the data are already centroided, omit the Peak Picking filter:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>msconvert<span class="op">.</span><span class="fu">exe</span> <span class="st">"E:\count\p_raw\*.raw"</span> <span class="op">--</span>mzML <span class="op">--</span>zlib <span class="op">-</span>o <span class="st">"E:\count\p_mzML"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Inspect the exact options provided by the installed build with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>msconvert<span class="op">.</span><span class="fu">exe</span> <span class="op">--</span>help</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>msconvert<span class="op">.</span><span class="fu">exe</span> <span class="op">--</span>show-examples</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="verify-the-mzml-output" class="level2">
+<h2 class="anchored" data-anchor-id="verify-the-mzml-output">Verify the mzML output</h2>
+<p>Before opening ProtVis, confirm:</p>
+<ol type="1">
+<li>the number of <code>.mzML</code> files matches the number of RAW files;</li>
+<li>each output file is non-empty and has a plausible file size;</li>
+<li>the filename stems are unchanged;</li>
+<li>the MSConvert log contains no conversion errors;</li>
+<li>the data contain the expected MS levels, especially MS1 and MS2 for DDA proteomics;</li>
+<li>every sample was converted with the same settings.</li>
+</ol>
+<p>Use <strong>SeeMS</strong> if you need to open an mzML file and inspect spectra manually.</p>
+</section>
+<section id="pxd065315-example-layout" class="level2">
+<h2 class="anchored" data-anchor-id="pxd065315-example-layout">PXD065315 example layout</h2>
+<pre class="text"><code>PXD065315_control/
+├── raw/
+│   ├── B73_C1.raw
+│   ├── B73_C2.raw
+│   ├── B73_C3.raw
+│   ├── EA2024_C1.raw
+│   ├── EA2024_C2.raw
+│   └── EA2024_C3.raw
+└── mzML/
+    ├── B73_C1.mzML
+    ├── B73_C2.mzML
+    ├── B73_C3.mzML
+    ├── EA2024_C1.mzML
+    ├── EA2024_C2.mzML
+    └── EA2024_C3.mzML</code></pre>
+</section>
+<section id="continue-into-protvis" class="level2">
+<h2 class="anchored" data-anchor-id="continue-into-protvis">Continue into ProtVis</h2>
+<ol type="1">
+<li>Open <strong>Project init</strong>.</li>
+<li>Select <strong>Raw</strong>.</li>
+<li>Load/upload sample information containing <code>sample_id</code> and <code>mzml_file</code>.</li>
+<li>Upload the matching protein FASTA.</li>
+<li>Select the directory containing the <code>.mzML</code> files.</li>
+<li>Click <strong>Check mzML files</strong>.</li>
+<li>Resolve every missing or invalid row.</li>
+<li>Click <strong>Project init</strong>.</li>
+<li>Open <strong>Search</strong> and run Sage.</li>
+</ol>
+<p>Continue with <a href="../../content/data_import/raw_sage_search.html">Raw/mzML + Sage search</a>.</p>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
+<p><strong>MSConvert cannot read a RAW file.</strong> Confirm that the file is complete, the correct vendor reader is available, and conversion is being performed with a current Windows ProteoWizard installation.</p>
+<p><strong>The mzML files are unexpectedly huge.</strong> Confirm that zlib compression is enabled. Profile-mode data can also be much larger than centroided data.</p>
+<p><strong>Sage finds very few or no PSMs.</strong> First verify that the mzML contains valid MS2 spectra and that centroiding was appropriate. Then check FASTA, enzyme, modifications, precursor tolerance and fragment tolerance.</p>
+<p><strong>ProtVis reports files as missing.</strong> <code>sample_info$mzml_file</code> must exactly match the converted filename, including <code>.mzML</code>.</p>
+</section>
+<section id="reproducibility-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="reproducibility-checklist">Reproducibility checklist</h2>
+<p>Record:</p>
+<pre class="text"><code>Operating system: Windows
+ProteoWizard/MSConvert version:
+Original vendor format:
+Output format: mzML
+zlib compression: yes/no
+Peak Picking: yes/no
+Peak Picking MS levels:
+Additional filters:
+Conversion date:</code></pre>
 
 
 </section>
@@ -1148,18 +1325,6 @@ Warning
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../../content/Toolkits/Protein_Structure.html" class="pagination-link" aria-label="Protein structure">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Protein structure</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../../content/Toolkits/Stacked_Column.html" class="pagination-link" aria-label="Stacked Column Diagram">
-        <span class="nav-page-text">Stacked Column Diagram</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -1168,7 +1333,7 @@ Warning
 </div>   
     <div class="nav-footer-center">
 <p>ProtVis Cookbook · Documentation for reproducible proteomics workflows</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/SwissModel.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/SwissModel.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/data_import/raw_to_mzml_windows.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/data_import/raw_to_mzml_windows.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org/">Quarto</a></p>
 </div>
