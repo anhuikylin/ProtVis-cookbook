@@ -61,7 +61,9 @@ You can also confirm the graphical installation by searching the Start menu for 
 
 ## Recommended conversion with MSConvertGUI
 
-For most ProtVis users, the graphical interface is the easiest route.
+For most ProtVis users, the graphical interface is the easiest route. The annotated example below shows the three core actions: **1** select the vendor RAW files, **2** choose `mzML` as the output format, and **3** start the conversion. Before clicking **Start**, also verify the output directory, zlib compression, and whether Peak Picking is required for the acquisition data.
+
+![MSConvertGUI example for converting the six PXD065315 control RAW files to mzML. Red markers indicate the core sequence: select the RAW files, choose mzML as the output format, and click Start. Review the output directory and optional Peak Picking settings before starting conversion.](../../images/screenshots/PixPin_2026-09-14_23-11-49.png){#fig-msconvert-gui fig-alt="Annotated screenshot of 64-bit MSConvertGUI with six Thermo RAW files loaded. Marker 1 indicates selecting RAW files, marker 2 highlights mzML as the output format, and marker 3 highlights the Start button. zlib compression is enabled." width="100%" fig-align="center"}
 
 ### 1. Start MSConvertGUI
 
