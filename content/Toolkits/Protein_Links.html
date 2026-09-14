@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Resolve protein identifiers and open UniProt, InterPro and structure resources.">
+<meta name="description" content="Resolve a gene/protein identifier or sequence to UniProt and open linked annotation and structure resources.">
 
 <title>Protein links – ProtVis Cookbook</title>
 <style>
@@ -611,9 +611,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#direct-identifier-lookup" id="toc-direct-identifier-lookup" class="nav-link active" data-scroll-target="#direct-identifier-lookup">Direct identifier lookup</a></li>
-  <li><a href="#sequence-based-fallback" id="toc-sequence-based-fallback" class="nav-link" data-scroll-target="#sequence-based-fallback">Sequence-based fallback</a></li>
-  <li><a href="#recommended-workflow" id="toc-recommended-workflow" class="nav-link" data-scroll-target="#recommended-workflow">Recommended workflow</a></li>
+  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#protein-links-interface" id="toc-protein-links-interface" class="nav-link" data-scroll-target="#protein-links-interface">Protein Links interface</a></li>
+  <li><a href="#route-1-direct-gene-or-protein-identifier-lookup" id="toc-route-1-direct-gene-or-protein-identifier-lookup" class="nav-link" data-scroll-target="#route-1-direct-gene-or-protein-identifier-lookup">Route 1: direct gene or protein identifier lookup</a></li>
+  <li><a href="#route-2-sequence-based-blastp-fallback" id="toc-route-2-sequence-based-blastp-fallback" class="nav-link" data-scroll-target="#route-2-sequence-based-blastp-fallback">Route 2: sequence-based BLASTP fallback</a></li>
+  <li><a href="#local-blast-setup" id="toc-local-blast-setup" class="nav-link" data-scroll-target="#local-blast-setup">Local BLAST setup</a></li>
+  <li><a href="#how-the-current-lookup-priority-works" id="toc-how-the-current-lookup-priority-works" class="nav-link" data-scroll-target="#how-the-current-lookup-priority-works">How the current lookup priority works</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Protein_Links.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Protein_Links.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -628,7 +631,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Resolve protein identifiers and open UniProt, InterPro and structure resources.
+    Resolve a gene/protein identifier or sequence to UniProt and open linked annotation and structure resources.
   </div>
 </div>
 
@@ -645,41 +648,93 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="direct-identifier-lookup" class="level2">
-<h2 class="anchored" data-anchor-id="direct-identifier-lookup">Direct identifier lookup</h2>
-<p>Enter a gene identifier or UniProt accession. When a compatible identifier can be resolved, ProtVis provides direct links to resources such as <strong>UniProt</strong>, <strong>InterPro</strong>, and <strong>Swiss-Model</strong>.</p>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>Use <strong>Toolkits → Protein links</strong> when you want to move quickly from a gene/protein identifier or an amino-acid sequence to external protein resources. ProtVis supports two routes: a direct identifier lookup through the UniProt REST service, or a local <strong>BLASTP</strong> fallback against user-configured Swiss-Prot and TrEMBL databases.</p>
+<p>After a UniProt accession has been resolved, ProtVis provides quick links to <strong>UniProt</strong>, <strong>InterPro</strong>, and the <strong>SWISS-MODEL Repository</strong>.</p>
 </section>
-<section id="sequence-based-fallback" class="level2">
-<h2 class="anchored" data-anchor-id="sequence-based-fallback">Sequence-based fallback</h2>
-<p>If an identifier is unavailable, the toolkit can use a protein sequence as a fallback and run local <strong>BLASTP</strong> against configured UniProt databases.</p>
-<p>Local sequence search requires paths to:</p>
-<ul>
-<li>a Swiss-Prot BLAST database;</li>
-<li>a TrEMBL BLAST database;</li>
-<li>the <code>blastp</code> executable.</li>
-</ul>
-<p>The exact paths are machine-specific and should not be copied from another user’s computer.</p>
+<section id="protein-links-interface" class="level2">
+<h2 class="anchored" data-anchor-id="protein-links-interface">Protein Links interface</h2>
+<p>The full-resolution screenshot below shows the current interface using <code>AT5G22800</code> as an example query. The right side illustrates the external annotation pages reached from the resolved protein entry. The Windows BLAST database and executable paths visible in the screenshot belong to that computer only and should not be copied literally to another machine.</p>
+<div id="fig-protein-links-interface" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of ProtVis Toolkits Protein Links. The left panel contains Enter Gene ID or Protein Sequence, a protein-sequence box, SwissProt and TrEMBL database paths, the BLASTp executable path and Run BLASTp. The example query AT5G22800 is resolved to a UniProt entry and external UniProt and InterPro annotation pages are shown on the right." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-protein-links-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/screenshots/PixPin_2026-09-14_09-10-56.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Toolkits Protein Links. The left panel contains Enter Gene ID or Protein Sequence, a protein-sequence box, SwissProt and TrEMBL database paths, the BLASTp executable path and Run BLASTp. The example query AT5G22800 is resolved to a UniProt entry and external UniProt and InterPro annotation pages are shown on the right.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protein-links-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: ProtVis Protein Links interface showing direct gene-ID lookup, protein-sequence input, local Swiss-Prot/TrEMBL BLAST database paths, BLASTP executable configuration and linked external protein resources.
+</figcaption>
+</figure>
+</div>
 </section>
-<section id="recommended-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-workflow">Recommended workflow</h2>
-<ol type="1">
-<li>Prefer a stable gene/UniProt identifier when available.</li>
-<li>Use sequence-based BLAST only when ID mapping fails.</li>
-<li>Review the best match, coverage and identity before accepting the mapping.</li>
-<li>Open UniProt/InterPro/structure resources from the resolved accession.</li>
-<li>Record the accession used in subsequent analysis.</li>
-</ol>
+<section id="route-1-direct-gene-or-protein-identifier-lookup" class="level2">
+<h2 class="anchored" data-anchor-id="route-1-direct-gene-or-protein-identifier-lookup">Route 1: direct gene or protein identifier lookup</h2>
+<p><strong>1. Enter a gene identifier or UniProt-compatible identifier.</strong> Type the identifier in <strong>Enter Gene ID or Protein Sequence</strong>. In the screenshot, the example is <code>AT5G22800</code>.</p>
+<p><strong>2. Let ProtVis query UniProt.</strong> For a non-empty identifier, the current implementation sends a UniProtKB search request and uses the <strong>first returned primary accession</strong>. No local BLAST database is required for this route.</p>
+<p><strong>3. Check the resolved protein before interpreting it.</strong> Open <strong>UniProt</strong> and verify the organism, gene/protein name, sequence length and functional annotation. In the screenshot, the example resolves to an Arabidopsis protein entry. The exact accession and annotation displayed are example-specific and should not be treated as expected output for another identifier.</p>
+<p><strong>4. Follow the Quick Links.</strong> Once a UniProt accession is available, ProtVis builds direct links to <strong>UniProt</strong>, <strong>InterPro</strong>, and <strong>SWISS-MODEL Repository</strong>. UniProt and InterPro may themselves expose additional links to resources such as AlphaFold or other structural/domain services, but these are external-site links rather than additional ProtVis mapping steps.</p>
+</section>
+<section id="route-2-sequence-based-blastp-fallback" class="level2">
+<h2 class="anchored" data-anchor-id="route-2-sequence-based-blastp-fallback">Route 2: sequence-based BLASTP fallback</h2>
+<p>Use this route when a stable identifier is unavailable or direct UniProt mapping does not resolve the protein.</p>
+<p><strong>1. Paste the amino-acid sequence.</strong> Enter the protein sequence in <strong>Enter protein sequence</strong>. Remove FASTA description text unless it is intentionally part of the sequence input.</p>
+<p><strong>2. Set the Swiss-Prot database path.</strong> <strong>SwissProt database path</strong> must point to a local BLAST-formatted Swiss-Prot protein database.</p>
+<p><strong>3. Set the TrEMBL database path.</strong> <strong>TrEMBL database path</strong> must point to a local BLAST-formatted TrEMBL protein database.</p>
+<p><strong>4. Set the BLASTP executable path.</strong> <strong>BLASTp executable path</strong> must point to the local NCBI BLAST+ <code>blastp</code> executable. For example, on Windows this is typically a path ending in <code>blastp.exe</code>.</p>
+<p><strong>5. Click Run BLASTP.</strong> ProtVis writes the sequence to a temporary FASTA file and runs BLASTP in XML output mode. The current search strategy queries <strong>Swiss-Prot first</strong> and only searches <strong>TrEMBL if no Swiss-Prot hit is returned</strong>.</p>
+<p><strong>6. Verify the mapped hit.</strong> The underlying BLAST helper retrieves the top hit and calculates sequence identity from the HSP identity count divided by aligned length. Treat this result as a candidate mapping that still requires biological review.</p>
+<p><strong>7. Use the resolved accession to open external resources.</strong> When a UniProt accession can be obtained, the same UniProt, InterPro and SWISS-MODEL quick links become available.</p>
+</section>
+<section id="local-blast-setup" class="level2">
+<h2 class="anchored" data-anchor-id="local-blast-setup">Local BLAST setup</h2>
+<p>The paths shown in the screenshot are examples from one Windows installation:</p>
+<pre class="text"><code>SwissProt database path: G:/blastdb/UniProt/uniprot_sprot
+TrEMBL database path:    G:/blastdb/UniProt/uniprot_trembl
+BLASTp executable path:  F:/NCBI/blast-2.17.0+/bin/blastp.exe</code></pre>
+<p>Replace all three with paths that exist on your own computer. The Swiss-Prot and TrEMBL databases must already be prepared in a BLAST-compatible format; entering the path to a downloaded FASTA file alone is not equivalent to providing a formatted BLAST database.</p>
+</section>
+<section id="how-the-current-lookup-priority-works" class="level2">
+<h2 class="anchored" data-anchor-id="how-the-current-lookup-priority-works">How the current lookup priority works</h2>
+<p>The current server logic follows this order:</p>
+<pre class="text"><code>Gene/protein identifier
+        ↓
+UniProt REST search
+        ↓
+first primary accession
+        ↓
+UniProt / InterPro / SWISS-MODEL links</code></pre>
+<p>If direct identifier mapping is unavailable and a protein sequence is supplied, ProtVis uses:</p>
+<pre class="text"><code>protein sequence
+      ↓
+Swiss-Prot BLASTP
+      ↓ no hit
+TrEMBL BLASTP
+      ↓
+resolved UniProt candidate</code></pre>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Warning
+<span class="screen-reader-only">Warning</span>Verify the biological identity
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The top BLAST hit is not automatically an ortholog or the biologically correct mapping. Check species, sequence coverage, identity, domain structure and database annotation before transferring functional interpretation.</p>
+<p>The first UniProt search result or the top BLAST hit is not automatically the correct ortholog, isoform, or functional counterpart. Check species, sequence coverage, identity, domain architecture and curated annotation before transferring biological interpretation.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Database paths are machine-specific
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>G:/...</code> and <code>F:/...</code> paths visible in the screenshot are demonstration paths from that Windows computer. They are not bundled with ProtVis and will not work unless the same local databases and BLAST+ installation exist at those locations.</p>
 </div>
 </div>
 

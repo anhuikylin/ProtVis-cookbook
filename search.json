@@ -143,7 +143,29 @@
     "href": "content/Toolkits/Boxplot.html",
     "title": "Boxplot",
     "section": "",
-    "text": "Upload an .xlsx table in wide format, with one quantitative group per column. The module uses the column names as group labels.",
+    "text": "Use Toolkits → Boxplot to compare quantitative values among multiple groups, display the underlying observations, add statistical annotations, and export both the figure and the statistical results. The module accepts an Excel table in wide format, where each selected column represents one group.",
+    "crumbs": [
+      "Toolkits",
+      "Boxplot"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Boxplot.html#purpose",
+    "href": "content/Toolkits/Boxplot.html#purpose",
+    "title": "Boxplot",
+    "section": "",
+    "text": "Use Toolkits → Boxplot to compare quantitative values among multiple groups, display the underlying observations, add statistical annotations, and export both the figure and the statistical results. The module accepts an Excel table in wide format, where each selected column represents one group.",
+    "crumbs": [
+      "Toolkits",
+      "Boxplot"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Boxplot.html#boxplot-interface",
+    "href": "content/Toolkits/Boxplot.html#boxplot-interface",
+    "title": "Boxplot",
+    "section": "Boxplot interface",
+    "text": "Boxplot interface\nThe screenshot below shows the bundled demonstration data with three groups (Group_A, Group_B, and Group_C). The example contains six observations per group. The visible pairwise p-values and significance symbols belong only to this demonstration dataset.\n\n\n\n\n\n\nFigure 1: ProtVis Boxplot interface showing demo-data loading, group selection, pairwise comparisons, plot parameters, a three-group boxplot and the statistical-results table.",
     "crumbs": [
       "Toolkits",
       "Boxplot"
@@ -153,19 +175,41 @@
     "objectID": "content/Toolkits/Boxplot.html#input-format",
     "href": "content/Toolkits/Boxplot.html#input-format",
     "title": "Boxplot",
-    "section": "",
-    "text": "Upload an .xlsx table in wide format, with one quantitative group per column. The module uses the column names as group labels.",
+    "section": "Input format",
+    "text": "Input format\nUpload a .xlsx table in wide format. Each quantitative group should occupy one column:\nGroup_A  Group_B  Group_C\n5.1      6.1      7.0\n5.4      6.5      7.2\n5.0      6.0      6.9\n5.3      6.3      7.4\n5.6      6.4      7.1\n5.2      6.2      7.3\nThis is also the structure of the current built-in demonstration data. After group selection, ProtVis reshapes the selected columns into Group and Value fields. Missing values are removed; values that cannot be converted to numeric are also excluded from plotting and statistical analysis.",
     "crumbs": [
       "Toolkits",
       "Boxplot"
     ]
   },
   {
-    "objectID": "content/Toolkits/Boxplot.html#workflow",
-    "href": "content/Toolkits/Boxplot.html#workflow",
+    "objectID": "content/Toolkits/Boxplot.html#recommended-operating-order",
+    "href": "content/Toolkits/Boxplot.html#recommended-operating-order",
     "title": "Boxplot",
-    "section": "Workflow",
-    "text": "Workflow\n\nUpload the Excel file.\nSelect the groups to display.\nChoose pairwise comparisons.\nSet x- and y-axis labels.\nCustomize group colors, box width, point size and outline color.\nChoose a ggplot theme.\nReview the statistical annotations.\nSet output width/height and download the figure as PDF.\n\nThe current boxplot workflow uses pairwise t-tests via ggpubr::stat_compare_means.\n\n\n\n\n\n\nImportant\n\n\n\nA t-test assumes an appropriate design and distributional model. Do not apply independent pairwise t-tests to paired/repeated-measures data without accounting for pairing, and consider multiple-testing correction when many comparisons are shown.",
+    "section": "Recommended operating order",
+    "text": "Recommended operating order\n1. Load the data. Under Data Input, upload an Excel .xlsx file or click LOAD DEMO DATA. Demo data are provided so the complete workflow can be tested without preparing a file first.\n2. Check Uploaded Data Preview. Confirm that the column names are the intended group names and that the quantitative values have been read correctly. In the demonstration screenshot the table contains Group_A, Group_B, and Group_C.\n3. Select groups to display. Under Select groups, choose the columns that should be retained in the boxplot and analysis. The order of these selections is preserved as the group order in the plot.\n4. Choose groups used for pairwise comparison. Groups used for pairwise comparison controls which groups enter the pairwise comparison set. When at least two groups are selected, ProtVis generates all pair combinations among those selected groups. This control is directly relevant to t.test and wilcox.test.\n5. Select the statistical method. Open Statistics and choose one of the current methods:\n\nt.test: pairwise t-tests for the selected comparison groups;\nwilcox.test: pairwise Wilcoxon tests;\nanova: one-way ANOVA followed by a TukeyHSD result table;\nkruskal.test: overall Kruskal-Wallis test.\n\nThe current default is t.test.\n6. Decide whether significance labels should appear on the plot. Keep Show significance labels on plot selected when statistical annotations are desired. Pairwise t-test/Wilcoxon analyses display pairwise significance labels, whereas ANOVA and Kruskal-Wallis display an overall p-value.\n7. Configure Plot Parameters. Set X-axis label and Y-axis label, adjust Box width and Point size, decide whether to Show data points, choose the box-line color, and set individual group fill colors. Showing individual points is recommended when sample size is modest because it makes the underlying observations visible instead of relying on the box summary alone.\n8. Choose a theme. Available themes are minimal, classic, light, bw, dark, and grey. The current default is grey.\n9. Click Run. ProtVis reshapes the selected groups, removes missing/non-numeric values, performs the selected statistical analysis, and generates the boxplot.\n10. Review Statistical Results. For pairwise t-tests or Wilcoxon tests, the result table includes the compared groups, raw p, BH-adjusted p.adj, formatted values, significance symbols and method. In the screenshot, all three pairwise comparisons are significant because this is a deliberately separated demo dataset; those values are not reference thresholds for biological data.\n11. Review ANOVA/Tukey or Kruskal output when those methods are selected. ANOVA produces an ANOVA Results table plus TukeyHSD Results. Kruskal-Wallis produces the overall test statistic, degrees of freedom and p-value. The current Kruskal option is an overall test and does not automatically create a post-hoc pairwise table.\n12. Export the figure and statistics. Under Download, choose pdf, png, jpg, or svg, set figure width and height, and set DPI for PNG/JPG output. Download Plot exports the current figure. Download Statistics writes an Excel workbook named like boxplot_statistics_YYYY-MM-DD.xlsx containing the available statistical result tables.",
+    "crumbs": [
+      "Toolkits",
+      "Boxplot"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Boxplot.html#statistical-behavior",
+    "href": "content/Toolkits/Boxplot.html#statistical-behavior",
+    "title": "Boxplot",
+    "section": "Statistical behavior",
+    "text": "Statistical behavior\nFor t.test and wilcox.test, ProtVis uses ggpubr::compare_means() across all pair combinations generated from the selected comparison groups. The statistical-results table uses Benjamini-Hochberg (BH) multiple-testing adjustment and exposes the adjusted p-value as p.adj.\nFor anova, ProtVis fits a one-way model:\nValue ~ Group\nand reports the ANOVA table together with TukeyHSD post-hoc comparisons. For kruskal.test, the current implementation reports the overall Kruskal-Wallis result.",
+    "crumbs": [
+      "Toolkits",
+      "Boxplot"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Boxplot.html#interpreting-the-plot",
+    "href": "content/Toolkits/Boxplot.html#interpreting-the-plot",
+    "title": "Boxplot",
+    "section": "Interpreting the plot",
+    "text": "Interpreting the plot\nThe box represents the distribution summary for each group, while the optional jittered points show the individual observations. A small p-value indicates evidence against the null hypothesis under the selected test, but it does not by itself describe effect size or biological importance. Interpret the figure together with the group distributions, sample size and experimental design.\n\n\n\n\n\n\nImportantMatch the test to the experimental design\n\n\n\nThe current pairwise t-test/Wilcoxon workflow treats the groups as independent. Do not use it for paired or repeated-measures designs unless the statistical model correctly accounts for that structure. ANOVA and Kruskal-Wallis likewise assume an appropriate independent-group design in the current module.\n\n\n\n\n\n\n\n\nTip\n\n\n\nFor figures intended for publication, keep the individual points visible when feasible and report the exact statistical test, multiple-testing correction, sample size and whether observations are independent or paired in the figure legend or Methods section.",
     "crumbs": [
       "Toolkits",
       "Boxplot"
@@ -2389,40 +2433,73 @@
     "href": "content/Toolkits/Protein_Links.html",
     "title": "Protein links",
     "section": "",
-    "text": "Enter a gene identifier or UniProt accession. When a compatible identifier can be resolved, ProtVis provides direct links to resources such as UniProt, InterPro, and Swiss-Model.",
+    "text": "Use Toolkits → Protein links when you want to move quickly from a gene/protein identifier or an amino-acid sequence to external protein resources. ProtVis supports two routes: a direct identifier lookup through the UniProt REST service, or a local BLASTP fallback against user-configured Swiss-Prot and TrEMBL databases.\nAfter a UniProt accession has been resolved, ProtVis provides quick links to UniProt, InterPro, and the SWISS-MODEL Repository.",
     "crumbs": [
       "Toolkits",
       "Protein links"
     ]
   },
   {
-    "objectID": "content/Toolkits/Protein_Links.html#direct-identifier-lookup",
-    "href": "content/Toolkits/Protein_Links.html#direct-identifier-lookup",
+    "objectID": "content/Toolkits/Protein_Links.html#purpose",
+    "href": "content/Toolkits/Protein_Links.html#purpose",
     "title": "Protein links",
     "section": "",
-    "text": "Enter a gene identifier or UniProt accession. When a compatible identifier can be resolved, ProtVis provides direct links to resources such as UniProt, InterPro, and Swiss-Model.",
+    "text": "Use Toolkits → Protein links when you want to move quickly from a gene/protein identifier or an amino-acid sequence to external protein resources. ProtVis supports two routes: a direct identifier lookup through the UniProt REST service, or a local BLASTP fallback against user-configured Swiss-Prot and TrEMBL databases.\nAfter a UniProt accession has been resolved, ProtVis provides quick links to UniProt, InterPro, and the SWISS-MODEL Repository.",
     "crumbs": [
       "Toolkits",
       "Protein links"
     ]
   },
   {
-    "objectID": "content/Toolkits/Protein_Links.html#sequence-based-fallback",
-    "href": "content/Toolkits/Protein_Links.html#sequence-based-fallback",
+    "objectID": "content/Toolkits/Protein_Links.html#protein-links-interface",
+    "href": "content/Toolkits/Protein_Links.html#protein-links-interface",
     "title": "Protein links",
-    "section": "Sequence-based fallback",
-    "text": "Sequence-based fallback\nIf an identifier is unavailable, the toolkit can use a protein sequence as a fallback and run local BLASTP against configured UniProt databases.\nLocal sequence search requires paths to:\n\na Swiss-Prot BLAST database;\na TrEMBL BLAST database;\nthe blastp executable.\n\nThe exact paths are machine-specific and should not be copied from another user’s computer.",
+    "section": "Protein Links interface",
+    "text": "Protein Links interface\nThe full-resolution screenshot below shows the current interface using AT5G22800 as an example query. The right side illustrates the external annotation pages reached from the resolved protein entry. The Windows BLAST database and executable paths visible in the screenshot belong to that computer only and should not be copied literally to another machine.\n\n\n\n\n\n\nFigure 1: ProtVis Protein Links interface showing direct gene-ID lookup, protein-sequence input, local Swiss-Prot/TrEMBL BLAST database paths, BLASTP executable configuration and linked external protein resources.",
     "crumbs": [
       "Toolkits",
       "Protein links"
     ]
   },
   {
-    "objectID": "content/Toolkits/Protein_Links.html#recommended-workflow",
-    "href": "content/Toolkits/Protein_Links.html#recommended-workflow",
+    "objectID": "content/Toolkits/Protein_Links.html#route-1-direct-gene-or-protein-identifier-lookup",
+    "href": "content/Toolkits/Protein_Links.html#route-1-direct-gene-or-protein-identifier-lookup",
     "title": "Protein links",
-    "section": "Recommended workflow",
-    "text": "Recommended workflow\n\nPrefer a stable gene/UniProt identifier when available.\nUse sequence-based BLAST only when ID mapping fails.\nReview the best match, coverage and identity before accepting the mapping.\nOpen UniProt/InterPro/structure resources from the resolved accession.\nRecord the accession used in subsequent analysis.\n\n\n\n\n\n\n\nWarning\n\n\n\nThe top BLAST hit is not automatically an ortholog or the biologically correct mapping. Check species, sequence coverage, identity, domain structure and database annotation before transferring functional interpretation.",
+    "section": "Route 1: direct gene or protein identifier lookup",
+    "text": "Route 1: direct gene or protein identifier lookup\n1. Enter a gene identifier or UniProt-compatible identifier. Type the identifier in Enter Gene ID or Protein Sequence. In the screenshot, the example is AT5G22800.\n2. Let ProtVis query UniProt. For a non-empty identifier, the current implementation sends a UniProtKB search request and uses the first returned primary accession. No local BLAST database is required for this route.\n3. Check the resolved protein before interpreting it. Open UniProt and verify the organism, gene/protein name, sequence length and functional annotation. In the screenshot, the example resolves to an Arabidopsis protein entry. The exact accession and annotation displayed are example-specific and should not be treated as expected output for another identifier.\n4. Follow the Quick Links. Once a UniProt accession is available, ProtVis builds direct links to UniProt, InterPro, and SWISS-MODEL Repository. UniProt and InterPro may themselves expose additional links to resources such as AlphaFold or other structural/domain services, but these are external-site links rather than additional ProtVis mapping steps.",
+    "crumbs": [
+      "Toolkits",
+      "Protein links"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Links.html#route-2-sequence-based-blastp-fallback",
+    "href": "content/Toolkits/Protein_Links.html#route-2-sequence-based-blastp-fallback",
+    "title": "Protein links",
+    "section": "Route 2: sequence-based BLASTP fallback",
+    "text": "Route 2: sequence-based BLASTP fallback\nUse this route when a stable identifier is unavailable or direct UniProt mapping does not resolve the protein.\n1. Paste the amino-acid sequence. Enter the protein sequence in Enter protein sequence. Remove FASTA description text unless it is intentionally part of the sequence input.\n2. Set the Swiss-Prot database path. SwissProt database path must point to a local BLAST-formatted Swiss-Prot protein database.\n3. Set the TrEMBL database path. TrEMBL database path must point to a local BLAST-formatted TrEMBL protein database.\n4. Set the BLASTP executable path. BLASTp executable path must point to the local NCBI BLAST+ blastp executable. For example, on Windows this is typically a path ending in blastp.exe.\n5. Click Run BLASTP. ProtVis writes the sequence to a temporary FASTA file and runs BLASTP in XML output mode. The current search strategy queries Swiss-Prot first and only searches TrEMBL if no Swiss-Prot hit is returned.\n6. Verify the mapped hit. The underlying BLAST helper retrieves the top hit and calculates sequence identity from the HSP identity count divided by aligned length. Treat this result as a candidate mapping that still requires biological review.\n7. Use the resolved accession to open external resources. When a UniProt accession can be obtained, the same UniProt, InterPro and SWISS-MODEL quick links become available.",
+    "crumbs": [
+      "Toolkits",
+      "Protein links"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Links.html#local-blast-setup",
+    "href": "content/Toolkits/Protein_Links.html#local-blast-setup",
+    "title": "Protein links",
+    "section": "Local BLAST setup",
+    "text": "Local BLAST setup\nThe paths shown in the screenshot are examples from one Windows installation:\nSwissProt database path: G:/blastdb/UniProt/uniprot_sprot\nTrEMBL database path:    G:/blastdb/UniProt/uniprot_trembl\nBLASTp executable path:  F:/NCBI/blast-2.17.0+/bin/blastp.exe\nReplace all three with paths that exist on your own computer. The Swiss-Prot and TrEMBL databases must already be prepared in a BLAST-compatible format; entering the path to a downloaded FASTA file alone is not equivalent to providing a formatted BLAST database.",
+    "crumbs": [
+      "Toolkits",
+      "Protein links"
+    ]
+  },
+  {
+    "objectID": "content/Toolkits/Protein_Links.html#how-the-current-lookup-priority-works",
+    "href": "content/Toolkits/Protein_Links.html#how-the-current-lookup-priority-works",
+    "title": "Protein links",
+    "section": "How the current lookup priority works",
+    "text": "How the current lookup priority works\nThe current server logic follows this order:\nGene/protein identifier\n        ↓\nUniProt REST search\n        ↓\nfirst primary accession\n        ↓\nUniProt / InterPro / SWISS-MODEL links\nIf direct identifier mapping is unavailable and a protein sequence is supplied, ProtVis uses:\nprotein sequence\n      ↓\nSwiss-Prot BLASTP\n      ↓ no hit\nTrEMBL BLASTP\n      ↓\nresolved UniProt candidate\n\n\n\n\n\n\nWarningVerify the biological identity\n\n\n\nThe first UniProt search result or the top BLAST hit is not automatically the correct ortholog, isoform, or functional counterpart. Check species, sequence coverage, identity, domain architecture and curated annotation before transferring biological interpretation.\n\n\n\n\n\n\n\n\nImportantDatabase paths are machine-specific\n\n\n\nThe G:/... and F:/... paths visible in the screenshot are demonstration paths from that Windows computer. They are not bundled with ProtVis and will not work unless the same local databases and BLAST+ installation exist at those locations.",
     "crumbs": [
       "Toolkits",
       "Protein links"
