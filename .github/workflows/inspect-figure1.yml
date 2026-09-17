@@ -1,0 +1,28 @@
+name: Temporary inspect Figure1-3
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/inspect-figure1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect Figure1-3
+        shell: bash
+        run: |
+          set -euo pipefail
+          file images/screenshots/Figure1-3.jpg
+          if command -v identify >/dev/null 2>&1; then identify images/screenshots/Figure1-3.jpg || true; fi
+          if ! command -v tesseract >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq tesseract-ocr
+          fi
+          echo '===== OCR Figure1-3 ====='
+          tesseract images/screenshots/Figure1-3.jpg stdout --psm 11 2>/dev/null | head -n 500 || true
