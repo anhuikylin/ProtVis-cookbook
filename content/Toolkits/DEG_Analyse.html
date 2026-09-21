@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Run the current DESeq2-based DEG utility for compatible raw-count RNA-seq data and inspect PCA and volcano outputs.">
+<meta name="description" content="Run the current DESeq2 B73-vs-Y12 transcriptome workflow, inspect PCA/volcano results, and reproduce the archived maize KEGG GSEA method.">
 
-<title>DEG analyse – ProtVis Cookbook</title>
+<title>Transcriptome Analysis – ProtVis Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -255,7 +255,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/DEG_Analyse.html">DEG analyse</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/DEG_Analyse.html">Transcriptome Analysis</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -666,7 +666,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Toolkits/DEG_Analyse.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">DEG analyse</span></a>
+ <span class="menu-text">Transcriptome Analysis</span></a>
   </div>
 </li>
       </ul>
@@ -682,11 +682,26 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#scope" id="toc-scope" class="nav-link active" data-scroll-target="#scope">Scope</a></li>
-  <li><a href="#deg-analyse-interface" id="toc-deg-analyse-interface" class="nav-link" data-scroll-target="#deg-analyse-interface">DEG Analyse interface</a></li>
-  <li><a href="#required-files" id="toc-required-files" class="nav-link" data-scroll-target="#required-files">Required files</a></li>
-  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
-  <li><a href="#current-deg-classification-rule" id="toc-current-deg-classification-rule" class="nav-link" data-scroll-target="#current-deg-classification-rule">Current DEG classification rule</a></li>
-  <li><a href="#pca-and-volcano-presentation-controls" id="toc-pca-and-volcano-presentation-controls" class="nav-link" data-scroll-target="#pca-and-volcano-presentation-controls">PCA and volcano presentation controls</a></li>
+  <li><a href="#current-interface" id="toc-current-interface" class="nav-link" data-scroll-target="#current-interface">Current interface</a></li>
+  <li><a href="#required-files" id="toc-required-files" class="nav-link" data-scroll-target="#required-files">Required files</a>
+  <ul class="collapse">
+  <li><a href="#gene-expression-data" id="toc-gene-expression-data" class="nav-link" data-scroll-target="#gene-expression-data">Gene Expression Data</a></li>
+  <li><a href="#group-information" id="toc-group-information" class="nav-link" data-scroll-target="#group-information">Group Information</a></li>
+  </ul></li>
+  <li><a href="#current-biological-contrast" id="toc-current-biological-contrast" class="nav-link" data-scroll-target="#current-biological-contrast">Current biological contrast</a></li>
+  <li><a href="#run-the-transcriptome-analysis" id="toc-run-the-transcriptome-analysis" class="nav-link" data-scroll-target="#run-the-transcriptome-analysis">Run the transcriptome analysis</a></li>
+  <li><a href="#differential-expression-rule" id="toc-differential-expression-rule" class="nav-link" data-scroll-target="#differential-expression-rule">Differential-expression rule</a></li>
+  <li><a href="#pca" id="toc-pca" class="nav-link" data-scroll-target="#pca">PCA</a></li>
+  <li><a href="#kegg-gsea" id="toc-kegg-gsea" class="nav-link" data-scroll-target="#kegg-gsea">KEGG GSEA</a>
+  <ul class="collapse">
+  <li><a href="#bundled-background" id="toc-bundled-background" class="nav-link" data-scroll-target="#bundled-background">Bundled background</a></li>
+  <li><a href="#ranking-metrics" id="toc-ranking-metrics" class="nav-link" data-scroll-target="#ranking-metrics">Ranking metrics</a></li>
+  <li><a href="#complete-ranked-universe" id="toc-complete-ranked-universe" class="nav-link" data-scroll-target="#complete-ranked-universe">Complete ranked universe</a></li>
+  <li><a href="#gsea-result-panels" id="toc-gsea-result-panels" class="nav-link" data-scroll-target="#gsea-result-panels">GSEA result panels</a></li>
+  </ul></li>
+  <li><a href="#archived-gsea-reference" id="toc-archived-gsea-reference" class="nav-link" data-scroll-target="#archived-gsea-reference">Archived GSEA reference</a></li>
+  <li><a href="#exports" id="toc-exports" class="nav-link" data-scroll-target="#exports">Exports</a></li>
+  <li><a href="#schema-v4-recording" id="toc-schema-v4-recording" class="nav-link" data-scroll-target="#schema-v4-recording">Schema-v4 recording</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/DEG_Analyse.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/DEG_Analyse.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -694,14 +709,14 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/DEG_Analyse.html">DEG analyse</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/DEG_Analyse.html">Transcriptome Analysis</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">DEG analyse</h1>
+<h1 class="title">Transcriptome Analysis</h1>
 </div>
 
 <div>
   <div class="description">
-    Run the current DESeq2-based DEG utility for compatible raw-count RNA-seq data and inspect PCA and volcano outputs.
+    Run the current DESeq2 B73-vs-Y12 transcriptome workflow, inspect PCA/volcano results, and reproduce the archived maize KEGG GSEA method.
   </div>
 </div>
 
@@ -720,75 +735,168 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="scope" class="level2">
 <h2 class="anchored" data-anchor-id="scope">Scope</h2>
-<p><strong>Toolkits → DEG analyse</strong> is an RNA-seq-oriented utility and is separate from ProtVis’s main <strong>DEP analysis</strong>. The current implementation builds a <code>DESeq2::DESeqDataSetFromMatrix</code>, uses <code>design = ~ Group</code>, runs <code>DESeq2::DESeq()</code>, and produces PCA and volcano/result views.</p>
-<p>Use this toolkit for <strong>raw count-style gene-expression data</strong> that are appropriate for DESeq2. Do not use it for normalized continuous proteomics intensities merely because proteins and RNA-seq both have samples in columns.</p>
+<p><strong>Toolkits → Transcriptome Analysis</strong> is the RNA-seq/count-oriented utility in ProtVis. It is separate from <strong>Downstream analysis → DEP analysis</strong>, which is designed for proteomics abundance data.</p>
+<p>The current module performs three connected analyses from the uploaded transcriptome files:</p>
+<ul>
+<li>PCA with <code>PCAtools</code>;</li>
+<li>differential expression with <code>DESeq2</code>;</li>
+<li>KEGG GSEA using the bundled maize/teosinte KEGG background derived from the archived <code>Enrichmentdb2</code> annotation.</li>
+</ul>
+<p>Use this module for <strong>raw count-style gene-expression data</strong> appropriate for DESeq2. Do not feed normalized continuous proteomics intensities into this interface.</p>
 </section>
-<section id="deg-analyse-interface" class="level2">
-<h2 class="anchored" data-anchor-id="deg-analyse-interface">DEG Analyse interface</h2>
-<p>The screenshot below shows a completed analysis with the PCA card on the left and the Volcano Plot card on the right. The displayed counts—4,559 up-regulated, 6,126 down-regulated and 10,685 significant features (19.48%)—belong to this particular uploaded example and are not fixed ProtVis results.</p>
-<div id="fig-deg-analyse-interface" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of ProtVis Toolkits DEG Analyse. Gene-expression and group-information Excel files are loaded, PCA Analysis and Volcano Plot result cards are displayed, and the sidebar contains PCA Settings and Volcano Plot Settings. The result tabs include Plot, PCA Data, DEG Results and Statistics." data-fig-align="center">
+<section id="current-interface" class="level2">
+<h2 class="anchored" data-anchor-id="current-interface">Current interface</h2>
+<p>The screenshot below predates the new GSEA card but still shows the PCA/volcano portion of the same module. ProtVis 0.9.1 now adds a third full-width <strong>KEGG Gene Set Enrichment Analysis</strong> card below these two panels.</p>
+<div id="fig-transcriptome-analysis" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="ProtVis transcriptome analysis with Gene Expression Data and Group Information uploads, PCA Analysis and Volcano Plot. Current version additionally provides a KEGG GSEA panel.">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-deg-analyse-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/screenshots/PixPin_2026-09-13_23-19-34.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Toolkits DEG Analyse. Gene-expression and group-information Excel files are loaded, PCA Analysis and Volcano Plot result cards are displayed, and the sidebar contains PCA Settings and Volcano Plot Settings. The result tabs include Plot, PCA Data, DEG Results and Statistics.">
+<div aria-describedby="fig-transcriptome-analysis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../images/screenshots/PixPin_2026-09-13_23-19-34.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="ProtVis transcriptome analysis with Gene Expression Data and Group Information uploads, PCA Analysis and Volcano Plot. Current version additionally provides a KEGG GSEA panel.">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deg-analyse-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: ProtVis DEG Analyse interface showing expression and group-file upload, PCA settings, volcano settings, PCA result and differential-expression volcano plot.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-transcriptome-analysis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Earlier ProtVis transcriptome-analysis interface showing expression/group uploads, PCA settings, volcano settings, PCA output and differential-expression volcano plot. The current interface additionally contains a KEGG GSEA card.
 </figcaption>
 </figure>
 </div>
 </section>
 <section id="required-files" class="level2">
 <h2 class="anchored" data-anchor-id="required-files">Required files</h2>
-<p>The current module accepts Excel <code>.xlsx</code> files for both inputs.</p>
-<p>The <strong>Gene Expression Data</strong> workbook must contain an exact first-column identifier named:</p>
+<p>Both inputs are Excel <code>.xlsx</code> files.</p>
+<section id="gene-expression-data" class="level3">
+<h3 class="anchored" data-anchor-id="gene-expression-data">Gene Expression Data</h3>
+<p>The first column must be named exactly:</p>
 <pre class="text"><code>GeneID</code></pre>
-<p>The remaining columns are sample count columns. The <strong>Group Information</strong> workbook must contain at least:</p>
+<p>All remaining columns are sample count columns.</p>
+</section>
+<section id="group-information" class="level3">
+<h3 class="anchored" data-anchor-id="group-information">Group Information</h3>
+<p>The workbook must contain:</p>
 <pre class="text"><code>Sample
 Group</code></pre>
-<p><code>Sample</code> names must correspond to the expression-matrix sample columns because ProtVis reorders the count matrix using the row names created from the <code>Sample</code> field.</p>
+<p><code>Sample</code> values must match the expression-matrix sample columns. Additional metadata columns can be used for PCA color/shape mappings.</p>
 </section>
-<section id="recommended-operating-order" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h2>
-<p><strong>1. Upload Gene Expression Data.</strong> Select the count-matrix <code>.xlsx</code>. Keep genes in rows and samples in columns. The first column must be named exactly <code>GeneID</code>.</p>
-<p><strong>2. Upload Group Information.</strong> Select the grouping <code>.xlsx</code>. The first required field is <code>Sample</code> and the second is <code>Group</code>. Additional grouping columns can also be present and may become available for PCA color/shape mappings.</p>
-<p><strong>3. Verify that the data are raw counts.</strong> Before running, confirm that sample columns represent non-negative count data appropriate for DESeq2. In the current implementation ProtVis applies <code>ceiling()</code> to all sample values before constructing the DESeq2 count matrix; this is not a justification for supplying normalized continuous expression values.</p>
-<p><strong>4. Be aware of the current contrast.</strong> The present <code>dev</code> implementation extracts differential results with:</p>
-<pre class="text"><code>Group: B73 versus Y12</code></pre>
-<p>specifically <code>contrast = c("Group", "B73", "Y12")</code>. Therefore the current toolkit expects the <code>Group</code> column to contain the <code>B73</code> and <code>Y12</code> levels for differential testing. If your biological comparison uses different group names, this utility should not be treated as a generic arbitrary-group DEG interface without changing the underlying implementation.</p>
-<p><strong>5. Configure PCA Settings.</strong> Choose <strong>Color by</strong> and optionally <strong>Shape by</strong> from available grouping fields. Point size can be Small, Medium or Large. When grouping is used, ProtVis provides per-group color selectors. You can also show sample labels, encircle groups and display confidence ellipses; ellipse transparency and legend text size are configurable.</p>
-<p><strong>6. Configure Volcano Plot Settings.</strong> Set colors for <strong>Up-regulated</strong>, <strong>Down-regulated</strong>, and <strong>Not Significant</strong> points, point size, transparency, and grid display. These controls alter presentation only; they do not change the DEG classification threshold in the current implementation.</p>
-<p><strong>7. Click Run Analysis.</strong> ProtVis converts <code>GeneID</code> to row names, applies <code>ceiling()</code> to sample counts, aligns columns to the group-information sample order, creates a DESeq2 dataset with <code>design = ~ Group</code>, runs DESeq2, and extracts the B73-versus-Y12 result.</p>
-<p><strong>8. Inspect PCA Analysis.</strong> The <strong>Plot</strong> tab shows sample separation in principal-component space. Use <strong>PCA Data</strong> to inspect/export the coordinates rather than relying only on the figure. The percentage of variation displayed on PC1/PC2 is dataset-specific.</p>
-<p><strong>9. Inspect the Volcano Plot and DEG tables.</strong> The <strong>Plot</strong> tab displays fold change against significance. <strong>DEG Results</strong> exposes the underlying DESeq2 result table, while <strong>Statistics</strong> provides summary counts and top DEG information.</p>
-<p><strong>10. Export the analysis outputs.</strong> PCA settings provide PDF and PCA-data downloads. Volcano settings provide PDF and DEG-data downloads. The PCA and DEG table tabs also include CSV export controls.</p>
 </section>
-<section id="current-deg-classification-rule" class="level2">
-<h2 class="anchored" data-anchor-id="current-deg-classification-rule">Current DEG classification rule</h2>
-<p>The current implementation classifies a gene as <strong>Up-regulated</strong> when:</p>
-<pre class="text"><code>adjusted p-value &lt; 0.05
-and log2FoldChange &gt; 1</code></pre>
-<p>and as <strong>Down-regulated</strong> when:</p>
-<pre class="text"><code>adjusted p-value &lt; 0.05
-and log2FoldChange &lt; -1</code></pre>
-<p>All other genes are labeled <strong>Not significant</strong>. In other words, the current significance rule is <code>padj &lt; 0.05</code> together with <code>|log2FoldChange| &gt; 1</code>.</p>
-</section>
-<section id="pca-and-volcano-presentation-controls" class="level2">
-<h2 class="anchored" data-anchor-id="pca-and-volcano-presentation-controls">PCA and volcano presentation controls</h2>
-<p>PCA supports grouping color, grouping shape, three point-size levels, optional sample labels, group encircling, confidence ellipses, ellipse transparency and legend-size control. Default PCA export dimensions are 8 × 7 inches.</p>
-<p>The volcano plot defaults to salmon for up-regulated genes, light blue for down-regulated genes and grey for non-significant genes; default point size is 2 and transparency is 0.7. Default volcano PDF dimensions are also 8 × 7 inches.</p>
+<section id="current-biological-contrast" class="level2">
+<h2 class="anchored" data-anchor-id="current-biological-contrast">Current biological contrast</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>This is not the main proteomics DEP workflow
+<span class="screen-reader-only">Important</span>The current DESeq2 comparison is fixed to B73 versus Y12
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For normalized protein-abundance data, use <strong>Downstream analysis → DEP analysis</strong>. The DEG toolkit is built around DESeq2 count modeling and its current code contains a fixed B73-versus-Y12 contrast.</p>
+<p>The present <code>dev</code> implementation runs <code>DESeq2::results(dds, contrast = c("Group", "B73", "Y12"))</code>. Therefore the <code>Group</code> column must contain <code>B73</code> and <code>Y12</code> for the differential-expression and downstream GSEA workflow described here.</p>
 </div>
 </div>
+<p>If another biological contrast is required, do not assume the current GUI is a generic arbitrary-group RNA-seq model without changing the implementation.</p>
+</section>
+<section id="run-the-transcriptome-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="run-the-transcriptome-analysis">Run the transcriptome analysis</h2>
+<ol type="1">
+<li>Upload <strong>Gene Expression Data</strong> and <strong>Group Information</strong>.</li>
+<li>Confirm that sample columns are non-negative raw counts and sample names match.</li>
+<li>Configure PCA color/shape/presentation settings.</li>
+<li>Configure volcano presentation settings.</li>
+<li>Configure GSEA settings if the archived KEGG workflow is required.</li>
+<li>Click <strong>Run Analysis</strong>.</li>
+</ol>
+<p>For DESeq2, ProtVis converts <code>GeneID</code> to row names, applies <code>ceiling()</code> to sample values, reorders columns to the Group Information sample order, constructs <code>DESeqDataSetFromMatrix(..., design = ~ Group)</code>, runs <code>DESeq()</code>, and extracts <strong>B73 versus Y12</strong>.</p>
+</section>
+<section id="differential-expression-rule" class="level2">
+<h2 class="anchored" data-anchor-id="differential-expression-rule">Differential-expression rule</h2>
+<p>The current classification is:</p>
+<pre class="text"><code>Up:   padj &lt; 0.05 and log2FoldChange &gt;  1
+Down: padj &lt; 0.05 and log2FoldChange &lt; -1</code></pre>
+<p>Everything else is <strong>Not significant</strong>. The volcano y-axis is <code>-log10(adjusted p-value)</code> and the dashed guide lines correspond to adjusted p-value 0.05 and log2 fold change ±1.</p>
+</section>
+<section id="pca" class="level2">
+<h2 class="anchored" data-anchor-id="pca">PCA</h2>
+<p>PCA is calculated from the uploaded expression matrix with <code>PCAtools::pca()</code> and can be colored/shaped by fields from Group Information. The interface supports custom group colors, sample labels, group encircling, confidence ellipses, point size, ellipse transparency and export dimensions.</p>
+<p>Use the <strong>PCA Data</strong> table/export together with the plot; do not infer exact sample coordinates from the image alone.</p>
+</section>
+<section id="kegg-gsea" class="level2">
+<h2 class="anchored" data-anchor-id="kegg-gsea">KEGG GSEA</h2>
+<p>The current module reproduces the archived maize transcriptome GSEA logic from <code>02.MaizeTeosintePro/01.src/RNAseq.R</code>.</p>
+<section id="bundled-background" class="level3">
+<h3 class="anchored" data-anchor-id="bundled-background">Bundled background</h3>
+<p>ProtVis uses the built-in maize KEGG background generated from the verified <code>Enrichmentdb2</code> annotation. The runtime background contains <code>TERM</code>, <code>GENE</code> and <code>NAME</code> relationships. <strong>Expression and group tables are not bundled</strong>; users supply them at runtime.</p>
+</section>
+<section id="ranking-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="ranking-metrics">Ranking metrics</h3>
+<p>The GSEA settings allow:</p>
+<ul>
+<li><strong>log2 fold change</strong> — default and historical <code>RNAseq.R</code> method;</li>
+<li><strong>DESeq2 Wald statistic</strong>;</li>
+<li><strong>Signed -log10(P-value)</strong>.</li>
+</ul>
+<p>Historical defaults are:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th style="text-align: right;">Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Minimum gene-set size</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td>Maximum gene-set size</td>
+<td style="text-align: right;">500</td>
+</tr>
+<tr class="odd">
+<td>GSEA p-value cutoff</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td>Pathways shown in dotplot</td>
+<td style="text-align: right;">10</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="complete-ranked-universe" class="level3">
+<h3 class="anchored" data-anchor-id="complete-ranked-universe">Complete ranked universe</h3>
+<p>ProtVis now matches the archived RNA-seq workflow by passing the <strong>complete finite DESeq2 ranked list</strong> to <code>clusterProfiler::GSEA()</code>. Genes without KEGG annotation remain in the ranked universe; KEGG annotation defines pathway membership through <code>TERM2GENE</code>.</p>
+<p>Only a minimal overlap check is applied before GSEA. This is important for exact reproduction because pre-filtering the ranked list to KEGG-annotated genes changes the enrichment universe and can change NES/p-values.</p>
+</section>
+<section id="gsea-result-panels" class="level3">
+<h3 class="anchored" data-anchor-id="gsea-result-panels">GSEA result panels</h3>
+<p>The current card contains:</p>
+<ul>
+<li><strong>Dotplot</strong>;</li>
+<li><strong>Enrichment Curve</strong>;</li>
+<li><strong>GSEA Results</strong>;</li>
+<li><strong>Ranked List</strong>;</li>
+<li><strong>Archived Reference</strong>.</li>
+</ul>
+<p>After analysis, the status badges report the number of ranked genes/pathways, selected ranking metric, selected pathway NES and the built-in maize KEGG background. If pathway <code>00940</code> is present, <strong>Phenylpropanoid biosynthesis</strong> is selected preferentially for the enrichment curve.</p>
+</section>
+</section>
+<section id="archived-gsea-reference" class="level2">
+<h2 class="anchored" data-anchor-id="archived-gsea-reference">Archived GSEA reference</h2>
+<p>The <strong>Archived Reference</strong> tab shows the historical <code>00940</code> phenylpropanoid result extracted from the archived <code>KEGGenrich.xlsx</code>. It is a regression/reference record only and is <strong>not used as the active GSEA result</strong>.</p>
+<p>This separation is deliberate: the active result must be recalculated from the uploaded expression/group data, while the frozen reference exists to verify historical reproduction.</p>
+</section>
+<section id="exports" class="level2">
+<h2 class="anchored" data-anchor-id="exports">Exports</h2>
+<p>Current downloads include:</p>
+<ul>
+<li>PCA PDF and PCA coordinates;</li>
+<li>volcano PDF and DEG result CSV;</li>
+<li>GSEA dotplot PDF;</li>
+<li>GSEA enrichment-curve PDF;</li>
+<li>full GSEA result CSV;</li>
+<li>complete ranked-list CSV.</li>
+</ul>
+</section>
+<section id="schema-v4-recording" class="level2">
+<h2 class="anchored" data-anchor-id="schema-v4-recording">Schema-v4 recording</h2>
+<p>When an active <code>ProtVis_dataset</code> is available, <strong>Run Analysis</strong> records one immutable <code>deg_deseq2</code> run with method <strong>DESeq2 + KEGG GSEA</strong>. The run stores the differential-expression table, top DEGs, PCA scores, GSEA result/ranked list when successful, statistics, plot data/configuration and the fixed B73/Y12 contrast.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -799,7 +907,7 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Do not convert continuous normalized measurements into pseudo-counts merely to make them pass this interface. Statistical model choice should follow the measurement process and data distribution.</p>
+<p>Do not convert continuous normalized measurements into pseudo-counts simply to make them pass this interface. The DESeq2 model and archived GSEA reproduction assume RNA-seq count-style input and the current fixed B73/Y12 design.</p>
 </div>
 </div>
 

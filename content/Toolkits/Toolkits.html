@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Focused utilities for identifier preparation, plant localization, structures/networks, reusable plots and auxiliary analyses.">
+<meta name="description" content="Focused utilities for identifier preparation, plant localization, structures/networks, transcriptome analysis, reusable plots and auxiliary analyses.">
 
 <title>Toolkits – ProtVis Cookbook</title>
 <style>
@@ -667,7 +667,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Toolkits/DEG_Analyse.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">DEG analyse</span></a>
+ <span class="menu-text">Transcriptome Analysis</span></a>
   </div>
 </li>
       </ul>
@@ -698,7 +698,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Focused utilities for identifier preparation, plant localization, structures/networks, reusable plots and auxiliary analyses.
+    Focused utilities for identifier preparation, plant localization, structures/networks, transcriptome analysis, reusable plots and auxiliary analyses.
   </div>
 </div>
 
@@ -717,27 +717,15 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="current-toolkit-map" class="level2">
 <h2 class="anchored" data-anchor-id="current-toolkit-map">Current toolkit map</h2>
-<p>The current Toolkits menu contains:</p>
-<ul>
-<li><strong>Protein Extract</strong></li>
-<li><strong>Plant-mPLoc</strong></li>
-<li><strong>Background Make</strong></li>
-<li><strong>Protein Links</strong></li>
-<li><strong>Protein Structure</strong></li>
-<li><strong>Boxplot</strong></li>
-<li><strong>SwissModel</strong></li>
-<li><strong>STRINGdb PPI</strong></li>
-<li><strong>Stacked Column Diagram</strong></li>
-<li><strong>Correlation chord</strong></li>
-<li><strong>DEG Analyse</strong></li>
-</ul>
-<p><a href="../../content/Toolkits/Plant_mPLoc.html">Plant-mPLoc</a> is the notable newer utility: it submits a complete plant protein sequence to the public Plant-mPLoc service, parses single/multiple subcellular-localization predictions and records the result in the active schema-v4 project when available.</p>
+<p>The current Toolkits menu contains <strong>Protein Extract, Plant-mPLoc, Background Make, Protein Links, Protein Structure, Boxplot, SwissModel, STRINGdb PPI, Stacked Column Diagram, Correlation chord, and Transcriptome Analysis</strong>.</p>
+<p><a href="../../content/Toolkits/Plant_mPLoc.html">Plant-mPLoc</a> submits a complete plant protein sequence to the public Plant-mPLoc service and records parsed single/multiple subcellular-localization predictions when an active schema-v4 project is available.</p>
+<p><a href="../../content/Toolkits/DEG_Analyse.html">Transcriptome Analysis</a> is the RNA-seq/count-oriented utility. It combines DESeq2 differential expression, PCA, volcano/statistics output and the current maize KEGG GSEA reproduction workflow. It is separate from the main proteomics <strong>DEP analysis</strong>.</p>
 </section>
 <section id="how-to-use-toolkits" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-use-toolkits">How to use toolkits</h2>
-<p>Toolkits are intentionally smaller than the main quantitative pipeline. They prepare identifiers/backgrounds, inspect selected proteins, connect external services or generate focused figures.</p>
+<p>Toolkits are intentionally smaller than the main quantitative proteomics pipeline. They prepare identifiers/backgrounds, inspect selected proteins, connect external services, generate focused figures, or provide a specialized analysis outside the core proteomics model.</p>
 <p>Keep the input table/sequence together with exported results, use stable identifiers, record taxonomy/database/service settings, and treat structure/network/localization predictions as supporting evidence rather than automatic mechanism.</p>
-<p>Where a toolkit supports an active <code>ProtVis_dataset</code>, prefer that project-linked route so the result is recorded with its parameters and provenance instead of becoming a disconnected manual artifact.</p>
+<p>Where a toolkit supports an active <code>ProtVis_dataset</code>, prefer that project-linked route so the result is recorded with parameters and provenance instead of becoming a disconnected manual artifact.</p>
 
 
 </section>
