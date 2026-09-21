@@ -1,30 +1,20 @@
 ---
 title: "Toolkits"
-description: "Focused utilities for identifier preparation, plant localization, structures/networks, reusable plots and auxiliary analyses."
+description: "Focused utilities for identifier preparation, plant localization, structures/networks, transcriptome analysis, reusable plots and auxiliary analyses."
 ---
 
 ## Current toolkit map
 
-The current Toolkits menu contains:
+The current Toolkits menu contains **Protein Extract, Plant-mPLoc, Background Make, Protein Links, Protein Structure, Boxplot, SwissModel, STRINGdb PPI, Stacked Column Diagram, Correlation chord, and Transcriptome Analysis**.
 
-- **Protein Extract**
-- **Plant-mPLoc**
-- **Background Make**
-- **Protein Links**
-- **Protein Structure**
-- **Boxplot**
-- **SwissModel**
-- **STRINGdb PPI**
-- **Stacked Column Diagram**
-- **Correlation chord**
-- **DEG Analyse**
+[Plant-mPLoc](Plant_mPLoc.qmd) submits a complete plant protein sequence to the public Plant-mPLoc service and records parsed single/multiple subcellular-localization predictions when an active schema-v4 project is available.
 
-[Plant-mPLoc](Plant_mPLoc.qmd) is the notable newer utility: it submits a complete plant protein sequence to the public Plant-mPLoc service, parses single/multiple subcellular-localization predictions and records the result in the active schema-v4 project when available.
+[Transcriptome Analysis](DEG_Analyse.qmd) is the RNA-seq/count-oriented utility. It combines DESeq2 differential expression, PCA, volcano/statistics output and the current maize KEGG GSEA reproduction workflow. It is separate from the main proteomics **DEP analysis**.
 
 ## How to use toolkits
 
-Toolkits are intentionally smaller than the main quantitative pipeline. They prepare identifiers/backgrounds, inspect selected proteins, connect external services or generate focused figures.
+Toolkits are intentionally smaller than the main quantitative proteomics pipeline. They prepare identifiers/backgrounds, inspect selected proteins, connect external services, generate focused figures, or provide a specialized analysis outside the core proteomics model.
 
 Keep the input table/sequence together with exported results, use stable identifiers, record taxonomy/database/service settings, and treat structure/network/localization predictions as supporting evidence rather than automatic mechanism.
 
-Where a toolkit supports an active `ProtVis_dataset`, prefer that project-linked route so the result is recorded with its parameters and provenance instead of becoming a disconnected manual artifact.
+Where a toolkit supports an active `ProtVis_dataset`, prefer that project-linked route so the result is recorded with parameters and provenance instead of becoming a disconnected manual artifact.

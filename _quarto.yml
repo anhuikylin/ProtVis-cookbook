@@ -134,7 +134,7 @@ website:
           - href: content/Toolkits/Correlation_Chord.qmd
             text: Correlation chord
           - href: content/Toolkits/DEG_Analyse.qmd
-            text: DEG analyse
+            text: Transcriptome Analysis
 
 format:
   html:
