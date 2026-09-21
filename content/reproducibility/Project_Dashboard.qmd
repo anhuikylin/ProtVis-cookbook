@@ -1,0 +1,56 @@
+---
+title: "Project Dashboard"
+description: "Audit project QC, workflow state, provenance, search quality and resume status from the active ProtVis_dataset."
+---
+
+## Purpose
+
+**Project Dashboard** is the project-wide audit page in ProtVis 0.9.1. Open it after Project init, database search or preprocessing to answer four questions: what data are active, whether the matrix is sufficiently complete, which runs are current/failed/invalidated, and where the project can safely resume.
+
+The dashboard reads the active `ProtVis_dataset`; it does not create an alternative copy of the project.
+
+## Top-level metrics
+
+The summary cards report protein count, sample count, data completeness, median protein CV and completed workflow stages. A sample-level missing-value plot complements these project-wide metrics.
+
+A staging Raw project can legitimately have zero proteins before database search. In that state, continue to **Search** rather than treating the empty expression matrix as a QC failure.
+
+## Workflow state
+
+The workflow card and tables use the schema-v4 dependency graph. Nodes can be complete, failed or invalidated. When an upstream step is re-run, downstream results that depend on the previous upstream state can be marked invalid instead of being presented as current.
+
+A result can therefore remain in immutable history while no longer being valid for the currently activated data state.
+
+## Dashboard tabs
+
+| Tab | What it shows |
+|---|---|
+| **Sample QC** | Sample-level missingness/intensity and related QC summaries |
+| **Pipeline stages** | Stage-level processing status |
+| **Run registry** | Immutable schema-v4 analysis runs |
+| **Workflow nodes** | Dependency-aware workflow nodes |
+| **Workflow edges** | Parent/dependency relationships |
+| **Provenance** | Software, parameters, lineage and recorded events |
+| **Input files** | Registered files and fingerprints |
+| **Search QC** | Search-level quality metrics |
+| **Search runs** | Per-run search summaries |
+
+For Sage, search QC can include IDs, precursor charge, precursor mass error, q-values, peptide length, missed cleavages and retention time. FragPipe contributes parsed PSM/peptide/protein counts and compatible search summaries.
+
+## Resume workflow
+
+Click **Resume workflow** to continue from the newest valid checkpoint/node. Resume is dependency-aware: a project in `Sage_staging` is sent back to Search rather than entering quantitative preprocessing without a real protein matrix.
+
+If a node failed, inspect the recorded error and inputs before retrying. Re-running a node records a new run and preserves earlier failed/history entries.
+
+## HTML report
+
+Use **HTML report** to capture a portable QC snapshot of the project state. For publication or archiving, keep this report together with the exported `ProtVis_dataset`, workflow/status tables and result registry.
+
+## Recommended review points
+
+Open Project Dashboard after **Project init**, after **Sage/FragPipe Search**, after shared preprocessing, before final DEP/enrichment interpretation, and before project release.
+
+::: {.callout-tip}
+The dashboard is an audit surface, not a replacement for module-specific plots. Use it to establish which data state and run are current, then interpret biological figures in their dedicated modules.
+:::
