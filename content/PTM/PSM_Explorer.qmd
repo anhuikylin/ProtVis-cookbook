@@ -1,0 +1,62 @@
+---
+title: "PSM Explorer"
+description: "Inspect Protein → Peptide → PSM → MS/MS evidence with mzIdentML and MGF files, PTM-aware fragment matching and annotated spectra."
+---
+
+## Purpose
+
+**PSM Explorer** is the current spectrum-level evidence browser in ProtVis. It follows the chain:
+
+**Protein → Peptide → PSM → MS/MS spectrum**
+
+Use it when a protein-level abundance result is not enough and you need to inspect the spectrum evidence supporting a peptide or post-translational modification.
+
+## Required files
+
+The standalone explorer accepts a matching pair of:
+
+- **mzIdentML** (`.mzid` or `.mzid.gz`);
+- **MGF** containing the corresponding spectra.
+
+The spectrum identifiers between the two files must be compatible. Files from different runs or exports will not map correctly even when both are individually valid.
+
+## Built-in Vac14 benchmark
+
+ProtVis includes a published phosphopeptide benchmark based on **PXD001057**:
+
+- protein: `AT2G01690.1 (Vac14)`;
+- peptide: `AT[pS]GVPFSQYK`;
+- phosphosite: Ser3;
+- precursor charge: 2+.
+
+The example can download/cache its public PRIDE mzIdentML and MGF files and is useful for verifying the local spectrum stack.
+
+## Workflow
+
+1. Load the built-in benchmark or upload matching mzIdentML + MGF files.
+2. Parse the PSM table.
+3. Search/filter to a peptide, protein or PSM of interest.
+4. Select the PSM row.
+5. Rebuild the spectrum view for the current selection.
+6. Inspect the annotated spectrum, theoretical fragment coverage and PSM metadata.
+7. Export the spectrum/table used for interpretation.
+
+ProtVis uses `PSMatch`, `Spectra` and `MsBackendMgf` for this evidence workflow.
+
+## PTM-aware annotation
+
+For modified peptides, the explorer calculates theoretical b/y fragments with modification masses included and matches observed peaks within the configured tolerance. The Vac14 benchmark also includes neutral-loss candidates relevant to phosphopeptide fragmentation.
+
+A convincing annotated spectrum supports identification confidence, but it does not establish quantitative significance across biological replicates.
+
+## What to verify
+
+Before using a spectrum in a manuscript, check the modified sequence/site position, precursor charge and m/z, spectrum/run identifier, matched b/y series, mass tolerance, and whether the modification is truly localized.
+
+::: {.callout-warning}
+Do not interpret a PTM site as uniquely localized when the underlying search result does not provide site-localization evidence. Keep original PSM metadata with the exported spectrum.
+:::
+
+## Relationship to PTM analysis
+
+**PTM analysis** summarizes modification-centric results at the analysis level. **PSM Explorer** is the evidence-inspection layer for individual peptide-spectrum matches. Use the two together when a key PTM conclusion needs spectrum-level support.
