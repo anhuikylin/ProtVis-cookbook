@@ -2328,7 +2328,7 @@
     "href": "content/Project_init/Project_init.html",
     "title": "Project init",
     "section": "",
-    "text": "Project init establishes the analysis context shared by all later modules. It defines the writable project directory, sample metadata, data source, and—when already available—the quantitative expression matrix. It then creates the first validated ProtVis_dataset and saves the initial project stage.\nThe current interface supports two distinct starting patterns:\n\nTabular quantitative data: sample metadata + an expression matrix or a built-in source example.\nRaw/mzML + Sage: sample metadata + mzML directory + protein FASTA. In this route, Project init can create a valid Sage staging object before an expression matrix exists.",
+    "text": "Project init defines the working directory, sample metadata, data source and input files that every later module uses. It creates the first validated ProtVis_dataset, writes the initial checkpoint and records the input/provenance context.\nThe current application supports two starting patterns:\n\nQuantitative table route: sample metadata plus a protein-by-sample matrix or a built-in parser example.\nRaw / LC-MS route: sample metadata plus LC-MS files and protein FASTA. The project can enter a staging state before a quantitative protein matrix exists.",
     "crumbs": [
       "Getting started",
       "Project init"
@@ -2339,62 +2339,62 @@
     "href": "content/Project_init/Project_init.html#purpose",
     "title": "Project init",
     "section": "",
-    "text": "Project init establishes the analysis context shared by all later modules. It defines the writable project directory, sample metadata, data source, and—when already available—the quantitative expression matrix. It then creates the first validated ProtVis_dataset and saves the initial project stage.\nThe current interface supports two distinct starting patterns:\n\nTabular quantitative data: sample metadata + an expression matrix or a built-in source example.\nRaw/mzML + Sage: sample metadata + mzML directory + protein FASTA. In this route, Project init can create a valid Sage staging object before an expression matrix exists.",
+    "text": "Project init defines the working directory, sample metadata, data source and input files that every later module uses. It creates the first validated ProtVis_dataset, writes the initial checkpoint and records the input/provenance context.\nThe current application supports two starting patterns:\n\nQuantitative table route: sample metadata plus a protein-by-sample matrix or a built-in parser example.\nRaw / LC-MS route: sample metadata plus LC-MS files and protein FASTA. The project can enter a staging state before a quantitative protein matrix exists.",
     "crumbs": [
       "Getting started",
       "Project init"
     ]
   },
   {
-    "objectID": "content/Project_init/Project_init.html#common-inputs",
-    "href": "content/Project_init/Project_init.html#common-inputs",
+    "objectID": "content/Project_init/Project_init.html#sample-information",
+    "href": "content/Project_init/Project_init.html#sample-information",
     "title": "Project init",
-    "section": "Common inputs",
-    "text": "Common inputs\nSample information can be uploaded as .csv, .xlsx, or .xls. A practical table contains a unique sample identifier and the grouping variables required later in the analysis.\n\n\n\n\n\n\n\nColumn\nPurpose\n\n\n\n\nsample_id\nUnique sample name used by downstream matrices and plots\n\n\nmaxquant_id\nOriginal source/export name used when sample columns must be mapped or renamed\n\n\ngroup\nExperimental group used for comparisons\n\n\ntissue\nOptional biological tissue; used by several demo and dimensionality-reduction workflows\n\n\nspecies or organism\nOptional biological source metadata\n\n\nbatch\nOptional batch grouping\n\n\ncondition\nOptional condition grouping\n\n\nmzml_file\nRequired for the Raw/Sage route; exact mzML filename corresponding to the sample\n\n\n\nFor an ordinary tabular project, the expression matrix should contain a protein identifier plus numeric sample columns. Sample columns must be unambiguously alignable to sample_info.",
+    "section": "Sample information",
+    "text": "Sample information\nA practical sample table contains:\n\n\n\n\n\n\n\nColumn\nRole\n\n\n\n\nsample_id\nunique sample identifier used downstream\n\n\ngroup\nprimary comparison group\n\n\ncondition, tissue, batch, etc.\noptional experimental metadata\n\n\nmaxquant_id\nsource/export sample name when mapping tabular software output\n\n\nmzml_file, raw_file, file, or filename\nLC-MS filename for the Raw/Search route\n\n\n\nSample IDs and file names must be non-empty and unique.",
     "crumbs": [
       "Getting started",
       "Project init"
     ]
   },
   {
-    "objectID": "content/Project_init/Project_init.html#supported-source-selections",
-    "href": "content/Project_init/Project_init.html#supported-source-selections",
+    "objectID": "content/Project_init/Project_init.html#supported-data-sources",
+    "href": "content/Project_init/Project_init.html#supported-data-sources",
     "title": "Project init",
-    "section": "Supported source selections",
-    "text": "Supported source selections\nThe Project init source menu currently includes Raw, MaxQuant, ProteomeDiscoverer / Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix. Raw is the current default selection.\nNavigation is source-aware. The top-level Search tab is shown only for Raw. Pre-processing → MaxQuant Output Preparation is shown only for MaxQuant. The remaining preprocessing modules stay available across sources.",
+    "section": "Supported data sources",
+    "text": "Supported data sources\nThe current selector includes Raw, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix.\nSelecting Raw exposes the top-level Search page, which now contains Sage and FragPipe tabs. Selecting MaxQuant exposes the MaxQuant-specific Output Preparation step.",
     "crumbs": [
       "Getting started",
       "Project init"
     ]
   },
   {
-    "objectID": "content/Project_init/Project_init.html#standard-tabular-workflow",
-    "href": "content/Project_init/Project_init.html#standard-tabular-workflow",
+    "objectID": "content/Project_init/Project_init.html#standard-quantitative-route",
+    "href": "content/Project_init/Project_init.html#standard-quantitative-route",
     "title": "Project init",
-    "section": "Standard tabular workflow",
-    "text": "Standard tabular workflow\n\nClick Set working directory and choose a writable project directory.\nUpload Sample Information.\nUpload the Expression Matrix, or choose a Built-in example and click Load selected built-in example.\nSelect the matching Data source.\nConfirm the Sample Info and Expression Matrix previews.\nClick Project init.\n\nProtVis validates sample/matrix alignment, creates ProtVis_dataset, performs an automatic portable export, and saves Step1_project_init.rda.",
+    "section": "Standard quantitative route",
+    "text": "Standard quantitative route\n\nSet a writable working directory.\nUpload sample information.\nUpload an expression matrix, or load a bundled source example.\nSelect the matching data source.\nCheck the Sample Info and Expression Matrix previews.\nClick Project init.\n\nParser-backed imports are standardized into the common ProtVis matrix/sample schema and can continue into the shared workflow.",
     "crumbs": [
       "Getting started",
       "Project init"
     ]
   },
   {
-    "objectID": "content/Project_init/Project_init.html#rawmzml-sage-workflow",
-    "href": "content/Project_init/Project_init.html#rawmzml-sage-workflow",
+    "objectID": "content/Project_init/Project_init.html#raw-lc-ms-route",
+    "href": "content/Project_init/Project_init.html#raw-lc-ms-route",
     "title": "Project init",
-    "section": "Raw/mzML + Sage workflow",
-    "text": "Raw/mzML + Sage workflow\nChoose this route when the starting material is converted mass-spectrometry data in mzML format and you want ProtVis to run the Sage database search. The full-resolution screenshot below is the original PNG uploaded from the running application; the red labels show the required operating order.\n\n\n\n\n\n\nFigure 1: Raw/mzML Project init workflow in ProtVis. The red labels indicate the recommended order: 1 set working directory, 2 upload sample information, 3 upload protein FASTA, 4 select the mzML input directory, 5 check mzML files, 6 select Raw as the data source, and 7 run Project init. The right panel shows the six PXD065315 control samples after successful initialization.\n\n\n\n\nFollow the numbered order in the figure\n1. Set the working directory. Click Set working directory and choose a local directory in which ProtVis can create stage files, portable exports, the Sage_search directory and later analysis outputs. The illustrated project uses E:/count/p_raw. The directory must exist and be writable. Keeping one analysis inside a stable project directory makes checkpoint and Sage-result recovery much more reliable.\n2. Load the sample information. Upload a .csv, .xlsx, or .xls table with at least sample_id and mzml_file, or click Use built-in PXD065315 sample information for the six-sample maize control example. Wait for Upload complete, then inspect the Sample Info preview. For the built-in example, the six rows are B73_C1, B73_C2, B73_C3, EA2024_C1, EA2024_C2, and EA2024_C3; the mzml_file field must point to the corresponding .mzML names.\n3. Upload the protein FASTA. Under Raw/mzML input, upload the protein database used for Sage. Accepted inputs include .fa, .fasta, .faa, and supported compressed FASTA forms. Use a FASTA that matches the organism and protein identifiers expected for the experiment. In the illustrated maize example, UP000007305_4577.fasta is registered. Do not continue until the interface reports FASTA ready.\n4. Select the mzML input directory. Click Select mzML input directory and choose the folder containing the converted mzML files. The folder may also contain the original vendor .raw files, but the check is performed against the .mzML filenames registered in sample_info. For PXD065315, the expected converted files are B73_C1.mzML, B73_C2.mzML, B73_C3.mzML, EA2024_C1.mzML, EA2024_C2.mzML, and EA2024_C3.mzML.\n5. Check the mzML files. Click Check mzML files. ProtVis verifies that filenames are unique, have the .mzML extension and exist in the selected directory. Resolve every Missing or Invalid extension row before initializing the project. If a check fails, compare the physical filename with sample_info$mzml_file character by character.\n6. Select Raw as the data source. In Select data source, choose Raw. This activates the Raw/Sage route and exposes the top-level Search tab. Do not upload a fabricated expression matrix merely to satisfy Project init; the expression layer is deliberately absent until Sage produces LFQ results.\n7. Run Project init. Click the large Project init button. A successful Raw initialization reports “PROJECT INIT completed — Sage ProtVis_dataset is ready.” Inspect the preview tabs after completion. Sample Info should contain the expected rows, Raw/mzML Files should reflect the registered files, and Expression Matrix can remain empty at this stage. The next step is Search, not Correct Noise.\nWhen an uploaded sample table contains an mzML filename column (mzml_file, mzml, raw_file, file, or filename), ProtVis automatically registers it for the Sage workflow.\n\n\n\n\n\n\nImportantDo not create a fake expression matrix\n\n\n\nA Raw/Sage project does not need a protein expression matrix before Search. Project init creates a Sage_staging project object and fills the expression layer only after LFQ results are available. After Step 7 succeeds, continue directly to Raw/mzML + Sage search.\n\n\n\n\nThe Sage staging object\nIf no expression matrix exists yet, Project init creates a staging ProtVis_dataset with sample metadata and registered input paths. Its workflow stage is Sage_staging, with an object name such as:\nProtVis_dataset__project_init__Sage_staging__v1\nThis is intentional. ProtVis does not fabricate protein abundances before the database search. The staging object is valid even though its expression layer is temporarily empty. Step1_project_init.rda and the portable export are still written, so the project has a recoverable starting state.",
+    "section": "Raw / LC-MS route",
+    "text": "Raw / LC-MS route\nThe Raw panel is now labeled Raw / LC-MS input because the two Search engines have different input capabilities. Sage uses mzML, while FragPipe can use compatible mzML/mzXML, vendor RAW, MGF or .d inputs when supported by the official runtime.\n\n\n\n\n\n\nFigure 1: Raw/mzML Project init example in ProtVis. The numbered workflow registers a project directory, sample information, FASTA, LC-MS directory, validates files, selects Raw and initializes the project.\n\n\n\n\nRecommended order\n1. Set working directory. Use a stable, writable project folder. Search outputs, checkpoints and portable exports will be written relative to this project.\n2. Load sample information. Upload a table or use the built-in PXD065315 sample template. For Raw/Search projects, include sample_id and the LC-MS filename field.\n3. Upload protein FASTA. Accepted FASTA extensions include .fa, .fasta, .faa and supported compressed forms.\n4. Select the LC-MS directory. The files listed in the sample table must exist in this directory.\n5. Click Check LC-MS files. ProtVis accepts file extensions needed by the Search backends: .mzML, .mzXML, vendor .raw, .mgf, and .d directories/files where applicable. The built-in PXD065315 Sage example uses .mzML.\n6. Select Raw. This enables the top-level Search page.\n7. Click Project init. A Raw project can be initialized without fabricating protein abundances. The next step is Search.\n\n\n\n\n\n\nImportantDo not fabricate an expression matrix for a Raw project\n\n\n\nA Raw project is allowed to exist before the protein matrix is created. For the Sage route, this is the Sage_staging state. Database search must succeed before quantitative preprocessing begins.",
     "crumbs": [
       "Getting started",
       "Project init"
     ]
   },
   {
-    "objectID": "content/Project_init/Project_init.html#built-in-pxd065315-sample-information",
-    "href": "content/Project_init/Project_init.html#built-in-pxd065315-sample-information",
+    "objectID": "content/Project_init/Project_init.html#built-in-pxd065315-template",
+    "href": "content/Project_init/Project_init.html#built-in-pxd065315-template",
     "title": "Project init",
-    "section": "Built-in PXD065315 sample information",
-    "text": "Built-in PXD065315 sample information\nThe current built-in Raw example contains six maize control samples: three B73 replicates (B73_C1, B73_C2, B73_C3) and three EA2024 replicates (EA2024_C1, EA2024_C2, EA2024_C3). Its columns include sample_id, mzml_file, genotype, treatment, group, condition, replicate, batch, tissue, organism, accession, and the PRIDE source URL.\nPublic source data:\n\nPXD065315 on PRIDE\nPXD065315 on ProteomeXchange\nDirect links for the six control RAW files and their expected mzML filenames\n\nThe built-in mzml_file values refer to locally converted files such as B73_C1.mzML and EA2024_C3.mzML. PRIDE provides the corresponding vendor .raw files; convert them to mzML before selecting the Raw/mzML directory in ProtVis.",
+    "section": "Built-in PXD065315 template",
+    "text": "Built-in PXD065315 template\nThe bundled template uses six maize control samples: B73_C1–B73_C3 and EA2024_C1–EA2024_C3, with local filenames such as B73_C1.mzML.\nThe original vendor files are available from PXD065315 on PRIDE. For the Sage route, convert them to mzML first. For FragPipe, use an input format supported by the selected official workflow/runtime.",
     "crumbs": [
       "Getting started",
       "Project init"
@@ -2405,18 +2405,18 @@
     "href": "content/Project_init/Project_init.html#outputs",
     "title": "Project init",
     "section": "Outputs",
-    "text": "Outputs\nFor a standard quantitative project, the primary output is a validated ProtVis_dataset with a traceable name such as:\nProtVis_dataset__project_init__maxquant__v1\nFor either starting route, ProtVis writes:\nStep1_project_init.rda\nThe stage file contains one ProtVis_dataset, rather than separate unrelated workspace variables.\n\n\n\n\n\n\nTipVerify the route before clicking Project init\n\n\n\nFor Raw/Sage, check mzML files and FASTA registration first. For a tabular project, inspect the sample and expression previews. This catches filename, sample-order and working-directory problems before downstream steps begin.",
+    "text": "Outputs\nProject init writes:\nStep1_project_init.rda\nand maintains the active ProtVis_dataset. Schema v4 also initializes the run registry, workflow graph, artifact index and provenance structures.\nAfter initialization:\n\nRaw project → open Search → Sage or Search → FragPipe;\nquantitative project → inspect Project Dashboard, then continue with the source-specific preparation/shared preprocessing path.",
     "crumbs": [
       "Getting started",
       "Project init"
     ]
   },
   {
-    "objectID": "content/Project_init/Project_init.html#common-validation-problems",
-    "href": "content/Project_init/Project_init.html#common-validation-problems",
+    "objectID": "content/Project_init/Project_init.html#common-problems",
+    "href": "content/Project_init/Project_init.html#common-problems",
     "title": "Project init",
-    "section": "Common validation problems",
-    "text": "Common validation problems\nRaw project creates no expression preview. This is expected before Sage Search. The staging object intentionally has no protein abundance matrix.\nmzML check reports Missing. The mzml_file values must match the files in the selected directory. The check is case-aware at the filesystem level and also rejects non-mzML extensions or duplicate names.\nSample names do not match a tabular matrix. Check sample_id, maxquant_id, and expression-matrix column names. Do not silently reorder samples outside ProtVis without recording the change.\nWorking directory cannot be selected. Choose a local directory you can write to. ProtVis normalizes selected paths and rejects inaccessible locations instead of continuing with an invalid project directory.",
+    "section": "Common problems",
+    "text": "Common problems\nLC-MS check reports Missing. The filename in sample metadata must match the physical file exactly.\nInvalid extension. Use a Search-supported LC-MS format; Sage specifically requires mzML.\nSearch is hidden. Select Raw in Project init.\nQuantitative matrix does not align with sample metadata. Check sample IDs/source names before initialization rather than silently reordering outside ProtVis.",
     "crumbs": [
       "Getting started",
       "Project init"
@@ -2427,51 +2427,62 @@
     "href": "content/installation.html",
     "title": "Installation",
     "section": "",
-    "text": "ProtVis is an R package with a Shiny interface. Use a recent R installation and a writable R library. On Windows, installing packages from source may also require the matching Rtools release when a binary is unavailable.\n\n\n\n\n\n\nNote\n\n\n\nThis cookbook currently follows ProtVis 0.7.9 on the dev branch. The installation commands below therefore install @dev explicitly.",
+    "text": "ProtVis is an R package with a Shiny interface and headless backend. Use a recent R installation and a writable package library. On Windows, Rtools may be required when a dependency must be compiled from source.\n\n\n\n\n\n\nNote\n\n\n\nThis cookbook follows ProtVis 0.9.1 from anhuikylin/ProtVis@dev. The dev branch changes continuously, so record the installed package version and preferably the commit used for a final analysis.",
     "crumbs": [
       "Getting started",
       "Installation"
     ]
   },
   {
-    "objectID": "content/installation.html#requirements",
-    "href": "content/installation.html#requirements",
+    "objectID": "content/installation.html#recommended-environment",
+    "href": "content/installation.html#recommended-environment",
     "title": "Installation",
     "section": "",
-    "text": "ProtVis is an R package with a Shiny interface. Use a recent R installation and a writable R library. On Windows, installing packages from source may also require the matching Rtools release when a binary is unavailable.\n\n\n\n\n\n\nNote\n\n\n\nThis cookbook currently follows ProtVis 0.7.9 on the dev branch. The installation commands below therefore install @dev explicitly.",
+    "text": "ProtVis is an R package with a Shiny interface and headless backend. Use a recent R installation and a writable package library. On Windows, Rtools may be required when a dependency must be compiled from source.\n\n\n\n\n\n\nNote\n\n\n\nThis cookbook follows ProtVis 0.9.1 from anhuikylin/ProtVis@dev. The dev branch changes continuously, so record the installed package version and preferably the commit used for a final analysis.",
     "crumbs": [
       "Getting started",
       "Installation"
     ]
   },
   {
-    "objectID": "content/installation.html#recommended-installation",
-    "href": "content/installation.html#recommended-installation",
+    "objectID": "content/installation.html#clean-installation",
+    "href": "content/installation.html#clean-installation",
     "title": "Installation",
-    "section": "Recommended installation",
-    "text": "Recommended installation\nInstall pak once, then install ProtVis from GitHub:\noptions(repos = c(\n  CRAN = \"https://mirrors.tuna.tsinghua.edu.cn/CRAN/\"\n))\n\ninstall.packages(\"pak\")\npak::pak(\"xuebinzhang-lab/ProtVis@dev\")\nVerify the installed version:\npackageVersion(\"ProtVis\")\n# 0.7.9 for the cookbook baseline\nBecause dev changes continuously, a later installation may report a newer version. In that case, prefer the current ProtVis source and Help page when a control or default differs from this cookbook.",
+    "section": "Clean installation",
+    "text": "Clean installation\noptions(repos = c(CRAN = \"https://mirrors.tuna.tsinghua.edu.cn/CRAN/\"))\ninstall.packages(\"pak\")\n\npak::pak(\"anhuikylin/ProtVis@dev\")\nVerify:\npackageVersion(\"ProtVis\")\n# 0.9.1 for the current cookbook baseline",
     "crumbs": [
       "Getting started",
       "Installation"
     ]
   },
   {
-    "objectID": "content/installation.html#clean-update",
-    "href": "content/installation.html#clean-update",
+    "objectID": "content/installation.html#updating-an-existing-installation",
+    "href": "content/installation.html#updating-an-existing-installation",
     "title": "Installation",
-    "section": "Clean update",
-    "text": "Clean update\nWhen an old installation is stale, locked, or its lazy-load database is corrupted, use the clean installer supplied by ProtVis:\nsource(\n  \"https://raw.githubusercontent.com/xuebinzhang-lab/ProtVis/dev/install_ProtVis.R\"\n)\nClose other R sessions that are currently using ProtVis before running a clean reinstall.",
+    "section": "Updating an existing installation",
+    "text": "Updating an existing installation\nWhen an installation is stale, interrupted, or its lazy-load database is corrupted, start a fresh R session and use the repository’s clean installer:\nsource(\n  \"https://raw.githubusercontent.com/anhuikylin/ProtVis/dev/install_ProtVis.R\"\n)\nClose other R sessions that are currently using ProtVis before reinstalling.",
     "crumbs": [
       "Getting started",
       "Installation"
     ]
   },
   {
-    "objectID": "content/installation.html#sage-availability",
-    "href": "content/installation.html#sage-availability",
+    "objectID": "content/installation.html#sage-is-bundled-on-all-supported-desktopserver-platforms",
+    "href": "content/installation.html#sage-is-bundled-on-all-supported-desktopserver-platforms",
     "title": "Installation",
-    "section": "Sage availability",
-    "text": "Sage availability\nRaw/mzML projects can run a Sage database search from the conditional Search tab.\nOn Windows, ProtVis first looks for its bundled executable at inst/extdata/sage/windows/sage.exe. On Linux or macOS, install Sage separately and make the sage executable available on PATH. You can verify discovery from R with:\nProtVis::protvis_sage_executable()\nA valid path means the search engine is available. NULL means ProtVis could not locate Sage.",
+    "section": "Sage is bundled on all supported desktop/server platforms",
+    "text": "Sage is bundled on all supported desktop/server platforms\nProtVis now includes platform-specific Sage executables:\n\n\n\nPlatform\nBundled location\n\n\n\n\nWindows\ninst/extdata/sage/windows/sage.exe\n\n\nLinux\ninst/extdata/sage/Linux/sage\n\n\nmacOS Apple Silicon\ninst/extdata/sage/macOS/ARM64/sage\n\n\nmacOS Intel\ninst/extdata/sage/macOS/Intel/sage\n\n\n\nProtVis selects the bundled executable for the current operating system/architecture, restores executable permission on Unix-like systems when necessary, and falls back to sage on PATH if needed.\nCheck from R:\nProtVis::protvis_sage_executable()\nA valid path means Sage is ready.",
+    "crumbs": [
+      "Getting started",
+      "Installation"
+    ]
+  },
+  {
+    "objectID": "content/installation.html#fragpipe-availability",
+    "href": "content/installation.html#fragpipe-availability",
+    "title": "Installation",
+    "section": "FragPipe availability",
+    "text": "FragPipe availability\nFragPipe is integrated as a second Search backend, but the complete FragPipe runtime and separately licensed companion tools are not bundled in the ProtVis package.\nFrom the GUI, open Search → FragPipe and use runtime detection, Install FragPipe, or provide a manual installation path. The runtime table checks FragPipe, workflows, tools folder, MSFragger, IonQuant, diaTracer, DIA-NN, Java and Python.\nProgrammatic checks:\nProtVis::protvis_fragpipe_status()\nProtVis::protvis_fragpipe_workflow_presets()\nOn macOS, the current integration treats official FragPipe support as Docker/headless.",
     "crumbs": [
       "Getting started",
       "Installation"
@@ -2482,29 +2493,40 @@
     "href": "content/installation.html#optional-wgcna-helper",
     "title": "Installation",
     "section": "Optional WGCNA helper",
-    "text": "Optional WGCNA helper\nSome WGCNA workflows may use the optional helper package documented by ProtVis:\ninstall.packages(\"remotes\")\nremotes::install_github(\"ShawnWx2019/WGCNAShinyFun\", ref = \"master\")\nYou do not need this optional dependency to launch the core application.",
+    "text": "Optional WGCNA helper\nThe core package imports WGCNA. Some helper workflows may additionally use ShinyWGCNA, which remains optional:\ninstall.packages(\"remotes\")\nremotes::install_github(\"ShawnWx2019/WGCNAShinyFun\", ref = \"master\")",
     "crumbs": [
       "Getting started",
       "Installation"
     ]
   },
   {
-    "objectID": "content/installation.html#launch-protvis",
-    "href": "content/installation.html#launch-protvis",
+    "objectID": "content/installation.html#launch-the-gui",
+    "href": "content/installation.html#launch-the-gui",
     "title": "Installation",
-    "section": "Launch ProtVis",
-    "text": "Launch ProtVis\nlibrary(ProtVis)\nrun_ProtVis()\nor directly:\nProtVis::run_ProtVis()",
+    "section": "Launch the GUI",
+    "text": "Launch the GUI\nlibrary(ProtVis)\nrun_ProtVis()\nor:\nProtVis::run_ProtVis()\nAfter launch, confirm that the navbar includes Homepage, Project init, Search, Project Dashboard, Pre-processing, Downstream analysis, Multi-omics, PTM, PSM Explorer, Release data, Toolkits, and Help. Search is shown only for Raw projects.",
     "crumbs": [
       "Getting started",
       "Installation"
     ]
   },
   {
-    "objectID": "content/installation.html#first-launch-checklist",
-    "href": "content/installation.html#first-launch-checklist",
+    "objectID": "content/installation.html#headless-check",
+    "href": "content/installation.html#headless-check",
     "title": "Installation",
-    "section": "First launch checklist",
-    "text": "First launch checklist\nAfter the application opens, confirm that you can see Homepage, Project init, Pre-processing, Downstream analysis, Multi-omics, PTM, Release data, Toolkits, and Help.\nTwo navigation items are intentionally conditional:\n\nSearch is shown when Raw is selected in Project init.\nPre-processing → MaxQuant Output Preparation is shown only when MaxQuant is selected.\n\nThe source-independent preprocessing items, including Correct Noise, remain available for all supported data sources.\nIf the app opens but an optional module reports a missing dependency, install that dependency and restart the R session. If the package itself fails to load after an update, prefer the clean installer above rather than repeatedly installing over a corrupted package directory.",
+    "section": "Headless check",
+    "text": "Headless check\nProtVis::protvis_cli_help()\nIf this prints the CLI help, the headless entry point is available. See Headless / CLI.",
+    "crumbs": [
+      "Getting started",
+      "Installation"
+    ]
+  },
+  {
+    "objectID": "content/installation.html#troubleshooting",
+    "href": "content/installation.html#troubleshooting",
+    "title": "Installation",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\nApp loads but Search engine is unavailable. For Sage, run protvis_sage_executable(). For FragPipe, inspect protvis_fragpipe_status() and the GUI runtime table.\nPackage update fails while ProtVis is loaded. Restart R, close other sessions and use the clean installer.\nAn optional analysis fails due to a missing dependency. Install the dependency named in the error and restart the session; avoid repeatedly reinstalling the whole package unless the core package itself is corrupted.",
     "crumbs": [
       "Getting started",
       "Installation"
@@ -3533,40 +3555,29 @@
     "href": "content/data_import/data_import.html",
     "title": "Data input",
     "section": "",
-    "text": "ProtVis no longer forces every source through one identical import screen. Project init selects the route, and each route produces or restores a validated ProtVis_dataset before the shared preprocessing stages begin.\nThe three practical routes are:\n\n\n\n\n\n\n\n\nRoute\nNext source-specific step\nShared handoff\n\n\n\n\nRaw/mzML\nSearch (Sage)\nStep2_remove_unreliable_peptide.rda\n\n\nMaxQuant\nPre-processing → MaxQuant Output Preparation\nStep2_remove_unreliable_peptide.rda\n\n\nOther supported tabular sources\nSource parser/import\nactive ProtVis_dataset and preprocessing-compatible handoff\n\n\n\nThe source-independent workflow begins at Correct Noise.",
+    "text": "ProtVis 0.9.1 does not force every proteomics source through one parser. Project init records the source and then routes the project through the appropriate input/search step before all workflows converge on ProtVis_dataset schema v4.\n\n\n\n\n\n\n\n\nRoute\nSource-specific step\nCanonical outcome\n\n\n\n\nRaw / LC-MS\nSearch → Sage or Search → FragPipe\nsearched PSM/peptide/protein evidence + active protein matrix\n\n\nMaxQuant\nMaxQuant Output Preparation\nfiltered/harmonized protein matrix\n\n\nProteome Discoverer, DIA-NN, Spectronaut, FragPipe report, Skyline, Mascot, OpenMS\nsource parser\nharmonized protein matrix\n\n\nUser-defined matrix\ndirect matrix validation\nharmonized protein matrix",
     "crumbs": [
       "Getting started",
       "Data input"
     ]
   },
   {
-    "objectID": "content/data_import/data_import.html#purpose",
-    "href": "content/data_import/data_import.html#purpose",
+    "objectID": "content/data_import/data_import.html#source-aware-input",
+    "href": "content/data_import/data_import.html#source-aware-input",
     "title": "Data input",
     "section": "",
-    "text": "ProtVis no longer forces every source through one identical import screen. Project init selects the route, and each route produces or restores a validated ProtVis_dataset before the shared preprocessing stages begin.\nThe three practical routes are:\n\n\n\n\n\n\n\n\nRoute\nNext source-specific step\nShared handoff\n\n\n\n\nRaw/mzML\nSearch (Sage)\nStep2_remove_unreliable_peptide.rda\n\n\nMaxQuant\nPre-processing → MaxQuant Output Preparation\nStep2_remove_unreliable_peptide.rda\n\n\nOther supported tabular sources\nSource parser/import\nactive ProtVis_dataset and preprocessing-compatible handoff\n\n\n\nThe source-independent workflow begins at Correct Noise.",
+    "text": "ProtVis 0.9.1 does not force every proteomics source through one parser. Project init records the source and then routes the project through the appropriate input/search step before all workflows converge on ProtVis_dataset schema v4.\n\n\n\n\n\n\n\n\nRoute\nSource-specific step\nCanonical outcome\n\n\n\n\nRaw / LC-MS\nSearch → Sage or Search → FragPipe\nsearched PSM/peptide/protein evidence + active protein matrix\n\n\nMaxQuant\nMaxQuant Output Preparation\nfiltered/harmonized protein matrix\n\n\nProteome Discoverer, DIA-NN, Spectronaut, FragPipe report, Skyline, Mascot, OpenMS\nsource parser\nharmonized protein matrix\n\n\nUser-defined matrix\ndirect matrix validation\nharmonized protein matrix",
     "crumbs": [
       "Getting started",
       "Data input"
     ]
   },
   {
-    "objectID": "content/data_import/data_import.html#supported-source-selections",
-    "href": "content/data_import/data_import.html#supported-source-selections",
+    "objectID": "content/data_import/data_import.html#raw-lc-ms-route",
+    "href": "content/data_import/data_import.html#raw-lc-ms-route",
     "title": "Data input",
-    "section": "Supported source selections",
-    "text": "Supported source selections\nProject init currently exposes Raw, MaxQuant, ProteomeDiscoverer / Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix.\nParser-backed inputs are converted into a common protein-by-sample representation rather than being interpreted with MaxQuant-specific column rules.",
-    "crumbs": [
-      "Getting started",
-      "Data input"
-    ]
-  },
-  {
-    "objectID": "content/data_import/data_import.html#rawmzml",
-    "href": "content/data_import/data_import.html#rawmzml",
-    "title": "Data input",
-    "section": "Raw/mzML",
-    "text": "Raw/mzML\nFor Raw data, do not upload an artificial protein matrix simply to satisfy Project init. Register sample information, the mzML directory and FASTA; Project init creates a Sage_staging object. The conditional Search tab then runs Sage and creates the quantitative LFQ matrix.\nIf the instrument produced vendor RAW rather than .mzML, first use the RAW → mzML conversion overview and choose the tutorial for your operating system:\n\nWindows · MSConvert — ProteoWizard/MSConvertGUI and msconvert.exe;\nLinux · RAW → mzML — ThermoRawFileParser for Thermo RAW, including self-contained, .NET 8 and Docker routes;\nmacOS · RAW → mzML — ThermoRawFileParser for Thermo RAW, including self-contained, .NET 8 and Docker routes.\n\nThen read Raw/mzML + Sage search for the complete ProtVis workflow.",
+    "section": "Raw / LC-MS route",
+    "text": "Raw / LC-MS route\nRegister sample metadata, FASTA and LC-MS files in Project init. Do not create a dummy expression matrix. Then choose a Search backend:\n\nSage: bundled lightweight search engine; uses mzML.\nFragPipe: official external headless runtime with DDA/DIA/PTM workflow presets.\n\nIf starting from vendor RAW and using Sage, convert to mzML first via the platform-specific RAW → mzML overview. FragPipe can use additional LC-MS formats when supported by its workflow/runtime.",
     "crumbs": [
       "Getting started",
       "Data input"
@@ -3577,51 +3588,40 @@
     "href": "content/data_import/data_import.html#maxquant",
     "title": "Data input",
     "section": "MaxQuant",
-    "text": "MaxQuant\nWhen MaxQuant is selected, the source-specific MaxQuant Output Preparation item appears under Pre-processing. This is where MaxQuant-only unreliable evidence handling belongs. After that step, the dataset enters the same Correct Noise → Transformation → Imputation → Normalization sequence used by other sources.",
+    "text": "MaxQuant\nSelecting MaxQuant exposes Pre-processing → MaxQuant Output Preparation. MaxQuant-specific unreliable-evidence handling belongs in this step rather than being applied to every source.\nAt import, MaxQuant missing sentinels such as 0 and -8 are converted to missing values so they are not treated as biological abundance.",
     "crumbs": [
       "Getting started",
       "Data input"
     ]
   },
   {
-    "objectID": "content/data_import/data_import.html#other-tabular-sources",
-    "href": "content/data_import/data_import.html#other-tabular-sources",
+    "objectID": "content/data_import/data_import.html#parser-backed-sources",
+    "href": "content/data_import/data_import.html#parser-backed-sources",
     "title": "Data input",
-    "section": "Other tabular sources",
-    "text": "Other tabular sources\nFor Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and user-defined matrices, use the appropriate source parser/import path. ProtVis preserves the source identity in project metadata while standardizing the result for downstream modules.\nBuilt-in compact examples are available for several input ecosystems and are useful for verifying that a parser and package installation are operational.\nA programmatic example is:\nlibrary(ProtVis)\n\nexample_data &lt;- load_protvis_builtin_data(\n  source = \"DIA-NN\",\n  auto_export = FALSE\n)\n\nexample_data",
+    "section": "Parser-backed sources",
+    "text": "Parser-backed sources\nProtVis currently supports parsers for Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot and OpenMS in addition to MaxQuant.\nExamples of recognized structures include:\n\nProteome Discoverer accession plus Abundance/Area columns;\nSkyline long ProteinName/file/Area reports or wide protein tables;\nMascot protein accession plus numeric quantitation such as intensity/emPAI;\nOpenMS protein accession plus intensity/abundance/area columns;\nDIA-NN/Spectronaut/FragPipe source-specific report layouts.\n\nParser-backed imports are standardized into a common expression matrix and sample metadata representation while preserving source identity in provenance.",
     "crumbs": [
       "Getting started",
       "Data input"
     ]
   },
   {
-    "objectID": "content/data_import/data_import.html#missing-values-at-the-import-boundary",
-    "href": "content/data_import/data_import.html#missing-values-at-the-import-boundary",
+    "objectID": "content/data_import/data_import.html#built-in-examples",
+    "href": "content/data_import/data_import.html#built-in-examples",
     "title": "Data input",
-    "section": "Missing values at the import boundary",
-    "text": "Missing values at the import boundary\n\n\n\n\n\n\nWarningDo not treat zeros or sentinel values as biological abundance\n\n\n\nMissing or not-observed measurements must remain missing until the explicit imputation stage. Where applicable, legacy values such as 0 and -8 are converted to NA before imputation rather than being presented as measured abundance.",
+    "section": "Built-in examples",
+    "text": "Built-in examples\nprotvis_builtin_datasets() lists bundled examples and their source metadata. The current package includes examples for MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline and OpenMS, including an mzTab fixture.\nlibrary(ProtVis)\n\nprotvis_builtin_datasets()\n\ndemo &lt;- load_protvis_builtin_data(\n  source = \"DIA-NN\",\n  auto_export = FALSE\n)\nUse built-in examples to verify parser/package behavior; do not treat their protein/sample counts as expected values for your experiment.",
     "crumbs": [
       "Getting started",
       "Data input"
     ]
   },
   {
-    "objectID": "content/data_import/data_import.html#the-shared-step2-handoff",
-    "href": "content/data_import/data_import.html#the-shared-step2-handoff",
+    "objectID": "content/data_import/data_import.html#shared-handoff-and-schema-v4",
+    "href": "content/data_import/data_import.html#shared-handoff-and-schema-v4",
     "title": "Data input",
-    "section": "The shared Step2 handoff",
-    "text": "The shared Step2 handoff\nThe current Raw/Sage route writes both a Sage-specific snapshot and the canonical cross-source file:\nStep2_sage_database_search.rda\nStep2_remove_unreliable_peptide.rda\nStep2_remove_unreliable_peptide.rda is now the data-source-independent handoff consumed by Correct Noise. The filename is retained for compatibility even when the input did not originate from MaxQuant.\nThe active ProtVis_dataset remains the preferred source. Stage .rda files are recovery/compatibility snapshots, not separate primary data models.",
-    "crumbs": [
-      "Getting started",
-      "Data input"
-    ]
-  },
-  {
-    "objectID": "content/data_import/data_import.html#before-continuing",
-    "href": "content/data_import/data_import.html#before-continuing",
-    "title": "Data input",
-    "section": "Before continuing",
-    "text": "Before continuing\nConfirm that the current project has a real protein-by-sample expression matrix, correct sample identifiers, and the expected grouping metadata. A Sage_staging object is the exception: it is deliberately matrix-free until Search finishes.\nThen continue to Correct noise.",
+    "section": "Shared handoff and schema v4",
+    "text": "Shared handoff and schema v4\nLegacy stage files such as Step2_remove_unreliable_peptide.rda remain available for compatibility/recovery, but the active ProtVis_dataset is the primary state. Schema v4 records each import/search as a run with dependencies, artifacts and provenance.\nBefore continuing, check Project Dashboard and confirm the project has the expected samples, a real protein matrix (unless still in Raw search staging), and correct grouping metadata.",
     "crumbs": [
       "Getting started",
       "Data input"
