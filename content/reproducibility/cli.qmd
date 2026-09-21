@@ -1,0 +1,88 @@
+---
+title: "Headless / CLI"
+description: "Run the same ProtVis import, search, preprocessing, checkpoint and export backends without the Shiny interface."
+---
+
+## Why use headless mode?
+
+ProtVis 0.9.1 exposes a command-line workflow through `ProtVis::run_protvis_cli()` and the installed `exec/protvis` script. It is useful for servers, batch jobs, reproducible pipelines and projects that should run without an interactive Shiny session.
+
+The CLI uses the same core dataset, search, checkpoint, provenance and export functions as the GUI.
+
+## Table-based input
+
+```bash
+Rscript -e "ProtVis::run_protvis_cli()" --args \
+  --input proteins.tsv \
+  --source DIA-NN \
+  --output results
+```
+
+Use the source name that matches the input parser. The imported table is harmonized into `ProtVis_dataset` before later stages run.
+
+## Raw-data search with Sage
+
+```bash
+Rscript -e "ProtVis::run_protvis_cli()" --args \
+  --engine Sage \
+  --fasta proteins.fasta \
+  --mzml-dir ./mzML \
+  --sample-info samples.csv \
+  --output results
+```
+
+Sage is the default raw-search engine in the CLI.
+
+## Raw-data search with FragPipe
+
+```bash
+Rscript -e "ProtVis::run_protvis_cli()" --args \
+  --engine FragPipe \
+  --fasta proteins.fasta \
+  --spectra-dir ./spectra \
+  --sample-info samples.csv \
+  --fragpipe-workflow LFQ-MBR.workflow \
+  --output results
+```
+
+Use `--fragpipe-path` when auto-detection cannot find the official runtime.
+
+## Resume an existing project
+
+```bash
+Rscript -e "ProtVis::run_protvis_cli()" --args \
+  --resume results \
+  --output results
+```
+
+Resume uses the same checkpoint/workflow-state logic as Project Dashboard.
+
+## Useful options
+
+```text
+--engine Sage|FragPipe
+--fragpipe-workflow LFQ-MBR.workflow
+--fragpipe-path /path/to/fragpipe
+--stages noise_correction,transformation,imputation,normalization,...
+--config analysis.json
+--no-downstream
+--help
+```
+
+A JSON configuration is preferable when many parameters must be fixed for repeated runs.
+
+## Complete help
+
+```r
+ProtVis::protvis_cli_help()
+```
+
+## Reproducibility
+
+A production CLI run should archive the command/configuration, ProtVis version and commit, input fingerprints, search-engine version, result registry, workflow status and portable `ProtVis_dataset` export.
+
+Because schema v4 is append-only, re-running a stage adds a new run and preserves the earlier state instead of silently overwriting provenance.
+
+::: {.callout-tip}
+Use the GUI for interactive exploration and the CLI for fixed, repeated production runs. Both routes operate on the same project model.
+:::
