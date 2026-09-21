@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Inspect strict Proteome Discoverer spectrum evidence for PTM-focused validation.">
+<meta name="description" content="Run the same ProtVis import, search, preprocessing, checkpoint and export backends without the Shiny interface.">
 
-<title>PD strict spectrum – ProtVis Cookbook</title>
+<title>Headless / CLI – ProtVis Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -27,6 +27,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -36,6 +71,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../content/Pre_processing/Pre_processing.html" rel="next">
+<link href="../../content/reproducibility/checkpoints.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -254,9 +291,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      ProtVis Cookbook
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/reproducibility/ProtVis_dataset.html">Reproducible workflow</a></li><li class="breadcrumb-item"><a href="../../content/reproducibility/cli.html">Headless / CLI</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -392,13 +427,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
  <span class="menu-text">Reproducible workflow</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/reproducibility/ProtVis_dataset.html" class="sidebar-item-text sidebar-link">
@@ -413,7 +448,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/reproducibility/cli.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/reproducibility/cli.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Headless / CLI</span></a>
   </div>
 </li>
@@ -682,23 +717,29 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#workflow-principles" id="toc-workflow-principles" class="nav-link" data-scroll-target="#workflow-principles">Workflow principles</a></li>
+  <li><a href="#why-use-headless-mode" id="toc-why-use-headless-mode" class="nav-link active" data-scroll-target="#why-use-headless-mode">Why use headless mode?</a></li>
+  <li><a href="#table-based-input" id="toc-table-based-input" class="nav-link" data-scroll-target="#table-based-input">Table-based input</a></li>
+  <li><a href="#raw-data-search-with-sage" id="toc-raw-data-search-with-sage" class="nav-link" data-scroll-target="#raw-data-search-with-sage">Raw-data search with Sage</a></li>
+  <li><a href="#raw-data-search-with-fragpipe" id="toc-raw-data-search-with-fragpipe" class="nav-link" data-scroll-target="#raw-data-search-with-fragpipe">Raw-data search with FragPipe</a></li>
+  <li><a href="#resume-an-existing-project" id="toc-resume-an-existing-project" class="nav-link" data-scroll-target="#resume-an-existing-project">Resume an existing project</a></li>
+  <li><a href="#useful-options" id="toc-useful-options" class="nav-link" data-scroll-target="#useful-options">Useful options</a></li>
+  <li><a href="#complete-help" id="toc-complete-help" class="nav-link" data-scroll-target="#complete-help">Complete help</a></li>
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility">Reproducibility</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/PTM/PD_Strict_Spectrum.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/PTM/PD_Strict_Spectrum.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/reproducibility/cli.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/reproducibility/cli.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/reproducibility/ProtVis_dataset.html">Reproducible workflow</a></li><li class="breadcrumb-item"><a href="../../content/reproducibility/cli.html">Headless / CLI</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">PD strict spectrum</h1>
+<h1 class="title">Headless / CLI</h1>
 </div>
 
 <div>
   <div class="description">
-    Inspect strict Proteome Discoverer spectrum evidence for PTM-focused validation.
+    Run the same ProtVis import, search, preprocessing, checkpoint and export backends without the Shiny interface.
   </div>
 </div>
 
@@ -715,29 +756,77 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="purpose" class="level2">
-<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p><strong>PD Strict Spectrum</strong> provides a dedicated route for Proteome Discoverer evidence that needs stricter spectrum-level inspection than a protein-level abundance table can provide.</p>
+<section id="why-use-headless-mode" class="level2">
+<h2 class="anchored" data-anchor-id="why-use-headless-mode">Why use headless mode?</h2>
+<p>ProtVis 0.9.1 exposes a command-line workflow through <code>ProtVis::run_protvis_cli()</code> and the installed <code>exec/protvis</code> script. It is useful for servers, batch jobs, reproducible pipelines and projects that should run without an interactive Shiny session.</p>
+<p>The CLI uses the same core dataset, search, checkpoint, provenance and export functions as the GUI.</p>
 </section>
-<section id="workflow-principles" class="level2">
-<h2 class="anchored" data-anchor-id="workflow-principles">Workflow principles</h2>
-<ol type="1">
-<li>Use the original Proteome Discoverer export expected by the module.</li>
-<li>Confirm peptide sequence, modification/site annotation, spectrum identifiers and score/evidence fields before applying filters.</li>
-<li>Retain the unfiltered source file and export the exact filtered subset used for interpretation.</li>
-<li>For candidate PTM sites used in a manuscript, manually inspect the relevant fragmentation/localization evidence when possible.</li>
-</ol>
-<div class="callout callout-style-default callout-note callout-titled">
+<section id="table-based-input" class="level2">
+<h2 class="anchored" data-anchor-id="table-based-input">Table-based input</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"ProtVis::run_protvis_cli()"</span> <span class="at">--args</span> <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> proteins.tsv <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--source</span> DIA-NN <span class="dt">\</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use the source name that matches the input parser. The imported table is harmonized into <code>ProtVis_dataset</code> before later stages run.</p>
+</section>
+<section id="raw-data-search-with-sage" class="level2">
+<h2 class="anchored" data-anchor-id="raw-data-search-with-sage">Raw-data search with Sage</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"ProtVis::run_protvis_cli()"</span> <span class="at">--args</span> <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--engine</span> Sage <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--fasta</span> proteins.fasta <span class="dt">\</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--mzml-dir</span> ./mzML <span class="dt">\</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--sample-info</span> samples.csv <span class="dt">\</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Sage is the default raw-search engine in the CLI.</p>
+</section>
+<section id="raw-data-search-with-fragpipe" class="level2">
+<h2 class="anchored" data-anchor-id="raw-data-search-with-fragpipe">Raw-data search with FragPipe</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"ProtVis::run_protvis_cli()"</span> <span class="at">--args</span> <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--engine</span> FragPipe <span class="dt">\</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--fasta</span> proteins.fasta <span class="dt">\</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--spectra-dir</span> ./spectra <span class="dt">\</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--sample-info</span> samples.csv <span class="dt">\</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--fragpipe-workflow</span> LFQ-MBR.workflow <span class="dt">\</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use <code>--fragpipe-path</code> when auto-detection cannot find the official runtime.</p>
+</section>
+<section id="resume-an-existing-project" class="level2">
+<h2 class="anchored" data-anchor-id="resume-an-existing-project">Resume an existing project</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"ProtVis::run_protvis_cli()"</span> <span class="at">--args</span> <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--resume</span> results <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Resume uses the same checkpoint/workflow-state logic as Project Dashboard.</p>
+</section>
+<section id="useful-options" class="level2">
+<h2 class="anchored" data-anchor-id="useful-options">Useful options</h2>
+<pre class="text"><code>--engine Sage|FragPipe
+--fragpipe-workflow LFQ-MBR.workflow
+--fragpipe-path /path/to/fragpipe
+--stages noise_correction,transformation,imputation,normalization,...
+--config analysis.json
+--no-downstream
+--help</code></pre>
+<p>A JSON configuration is preferable when many parameters must be fixed for repeated runs.</p>
+</section>
+<section id="complete-help" class="level2">
+<h2 class="anchored" data-anchor-id="complete-help">Complete help</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ProtVis<span class="sc">::</span><span class="fu">protvis_cli_help</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="reproducibility" class="level2">
+<h2 class="anchored" data-anchor-id="reproducibility">Reproducibility</h2>
+<p>A production CLI run should archive the command/configuration, ProtVis version and commit, input fingerprints, search-engine version, result registry, workflow status and portable <code>ProtVis_dataset</code> export.</p>
+<p>Because schema v4 is append-only, re-running a stage adds a new run and preserves the earlier state instead of silently overwriting provenance.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Spectrum-level validation supports identification confidence; it does not replace quantitative replication or statistical testing across biological samples.</p>
+<p>Use the GUI for interactive exploration and the CLI for fixed, repeated production runs. Both routes operate on the same project model.</p>
 </div>
 </div>
 
@@ -1163,6 +1252,18 @@ Note
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/reproducibility/checkpoints.html" class="pagination-link" aria-label="Checkpoints &amp; recovery">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Checkpoints &amp; recovery</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/Pre_processing/Pre_processing.html" class="pagination-link" aria-label="Workflow overview">
+        <span class="nav-page-text">Workflow overview</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -1171,7 +1272,7 @@ Note
 </div>   
     <div class="nav-footer-center">
 <p>ProtVis Cookbook · Documentation for reproducible proteomics workflows</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/PTM/PD_Strict_Spectrum.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/PTM/PD_Strict_Spectrum.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/reproducibility/cli.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/reproducibility/cli.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org/">Quarto</a></p>
 </div>

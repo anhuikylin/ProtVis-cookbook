@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Inspect strict Proteome Discoverer spectrum evidence for PTM-focused validation.">
+<meta name="description" content="Inspect Protein → Peptide → PSM → MS/MS evidence with mzIdentML and MGF files, PTM-aware fragment matching and annotated spectra.">
 
-<title>PD strict spectrum – ProtVis Cookbook</title>
+<title>PSM Explorer – ProtVis Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,6 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../content/Release_data.html" rel="next">
+<link href="../../content/PTM/PTM.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -254,9 +256,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      ProtVis Cookbook
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/PTM/PTM.html">PTM</a></li><li class="breadcrumb-item"><a href="../../content/PTM/PSM_Explorer.html">PSM Explorer</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -562,13 +562,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
  <span class="menu-text">PTM</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/PTM/PTM.html" class="sidebar-item-text sidebar-link">
@@ -577,7 +577,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/PTM/PSM_Explorer.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/PTM/PSM_Explorer.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">PSM Explorer</span></a>
   </div>
 </li>
@@ -683,22 +683,27 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#workflow-principles" id="toc-workflow-principles" class="nav-link" data-scroll-target="#workflow-principles">Workflow principles</a></li>
+  <li><a href="#required-files" id="toc-required-files" class="nav-link" data-scroll-target="#required-files">Required files</a></li>
+  <li><a href="#built-in-vac14-benchmark" id="toc-built-in-vac14-benchmark" class="nav-link" data-scroll-target="#built-in-vac14-benchmark">Built-in Vac14 benchmark</a></li>
+  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a></li>
+  <li><a href="#ptm-aware-annotation" id="toc-ptm-aware-annotation" class="nav-link" data-scroll-target="#ptm-aware-annotation">PTM-aware annotation</a></li>
+  <li><a href="#what-to-verify" id="toc-what-to-verify" class="nav-link" data-scroll-target="#what-to-verify">What to verify</a></li>
+  <li><a href="#relationship-to-ptm-analysis" id="toc-relationship-to-ptm-analysis" class="nav-link" data-scroll-target="#relationship-to-ptm-analysis">Relationship to PTM analysis</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/PTM/PD_Strict_Spectrum.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/PTM/PD_Strict_Spectrum.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/PTM/PSM_Explorer.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/PTM/PSM_Explorer.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/PTM/PTM.html">PTM</a></li><li class="breadcrumb-item"><a href="../../content/PTM/PSM_Explorer.html">PSM Explorer</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">PD strict spectrum</h1>
+<h1 class="title">PSM Explorer</h1>
 </div>
 
 <div>
   <div class="description">
-    Inspect strict Proteome Discoverer spectrum evidence for PTM-focused validation.
+    Inspect Protein → Peptide → PSM → MS/MS evidence with mzIdentML and MGF files, PTM-aware fragment matching and annotated spectra.
   </div>
 </div>
 
@@ -717,29 +722,68 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p><strong>PD Strict Spectrum</strong> provides a dedicated route for Proteome Discoverer evidence that needs stricter spectrum-level inspection than a protein-level abundance table can provide.</p>
+<p><strong>PSM Explorer</strong> is the current spectrum-level evidence browser in ProtVis. It follows the chain:</p>
+<p><strong>Protein → Peptide → PSM → MS/MS spectrum</strong></p>
+<p>Use it when a protein-level abundance result is not enough and you need to inspect the spectrum evidence supporting a peptide or post-translational modification.</p>
 </section>
-<section id="workflow-principles" class="level2">
-<h2 class="anchored" data-anchor-id="workflow-principles">Workflow principles</h2>
+<section id="required-files" class="level2">
+<h2 class="anchored" data-anchor-id="required-files">Required files</h2>
+<p>The standalone explorer accepts a matching pair of:</p>
+<ul>
+<li><strong>mzIdentML</strong> (<code>.mzid</code> or <code>.mzid.gz</code>);</li>
+<li><strong>MGF</strong> containing the corresponding spectra.</li>
+</ul>
+<p>The spectrum identifiers between the two files must be compatible. Files from different runs or exports will not map correctly even when both are individually valid.</p>
+</section>
+<section id="built-in-vac14-benchmark" class="level2">
+<h2 class="anchored" data-anchor-id="built-in-vac14-benchmark">Built-in Vac14 benchmark</h2>
+<p>ProtVis includes a published phosphopeptide benchmark based on <strong>PXD001057</strong>:</p>
+<ul>
+<li>protein: <code>AT2G01690.1 (Vac14)</code>;</li>
+<li>peptide: <code>AT[pS]GVPFSQYK</code>;</li>
+<li>phosphosite: Ser3;</li>
+<li>precursor charge: 2+.</li>
+</ul>
+<p>The example can download/cache its public PRIDE mzIdentML and MGF files and is useful for verifying the local spectrum stack.</p>
+</section>
+<section id="workflow" class="level2">
+<h2 class="anchored" data-anchor-id="workflow">Workflow</h2>
 <ol type="1">
-<li>Use the original Proteome Discoverer export expected by the module.</li>
-<li>Confirm peptide sequence, modification/site annotation, spectrum identifiers and score/evidence fields before applying filters.</li>
-<li>Retain the unfiltered source file and export the exact filtered subset used for interpretation.</li>
-<li>For candidate PTM sites used in a manuscript, manually inspect the relevant fragmentation/localization evidence when possible.</li>
+<li>Load the built-in benchmark or upload matching mzIdentML + MGF files.</li>
+<li>Parse the PSM table.</li>
+<li>Search/filter to a peptide, protein or PSM of interest.</li>
+<li>Select the PSM row.</li>
+<li>Rebuild the spectrum view for the current selection.</li>
+<li>Inspect the annotated spectrum, theoretical fragment coverage and PSM metadata.</li>
+<li>Export the spectrum/table used for interpretation.</li>
 </ol>
-<div class="callout callout-style-default callout-note callout-titled">
+<p>ProtVis uses <code>PSMatch</code>, <code>Spectra</code> and <code>MsBackendMgf</code> for this evidence workflow.</p>
+</section>
+<section id="ptm-aware-annotation" class="level2">
+<h2 class="anchored" data-anchor-id="ptm-aware-annotation">PTM-aware annotation</h2>
+<p>For modified peptides, the explorer calculates theoretical b/y fragments with modification masses included and matches observed peaks within the configured tolerance. The Vac14 benchmark also includes neutral-loss candidates relevant to phosphopeptide fragmentation.</p>
+<p>A convincing annotated spectrum supports identification confidence, but it does not establish quantitative significance across biological replicates.</p>
+</section>
+<section id="what-to-verify" class="level2">
+<h2 class="anchored" data-anchor-id="what-to-verify">What to verify</h2>
+<p>Before using a spectrum in a manuscript, check the modified sequence/site position, precursor charge and m/z, spectrum/run identifier, matched b/y series, mass tolerance, and whether the modification is truly localized.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Spectrum-level validation supports identification confidence; it does not replace quantitative replication or statistical testing across biological samples.</p>
+<p>Do not interpret a PTM site as uniquely localized when the underlying search result does not provide site-localization evidence. Keep original PSM metadata with the exported spectrum.</p>
 </div>
 </div>
+</section>
+<section id="relationship-to-ptm-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="relationship-to-ptm-analysis">Relationship to PTM analysis</h2>
+<p><strong>PTM analysis</strong> summarizes modification-centric results at the analysis level. <strong>PSM Explorer</strong> is the evidence-inspection layer for individual peptide-spectrum matches. Use the two together when a key PTM conclusion needs spectrum-level support.</p>
 
 
 </section>
@@ -1163,6 +1207,18 @@ Note
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/PTM/PTM.html" class="pagination-link" aria-label="PTM analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">PTM analysis</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/Release_data.html" class="pagination-link" aria-label="Release data">
+        <span class="nav-page-text">Release data</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -1171,7 +1227,7 @@ Note
 </div>   
     <div class="nav-footer-center">
 <p>ProtVis Cookbook · Documentation for reproducible proteomics workflows</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/PTM/PD_Strict_Spectrum.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/PTM/PD_Strict_Spectrum.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/PTM/PSM_Explorer.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/PTM/PSM_Explorer.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org/">Quarto</a></p>
 </div>

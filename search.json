@@ -1377,278 +1377,288 @@
     ]
   },
   {
-    "objectID": "content/PTM/PTM.html",
-    "href": "content/PTM/PTM.html",
-    "title": "PTM analysis",
+    "objectID": "content/PTM/PD_Strict_Spectrum.html",
+    "href": "content/PTM/PD_Strict_Spectrum.html",
+    "title": "PD strict spectrum",
     "section": "",
-    "text": "The PTM section is intended for modification-centric proteomics workflows in which peptide/site-level evidence needs to be inspected separately from ordinary protein abundance analysis.\nBecause PTM search-engine exports differ substantially in site localization, peptide sequence, modification notation and protein mapping, always check that the selected source parser and input columns match the dataset that generated the evidence.",
-    "crumbs": [
-      "PTM",
-      "PTM analysis"
-    ]
+    "text": "PD Strict Spectrum provides a dedicated route for Proteome Discoverer evidence that needs stricter spectrum-level inspection than a protein-level abundance table can provide."
   },
   {
-    "objectID": "content/PTM/PTM.html#scope",
-    "href": "content/PTM/PTM.html#scope",
-    "title": "PTM analysis",
+    "objectID": "content/PTM/PD_Strict_Spectrum.html#purpose",
+    "href": "content/PTM/PD_Strict_Spectrum.html#purpose",
+    "title": "PD strict spectrum",
     "section": "",
-    "text": "The PTM section is intended for modification-centric proteomics workflows in which peptide/site-level evidence needs to be inspected separately from ordinary protein abundance analysis.\nBecause PTM search-engine exports differ substantially in site localization, peptide sequence, modification notation and protein mapping, always check that the selected source parser and input columns match the dataset that generated the evidence.",
-    "crumbs": [
-      "PTM",
-      "PTM analysis"
-    ]
+    "text": "PD Strict Spectrum provides a dedicated route for Proteome Discoverer evidence that needs stricter spectrum-level inspection than a protein-level abundance table can provide."
   },
   {
-    "objectID": "content/PTM/PTM.html#recommended-workflow",
-    "href": "content/PTM/PTM.html#recommended-workflow",
-    "title": "PTM analysis",
-    "section": "Recommended workflow",
-    "text": "Recommended workflow\n\nComplete the standard project setup and source selection.\nOpen PTM and load the PTM-specific table expected by the module.\nVerify modified sequence/site notation and protein identifiers before filtering.\nApply localization/evidence filters appropriate to the experiment.\nInspect modification-level quantitative patterns separately from total protein abundance.\nExport the filtered evidence table used for every figure.",
-    "crumbs": [
-      "PTM",
-      "PTM analysis"
-    ]
+    "objectID": "content/PTM/PD_Strict_Spectrum.html#workflow-principles",
+    "href": "content/PTM/PD_Strict_Spectrum.html#workflow-principles",
+    "title": "PD strict spectrum",
+    "section": "Workflow principles",
+    "text": "Workflow principles\n\nUse the original Proteome Discoverer export expected by the module.\nConfirm peptide sequence, modification/site annotation, spectrum identifiers and score/evidence fields before applying filters.\nRetain the unfiltered source file and export the exact filtered subset used for interpretation.\nFor candidate PTM sites used in a manuscript, manually inspect the relevant fragmentation/localization evidence when possible.\n\n\n\n\n\n\n\nNote\n\n\n\nSpectrum-level validation supports identification confidence; it does not replace quantitative replication or statistical testing across biological samples."
   },
   {
-    "objectID": "content/PTM/PTM.html#biological-interpretation",
-    "href": "content/PTM/PTM.html#biological-interpretation",
-    "title": "PTM analysis",
-    "section": "Biological interpretation",
-    "text": "Biological interpretation\nA change at a phosphosite, acetylation site or other PTM can reflect altered modification occupancy, altered total protein abundance, or both. When possible, compare PTM abundance with the corresponding protein-level signal before assigning a regulatory interpretation.\n\n\n\n\n\n\nWarning\n\n\n\nDo not interpret a modified peptide as a unique site when the search result does not localize the modification confidently. Preserve the original localization evidence in the exported record.",
-    "crumbs": [
-      "PTM",
-      "PTM analysis"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Co_enrichment.html",
-    "href": "content/Multi_omics_data/Co_enrichment.html",
-    "title": "Co-enrichment",
+    "objectID": "content/Multi_omics_data/venn.html",
+    "href": "content/Multi_omics_data/venn.html",
+    "title": "Venn",
     "section": "",
-    "text": "Use Multi-omics → Co-enrichment after enrichment analysis has been completed separately for multiple omics layers, contrasts, tissues, or protein clusters. The module compares enrichment results across two or three omics datasets, identifies shared and omics-specific pathways, and provides publication-oriented summary tables and plots.\nThe most important requirement is comparability: enrichment results should use compatible pathway identifiers, annotation versions, and biological backgrounds. A pathway appearing in only one layer can reflect true biology, but it can also arise from incompatible annotation systems or different background universes.",
+    "text": "Use Multi-omics → Venn to compare membership across multiple gene, protein, phosphoprotein, metabolite, or other feature sets. The current ProtVis module supports both Venn and UpSet visualization from the same input table.\nIn Auto mode, ProtVis uses a Venn diagram when the dataset contains six or fewer sets and switches to an UpSet plot when there are more than six sets. You can also force Venn or UpSet manually when appropriate.",
     "crumbs": [
       "Multi-omics",
-      "Co-enrichment"
+      "Venn"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Co_enrichment.html#purpose",
-    "href": "content/Multi_omics_data/Co_enrichment.html#purpose",
-    "title": "Co-enrichment",
+    "objectID": "content/Multi_omics_data/venn.html#purpose",
+    "href": "content/Multi_omics_data/venn.html#purpose",
+    "title": "Venn",
     "section": "",
-    "text": "Use Multi-omics → Co-enrichment after enrichment analysis has been completed separately for multiple omics layers, contrasts, tissues, or protein clusters. The module compares enrichment results across two or three omics datasets, identifies shared and omics-specific pathways, and provides publication-oriented summary tables and plots.\nThe most important requirement is comparability: enrichment results should use compatible pathway identifiers, annotation versions, and biological backgrounds. A pathway appearing in only one layer can reflect true biology, but it can also arise from incompatible annotation systems or different background universes.",
+    "text": "Use Multi-omics → Venn to compare membership across multiple gene, protein, phosphoprotein, metabolite, or other feature sets. The current ProtVis module supports both Venn and UpSet visualization from the same input table.\nIn Auto mode, ProtVis uses a Venn diagram when the dataset contains six or fewer sets and switches to an UpSet plot when there are more than six sets. You can also force Venn or UpSet manually when appropriate.",
     "crumbs": [
       "Multi-omics",
-      "Co-enrichment"
+      "Venn"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Co_enrichment.html#co-enrichment-interface",
-    "href": "content/Multi_omics_data/Co_enrichment.html#co-enrichment-interface",
-    "title": "Co-enrichment",
-    "section": "Co-enrichment interface",
-    "text": "Co-enrichment interface\nThe screenshot below shows the current three-omics example with Transcriptome, Proteome, and Metabolome enrichment results. The interface contains Data Input, Column Mapping, Display Control, Color & Export, and Run & Download controls. The result area provides an overlap summary, source-data previews, a summary bar plot, a matrix-style UpSet plot, a significance bubble plot, and a table of shared/specific pathways.\n\n\n\n\n\n\nFigure 1: ProtVis Co-enrichment interface showing a three-omics example with Transcriptome, Proteome and Metabolome enrichment results, overlap summary, UpSet-style overlap visualization and pathway significance outputs.",
+    "objectID": "content/Multi_omics_data/venn.html#venn-upset-interface",
+    "href": "content/Multi_omics_data/venn.html#venn-upset-interface",
+    "title": "Venn",
+    "section": "Venn / UpSet interface",
+    "text": "Venn / UpSet interface\nThe screenshot below shows the current module with the built-in three-set demonstration data. The example contains Proteome, Transcriptome, and Phosphoproteome sets and is currently displayed in Venn mode. The right side contains the intersection plot and the processed binary membership table.\n\n\n\n\n\n\nFigure 1: ProtVis Venn/UpSet module using the built-in Proteome, Transcriptome and Phosphoproteome example. The sidebar provides file input, example data, plot-type selection and per-set colors, while the main panel displays the overlap plot and processed membership table.",
     "crumbs": [
       "Multi-omics",
-      "Co-enrichment"
+      "Venn"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Co_enrichment.html#recommended-operating-order",
-    "href": "content/Multi_omics_data/Co_enrichment.html#recommended-operating-order",
-    "title": "Co-enrichment",
+    "objectID": "content/Multi_omics_data/venn.html#recommended-operating-order",
+    "href": "content/Multi_omics_data/venn.html#recommended-operating-order",
+    "title": "Venn",
     "section": "Recommended operating order",
-    "text": "Recommended operating order\n1. Choose two-omics or three-omics mode. Open Data Input and select Co-enrichment Mode. Use Two-omics when comparing two result sets and Three-omics when comparing three layers such as transcriptome, proteome and metabolome.\n2. Name each omics layer. Set Omics 1 Name, Omics 2 Name, and, in three-omics mode, Omics 3 Name. These labels are propagated into summaries and plots, so use concise names that match the biological analysis.\n3. Load enrichment results. Upload the enrichment file for each omics layer. ProtVis accepts .csv, .tsv, .txt, .xlsx, and .xls. For a quick demonstration, click Use built-in example data. The built-in example loads representative Transcriptome, Proteome and Metabolome enrichment tables; review the mappings and then run the analysis.\n4. Set the adjusted p-value cutoff. The default Adjusted p-value cutoff is 0.05. Pathways are considered significant in each layer according to this threshold before shared/specific classifications are summarized.\n5. Decide how duplicate pathway names are handled. Keep Remove duplicated pathway names within each omics selected unless there is a specific reason to preserve duplicate descriptions. This avoids counting the same pathway more than once inside one omics layer.\n6. Verify Column Mapping. Open Column Mapping and, for each uploaded dataset, select the correct Pathway column and Adjusted p-value column. ProtVis attempts to guess these fields, but the selections should still be checked manually before running the comparison.\n7. Configure Display Control. Choose Pathway Display Mode as All, Shared only, or Specific only. Use the group filter to focus on one overlap class when needed. Top N pathways in bubble plot controls how many pathways are shown in the bubble visualization; the current default is 20. The value-label and sorting options affect presentation rather than pathway classification.\n8. Configure colors and export settings. Under Color & Export, customize colors for shared pathways, pairwise-shared pathways, and omics-specific groups. The UpSet active/inactive colors and bubble low/high colors can also be adjusted. Choose PDF or PNG for plot downloads; PNG export additionally uses the selected DPI.\n9. Run the analysis. Open Run & Download and click Run. After processing, review the summary note above the overlap table to confirm the adjusted p-value cutoff, display mode, group filter, and Top N setting used for the current result.\n10. Inspect the result panels. Overlap Summary reports the pathway classes and counts. Uploaded Data Preview lets you inspect the input enrichment tables. Summary Bar Plot compares class sizes, Matrix-style UpSet Plot shows overlap structure, Significance Bubble Plot summarizes pathway significance across layers, and Shared and Specific Pathways provides the underlying pathway-level table.\n11. Export tables and plots. The Run & Download section provides downloadable two-omics and three-omics demo data, the summary table, the pathway table, and individual summary, UpSet, and bubble plots in the selected format.",
+    "text": "Recommended operating order\n1. Prepare a set-membership CSV. Each column represents one set and each non-empty cell contains a feature identifier. The sets do not need to have the same number of members; shorter columns can contain empty/NA cells.\n2. Load the data. Use File to upload a .csv, or click Use example data. The built-in example contains three sets named Proteome, Transcriptome and Phosphoproteome and is displayed immediately after loading.\n3. Confirm the detected set count. The status message above the plot reports the number of sets and the current rendering mode, for example Detected 3 sets. Current mode: VENN.\n4. Choose the plot type. Under Choose plot type, select Auto, Venn, or UpSet. Auto uses Venn for up to six sets and UpSet for more than six. If Venn is forced for more than six sets, ProtVis warns you to use Auto or UpSet instead.\n5. Set colors. After loading data, ProtVis creates one color selector for each set. In the example these are Select Color for Proteome, Select Color for Transcriptome, and Select Color for Phosphoproteome. Color settings affect the Venn presentation; UpSet rendering follows the UpSet layout.\n6. Run the plot when using uploaded data or after changing settings. Click Run to rebuild the current Venn/UpSet result from the selected plot mode and colors. The built-in example is initialized immediately, but rerunning is appropriate after changing display settings.\n7. Inspect the overlap plot. For a small number of sets, Venn provides a direct visual summary of unique and shared members. For larger comparisons, UpSet is easier to read because intersections are represented as a matrix of active sets with frequency bars rather than increasingly complex overlapping circles.\n8. Inspect the Processed Table. ProtVis converts the source sets to a binary membership table in which each unique feature occupies one row and each set is encoded as 1 (present) or 0 (absent). The table can be searched and exported with the built-in Copy, CSV, and Excel controls.\n9. Export the figure. Click Download to save the current visualization as PDF. Venn exports use an 8 × 6 inch layout, while UpSet uses a 10 × 7 inch PDF canvas in the current implementation.",
     "crumbs": [
       "Multi-omics",
-      "Co-enrichment"
+      "Venn"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Co_enrichment.html#recommended-input-structure",
-    "href": "content/Multi_omics_data/Co_enrichment.html#recommended-input-structure",
-    "title": "Co-enrichment",
-    "section": "Recommended input structure",
-    "text": "Recommended input structure\nEach omics enrichment file must contain at least a pathway/term field and an adjusted p-value field. Additional columns can be retained. A minimal example is:\nPathway,padj,Count\nCarbon metabolism,0.003,28\nRibosome,0.018,35\nPlant hormone signal transduction,0.021,19\nColumn names do not have to match this example exactly because they are assigned explicitly in Column Mapping.",
-    "crumbs": [
-      "Multi-omics",
-      "Co-enrichment"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Co_enrichment.html#how-shared-and-specific-pathways-should-be-interpreted",
-    "href": "content/Multi_omics_data/Co_enrichment.html#how-shared-and-specific-pathways-should-be-interpreted",
-    "title": "Co-enrichment",
-    "section": "How shared and specific pathways should be interpreted",
-    "text": "How shared and specific pathways should be interpreted\nA pathway classified as shared is present among the significant enrichment results of more than one selected omics layer. A pathway classified as specific is significant only in the corresponding layer under the current cutoff. In three-omics mode, ProtVis can distinguish pathways shared by all three layers, pairwise-shared pathways, and pathways specific to one layer.\nDo not interpret overlap alone as evidence that molecular changes occur in the same direction or involve the same genes/proteins/metabolites. Co-enrichment compares pathway-level enrichment membership; directionality and constituent features should be checked in the original differential and enrichment results.",
-    "crumbs": [
-      "Multi-omics",
-      "Co-enrichment"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Co_enrichment.html#practical-checks-before-interpretation",
-    "href": "content/Multi_omics_data/Co_enrichment.html#practical-checks-before-interpretation",
-    "title": "Co-enrichment",
-    "section": "Practical checks before interpretation",
-    "text": "Practical checks before interpretation\nConfirm that all input tables use the same pathway naming/ID system, that enrichment backgrounds are biologically comparable, and that the adjusted p-values were calculated in a compatible way. If pathway descriptions differ only because of database-version naming changes, harmonize identifiers before upload.\n\n\n\n\n\n\nTip\n\n\n\nFor cross-omics comparisons, stable pathway identifiers are preferable to free-text descriptions whenever they are available. Descriptions can change between database releases even when the underlying pathway is the same.\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe pathways and counts shown in the screenshot belong to the built-in demonstration and are intended to illustrate the interface. Real results depend on the uploaded enrichment tables, column mappings, p-value cutoff, and display filters.",
-    "crumbs": [
-      "Multi-omics",
-      "Co-enrichment"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Metaproteomics.html",
-    "href": "content/Multi_omics_data/Metaproteomics.html",
-    "title": "Metaproteomics",
-    "section": "",
-    "text": "The current metaproteomics module joins three CSV tables by ProteinID.\n\n\nProteinID,Control_1,Control_2,Treatment_1,Treatment_2\nP001,100,120,160,150\n\n\n\nRequired columns:\nProteinID,Phylum,Genus,Species\n\n\n\nRequired columns:\nProteinID,KO,Pathway,COG\nA built-in demo and downloadable demo tables are provided in the interface.",
-    "crumbs": [
-      "Multi-omics",
-      "Metaproteomics"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Metaproteomics.html#inputs",
-    "href": "content/Multi_omics_data/Metaproteomics.html#inputs",
-    "title": "Metaproteomics",
-    "section": "",
-    "text": "The current metaproteomics module joins three CSV tables by ProteinID.\n\n\nProteinID,Control_1,Control_2,Treatment_1,Treatment_2\nP001,100,120,160,150\n\n\n\nRequired columns:\nProteinID,Phylum,Genus,Species\n\n\n\nRequired columns:\nProteinID,KO,Pathway,COG\nA built-in demo and downloadable demo tables are provided in the interface.",
-    "crumbs": [
-      "Multi-omics",
-      "Metaproteomics"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Metaproteomics.html#analysis-settings",
-    "href": "content/Multi_omics_data/Metaproteomics.html#analysis-settings",
-    "title": "Metaproteomics",
-    "section": "Analysis settings",
-    "text": "Analysis settings\nChoose a taxonomic level (Phylum, Genus, Species) and a functional level (Pathway, KO, COG). You can switch between summed intensity and relative abundance and choose how many top categories are displayed.",
-    "crumbs": [
-      "Multi-omics",
-      "Metaproteomics"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Metaproteomics.html#outputs",
-    "href": "content/Multi_omics_data/Metaproteomics.html#outputs",
-    "title": "Metaproteomics",
-    "section": "Outputs",
-    "text": "Outputs\nThe module reports the number of proteins, taxa and functions and provides:\n\nmerged abundance/taxonomy/function table;\ntaxonomy composition plot;\nfunction composition plot;\ntaxon-function Sankey diagram;\ntaxon-function heatmap;\ndownloadable merged table.",
-    "crumbs": [
-      "Multi-omics",
-      "Metaproteomics"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Metaproteomics.html#group-labels",
-    "href": "content/Multi_omics_data/Metaproteomics.html#group-labels",
-    "title": "Metaproteomics",
-    "section": "Group labels",
-    "text": "Group labels\nIn the current module, sample names containing terms such as treat, case, or disease are assigned to Treatment; other samples default to Control for the display grouping. Use clear sample names when relying on this behavior.\n\n\n\n\n\n\nImportant\n\n\n\nTaxonomic and functional annotations can be many-to-many in real metaproteomes. Confirm how protein groups, shared peptides and ambiguous taxonomic assignments were handled upstream before interpreting summed compositions as organism-level abundance.",
-    "crumbs": [
-      "Multi-omics",
-      "Metaproteomics"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Expression_Profile.html",
-    "href": "content/Multi_omics_data/Expression_Profile.html",
-    "title": "Expression profile",
-    "section": "",
-    "text": "Use Multi-omics → Expression profile when the biological question concerns coordinated abundance trends across several samples, stages, tissues, genotypes or conditions rather than only one pairwise comparison. The current interface provides two complementary views: Kmeans trend clustering and a Heatmap trend-analysis mode.\nThe Kmeans workflow standardizes each feature across samples before clustering, so the resulting trajectories emphasize relative expression patterns rather than absolute protein abundance. Cluster membership can then be exported for downstream enrichment or network analyses.",
-    "crumbs": [
-      "Multi-omics",
-      "Expression profile"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Expression_Profile.html#purpose",
-    "href": "content/Multi_omics_data/Expression_Profile.html#purpose",
-    "title": "Expression profile",
-    "section": "",
-    "text": "Use Multi-omics → Expression profile when the biological question concerns coordinated abundance trends across several samples, stages, tissues, genotypes or conditions rather than only one pairwise comparison. The current interface provides two complementary views: Kmeans trend clustering and a Heatmap trend-analysis mode.\nThe Kmeans workflow standardizes each feature across samples before clustering, so the resulting trajectories emphasize relative expression patterns rather than absolute protein abundance. Cluster membership can then be exported for downstream enrichment or network analyses.",
-    "crumbs": [
-      "Multi-omics",
-      "Expression profile"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Expression_Profile.html#expression-profile-interface",
-    "href": "content/Multi_omics_data/Expression_Profile.html#expression-profile-interface",
-    "title": "Expression profile",
-    "section": "Expression profile interface",
-    "text": "Expression profile interface\nThe full-resolution screenshot below shows the current Kmeans interface using the bundled example data. The example contains 582 features × 8 samples and is clustered into six groups. The cluster sizes displayed in this particular run are Cluster1 = 64, Cluster2 = 169, Cluster3 = 115, Cluster4 = 105, Cluster5 = 56 and Cluster6 = 73; these counts are example-specific and will change with another matrix, sample order or number of centers.\n\n\n\n\n\n\nFigure 1: ProtVis Expression profile Kmeans interface. The left panel provides CSV upload, Load built-in example, Download example CSV and method selection. The main Kmeans card contains Parameter, Run and Download controls plus Figure, Table and Input Data tabs. Six trend clusters are displayed for the built-in 582-feature by 8-sample example.",
-    "crumbs": [
-      "Multi-omics",
-      "Expression profile"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Expression_Profile.html#recommended-operating-order",
-    "href": "content/Multi_omics_data/Expression_Profile.html#recommended-operating-order",
-    "title": "Expression profile",
-    "section": "Recommended operating order",
-    "text": "Recommended operating order\n1. Choose the input data. Upload an expression matrix as a .csv, or click Load built-in example to load the bundled kmeans.csv. The built-in file is not loaded automatically. After loading, confirm the green status message and inspect the Input Data tab before running clustering. The first column is used as the feature identifier and the remaining columns must be numeric sample values.\n2. Download the example when preparing your own file. Click Download example CSV to obtain the same kmeans.csv used by ProtVis. This is the easiest way to confirm the required file structure before replacing the example values with your own protein-expression matrix.\n3. Select the analysis method. Under Method, choose Kmeans for trend clusters or Heatmap for the heatmap-based trend view. The screenshot shows Kmeans selected.\n4. Set the Kmeans parameters. Open Parameter. Choose the line color and set centers, which is the requested number of K-means clusters. The current default is 6. Use a biologically defensible value rather than increasing K only to make the figure appear more detailed.\n5. Run Kmeans. Open Run and click Run. ProtVis standardizes each feature across the sample columns and then applies stats::kmeans() with the selected number of centers. The black line in each cluster panel represents the cluster-center trajectory, while the colored lines represent individual feature trajectories.\n6. Review all three result tabs. Use Figure to inspect the trend panels, Table to review feature-to-cluster assignments, and Input Data to return to the matrix that generated the result. Check that the sample order on the x-axis follows the intended biological sequence; K-means does not infer chronological or treatment order for you.\n7. Export the result. In Download, set the desired figure width and height, then download the Kmeans Figure as PDF and the cluster Table as CSV. Keep the cluster table when using cluster-specific protein sets for enrichment, annotation or network analysis.",
-    "crumbs": [
-      "Multi-omics",
-      "Expression profile"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Expression_Profile.html#input-format",
-    "href": "content/Multi_omics_data/Expression_Profile.html#input-format",
-    "title": "Expression profile",
+    "objectID": "content/Multi_omics_data/venn.html#input-format",
+    "href": "content/Multi_omics_data/venn.html#input-format",
+    "title": "Venn",
     "section": "Input format",
-    "text": "Input format\nA suitable CSV has feature identifiers in the first column and numeric samples in the remaining columns, for example:\nID,Sample1,Sample2,Sample3,Sample4\nProtein_A,10.2,12.4,18.7,21.1\nProtein_B,30.5,24.2,17.9,11.6\nProtein_C,8.1,14.6,13.9,20.4\nProtVis requires at least two sample columns, and all sample columns must be numeric. If samples represent an ordered experiment, arrange them in the intended chronological or biological order before clustering because that column order becomes the trend-plot x-axis.",
+    "text": "Input format\nA suitable CSV looks like this:\nProteome,Transcriptome,Phosphoproteome\nP53,P53,AKT1\nMAPK1,MAPK1,MTOR\nAKT1,HIF1A,MAPK1\nMTOR,STAT3,EGFR\nSTAT3,JUN,SRC\nEGFR,,JUN\nProtVis trims surrounding whitespace, treats blank cells as missing, and removes duplicate identifiers within each set before constructing the overlap representation.",
     "crumbs": [
       "Multi-omics",
-      "Expression profile"
+      "Venn"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Expression_Profile.html#how-kmeans-is-calculated",
-    "href": "content/Multi_omics_data/Expression_Profile.html#how-kmeans-is-calculated",
-    "title": "Expression profile",
-    "section": "How Kmeans is calculated",
-    "text": "How Kmeans is calculated\nFor the Kmeans view, ProtVis scales each feature across samples before clustering. Conceptually, each row is transformed to a standardized trajectory and K-means then groups rows with similar shapes. This means a highly abundant protein and a low-abundance protein can enter the same cluster when their relative trajectories are similar.\nThe cluster title includes both the cluster number and the number of assigned features. In the bundled example shown above, six clusters contain a total of 582 features.\n\n\n\n\n\n\nImportantInterpret trend shape, not absolute abundance\n\n\n\nBecause Kmeans uses row-standardized values, the y-axis represents standardized relative change. Do not interpret the plotted y-value as the original protein intensity. Return to the original/normalized quantitative matrix when absolute abundance is required.",
+    "objectID": "content/Multi_omics_data/venn.html#venn-versus-upset",
+    "href": "content/Multi_omics_data/venn.html#venn-versus-upset",
+    "title": "Venn",
+    "section": "Venn versus UpSet",
+    "text": "Venn versus UpSet\nA Venn diagram is most useful for a small number of sets because the individual intersections remain visually interpretable. UpSet is preferable when the number of sets becomes larger or when many different intersections must be compared quantitatively.\nThe Auto option is therefore the recommended default for general use: it preserves the intuitive Venn view for small comparisons while avoiding unreadable diagrams for larger set collections.",
     "crumbs": [
       "Multi-omics",
-      "Expression profile"
+      "Venn"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Expression_Profile.html#heatmap-mode",
-    "href": "content/Multi_omics_data/Expression_Profile.html#heatmap-mode",
-    "title": "Expression profile",
-    "section": "Heatmap mode",
-    "text": "Heatmap mode\nSelecting Heatmap opens the Heatmap trend analysis (K-means) view. Set the number of K-means clusters and choose the scale mode: Row (trend), Column, or None. Run the heatmap and inspect the resulting cluster structure before exporting the cluster table.\nRow scaling is appropriate when the goal is to emphasize within-protein trends across samples. Column scaling instead emphasizes sample-wise relative structure, while None retains the supplied numerical scale.",
+    "objectID": "content/Multi_omics_data/venn.html#interpretation",
+    "href": "content/Multi_omics_data/venn.html#interpretation",
+    "title": "Venn",
+    "section": "Interpretation",
+    "text": "Interpretation\nOverlap size is descriptive: it tells you which identifiers are shared between sets, not whether the overlap is statistically greater than expected by chance. A formal overlap-enrichment test requires a clearly defined background universe and an appropriate statistical model.\nAlso confirm that all columns use the same identifier namespace before interpretation. Apparent non-overlap can simply reflect incompatible gene/protein ID systems.\n\n\n\n\n\n\nTip\n\n\n\nUse the Processed Table when you need exact membership for downstream analysis. The figure is ideal for communication, but the binary table is the reproducible record of which features belong to each intersection.\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe P53/MAPK1/AKT1-style identifiers shown in the screenshot belong to ProtVis’s built-in demonstration dataset and are intended only to illustrate input structure and plotting behavior.",
     "crumbs": [
       "Multi-omics",
-      "Expression profile"
+      "Venn"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Expression_Profile.html#choosing-the-number-of-clusters",
-    "href": "content/Multi_omics_data/Expression_Profile.html#choosing-the-number-of-clusters",
-    "title": "Expression profile",
-    "section": "Choosing the number of clusters",
-    "text": "Choosing the number of clusters\nThere is no universally correct K. Start with a moderate number, inspect cluster size and trajectory coherence, and compare nearby values when needed. Very large K values can fragment one coherent response into many small groups, whereas very small K values can merge distinct biological patterns.\nA useful cluster should contain a recognizable trajectory and enough members to support the intended downstream interpretation. A cluster containing only a handful of proteins is not automatically wrong, but it deserves closer inspection before biological conclusions are drawn.",
+    "objectID": "content/Multi_omics_data/Nine_Quadrant.html",
+    "href": "content/Multi_omics_data/Nine_Quadrant.html",
+    "title": "Nine quadrant",
+    "section": "",
+    "text": "Use Multi-omics → Nine quadrant to compare two quantitative effect estimates, most commonly matched log2FC values from two omics layers or two related contrasts. ProtVis divides the x- and y-axes with the same absolute fold-change cutoff and assigns every row to one of nine directional classes: Up/Up, Up/NS, Up/Down, NS/Up, NS/NS, NS/Down, Down/Up, Down/NS, and Down/Down.\nThis view is useful for separating concordant changes, discordant changes, and changes detected mainly in one omics layer.",
     "crumbs": [
       "Multi-omics",
-      "Expression profile"
+      "Nine quadrant"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Expression_Profile.html#downstream-use",
-    "href": "content/Multi_omics_data/Expression_Profile.html#downstream-use",
-    "title": "Expression profile",
-    "section": "Downstream use",
-    "text": "Downstream use\nExported cluster assignments can be used to create cluster-specific protein lists for Enrichment analysis, pathway interpretation, PPI/network analysis, or other multi-omics modules. Preserve the sample order, preprocessing state, selected K and cluster table as part of the analysis record so that the trend analysis can be reproduced.\n\n\n\n\n\n\nNote\n\n\n\nTrend clustering is exploratory. Membership in a K-means cluster does not establish statistical significance for every protein in that cluster. Use DEP or an appropriate time-series/repeated-measures model when formal statistical inference is required.",
+    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#purpose",
+    "href": "content/Multi_omics_data/Nine_Quadrant.html#purpose",
+    "title": "Nine quadrant",
+    "section": "",
+    "text": "Use Multi-omics → Nine quadrant to compare two quantitative effect estimates, most commonly matched log2FC values from two omics layers or two related contrasts. ProtVis divides the x- and y-axes with the same absolute fold-change cutoff and assigns every row to one of nine directional classes: Up/Up, Up/NS, Up/Down, NS/Up, NS/NS, NS/Down, Down/Up, Down/NS, and Down/Down.\nThis view is useful for separating concordant changes, discordant changes, and changes detected mainly in one omics layer.",
     "crumbs": [
       "Multi-omics",
-      "Expression profile"
+      "Nine quadrant"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#nine-quadrant-interface",
+    "href": "content/Multi_omics_data/Nine_Quadrant.html#nine-quadrant-interface",
+    "title": "Nine quadrant",
+    "section": "Nine-quadrant interface",
+    "text": "Nine-quadrant interface\nThe full-resolution screenshot below shows the current module with the bundled demonstration data. The built-in example contains 2,800 rows × 4 columns: Omic1_ID, Log2FC_Omic1, Omic2_ID, and Log2FC_Omic2. The quadrant counts visible in this run are example-specific and will change with another dataset or cutoff.\n\n\n\n\n\n\nFigure 1: ProtVis Nine-quadrant interface using the built-in two-omics demonstration dataset. The left sidebar contains Data Input, Plot Settings, Color Settings and Download Settings. The center card previews the input table and the right card displays the nine-quadrant plot and quadrant-specific result panels.",
+    "crumbs": [
+      "Multi-omics",
+      "Nine quadrant"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#recommended-operating-order",
+    "href": "content/Multi_omics_data/Nine_Quadrant.html#recommended-operating-order",
+    "title": "Nine quadrant",
+    "section": "Recommended operating order",
+    "text": "Recommended operating order\n1. Load the data. Open Data Input and either upload a .csv/.xlsx file or click LOAD DEMO DATA. The demonstration dataset is not loaded automatically. Use Download example CSV when you want a template for preparing your own file.\n2. Check the preview. The Uploaded Data Preview card should show the expected row and column counts. ProtVis requires at least two numeric columns for the plot.\n3. Select the x- and y-axis variables. Choose the numeric field for Select Omic1 (X-axis) and the numeric field for Select Omic2 (Y-axis). In the built-in example these are Log2FC_Omic1 and Log2FC_Omic2.\n4. Set the fold-change cutoff. Open Plot Settings and set Log2FC Cutoff. The current default is 1. ProtVis uses +cutoff and -cutoff on both axes: values above +cutoff are Up, values below -cutoff are Down, and values between the thresholds are NS.\n5. Control quadrant labels. Keep Show Quadrant Counts selected if you want the number of rows in each of the nine regions to be displayed on the figure.\n6. Run the plot. Click Run plot. The status badge changes to Ready when the classification and plot have been generated.\n7. Inspect the biological direction classes. Up/Up and Down/Down represent concordant responses, whereas Up/Down and Down/Up represent opposite responses. Up/NS, Down/NS, NS/Up, and NS/Down indicate that only one selected layer crosses the fold-change threshold. NS/NS contains rows within the cutoff on both axes.\n8. Inspect and export the quadrant tables. Below the plot, ProtVis creates expandable panels for all nine classes. Each panel contains the corresponding rows and provides an individual CSV download button, which is useful for taking a selected directional class into enrichment or network analysis.\n9. Export the figure. Under Download Settings, set the PDF width and height and click Download PDF. The current defaults are 8 × 6 inches.",
+    "crumbs": [
+      "Multi-omics",
+      "Nine quadrant"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#input-format",
+    "href": "content/Multi_omics_data/Nine_Quadrant.html#input-format",
+    "title": "Nine quadrant",
+    "section": "Input format",
+    "text": "Input format\nA minimal file can contain separate identifiers for the two layers and one numeric effect column for each layer:\nOmic1_ID,Log2FC_Omic1,Omic2_ID,Log2FC_Omic2\nGene_001,1.52,Protein_001,1.18\nGene_002,-2.10,Protein_002,-1.43\nGene_003,0.35,Protein_003,1.76\nThe selected x- and y-axis columns must be numeric. Other columns can remain in the input and will be retained in the preview and exported quadrant tables.",
+    "crumbs": [
+      "Multi-omics",
+      "Nine quadrant"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#color-settings",
+    "href": "content/Multi_omics_data/Nine_Quadrant.html#color-settings",
+    "title": "Nine quadrant",
+    "section": "Color settings",
+    "text": "Color settings\nOpen Color Settings to customize all nine classes independently: Up_Up, Down_Down, Up_Down, Down_Up, Up_NS, Down_NS, NS_Up, NS_Down, and NS_NS. Color changes affect presentation only; they do not change class membership.",
+    "crumbs": [
+      "Multi-omics",
+      "Nine quadrant"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#interpretation",
+    "href": "content/Multi_omics_data/Nine_Quadrant.html#interpretation",
+    "title": "Nine quadrant",
+    "section": "Interpretation",
+    "text": "Interpretation\nThe nine-quadrant module performs directional classification from the selected numeric values and cutoff. It is not a substitute for formal differential statistics. When available, perform the appropriate DEP/DEG analysis first and retain adjusted p-values or significance labels alongside the fold changes.\n\n\n\n\n\n\nWarningKeep contrast direction consistent\n\n\n\nIf one layer uses Treatment - Control while the other uses Control - Treatment, biologically concordant responses will appear discordant. Verify contrast direction before interpreting the quadrant pattern.\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe built-in 2,800-row dataset is a demonstration dataset intended to show the interface and output structure. The quadrant counts in the screenshot are not expected values for real experiments.",
+    "crumbs": [
+      "Multi-omics",
+      "Nine quadrant"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html",
+    "href": "content/Multi_omics_data/WGCNA.html",
+    "title": "WGCNA",
+    "section": "",
+    "text": "The current WGCNA module provides a complete sequence from data filtering to network interpretation:\nData cleaning → Filtering → Soft threshold → Module detection → Trait association → Interested module → Hub gene/protein → Cytoscape export\nAlthough some UI labels use “gene”, the module can analyze protein abundance matrices.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html#what-the-module-covers",
+    "href": "content/Multi_omics_data/WGCNA.html#what-the-module-covers",
+    "title": "WGCNA",
+    "section": "",
+    "text": "The current WGCNA module provides a complete sequence from data filtering to network interpretation:\nData cleaning → Filtering → Soft threshold → Module detection → Trait association → Interested module → Hub gene/protein → Cytoscape export\nAlthough some UI labels use “gene”, the module can analyze protein abundance matrices.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html#input",
+    "href": "content/Multi_omics_data/WGCNA.html#input",
+    "title": "WGCNA",
+    "section": "Input",
+    "text": "Input\nUpload a .txt, .tsv, or .csv expression matrix. The first column should contain feature IDs and the remaining columns should be samples. The format selector includes count, expected count, normalized count, peak area (metabolomics), and protein abundance.\nSelect an unsigned or signed network and the appropriate preprocessing/normalization mode for the supplied data.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html#filtering",
+    "href": "content/Multi_omics_data/WGCNA.html#filtering",
+    "title": "WGCNA",
+    "section": "Filtering",
+    "text": "Filtering\nThe first filter removes low-abundance features based on sample percentage and expression cutoff. The second filter ranks variability using MAD or Variance and retains the requested number of features.\nFiltering is especially important for proteomics because a network built from thousands of uninformative or extremely sparse proteins can be unstable and computationally expensive.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html#soft-threshold-selection",
+    "href": "content/Multi_omics_data/WGCNA.html#soft-threshold-selection",
+    "title": "WGCNA",
+    "section": "Soft-threshold selection",
+    "text": "Soft-threshold selection\nRun the soft-threshold analysis, review the scale-free topology fit, and either use the recommended power or specify a justified custom power. The default target displayed by the UI is an \\(R^2\\) cutoff of 0.8.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html#module-detection",
+    "href": "content/Multi_omics_data/WGCNA.html#module-detection",
+    "title": "WGCNA",
+    "section": "Module detection",
+    "text": "Module detection\nSet minimum module size, module merge/cut-tree height, and maximum block size, then run module detection. Export the protein-to-module table so every downstream claim can be traced back to module membership.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html#trait-association",
+    "href": "content/Multi_omics_data/WGCNA.html#trait-association",
+    "title": "WGCNA",
+    "section": "Trait association",
+    "text": "Trait association\nUpload trait data and run module-trait analysis. Check sample names carefully: trait rows/columns must correspond to the same samples represented in the expression matrix.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/WGCNA.html#hub-proteins-and-cytoscape",
+    "href": "content/Multi_omics_data/WGCNA.html#hub-proteins-and-cytoscape",
+    "title": "WGCNA",
+    "section": "Hub proteins and Cytoscape",
+    "text": "Hub proteins and Cytoscape\nSelect a trait and module, set absolute kME/GS cutoffs, and run hub analysis. ProtVis can generate node and edge tables for Cytoscape using a user-defined network-weight threshold.\n\n\n\n\n\n\nWarning\n\n\n\nWGCNA requires enough samples to estimate correlations meaningfully. Very small proteomics experiments can produce visually convincing but unstable networks. Treat network topology cautiously when sample size is limited.",
+    "crumbs": [
+      "Multi-omics",
+      "WGCNA"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Multi_omics_data.html",
+    "href": "content/Multi_omics_data/Multi_omics_data.html",
+    "title": "Multi-omics",
+    "section": "",
+    "text": "The Multi-omics menu groups analyses that extend beyond a single DEP table:\n\n\n\n\n\n\n\nModule\nMain question\n\n\n\n\nExpression Profile\nWhich proteins share similar abundance trends?\n\n\nWGCNA\nWhich co-expression modules and hub proteins relate to traits?\n\n\nMetaproteomics\nHow do taxonomic and functional compositions change together?\n\n\nNine Quadrant\nHow do two quantitative contrasts/datasets agree or disagree?\n\n\nCo-enrichment\nWhich functional signals are shared or distinct across result sets?\n\n\nVenn\nWhich identifiers overlap among multiple sets?\n\n\n\nThese modules do not all require the same input type. Follow the dedicated page for each analysis rather than assuming the normalized matrix alone is sufficient.\n\n\n\n\n\n\nTip\n\n\n\nFor manuscript figures, use an integration module only when the biological question is genuinely cross-layer or network-oriented. A more complex plot is not automatically more informative than a well-supported DEP or enrichment result.",
+    "crumbs": [
+      "Multi-omics",
+      "Module overview"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Multi_omics_data.html#module-map",
+    "href": "content/Multi_omics_data/Multi_omics_data.html#module-map",
+    "title": "Multi-omics",
+    "section": "",
+    "text": "The Multi-omics menu groups analyses that extend beyond a single DEP table:\n\n\n\n\n\n\n\nModule\nMain question\n\n\n\n\nExpression Profile\nWhich proteins share similar abundance trends?\n\n\nWGCNA\nWhich co-expression modules and hub proteins relate to traits?\n\n\nMetaproteomics\nHow do taxonomic and functional compositions change together?\n\n\nNine Quadrant\nHow do two quantitative contrasts/datasets agree or disagree?\n\n\nCo-enrichment\nWhich functional signals are shared or distinct across result sets?\n\n\nVenn\nWhich identifiers overlap among multiple sets?\n\n\n\nThese modules do not all require the same input type. Follow the dedicated page for each analysis rather than assuming the normalized matrix alone is sufficient.\n\n\n\n\n\n\nTip\n\n\n\nFor manuscript figures, use an integration module only when the biological question is genuinely cross-layer or network-oriented. A more complex plot is not automatically more informative than a well-supported DEP or enrichment result.",
+    "crumbs": [
+      "Multi-omics",
+      "Module overview"
     ]
   },
   {
@@ -1995,289 +2005,466 @@
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Multi_omics_data.html",
-    "href": "content/Multi_omics_data/Multi_omics_data.html",
-    "title": "Multi-omics",
+    "objectID": "content/reproducibility/cli.html",
+    "href": "content/reproducibility/cli.html",
+    "title": "Headless / CLI",
     "section": "",
-    "text": "The Multi-omics menu groups analyses that extend beyond a single DEP table:\n\n\n\n\n\n\n\nModule\nMain question\n\n\n\n\nExpression Profile\nWhich proteins share similar abundance trends?\n\n\nWGCNA\nWhich co-expression modules and hub proteins relate to traits?\n\n\nMetaproteomics\nHow do taxonomic and functional compositions change together?\n\n\nNine Quadrant\nHow do two quantitative contrasts/datasets agree or disagree?\n\n\nCo-enrichment\nWhich functional signals are shared or distinct across result sets?\n\n\nVenn\nWhich identifiers overlap among multiple sets?\n\n\n\nThese modules do not all require the same input type. Follow the dedicated page for each analysis rather than assuming the normalized matrix alone is sufficient.\n\n\n\n\n\n\nTip\n\n\n\nFor manuscript figures, use an integration module only when the biological question is genuinely cross-layer or network-oriented. A more complex plot is not automatically more informative than a well-supported DEP or enrichment result.",
+    "text": "ProtVis 0.9.1 exposes a command-line workflow through ProtVis::run_protvis_cli() and the installed exec/protvis script. It is useful for servers, batch jobs, reproducible pipelines and projects that should run without an interactive Shiny session.\nThe CLI uses the same core dataset, search, checkpoint, provenance and export functions as the GUI.",
     "crumbs": [
-      "Multi-omics",
-      "Module overview"
+      "Reproducible workflow",
+      "Headless / CLI"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Multi_omics_data.html#module-map",
-    "href": "content/Multi_omics_data/Multi_omics_data.html#module-map",
-    "title": "Multi-omics",
+    "objectID": "content/reproducibility/cli.html#why-use-headless-mode",
+    "href": "content/reproducibility/cli.html#why-use-headless-mode",
+    "title": "Headless / CLI",
     "section": "",
-    "text": "The Multi-omics menu groups analyses that extend beyond a single DEP table:\n\n\n\n\n\n\n\nModule\nMain question\n\n\n\n\nExpression Profile\nWhich proteins share similar abundance trends?\n\n\nWGCNA\nWhich co-expression modules and hub proteins relate to traits?\n\n\nMetaproteomics\nHow do taxonomic and functional compositions change together?\n\n\nNine Quadrant\nHow do two quantitative contrasts/datasets agree or disagree?\n\n\nCo-enrichment\nWhich functional signals are shared or distinct across result sets?\n\n\nVenn\nWhich identifiers overlap among multiple sets?\n\n\n\nThese modules do not all require the same input type. Follow the dedicated page for each analysis rather than assuming the normalized matrix alone is sufficient.\n\n\n\n\n\n\nTip\n\n\n\nFor manuscript figures, use an integration module only when the biological question is genuinely cross-layer or network-oriented. A more complex plot is not automatically more informative than a well-supported DEP or enrichment result.",
+    "text": "ProtVis 0.9.1 exposes a command-line workflow through ProtVis::run_protvis_cli() and the installed exec/protvis script. It is useful for servers, batch jobs, reproducible pipelines and projects that should run without an interactive Shiny session.\nThe CLI uses the same core dataset, search, checkpoint, provenance and export functions as the GUI.",
     "crumbs": [
-      "Multi-omics",
-      "Module overview"
+      "Reproducible workflow",
+      "Headless / CLI"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/WGCNA.html",
-    "href": "content/Multi_omics_data/WGCNA.html",
-    "title": "WGCNA",
+    "objectID": "content/reproducibility/cli.html#table-based-input",
+    "href": "content/reproducibility/cli.html#table-based-input",
+    "title": "Headless / CLI",
+    "section": "Table-based input",
+    "text": "Table-based input\nRscript -e \"ProtVis::run_protvis_cli()\" --args \\\n  --input proteins.tsv \\\n  --source DIA-NN \\\n  --output results\nUse the source name that matches the input parser. The imported table is harmonized into ProtVis_dataset before later stages run.",
+    "crumbs": [
+      "Reproducible workflow",
+      "Headless / CLI"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/cli.html#raw-data-search-with-sage",
+    "href": "content/reproducibility/cli.html#raw-data-search-with-sage",
+    "title": "Headless / CLI",
+    "section": "Raw-data search with Sage",
+    "text": "Raw-data search with Sage\nRscript -e \"ProtVis::run_protvis_cli()\" --args \\\n  --engine Sage \\\n  --fasta proteins.fasta \\\n  --mzml-dir ./mzML \\\n  --sample-info samples.csv \\\n  --output results\nSage is the default raw-search engine in the CLI.",
+    "crumbs": [
+      "Reproducible workflow",
+      "Headless / CLI"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/cli.html#raw-data-search-with-fragpipe",
+    "href": "content/reproducibility/cli.html#raw-data-search-with-fragpipe",
+    "title": "Headless / CLI",
+    "section": "Raw-data search with FragPipe",
+    "text": "Raw-data search with FragPipe\nRscript -e \"ProtVis::run_protvis_cli()\" --args \\\n  --engine FragPipe \\\n  --fasta proteins.fasta \\\n  --spectra-dir ./spectra \\\n  --sample-info samples.csv \\\n  --fragpipe-workflow LFQ-MBR.workflow \\\n  --output results\nUse --fragpipe-path when auto-detection cannot find the official runtime.",
+    "crumbs": [
+      "Reproducible workflow",
+      "Headless / CLI"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/cli.html#resume-an-existing-project",
+    "href": "content/reproducibility/cli.html#resume-an-existing-project",
+    "title": "Headless / CLI",
+    "section": "Resume an existing project",
+    "text": "Resume an existing project\nRscript -e \"ProtVis::run_protvis_cli()\" --args \\\n  --resume results \\\n  --output results\nResume uses the same checkpoint/workflow-state logic as Project Dashboard.",
+    "crumbs": [
+      "Reproducible workflow",
+      "Headless / CLI"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/cli.html#useful-options",
+    "href": "content/reproducibility/cli.html#useful-options",
+    "title": "Headless / CLI",
+    "section": "Useful options",
+    "text": "Useful options\n--engine Sage|FragPipe\n--fragpipe-workflow LFQ-MBR.workflow\n--fragpipe-path /path/to/fragpipe\n--stages noise_correction,transformation,imputation,normalization,...\n--config analysis.json\n--no-downstream\n--help\nA JSON configuration is preferable when many parameters must be fixed for repeated runs.",
+    "crumbs": [
+      "Reproducible workflow",
+      "Headless / CLI"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/cli.html#complete-help",
+    "href": "content/reproducibility/cli.html#complete-help",
+    "title": "Headless / CLI",
+    "section": "Complete help",
+    "text": "Complete help\nProtVis::protvis_cli_help()",
+    "crumbs": [
+      "Reproducible workflow",
+      "Headless / CLI"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/cli.html#reproducibility",
+    "href": "content/reproducibility/cli.html#reproducibility",
+    "title": "Headless / CLI",
+    "section": "Reproducibility",
+    "text": "Reproducibility\nA production CLI run should archive the command/configuration, ProtVis version and commit, input fingerprints, search-engine version, result registry, workflow status and portable ProtVis_dataset export.\nBecause schema v4 is append-only, re-running a stage adds a new run and preserves the earlier state instead of silently overwriting provenance.\n\n\n\n\n\n\nTip\n\n\n\nUse the GUI for interactive exploration and the CLI for fixed, repeated production runs. Both routes operate on the same project model.",
+    "crumbs": [
+      "Reproducible workflow",
+      "Headless / CLI"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Expression_Profile.html",
+    "href": "content/Multi_omics_data/Expression_Profile.html",
+    "title": "Expression profile",
     "section": "",
-    "text": "The current WGCNA module provides a complete sequence from data filtering to network interpretation:\nData cleaning → Filtering → Soft threshold → Module detection → Trait association → Interested module → Hub gene/protein → Cytoscape export\nAlthough some UI labels use “gene”, the module can analyze protein abundance matrices.",
+    "text": "Use Multi-omics → Expression profile when the biological question concerns coordinated abundance trends across several samples, stages, tissues, genotypes or conditions rather than only one pairwise comparison. The current interface provides two complementary views: Kmeans trend clustering and a Heatmap trend-analysis mode.\nThe Kmeans workflow standardizes each feature across samples before clustering, so the resulting trajectories emphasize relative expression patterns rather than absolute protein abundance. Cluster membership can then be exported for downstream enrichment or network analyses.",
     "crumbs": [
       "Multi-omics",
-      "WGCNA"
+      "Expression profile"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/WGCNA.html#what-the-module-covers",
-    "href": "content/Multi_omics_data/WGCNA.html#what-the-module-covers",
-    "title": "WGCNA",
+    "objectID": "content/Multi_omics_data/Expression_Profile.html#purpose",
+    "href": "content/Multi_omics_data/Expression_Profile.html#purpose",
+    "title": "Expression profile",
     "section": "",
-    "text": "The current WGCNA module provides a complete sequence from data filtering to network interpretation:\nData cleaning → Filtering → Soft threshold → Module detection → Trait association → Interested module → Hub gene/protein → Cytoscape export\nAlthough some UI labels use “gene”, the module can analyze protein abundance matrices.",
+    "text": "Use Multi-omics → Expression profile when the biological question concerns coordinated abundance trends across several samples, stages, tissues, genotypes or conditions rather than only one pairwise comparison. The current interface provides two complementary views: Kmeans trend clustering and a Heatmap trend-analysis mode.\nThe Kmeans workflow standardizes each feature across samples before clustering, so the resulting trajectories emphasize relative expression patterns rather than absolute protein abundance. Cluster membership can then be exported for downstream enrichment or network analyses.",
     "crumbs": [
       "Multi-omics",
-      "WGCNA"
+      "Expression profile"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/WGCNA.html#input",
-    "href": "content/Multi_omics_data/WGCNA.html#input",
-    "title": "WGCNA",
-    "section": "Input",
-    "text": "Input\nUpload a .txt, .tsv, or .csv expression matrix. The first column should contain feature IDs and the remaining columns should be samples. The format selector includes count, expected count, normalized count, peak area (metabolomics), and protein abundance.\nSelect an unsigned or signed network and the appropriate preprocessing/normalization mode for the supplied data.",
+    "objectID": "content/Multi_omics_data/Expression_Profile.html#expression-profile-interface",
+    "href": "content/Multi_omics_data/Expression_Profile.html#expression-profile-interface",
+    "title": "Expression profile",
+    "section": "Expression profile interface",
+    "text": "Expression profile interface\nThe full-resolution screenshot below shows the current Kmeans interface using the bundled example data. The example contains 582 features × 8 samples and is clustered into six groups. The cluster sizes displayed in this particular run are Cluster1 = 64, Cluster2 = 169, Cluster3 = 115, Cluster4 = 105, Cluster5 = 56 and Cluster6 = 73; these counts are example-specific and will change with another matrix, sample order or number of centers.\n\n\n\n\n\n\nFigure 1: ProtVis Expression profile Kmeans interface. The left panel provides CSV upload, Load built-in example, Download example CSV and method selection. The main Kmeans card contains Parameter, Run and Download controls plus Figure, Table and Input Data tabs. Six trend clusters are displayed for the built-in 582-feature by 8-sample example.",
     "crumbs": [
       "Multi-omics",
-      "WGCNA"
+      "Expression profile"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/WGCNA.html#filtering",
-    "href": "content/Multi_omics_data/WGCNA.html#filtering",
-    "title": "WGCNA",
-    "section": "Filtering",
-    "text": "Filtering\nThe first filter removes low-abundance features based on sample percentage and expression cutoff. The second filter ranks variability using MAD or Variance and retains the requested number of features.\nFiltering is especially important for proteomics because a network built from thousands of uninformative or extremely sparse proteins can be unstable and computationally expensive.",
-    "crumbs": [
-      "Multi-omics",
-      "WGCNA"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/WGCNA.html#soft-threshold-selection",
-    "href": "content/Multi_omics_data/WGCNA.html#soft-threshold-selection",
-    "title": "WGCNA",
-    "section": "Soft-threshold selection",
-    "text": "Soft-threshold selection\nRun the soft-threshold analysis, review the scale-free topology fit, and either use the recommended power or specify a justified custom power. The default target displayed by the UI is an \\(R^2\\) cutoff of 0.8.",
-    "crumbs": [
-      "Multi-omics",
-      "WGCNA"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/WGCNA.html#module-detection",
-    "href": "content/Multi_omics_data/WGCNA.html#module-detection",
-    "title": "WGCNA",
-    "section": "Module detection",
-    "text": "Module detection\nSet minimum module size, module merge/cut-tree height, and maximum block size, then run module detection. Export the protein-to-module table so every downstream claim can be traced back to module membership.",
-    "crumbs": [
-      "Multi-omics",
-      "WGCNA"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/WGCNA.html#trait-association",
-    "href": "content/Multi_omics_data/WGCNA.html#trait-association",
-    "title": "WGCNA",
-    "section": "Trait association",
-    "text": "Trait association\nUpload trait data and run module-trait analysis. Check sample names carefully: trait rows/columns must correspond to the same samples represented in the expression matrix.",
-    "crumbs": [
-      "Multi-omics",
-      "WGCNA"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/WGCNA.html#hub-proteins-and-cytoscape",
-    "href": "content/Multi_omics_data/WGCNA.html#hub-proteins-and-cytoscape",
-    "title": "WGCNA",
-    "section": "Hub proteins and Cytoscape",
-    "text": "Hub proteins and Cytoscape\nSelect a trait and module, set absolute kME/GS cutoffs, and run hub analysis. ProtVis can generate node and edge tables for Cytoscape using a user-defined network-weight threshold.\n\n\n\n\n\n\nWarning\n\n\n\nWGCNA requires enough samples to estimate correlations meaningfully. Very small proteomics experiments can produce visually convincing but unstable networks. Treat network topology cautiously when sample size is limited.",
-    "crumbs": [
-      "Multi-omics",
-      "WGCNA"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html",
-    "title": "Nine quadrant",
-    "section": "",
-    "text": "Use Multi-omics → Nine quadrant to compare two quantitative effect estimates, most commonly matched log2FC values from two omics layers or two related contrasts. ProtVis divides the x- and y-axes with the same absolute fold-change cutoff and assigns every row to one of nine directional classes: Up/Up, Up/NS, Up/Down, NS/Up, NS/NS, NS/Down, Down/Up, Down/NS, and Down/Down.\nThis view is useful for separating concordant changes, discordant changes, and changes detected mainly in one omics layer.",
-    "crumbs": [
-      "Multi-omics",
-      "Nine quadrant"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#purpose",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html#purpose",
-    "title": "Nine quadrant",
-    "section": "",
-    "text": "Use Multi-omics → Nine quadrant to compare two quantitative effect estimates, most commonly matched log2FC values from two omics layers or two related contrasts. ProtVis divides the x- and y-axes with the same absolute fold-change cutoff and assigns every row to one of nine directional classes: Up/Up, Up/NS, Up/Down, NS/Up, NS/NS, NS/Down, Down/Up, Down/NS, and Down/Down.\nThis view is useful for separating concordant changes, discordant changes, and changes detected mainly in one omics layer.",
-    "crumbs": [
-      "Multi-omics",
-      "Nine quadrant"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#nine-quadrant-interface",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html#nine-quadrant-interface",
-    "title": "Nine quadrant",
-    "section": "Nine-quadrant interface",
-    "text": "Nine-quadrant interface\nThe full-resolution screenshot below shows the current module with the bundled demonstration data. The built-in example contains 2,800 rows × 4 columns: Omic1_ID, Log2FC_Omic1, Omic2_ID, and Log2FC_Omic2. The quadrant counts visible in this run are example-specific and will change with another dataset or cutoff.\n\n\n\n\n\n\nFigure 1: ProtVis Nine-quadrant interface using the built-in two-omics demonstration dataset. The left sidebar contains Data Input, Plot Settings, Color Settings and Download Settings. The center card previews the input table and the right card displays the nine-quadrant plot and quadrant-specific result panels.",
-    "crumbs": [
-      "Multi-omics",
-      "Nine quadrant"
-    ]
-  },
-  {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#recommended-operating-order",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html#recommended-operating-order",
-    "title": "Nine quadrant",
+    "objectID": "content/Multi_omics_data/Expression_Profile.html#recommended-operating-order",
+    "href": "content/Multi_omics_data/Expression_Profile.html#recommended-operating-order",
+    "title": "Expression profile",
     "section": "Recommended operating order",
-    "text": "Recommended operating order\n1. Load the data. Open Data Input and either upload a .csv/.xlsx file or click LOAD DEMO DATA. The demonstration dataset is not loaded automatically. Use Download example CSV when you want a template for preparing your own file.\n2. Check the preview. The Uploaded Data Preview card should show the expected row and column counts. ProtVis requires at least two numeric columns for the plot.\n3. Select the x- and y-axis variables. Choose the numeric field for Select Omic1 (X-axis) and the numeric field for Select Omic2 (Y-axis). In the built-in example these are Log2FC_Omic1 and Log2FC_Omic2.\n4. Set the fold-change cutoff. Open Plot Settings and set Log2FC Cutoff. The current default is 1. ProtVis uses +cutoff and -cutoff on both axes: values above +cutoff are Up, values below -cutoff are Down, and values between the thresholds are NS.\n5. Control quadrant labels. Keep Show Quadrant Counts selected if you want the number of rows in each of the nine regions to be displayed on the figure.\n6. Run the plot. Click Run plot. The status badge changes to Ready when the classification and plot have been generated.\n7. Inspect the biological direction classes. Up/Up and Down/Down represent concordant responses, whereas Up/Down and Down/Up represent opposite responses. Up/NS, Down/NS, NS/Up, and NS/Down indicate that only one selected layer crosses the fold-change threshold. NS/NS contains rows within the cutoff on both axes.\n8. Inspect and export the quadrant tables. Below the plot, ProtVis creates expandable panels for all nine classes. Each panel contains the corresponding rows and provides an individual CSV download button, which is useful for taking a selected directional class into enrichment or network analysis.\n9. Export the figure. Under Download Settings, set the PDF width and height and click Download PDF. The current defaults are 8 × 6 inches.",
+    "text": "Recommended operating order\n1. Choose the input data. Upload an expression matrix as a .csv, or click Load built-in example to load the bundled kmeans.csv. The built-in file is not loaded automatically. After loading, confirm the green status message and inspect the Input Data tab before running clustering. The first column is used as the feature identifier and the remaining columns must be numeric sample values.\n2. Download the example when preparing your own file. Click Download example CSV to obtain the same kmeans.csv used by ProtVis. This is the easiest way to confirm the required file structure before replacing the example values with your own protein-expression matrix.\n3. Select the analysis method. Under Method, choose Kmeans for trend clusters or Heatmap for the heatmap-based trend view. The screenshot shows Kmeans selected.\n4. Set the Kmeans parameters. Open Parameter. Choose the line color and set centers, which is the requested number of K-means clusters. The current default is 6. Use a biologically defensible value rather than increasing K only to make the figure appear more detailed.\n5. Run Kmeans. Open Run and click Run. ProtVis standardizes each feature across the sample columns and then applies stats::kmeans() with the selected number of centers. The black line in each cluster panel represents the cluster-center trajectory, while the colored lines represent individual feature trajectories.\n6. Review all three result tabs. Use Figure to inspect the trend panels, Table to review feature-to-cluster assignments, and Input Data to return to the matrix that generated the result. Check that the sample order on the x-axis follows the intended biological sequence; K-means does not infer chronological or treatment order for you.\n7. Export the result. In Download, set the desired figure width and height, then download the Kmeans Figure as PDF and the cluster Table as CSV. Keep the cluster table when using cluster-specific protein sets for enrichment, annotation or network analysis.",
     "crumbs": [
       "Multi-omics",
-      "Nine quadrant"
+      "Expression profile"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#input-format",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html#input-format",
-    "title": "Nine quadrant",
+    "objectID": "content/Multi_omics_data/Expression_Profile.html#input-format",
+    "href": "content/Multi_omics_data/Expression_Profile.html#input-format",
+    "title": "Expression profile",
     "section": "Input format",
-    "text": "Input format\nA minimal file can contain separate identifiers for the two layers and one numeric effect column for each layer:\nOmic1_ID,Log2FC_Omic1,Omic2_ID,Log2FC_Omic2\nGene_001,1.52,Protein_001,1.18\nGene_002,-2.10,Protein_002,-1.43\nGene_003,0.35,Protein_003,1.76\nThe selected x- and y-axis columns must be numeric. Other columns can remain in the input and will be retained in the preview and exported quadrant tables.",
+    "text": "Input format\nA suitable CSV has feature identifiers in the first column and numeric samples in the remaining columns, for example:\nID,Sample1,Sample2,Sample3,Sample4\nProtein_A,10.2,12.4,18.7,21.1\nProtein_B,30.5,24.2,17.9,11.6\nProtein_C,8.1,14.6,13.9,20.4\nProtVis requires at least two sample columns, and all sample columns must be numeric. If samples represent an ordered experiment, arrange them in the intended chronological or biological order before clustering because that column order becomes the trend-plot x-axis.",
     "crumbs": [
       "Multi-omics",
-      "Nine quadrant"
+      "Expression profile"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#color-settings",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html#color-settings",
-    "title": "Nine quadrant",
-    "section": "Color settings",
-    "text": "Color settings\nOpen Color Settings to customize all nine classes independently: Up_Up, Down_Down, Up_Down, Down_Up, Up_NS, Down_NS, NS_Up, NS_Down, and NS_NS. Color changes affect presentation only; they do not change class membership.",
+    "objectID": "content/Multi_omics_data/Expression_Profile.html#how-kmeans-is-calculated",
+    "href": "content/Multi_omics_data/Expression_Profile.html#how-kmeans-is-calculated",
+    "title": "Expression profile",
+    "section": "How Kmeans is calculated",
+    "text": "How Kmeans is calculated\nFor the Kmeans view, ProtVis scales each feature across samples before clustering. Conceptually, each row is transformed to a standardized trajectory and K-means then groups rows with similar shapes. This means a highly abundant protein and a low-abundance protein can enter the same cluster when their relative trajectories are similar.\nThe cluster title includes both the cluster number and the number of assigned features. In the bundled example shown above, six clusters contain a total of 582 features.\n\n\n\n\n\n\nImportantInterpret trend shape, not absolute abundance\n\n\n\nBecause Kmeans uses row-standardized values, the y-axis represents standardized relative change. Do not interpret the plotted y-value as the original protein intensity. Return to the original/normalized quantitative matrix when absolute abundance is required.",
     "crumbs": [
       "Multi-omics",
-      "Nine quadrant"
+      "Expression profile"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/Nine_Quadrant.html#interpretation",
-    "href": "content/Multi_omics_data/Nine_Quadrant.html#interpretation",
-    "title": "Nine quadrant",
-    "section": "Interpretation",
-    "text": "Interpretation\nThe nine-quadrant module performs directional classification from the selected numeric values and cutoff. It is not a substitute for formal differential statistics. When available, perform the appropriate DEP/DEG analysis first and retain adjusted p-values or significance labels alongside the fold changes.\n\n\n\n\n\n\nWarningKeep contrast direction consistent\n\n\n\nIf one layer uses Treatment - Control while the other uses Control - Treatment, biologically concordant responses will appear discordant. Verify contrast direction before interpreting the quadrant pattern.\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe built-in 2,800-row dataset is a demonstration dataset intended to show the interface and output structure. The quadrant counts in the screenshot are not expected values for real experiments.",
+    "objectID": "content/Multi_omics_data/Expression_Profile.html#heatmap-mode",
+    "href": "content/Multi_omics_data/Expression_Profile.html#heatmap-mode",
+    "title": "Expression profile",
+    "section": "Heatmap mode",
+    "text": "Heatmap mode\nSelecting Heatmap opens the Heatmap trend analysis (K-means) view. Set the number of K-means clusters and choose the scale mode: Row (trend), Column, or None. Run the heatmap and inspect the resulting cluster structure before exporting the cluster table.\nRow scaling is appropriate when the goal is to emphasize within-protein trends across samples. Column scaling instead emphasizes sample-wise relative structure, while None retains the supplied numerical scale.",
     "crumbs": [
       "Multi-omics",
-      "Nine quadrant"
+      "Expression profile"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/venn.html",
-    "href": "content/Multi_omics_data/venn.html",
-    "title": "Venn",
+    "objectID": "content/Multi_omics_data/Expression_Profile.html#choosing-the-number-of-clusters",
+    "href": "content/Multi_omics_data/Expression_Profile.html#choosing-the-number-of-clusters",
+    "title": "Expression profile",
+    "section": "Choosing the number of clusters",
+    "text": "Choosing the number of clusters\nThere is no universally correct K. Start with a moderate number, inspect cluster size and trajectory coherence, and compare nearby values when needed. Very large K values can fragment one coherent response into many small groups, whereas very small K values can merge distinct biological patterns.\nA useful cluster should contain a recognizable trajectory and enough members to support the intended downstream interpretation. A cluster containing only a handful of proteins is not automatically wrong, but it deserves closer inspection before biological conclusions are drawn.",
+    "crumbs": [
+      "Multi-omics",
+      "Expression profile"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Expression_Profile.html#downstream-use",
+    "href": "content/Multi_omics_data/Expression_Profile.html#downstream-use",
+    "title": "Expression profile",
+    "section": "Downstream use",
+    "text": "Downstream use\nExported cluster assignments can be used to create cluster-specific protein lists for Enrichment analysis, pathway interpretation, PPI/network analysis, or other multi-omics modules. Preserve the sample order, preprocessing state, selected K and cluster table as part of the analysis record so that the trend analysis can be reproduced.\n\n\n\n\n\n\nNote\n\n\n\nTrend clustering is exploratory. Membership in a K-means cluster does not establish statistical significance for every protein in that cluster. Use DEP or an appropriate time-series/repeated-measures model when formal statistical inference is required.",
+    "crumbs": [
+      "Multi-omics",
+      "Expression profile"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Metaproteomics.html",
+    "href": "content/Multi_omics_data/Metaproteomics.html",
+    "title": "Metaproteomics",
     "section": "",
-    "text": "Use Multi-omics → Venn to compare membership across multiple gene, protein, phosphoprotein, metabolite, or other feature sets. The current ProtVis module supports both Venn and UpSet visualization from the same input table.\nIn Auto mode, ProtVis uses a Venn diagram when the dataset contains six or fewer sets and switches to an UpSet plot when there are more than six sets. You can also force Venn or UpSet manually when appropriate.",
+    "text": "The current metaproteomics module joins three CSV tables by ProteinID.\n\n\nProteinID,Control_1,Control_2,Treatment_1,Treatment_2\nP001,100,120,160,150\n\n\n\nRequired columns:\nProteinID,Phylum,Genus,Species\n\n\n\nRequired columns:\nProteinID,KO,Pathway,COG\nA built-in demo and downloadable demo tables are provided in the interface.",
     "crumbs": [
       "Multi-omics",
-      "Venn"
+      "Metaproteomics"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/venn.html#purpose",
-    "href": "content/Multi_omics_data/venn.html#purpose",
-    "title": "Venn",
+    "objectID": "content/Multi_omics_data/Metaproteomics.html#inputs",
+    "href": "content/Multi_omics_data/Metaproteomics.html#inputs",
+    "title": "Metaproteomics",
     "section": "",
-    "text": "Use Multi-omics → Venn to compare membership across multiple gene, protein, phosphoprotein, metabolite, or other feature sets. The current ProtVis module supports both Venn and UpSet visualization from the same input table.\nIn Auto mode, ProtVis uses a Venn diagram when the dataset contains six or fewer sets and switches to an UpSet plot when there are more than six sets. You can also force Venn or UpSet manually when appropriate.",
+    "text": "The current metaproteomics module joins three CSV tables by ProteinID.\n\n\nProteinID,Control_1,Control_2,Treatment_1,Treatment_2\nP001,100,120,160,150\n\n\n\nRequired columns:\nProteinID,Phylum,Genus,Species\n\n\n\nRequired columns:\nProteinID,KO,Pathway,COG\nA built-in demo and downloadable demo tables are provided in the interface.",
     "crumbs": [
       "Multi-omics",
-      "Venn"
+      "Metaproteomics"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/venn.html#venn-upset-interface",
-    "href": "content/Multi_omics_data/venn.html#venn-upset-interface",
-    "title": "Venn",
-    "section": "Venn / UpSet interface",
-    "text": "Venn / UpSet interface\nThe screenshot below shows the current module with the built-in three-set demonstration data. The example contains Proteome, Transcriptome, and Phosphoproteome sets and is currently displayed in Venn mode. The right side contains the intersection plot and the processed binary membership table.\n\n\n\n\n\n\nFigure 1: ProtVis Venn/UpSet module using the built-in Proteome, Transcriptome and Phosphoproteome example. The sidebar provides file input, example data, plot-type selection and per-set colors, while the main panel displays the overlap plot and processed membership table.",
+    "objectID": "content/Multi_omics_data/Metaproteomics.html#analysis-settings",
+    "href": "content/Multi_omics_data/Metaproteomics.html#analysis-settings",
+    "title": "Metaproteomics",
+    "section": "Analysis settings",
+    "text": "Analysis settings\nChoose a taxonomic level (Phylum, Genus, Species) and a functional level (Pathway, KO, COG). You can switch between summed intensity and relative abundance and choose how many top categories are displayed.",
     "crumbs": [
       "Multi-omics",
-      "Venn"
+      "Metaproteomics"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/venn.html#recommended-operating-order",
-    "href": "content/Multi_omics_data/venn.html#recommended-operating-order",
-    "title": "Venn",
+    "objectID": "content/Multi_omics_data/Metaproteomics.html#outputs",
+    "href": "content/Multi_omics_data/Metaproteomics.html#outputs",
+    "title": "Metaproteomics",
+    "section": "Outputs",
+    "text": "Outputs\nThe module reports the number of proteins, taxa and functions and provides:\n\nmerged abundance/taxonomy/function table;\ntaxonomy composition plot;\nfunction composition plot;\ntaxon-function Sankey diagram;\ntaxon-function heatmap;\ndownloadable merged table.",
+    "crumbs": [
+      "Multi-omics",
+      "Metaproteomics"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Metaproteomics.html#group-labels",
+    "href": "content/Multi_omics_data/Metaproteomics.html#group-labels",
+    "title": "Metaproteomics",
+    "section": "Group labels",
+    "text": "Group labels\nIn the current module, sample names containing terms such as treat, case, or disease are assigned to Treatment; other samples default to Control for the display grouping. Use clear sample names when relying on this behavior.\n\n\n\n\n\n\nImportant\n\n\n\nTaxonomic and functional annotations can be many-to-many in real metaproteomes. Confirm how protein groups, shared peptides and ambiguous taxonomic assignments were handled upstream before interpreting summed compositions as organism-level abundance.",
+    "crumbs": [
+      "Multi-omics",
+      "Metaproteomics"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Co_enrichment.html",
+    "href": "content/Multi_omics_data/Co_enrichment.html",
+    "title": "Co-enrichment",
+    "section": "",
+    "text": "Use Multi-omics → Co-enrichment after enrichment analysis has been completed separately for multiple omics layers, contrasts, tissues, or protein clusters. The module compares enrichment results across two or three omics datasets, identifies shared and omics-specific pathways, and provides publication-oriented summary tables and plots.\nThe most important requirement is comparability: enrichment results should use compatible pathway identifiers, annotation versions, and biological backgrounds. A pathway appearing in only one layer can reflect true biology, but it can also arise from incompatible annotation systems or different background universes.",
+    "crumbs": [
+      "Multi-omics",
+      "Co-enrichment"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Co_enrichment.html#purpose",
+    "href": "content/Multi_omics_data/Co_enrichment.html#purpose",
+    "title": "Co-enrichment",
+    "section": "",
+    "text": "Use Multi-omics → Co-enrichment after enrichment analysis has been completed separately for multiple omics layers, contrasts, tissues, or protein clusters. The module compares enrichment results across two or three omics datasets, identifies shared and omics-specific pathways, and provides publication-oriented summary tables and plots.\nThe most important requirement is comparability: enrichment results should use compatible pathway identifiers, annotation versions, and biological backgrounds. A pathway appearing in only one layer can reflect true biology, but it can also arise from incompatible annotation systems or different background universes.",
+    "crumbs": [
+      "Multi-omics",
+      "Co-enrichment"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Co_enrichment.html#co-enrichment-interface",
+    "href": "content/Multi_omics_data/Co_enrichment.html#co-enrichment-interface",
+    "title": "Co-enrichment",
+    "section": "Co-enrichment interface",
+    "text": "Co-enrichment interface\nThe screenshot below shows the current three-omics example with Transcriptome, Proteome, and Metabolome enrichment results. The interface contains Data Input, Column Mapping, Display Control, Color & Export, and Run & Download controls. The result area provides an overlap summary, source-data previews, a summary bar plot, a matrix-style UpSet plot, a significance bubble plot, and a table of shared/specific pathways.\n\n\n\n\n\n\nFigure 1: ProtVis Co-enrichment interface showing a three-omics example with Transcriptome, Proteome and Metabolome enrichment results, overlap summary, UpSet-style overlap visualization and pathway significance outputs.",
+    "crumbs": [
+      "Multi-omics",
+      "Co-enrichment"
+    ]
+  },
+  {
+    "objectID": "content/Multi_omics_data/Co_enrichment.html#recommended-operating-order",
+    "href": "content/Multi_omics_data/Co_enrichment.html#recommended-operating-order",
+    "title": "Co-enrichment",
     "section": "Recommended operating order",
-    "text": "Recommended operating order\n1. Prepare a set-membership CSV. Each column represents one set and each non-empty cell contains a feature identifier. The sets do not need to have the same number of members; shorter columns can contain empty/NA cells.\n2. Load the data. Use File to upload a .csv, or click Use example data. The built-in example contains three sets named Proteome, Transcriptome and Phosphoproteome and is displayed immediately after loading.\n3. Confirm the detected set count. The status message above the plot reports the number of sets and the current rendering mode, for example Detected 3 sets. Current mode: VENN.\n4. Choose the plot type. Under Choose plot type, select Auto, Venn, or UpSet. Auto uses Venn for up to six sets and UpSet for more than six. If Venn is forced for more than six sets, ProtVis warns you to use Auto or UpSet instead.\n5. Set colors. After loading data, ProtVis creates one color selector for each set. In the example these are Select Color for Proteome, Select Color for Transcriptome, and Select Color for Phosphoproteome. Color settings affect the Venn presentation; UpSet rendering follows the UpSet layout.\n6. Run the plot when using uploaded data or after changing settings. Click Run to rebuild the current Venn/UpSet result from the selected plot mode and colors. The built-in example is initialized immediately, but rerunning is appropriate after changing display settings.\n7. Inspect the overlap plot. For a small number of sets, Venn provides a direct visual summary of unique and shared members. For larger comparisons, UpSet is easier to read because intersections are represented as a matrix of active sets with frequency bars rather than increasingly complex overlapping circles.\n8. Inspect the Processed Table. ProtVis converts the source sets to a binary membership table in which each unique feature occupies one row and each set is encoded as 1 (present) or 0 (absent). The table can be searched and exported with the built-in Copy, CSV, and Excel controls.\n9. Export the figure. Click Download to save the current visualization as PDF. Venn exports use an 8 × 6 inch layout, while UpSet uses a 10 × 7 inch PDF canvas in the current implementation.",
+    "text": "Recommended operating order\n1. Choose two-omics or three-omics mode. Open Data Input and select Co-enrichment Mode. Use Two-omics when comparing two result sets and Three-omics when comparing three layers such as transcriptome, proteome and metabolome.\n2. Name each omics layer. Set Omics 1 Name, Omics 2 Name, and, in three-omics mode, Omics 3 Name. These labels are propagated into summaries and plots, so use concise names that match the biological analysis.\n3. Load enrichment results. Upload the enrichment file for each omics layer. ProtVis accepts .csv, .tsv, .txt, .xlsx, and .xls. For a quick demonstration, click Use built-in example data. The built-in example loads representative Transcriptome, Proteome and Metabolome enrichment tables; review the mappings and then run the analysis.\n4. Set the adjusted p-value cutoff. The default Adjusted p-value cutoff is 0.05. Pathways are considered significant in each layer according to this threshold before shared/specific classifications are summarized.\n5. Decide how duplicate pathway names are handled. Keep Remove duplicated pathway names within each omics selected unless there is a specific reason to preserve duplicate descriptions. This avoids counting the same pathway more than once inside one omics layer.\n6. Verify Column Mapping. Open Column Mapping and, for each uploaded dataset, select the correct Pathway column and Adjusted p-value column. ProtVis attempts to guess these fields, but the selections should still be checked manually before running the comparison.\n7. Configure Display Control. Choose Pathway Display Mode as All, Shared only, or Specific only. Use the group filter to focus on one overlap class when needed. Top N pathways in bubble plot controls how many pathways are shown in the bubble visualization; the current default is 20. The value-label and sorting options affect presentation rather than pathway classification.\n8. Configure colors and export settings. Under Color & Export, customize colors for shared pathways, pairwise-shared pathways, and omics-specific groups. The UpSet active/inactive colors and bubble low/high colors can also be adjusted. Choose PDF or PNG for plot downloads; PNG export additionally uses the selected DPI.\n9. Run the analysis. Open Run & Download and click Run. After processing, review the summary note above the overlap table to confirm the adjusted p-value cutoff, display mode, group filter, and Top N setting used for the current result.\n10. Inspect the result panels. Overlap Summary reports the pathway classes and counts. Uploaded Data Preview lets you inspect the input enrichment tables. Summary Bar Plot compares class sizes, Matrix-style UpSet Plot shows overlap structure, Significance Bubble Plot summarizes pathway significance across layers, and Shared and Specific Pathways provides the underlying pathway-level table.\n11. Export tables and plots. The Run & Download section provides downloadable two-omics and three-omics demo data, the summary table, the pathway table, and individual summary, UpSet, and bubble plots in the selected format.",
     "crumbs": [
       "Multi-omics",
-      "Venn"
+      "Co-enrichment"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/venn.html#input-format",
-    "href": "content/Multi_omics_data/venn.html#input-format",
-    "title": "Venn",
-    "section": "Input format",
-    "text": "Input format\nA suitable CSV looks like this:\nProteome,Transcriptome,Phosphoproteome\nP53,P53,AKT1\nMAPK1,MAPK1,MTOR\nAKT1,HIF1A,MAPK1\nMTOR,STAT3,EGFR\nSTAT3,JUN,SRC\nEGFR,,JUN\nProtVis trims surrounding whitespace, treats blank cells as missing, and removes duplicate identifiers within each set before constructing the overlap representation.",
+    "objectID": "content/Multi_omics_data/Co_enrichment.html#recommended-input-structure",
+    "href": "content/Multi_omics_data/Co_enrichment.html#recommended-input-structure",
+    "title": "Co-enrichment",
+    "section": "Recommended input structure",
+    "text": "Recommended input structure\nEach omics enrichment file must contain at least a pathway/term field and an adjusted p-value field. Additional columns can be retained. A minimal example is:\nPathway,padj,Count\nCarbon metabolism,0.003,28\nRibosome,0.018,35\nPlant hormone signal transduction,0.021,19\nColumn names do not have to match this example exactly because they are assigned explicitly in Column Mapping.",
     "crumbs": [
       "Multi-omics",
-      "Venn"
+      "Co-enrichment"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/venn.html#venn-versus-upset",
-    "href": "content/Multi_omics_data/venn.html#venn-versus-upset",
-    "title": "Venn",
-    "section": "Venn versus UpSet",
-    "text": "Venn versus UpSet\nA Venn diagram is most useful for a small number of sets because the individual intersections remain visually interpretable. UpSet is preferable when the number of sets becomes larger or when many different intersections must be compared quantitatively.\nThe Auto option is therefore the recommended default for general use: it preserves the intuitive Venn view for small comparisons while avoiding unreadable diagrams for larger set collections.",
+    "objectID": "content/Multi_omics_data/Co_enrichment.html#how-shared-and-specific-pathways-should-be-interpreted",
+    "href": "content/Multi_omics_data/Co_enrichment.html#how-shared-and-specific-pathways-should-be-interpreted",
+    "title": "Co-enrichment",
+    "section": "How shared and specific pathways should be interpreted",
+    "text": "How shared and specific pathways should be interpreted\nA pathway classified as shared is present among the significant enrichment results of more than one selected omics layer. A pathway classified as specific is significant only in the corresponding layer under the current cutoff. In three-omics mode, ProtVis can distinguish pathways shared by all three layers, pairwise-shared pathways, and pathways specific to one layer.\nDo not interpret overlap alone as evidence that molecular changes occur in the same direction or involve the same genes/proteins/metabolites. Co-enrichment compares pathway-level enrichment membership; directionality and constituent features should be checked in the original differential and enrichment results.",
     "crumbs": [
       "Multi-omics",
-      "Venn"
+      "Co-enrichment"
     ]
   },
   {
-    "objectID": "content/Multi_omics_data/venn.html#interpretation",
-    "href": "content/Multi_omics_data/venn.html#interpretation",
-    "title": "Venn",
-    "section": "Interpretation",
-    "text": "Interpretation\nOverlap size is descriptive: it tells you which identifiers are shared between sets, not whether the overlap is statistically greater than expected by chance. A formal overlap-enrichment test requires a clearly defined background universe and an appropriate statistical model.\nAlso confirm that all columns use the same identifier namespace before interpretation. Apparent non-overlap can simply reflect incompatible gene/protein ID systems.\n\n\n\n\n\n\nTip\n\n\n\nUse the Processed Table when you need exact membership for downstream analysis. The figure is ideal for communication, but the binary table is the reproducible record of which features belong to each intersection.\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe P53/MAPK1/AKT1-style identifiers shown in the screenshot belong to ProtVis’s built-in demonstration dataset and are intended only to illustrate input structure and plotting behavior.",
+    "objectID": "content/Multi_omics_data/Co_enrichment.html#practical-checks-before-interpretation",
+    "href": "content/Multi_omics_data/Co_enrichment.html#practical-checks-before-interpretation",
+    "title": "Co-enrichment",
+    "section": "Practical checks before interpretation",
+    "text": "Practical checks before interpretation\nConfirm that all input tables use the same pathway naming/ID system, that enrichment backgrounds are biologically comparable, and that the adjusted p-values were calculated in a compatible way. If pathway descriptions differ only because of database-version naming changes, harmonize identifiers before upload.\n\n\n\n\n\n\nTip\n\n\n\nFor cross-omics comparisons, stable pathway identifiers are preferable to free-text descriptions whenever they are available. Descriptions can change between database releases even when the underlying pathway is the same.\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe pathways and counts shown in the screenshot belong to the built-in demonstration and are intended to illustrate the interface. Real results depend on the uploaded enrichment tables, column mappings, p-value cutoff, and display filters.",
     "crumbs": [
       "Multi-omics",
-      "Venn"
+      "Co-enrichment"
     ]
   },
   {
-    "objectID": "content/PTM/PD_Strict_Spectrum.html",
-    "href": "content/PTM/PD_Strict_Spectrum.html",
-    "title": "PD strict spectrum",
+    "objectID": "content/PTM/PTM.html",
+    "href": "content/PTM/PTM.html",
+    "title": "PTM analysis",
     "section": "",
-    "text": "PD Strict Spectrum provides a dedicated route for Proteome Discoverer evidence that needs stricter spectrum-level inspection than a protein-level abundance table can provide."
+    "text": "The PTM section is intended for modification-centric proteomics workflows in which peptide/site-level evidence needs to be inspected separately from ordinary protein abundance analysis.\nBecause PTM search-engine exports differ substantially in site localization, peptide sequence, modification notation and protein mapping, always check that the selected source parser and input columns match the dataset that generated the evidence.",
+    "crumbs": [
+      "PTM",
+      "PTM analysis"
+    ]
   },
   {
-    "objectID": "content/PTM/PD_Strict_Spectrum.html#purpose",
-    "href": "content/PTM/PD_Strict_Spectrum.html#purpose",
-    "title": "PD strict spectrum",
+    "objectID": "content/PTM/PTM.html#scope",
+    "href": "content/PTM/PTM.html#scope",
+    "title": "PTM analysis",
     "section": "",
-    "text": "PD Strict Spectrum provides a dedicated route for Proteome Discoverer evidence that needs stricter spectrum-level inspection than a protein-level abundance table can provide."
+    "text": "The PTM section is intended for modification-centric proteomics workflows in which peptide/site-level evidence needs to be inspected separately from ordinary protein abundance analysis.\nBecause PTM search-engine exports differ substantially in site localization, peptide sequence, modification notation and protein mapping, always check that the selected source parser and input columns match the dataset that generated the evidence.",
+    "crumbs": [
+      "PTM",
+      "PTM analysis"
+    ]
   },
   {
-    "objectID": "content/PTM/PD_Strict_Spectrum.html#workflow-principles",
-    "href": "content/PTM/PD_Strict_Spectrum.html#workflow-principles",
-    "title": "PD strict spectrum",
-    "section": "Workflow principles",
-    "text": "Workflow principles\n\nUse the original Proteome Discoverer export expected by the module.\nConfirm peptide sequence, modification/site annotation, spectrum identifiers and score/evidence fields before applying filters.\nRetain the unfiltered source file and export the exact filtered subset used for interpretation.\nFor candidate PTM sites used in a manuscript, manually inspect the relevant fragmentation/localization evidence when possible.\n\n\n\n\n\n\n\nNote\n\n\n\nSpectrum-level validation supports identification confidence; it does not replace quantitative replication or statistical testing across biological samples."
+    "objectID": "content/PTM/PTM.html#recommended-workflow",
+    "href": "content/PTM/PTM.html#recommended-workflow",
+    "title": "PTM analysis",
+    "section": "Recommended workflow",
+    "text": "Recommended workflow\n\nComplete the standard project setup and source selection.\nOpen PTM and load the PTM-specific table expected by the module.\nVerify modified sequence/site notation and protein identifiers before filtering.\nApply localization/evidence filters appropriate to the experiment.\nInspect modification-level quantitative patterns separately from total protein abundance.\nExport the filtered evidence table used for every figure.",
+    "crumbs": [
+      "PTM",
+      "PTM analysis"
+    ]
+  },
+  {
+    "objectID": "content/PTM/PTM.html#biological-interpretation",
+    "href": "content/PTM/PTM.html#biological-interpretation",
+    "title": "PTM analysis",
+    "section": "Biological interpretation",
+    "text": "Biological interpretation\nA change at a phosphosite, acetylation site or other PTM can reflect altered modification occupancy, altered total protein abundance, or both. When possible, compare PTM abundance with the corresponding protein-level signal before assigning a regulatory interpretation.\n\n\n\n\n\n\nWarning\n\n\n\nDo not interpret a modified peptide as a unique site when the search result does not localize the modification confidently. Preserve the original localization evidence in the exported record.",
+    "crumbs": [
+      "PTM",
+      "PTM analysis"
+    ]
+  },
+  {
+    "objectID": "content/PTM/PSM_Explorer.html",
+    "href": "content/PTM/PSM_Explorer.html",
+    "title": "PSM Explorer",
+    "section": "",
+    "text": "PSM Explorer is the current spectrum-level evidence browser in ProtVis. It follows the chain:\nProtein → Peptide → PSM → MS/MS spectrum\nUse it when a protein-level abundance result is not enough and you need to inspect the spectrum evidence supporting a peptide or post-translational modification.",
+    "crumbs": [
+      "PTM",
+      "PSM Explorer"
+    ]
+  },
+  {
+    "objectID": "content/PTM/PSM_Explorer.html#purpose",
+    "href": "content/PTM/PSM_Explorer.html#purpose",
+    "title": "PSM Explorer",
+    "section": "",
+    "text": "PSM Explorer is the current spectrum-level evidence browser in ProtVis. It follows the chain:\nProtein → Peptide → PSM → MS/MS spectrum\nUse it when a protein-level abundance result is not enough and you need to inspect the spectrum evidence supporting a peptide or post-translational modification.",
+    "crumbs": [
+      "PTM",
+      "PSM Explorer"
+    ]
+  },
+  {
+    "objectID": "content/PTM/PSM_Explorer.html#required-files",
+    "href": "content/PTM/PSM_Explorer.html#required-files",
+    "title": "PSM Explorer",
+    "section": "Required files",
+    "text": "Required files\nThe standalone explorer accepts a matching pair of:\n\nmzIdentML (.mzid or .mzid.gz);\nMGF containing the corresponding spectra.\n\nThe spectrum identifiers between the two files must be compatible. Files from different runs or exports will not map correctly even when both are individually valid.",
+    "crumbs": [
+      "PTM",
+      "PSM Explorer"
+    ]
+  },
+  {
+    "objectID": "content/PTM/PSM_Explorer.html#built-in-vac14-benchmark",
+    "href": "content/PTM/PSM_Explorer.html#built-in-vac14-benchmark",
+    "title": "PSM Explorer",
+    "section": "Built-in Vac14 benchmark",
+    "text": "Built-in Vac14 benchmark\nProtVis includes a published phosphopeptide benchmark based on PXD001057:\n\nprotein: AT2G01690.1 (Vac14);\npeptide: AT[pS]GVPFSQYK;\nphosphosite: Ser3;\nprecursor charge: 2+.\n\nThe example can download/cache its public PRIDE mzIdentML and MGF files and is useful for verifying the local spectrum stack.",
+    "crumbs": [
+      "PTM",
+      "PSM Explorer"
+    ]
+  },
+  {
+    "objectID": "content/PTM/PSM_Explorer.html#workflow",
+    "href": "content/PTM/PSM_Explorer.html#workflow",
+    "title": "PSM Explorer",
+    "section": "Workflow",
+    "text": "Workflow\n\nLoad the built-in benchmark or upload matching mzIdentML + MGF files.\nParse the PSM table.\nSearch/filter to a peptide, protein or PSM of interest.\nSelect the PSM row.\nRebuild the spectrum view for the current selection.\nInspect the annotated spectrum, theoretical fragment coverage and PSM metadata.\nExport the spectrum/table used for interpretation.\n\nProtVis uses PSMatch, Spectra and MsBackendMgf for this evidence workflow.",
+    "crumbs": [
+      "PTM",
+      "PSM Explorer"
+    ]
+  },
+  {
+    "objectID": "content/PTM/PSM_Explorer.html#ptm-aware-annotation",
+    "href": "content/PTM/PSM_Explorer.html#ptm-aware-annotation",
+    "title": "PSM Explorer",
+    "section": "PTM-aware annotation",
+    "text": "PTM-aware annotation\nFor modified peptides, the explorer calculates theoretical b/y fragments with modification masses included and matches observed peaks within the configured tolerance. The Vac14 benchmark also includes neutral-loss candidates relevant to phosphopeptide fragmentation.\nA convincing annotated spectrum supports identification confidence, but it does not establish quantitative significance across biological replicates.",
+    "crumbs": [
+      "PTM",
+      "PSM Explorer"
+    ]
+  },
+  {
+    "objectID": "content/PTM/PSM_Explorer.html#what-to-verify",
+    "href": "content/PTM/PSM_Explorer.html#what-to-verify",
+    "title": "PSM Explorer",
+    "section": "What to verify",
+    "text": "What to verify\nBefore using a spectrum in a manuscript, check the modified sequence/site position, precursor charge and m/z, spectrum/run identifier, matched b/y series, mass tolerance, and whether the modification is truly localized.\n\n\n\n\n\n\nWarning\n\n\n\nDo not interpret a PTM site as uniquely localized when the underlying search result does not provide site-localization evidence. Keep original PSM metadata with the exported spectrum.",
+    "crumbs": [
+      "PTM",
+      "PSM Explorer"
+    ]
+  },
+  {
+    "objectID": "content/PTM/PSM_Explorer.html#relationship-to-ptm-analysis",
+    "href": "content/PTM/PSM_Explorer.html#relationship-to-ptm-analysis",
+    "title": "PSM Explorer",
+    "section": "Relationship to PTM analysis",
+    "text": "Relationship to PTM analysis\nPTM analysis summarizes modification-centric results at the analysis level. PSM Explorer is the evidence-inspection layer for individual peptide-spectrum matches. Use the two together when a key PTM conclusion needs spectrum-level support.",
+    "crumbs": [
+      "PTM",
+      "PSM Explorer"
+    ]
   },
   {
     "objectID": "content/introduce.html",
