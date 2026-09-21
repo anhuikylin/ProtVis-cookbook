@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Understand the independent S4 object that carries data, metadata, annotations, results and provenance through ProtVis.">
+<meta name="description" content="Understand the canonical S4 project object, append-only run registry, workflow graph, artifact index, assay registry and provenance model in ProtVis 0.9.1.">
 
-<title>ProtVis_dataset – ProtVis Cookbook</title>
+<title>ProtVis_dataset schema v4 – ProtVis Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -717,15 +717,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#why-protvis-uses-a-project-object" id="toc-why-protvis-uses-a-project-object" class="nav-link active" data-scroll-target="#why-protvis-uses-a-project-object">Why ProtVis uses a project object</a></li>
-  <li><a href="#core-components" id="toc-core-components" class="nav-link" data-scroll-target="#core-components">Core components</a></li>
-  <li><a href="#create-a-dataset-programmatically" id="toc-create-a-dataset-programmatically" class="nav-link" data-scroll-target="#create-a-dataset-programmatically">Create a dataset programmatically</a></li>
-  <li><a href="#inspect-a-built-in-project" id="toc-inspect-a-built-in-project" class="nav-link" data-scroll-target="#inspect-a-built-in-project">Inspect a built-in project</a></li>
-  <li><a href="#the-rawsage-staging-exception" id="toc-the-rawsage-staging-exception" class="nav-link" data-scroll-target="#the-rawsage-staging-exception">The Raw/Sage staging exception</a></li>
-  <li><a href="#sage-results-and-provenance" id="toc-sage-results-and-provenance" class="nav-link" data-scroll-target="#sage-results-and-provenance">Sage results and provenance</a></li>
-  <li><a href="#object-versions" id="toc-object-versions" class="nav-link" data-scroll-target="#object-versions">Object versions</a></li>
-  <li><a href="#annotation-schema" id="toc-annotation-schema" class="nav-link" data-scroll-target="#annotation-schema">Annotation schema</a></li>
-  <li><a href="#export-a-portable-project" id="toc-export-a-portable-project" class="nav-link" data-scroll-target="#export-a-portable-project">Export a portable project</a></li>
+  <li><a href="#why-protvis-uses-one-project-object" id="toc-why-protvis-uses-one-project-object" class="nav-link active" data-scroll-target="#why-protvis-uses-one-project-object">Why ProtVis uses one project object</a></li>
+  <li><a href="#physical-s4-slots" id="toc-physical-s4-slots" class="nav-link" data-scroll-target="#physical-s4-slots">Physical S4 slots</a></li>
+  <li><a href="#schema-v4-logical-fields" id="toc-schema-v4-logical-fields" class="nav-link" data-scroll-target="#schema-v4-logical-fields">Schema v4 logical fields</a></li>
+  <li><a href="#append-only-analysis-history" id="toc-append-only-analysis-history" class="nav-link" data-scroll-target="#append-only-analysis-history">Append-only analysis history</a></li>
+  <li><a href="#workflow-dependencies" id="toc-workflow-dependencies" class="nav-link" data-scroll-target="#workflow-dependencies">Workflow dependencies</a></li>
+  <li><a href="#assay-registry" id="toc-assay-registry" class="nav-link" data-scroll-target="#assay-registry">Assay registry</a></li>
+  <li><a href="#provenance" id="toc-provenance" class="nav-link" data-scroll-target="#provenance">Provenance</a></li>
+  <li><a href="#create-a-project-programmatically" id="toc-create-a-project-programmatically" class="nav-link" data-scroll-target="#create-a-project-programmatically">Create a project programmatically</a></li>
+  <li><a href="#qfeatures-interoperability" id="toc-qfeatures-interoperability" class="nav-link" data-scroll-target="#qfeatures-interoperability">QFeatures interoperability</a></li>
+  <li><a href="#raw-search-staging" id="toc-raw-search-staging" class="nav-link" data-scroll-target="#raw-search-staging">Raw-search staging</a></li>
+  <li><a href="#compatibility-checkpoints" id="toc-compatibility-checkpoints" class="nav-link" data-scroll-target="#compatibility-checkpoints">Compatibility checkpoints</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/reproducibility/ProtVis_dataset.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/reproducibility/ProtVis_dataset.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -735,12 +737,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/reproducibility/ProtVis_dataset.html">Reproducible workflow</a></li><li class="breadcrumb-item"><a href="../../content/reproducibility/ProtVis_dataset.html">ProtVis_dataset schema v4</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">ProtVis_dataset</h1>
+<h1 class="title">ProtVis_dataset schema v4</h1>
 </div>
 
 <div>
   <div class="description">
-    Understand the independent S4 object that carries data, metadata, annotations, results and provenance through ProtVis.
+    Understand the canonical S4 project object, append-only run registry, workflow graph, artifact index, assay registry and provenance model in ProtVis 0.9.1.
   </div>
 </div>
 
@@ -757,36 +759,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="why-protvis-uses-a-project-object" class="level2">
-<h2 class="anchored" data-anchor-id="why-protvis-uses-a-project-object">Why ProtVis uses a project object</h2>
-<p><code>ProtVis_dataset</code> is an independent S4 class designed for proteomics. It does <strong>not</strong> inherit from <code>mass_dataset</code> and does not require the <code>massdataset</code> package. Its validity checks enforce exact alignment between expression columns and <code>sample_info</code>, and between expression rows and <code>variable_info</code>.</p>
-<p>This architecture allows ProtVis to preserve one coherent scientific record while every module adds a new result or processing step.</p>
-<div id="fig-protvis-dataset-architecture" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Architecture of ProtVis_dataset centered on a protein-by-sample expression matrix. The object connects sample information, variable information, annotation lists, analysis results, processing information, and provenance or extra files, with interoperability, reproducibility, and recoverability shown as design goals." data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-protvis-dataset-architecture-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/protvis-dataset-architecture.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:96.0%" alt="Architecture of ProtVis_dataset centered on a protein-by-sample expression matrix. The object connects sample information, variable information, annotation lists, analysis results, processing information, and provenance or extra files, with interoperability, reproducibility, and recoverability shown as design goals.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protvis-dataset-architecture-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Conceptual architecture of <code>ProtVis_dataset</code>. Expression data are linked to sample and variable metadata, annotation resources, analysis results, processing history, and provenance/extra files to support interoperability, reproducibility, and recoverability.
-</figcaption>
-</figure>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The processing-function names shown in the schematic describe the conceptual workflow stages. The code examples in this chapter use the current exported ProtVis API, such as <code>create_protvis_dataset()</code>.</p>
-</div>
-</div>
+<section id="why-protvis-uses-one-project-object" class="level2">
+<h2 class="anchored" data-anchor-id="why-protvis-uses-one-project-object">Why ProtVis uses one project object</h2>
+<p><code>ProtVis_dataset</code> is the canonical state container for the current application. It keeps the active quantitative matrix aligned with sample/protein metadata while preserving annotations, search evidence, analysis runs, artifacts, workflow dependencies and provenance.</p>
+<p>The object does not inherit from <code>mass_dataset</code>. Legacy workspaces can be migrated where supported, but new analyses use <code>ProtVis_dataset</code> directly.</p>
 </section>
-<section id="core-components" class="level2">
-<h2 class="anchored" data-anchor-id="core-components">Core components</h2>
+<section id="physical-s4-slots" class="level2">
+<h2 class="anchored" data-anchor-id="physical-s4-slots">Physical S4 slots</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -794,158 +773,159 @@ Note
 </colgroup>
 <thead>
 <tr class="header">
-<th>Component</th>
-<th>What it stores</th>
+<th>Slot</th>
+<th>Main role</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><code>expression_data</code></td>
-<td>Numeric protein-by-sample abundance matrix</td>
+<td>active protein-by-sample matrix</td>
 </tr>
 <tr class="even">
 <td><code>sample_info</code></td>
-<td>Sample identifiers and experimental metadata</td>
+<td>aligned sample metadata</td>
 </tr>
 <tr class="odd">
 <td><code>variable_info</code></td>
-<td>Protein/feature metadata aligned to expression rows</td>
+<td>aligned protein/feature metadata</td>
 </tr>
 <tr class="even">
-<td><code>sample_info_note</code></td>
-<td>Ordered documentation of sample-information columns</td>
+<td><code>sample_info_note</code> / <code>variable_info_note</code></td>
+<td>column documentation</td>
 </tr>
 <tr class="odd">
-<td><code>variable_info_note</code></td>
-<td>Ordered documentation of variable-information columns</td>
-</tr>
-<tr class="even">
 <td><code>annotation</code></td>
-<td>Fixed annotation schema with <code>eggnog_output</code>, <code>GO_annotation</code>, and <code>KEGG_annotation</code></td>
+<td><code>eggnog_output</code>, <code>GO_annotation</code>, <code>KEGG_annotation</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>analysis_results</code></td>
-<td>Stage-specific statistical, search and biological results</td>
+<td>analysis/search outputs and schema-v4 run store</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>process_info</code></td>
-<td>Active stage, parameters, messages, status and history</td>
+<td>process state/history</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>metadata</code></td>
-<td>Project-level information, source, input paths and object naming/version information</td>
+<td>source, schema version, provenance, registry/workflow/artifacts</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>other_files</code></td>
-<td>Registered auxiliary/result-file provenance</td>
-</tr>
-<tr class="odd">
-<td><code>checkpoint_info</code></td>
-<td>Checkpoint/recovery and export metadata</td>
+<td>registered auxiliary/result files</td>
 </tr>
 <tr class="even">
-<td><code>version</code></td>
-<td>Internal object schema version</td>
+<td><code>checkpoint_info</code></td>
+<td>checkpoint/export metadata</td>
 </tr>
 <tr class="odd">
+<td><code>version</code></td>
+<td>object version</td>
+</tr>
+<tr class="even">
 <td><code>activated</code></td>
-<td>Currently activated data layer</td>
+<td>active data layer/result</td>
 </tr>
 </tbody>
 </table>
-<p>The historical names <code>annotation_table</code> and <code>ms2_data</code> are not part of the current annotation model.</p>
 </section>
-<section id="create-a-dataset-programmatically" class="level2">
-<h2 class="anchored" data-anchor-id="create-a-dataset-programmatically">Create a dataset programmatically</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ProtVis)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>expr <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">S1 =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>),</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">S2 =</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">18</span>, <span class="dv">33</span>),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="fu">c</span>(<span class="st">"P1"</span>, <span class="st">"P2"</span>, <span class="st">"P3"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample_id =</span> <span class="fu">c</span>(<span class="st">"S1"</span>, <span class="st">"S2"</span>),</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Treatment"</span>),</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="fu">c</span>(<span class="st">"S1"</span>, <span class="st">"S2"</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">create_protvis_dataset</span>(</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">expression_data =</span> expr,</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample_info =</span> samples,</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">metadata =</span> <span class="fu">list</span>(<span class="at">source =</span> <span class="st">"User-defined matrix"</span>)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_protvis_dataset</span>(ds)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>For day-to-day GUI use, Project init creates this object automatically.</p>
+<section id="schema-v4-logical-fields" class="level2">
+<h2 class="anchored" data-anchor-id="schema-v4-logical-fields">Schema v4 logical fields</h2>
+<p>Schema v4 keeps the S4 slot layout backward compatible while adding three project-wide logical structures:</p>
+<ul>
+<li><strong>result registry</strong> → <code>metadata$result_registry</code>;</li>
+<li><strong>workflow graph</strong> → <code>metadata$workflow</code>;</li>
+<li><strong>artifact index</strong> → <code>metadata$artifacts</code>.</li>
+</ul>
+<p>The canonical immutable run store is:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dataset<span class="sc">$</span>analysis_results<span class="sc">$</span>v4<span class="sc">$</span>runs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Module-local/latest views are still available for compatibility, but they are mirrored into the append-only history rather than replacing previous runs.</p>
 </section>
-<section id="inspect-a-built-in-project" class="level2">
-<h2 class="anchored" data-anchor-id="inspect-a-built-in-project">Inspect a built-in project</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ProtVis)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">load_protvis_builtin_data</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="st">"DIA-NN"</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">auto_export =</span> <span class="cn">FALSE</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(ds)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">slotNames</span>(ds)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ds<span class="sc">$</span>expression_data)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ds<span class="sc">$</span>sample_info)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Use <code>protvis_expression_matrix(ds)</code> when you need an ID-first data frame suitable for UI boundaries or export.</p>
+<section id="append-only-analysis-history" class="level2">
+<h2 class="anchored" data-anchor-id="append-only-analysis-history">Append-only analysis history</h2>
+<p>Every analysis execution receives a run ID and stores its method, category, status, parameters, tables/statistics/plot data, files and dependencies. Re-running a module does not delete the previous execution.</p>
+<p>Core matrix-changing modules—noise correction, transformation, imputation and normalization—retain complete matrix snapshots with aligned metadata. Ordinary analyses retain their results and plotting/statistical context without duplicating the entire active matrix.</p>
+<p>Useful APIs:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">protvis_result_registry</span>(dataset)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">protvis_latest_result</span>(dataset, <span class="st">"normalization"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">protvis_result_history</span>(dataset, <span class="st">"normalization"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">protvis_result</span>(dataset, run_id)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>To activate a historical preprocessing matrix:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">protvis_activate_result</span>(dataset, run_id)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Custom extensions can append results with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">record_protvis_output</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  dataset,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">module =</span> <span class="st">"custom_analysis"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">tables =</span> <span class="fu">list</span>(<span class="at">result =</span> my_table),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot_data =</span> <span class="fu">list</span>(<span class="at">volcano =</span> volcano_df),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters =</span> <span class="fu">list</span>(<span class="at">method =</span> <span class="st">"my_method"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="the-rawsage-staging-exception" class="level2">
-<h2 class="anchored" data-anchor-id="the-rawsage-staging-exception">The Raw/Sage staging exception</h2>
-<p>A normal validated <code>ProtVis_dataset</code> must contain a non-empty numeric expression layer aligned to its sample and variable metadata. The current class has one deliberate exception: a project whose metadata marks <code>workflow_stage = "Sage_staging"</code> may temporarily have an empty expression layer.</p>
-<p>This supports a scientifically correct Raw workflow:</p>
-<p><strong>sample metadata + FASTA + mzML registration → Sage search → protein LFQ matrix</strong></p>
-<p>Instead of inventing protein values before a search exists, Project init creates:</p>
-<pre class="text"><code>ProtVis_dataset__project_init__Sage_staging__v1</code></pre>
-<p>After Sage succeeds, the LFQ table is converted to the protein matrix and the object is finalized as a normal quantitative project, for example:</p>
-<pre class="text"><code>ProtVis_dataset__Sage_database_search__v2</code></pre>
-<p>The parent/staging information and process history remain available in the finalized object.</p>
+<section id="workflow-dependencies" class="level2">
+<h2 class="anchored" data-anchor-id="workflow-dependencies">Workflow dependencies</h2>
+<p>The workflow graph records nodes and edges between upstream/downstream runs. Re-running an upstream stage can mark dependent downstream nodes as invalidated. Invalidated results remain in history for auditability but should not be treated as current evidence.</p>
+<p>Use <a href="../../content/reproducibility/Project_Dashboard.html">Project Dashboard</a> to inspect the run registry, workflow nodes/edges and current state.</p>
 </section>
-<section id="sage-results-and-provenance" class="level2">
-<h2 class="anchored" data-anchor-id="sage-results-and-provenance">Sage results and provenance</h2>
-<p>A completed Sage search is stored under:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">$</span>analysis_results<span class="sc">$</span>Sage_database_search</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The bundle includes search status, configuration, result-file paths, log information, PSM table and LFQ table. Search metadata also records the FASTA, mzML directory, output directory and Sage engine version.</p>
-<p>Produced files that exist on disk are registered in <code>other_files</code> with filename, normalized path, file size, MD5 checksum and attachment timestamp. Raw mzML/FASTA bytes are not duplicated into the S4 object itself; the object records the analytical context and result provenance while the project directory retains the files.</p>
+<section id="assay-registry" class="level2">
+<h2 class="anchored" data-anchor-id="assay-registry">Assay registry</h2>
+<p>Search workflows can retain PSM- and peptide-level assays separately from the active protein matrix. This allows Sage/FragPipe evidence and PSM Explorer workflows to coexist with protein-level quantitation without forcing every evidence type into <code>expression_data</code>.</p>
 </section>
-<section id="object-versions" class="level2">
-<h2 class="anchored" data-anchor-id="object-versions">Object versions</h2>
-<p>ProtVis analysis helpers create traceable object versions rather than overwriting an unnamed global object. Object names encode the project stage or method, and the object retains parameters and process history so results can be related back to their analytical context.</p>
-<p>For long-running GUI actions, current ProtVis also protects against duplicate execution. This matters for object versioning because an accidental second click should not create an unintended parallel search or preprocessing state.</p>
+<section id="provenance" class="level2">
+<h2 class="anchored" data-anchor-id="provenance">Provenance</h2>
+<p>Structured provenance can include:</p>
+<ul>
+<li>R/ProtVis/package versions;</li>
+<li>Sage or FragPipe runtime/version and parameters;</li>
+<li>timestamps and run status/errors;</li>
+<li>MD5 fingerprints of input/output files;</li>
+<li>parent object/run lineage;</li>
+<li>generated artifacts and paths.</li>
+</ul>
+<p>Portable exports can include <code>provenance.json</code>, <code>provenance.rds</code>, <code>workflow_status.csv</code>, result-registry tables and per-run RDS files.</p>
 </section>
-<section id="annotation-schema" class="level2">
-<h2 class="anchored" data-anchor-id="annotation-schema">Annotation schema</h2>
-<p>The annotation slot always exposes the same three named data frames:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ds<span class="sc">$</span>annotation)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># eggnog_output, GO_annotation, KEGG_annotation</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Missing annotation layers are represented as empty data frames rather than changing the object schema. This makes downstream code more predictable.</p>
+<section id="create-a-project-programmatically" class="level2">
+<h2 class="anchored" data-anchor-id="create-a-project-programmatically">Create a project programmatically</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ProtVis)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>expr <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">S1 =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">S2 =</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">18</span>, <span class="dv">33</span>),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="fu">c</span>(<span class="st">"P1"</span>, <span class="st">"P2"</span>, <span class="st">"P3"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample_id =</span> <span class="fu">c</span>(<span class="st">"S1"</span>, <span class="st">"S2"</span>),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Treatment"</span>),</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="fu">c</span>(<span class="st">"S1"</span>, <span class="st">"S2"</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">create_protvis_dataset</span>(</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">expression_data =</span> expr,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample_info =</span> samples</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="export-a-portable-project" class="level2">
-<h2 class="anchored" data-anchor-id="export-a-portable-project">Export a portable project</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">export_protvis_dataset</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  ds,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">directory =</span> <span class="st">"ProtVis_export"</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">include_raw =</span> <span class="cn">FALSE</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>out</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The export bundle contains the serialized <code>ProtVis_dataset</code>, expression and metadata tables, annotation tables, process history, serialized analysis results, a metadata JSON file, and an HTML report. If <code>include_raw = TRUE</code>, available attached source files can also be copied where supported.</p>
+<section id="qfeatures-interoperability" class="level2">
+<h2 class="anchored" data-anchor-id="qfeatures-interoperability">QFeatures interoperability</h2>
+<p>Optional helpers <code>as_QFeatures()</code> and <code>from_QFeatures()</code> connect ProtVis with the Bioconductor QFeatures ecosystem when those packages are installed. The conversion is optional; <code>ProtVis_dataset</code> remains the primary GUI/project state.</p>
+</section>
+<section id="raw-search-staging" class="level2">
+<h2 class="anchored" data-anchor-id="raw-search-staging">Raw-search staging</h2>
+<p>A Raw project is a deliberate exception to the normal non-empty expression-matrix rule. Project init can create a search staging object before protein quantitation exists. Search finalizes the project once Sage LFQ or a compatible FragPipe protein report has been parsed.</p>
+</section>
+<section id="compatibility-checkpoints" class="level2">
+<h2 class="anchored" data-anchor-id="compatibility-checkpoints">Compatibility checkpoints</h2>
+<p>Stage files such as <code>Step1_project_init.rda</code> through <code>Step7_differential_analysis.rda</code> remain useful for older workflows and recovery. They are compatibility snapshots, not the canonical run registry.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Treat the object as the authoritative record
+<span class="screen-reader-only">Important</span>Current state versus history
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Stage <code>.rda</code> files are useful for compatibility and recovery, but new analyses should use the active <code>ProtVis_dataset</code> whenever possible. This prevents parameters, annotation, search provenance, and file context from becoming detached from the quantitative matrix.</p>
+<p><code>expression_data</code> points to the active matrix. Historical matrices/results remain available through the run registry. Always verify the active run/node before exporting a final figure or table.</p>
 </div>
 </div>
 

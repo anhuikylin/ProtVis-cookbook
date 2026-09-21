@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Validate Raw-project inputs, run Sage 0.14.7, inspect PSM/LFQ results, and hand the protein matrix to shared preprocessing.">
+<meta name="description" content="Use the bundled cross-platform Sage backend to search mzML + FASTA, inspect PSM/LFQ output and create the canonical protein matrix.">
 
-<title>Raw/mzML + Sage search – ProtVis Cookbook</title>
+<title>Sage search – ProtVis Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -717,16 +717,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#when-to-use-this-workflow" id="toc-when-to-use-this-workflow" class="nav-link active" data-scroll-target="#when-to-use-this-workflow">When to use this workflow</a></li>
+  <li><a href="#when-to-use-sage" id="toc-when-to-use-sage" class="nav-link active" data-scroll-target="#when-to-use-sage">When to use Sage</a></li>
   <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
   <li><a href="#example-dataset-pxd065315" id="toc-example-dataset-pxd065315" class="nav-link" data-scroll-target="#example-dataset-pxd065315">Example dataset: PXD065315</a></li>
-  <li><a href="#sage-executable" id="toc-sage-executable" class="nav-link" data-scroll-target="#sage-executable">Sage executable</a></li>
+  <li><a href="#bundled-sage-executable" id="toc-bundled-sage-executable" class="nav-link" data-scroll-target="#bundled-sage-executable">Bundled Sage executable</a></li>
   <li><a href="#search-parameters" id="toc-search-parameters" class="nav-link" data-scroll-target="#search-parameters">Search parameters</a></li>
-  <li><a href="#run-the-search" id="toc-run-the-search" class="nav-link" data-scroll-target="#run-the-search">Run the search</a></li>
-  <li><a href="#files-produced-by-sage" id="toc-files-produced-by-sage" class="nav-link" data-scroll-target="#files-produced-by-sage">Files produced by Sage</a></li>
-  <li><a href="#how-lfq-becomes-a-protvis-matrix" id="toc-how-lfq-becomes-a-protvis-matrix" class="nav-link" data-scroll-target="#how-lfq-becomes-a-protvis-matrix">How LFQ becomes a ProtVis matrix</a></li>
-  <li><a href="#stage-handoff-to-preprocessing" id="toc-stage-handoff-to-preprocessing" class="nav-link" data-scroll-target="#stage-handoff-to-preprocessing">Stage handoff to preprocessing</a></li>
-  <li><a href="#recovery-after-restarting-protvis" id="toc-recovery-after-restarting-protvis" class="nav-link" data-scroll-target="#recovery-after-restarting-protvis">Recovery after restarting ProtVis</a></li>
+  <li><a href="#run-sage" id="toc-run-sage" class="nav-link" data-scroll-target="#run-sage">Run Sage</a></li>
+  <li><a href="#produced-files" id="toc-produced-files" class="nav-link" data-scroll-target="#produced-files">Produced files</a></li>
+  <li><a href="#how-sage-becomes-protvis_dataset" id="toc-how-sage-becomes-protvis_dataset" class="nav-link" data-scroll-target="#how-sage-becomes-protvis_dataset">How Sage becomes ProtVis_dataset</a></li>
+  <li><a href="#search-qc-and-recovery" id="toc-search-qc-and-recovery" class="nav-link" data-scroll-target="#search-qc-and-recovery">Search QC and recovery</a></li>
   <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/data_import/raw_sage_search.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/data_import/raw_sage_search.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -737,12 +736,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/introduce.html">Getting started</a></li><li class="breadcrumb-item"><a href="../../content/data_import/raw_sage_search.html">Search</a></li><li class="breadcrumb-item"><a href="../../content/data_import/raw_sage_search.html">Sage</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Raw/mzML + Sage search</h1>
+<h1 class="title">Sage search</h1>
 </div>
 
 <div>
   <div class="description">
-    Validate Raw-project inputs, run Sage 0.14.7, inspect PSM/LFQ results, and hand the protein matrix to shared preprocessing.
+    Use the bundled cross-platform Sage backend to search mzML + FASTA, inspect PSM/LFQ output and create the canonical protein matrix.
   </div>
 </div>
 
@@ -759,24 +758,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="when-to-use-this-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="when-to-use-this-workflow">When to use this workflow</h2>
-<p>Use <strong>Project init → Search</strong> when your starting point is converted <code>.mzML</code> files rather than a precomputed protein-abundance table. ProtVis registers sample metadata, the mzML directory and a protein FASTA, runs Sage, then converts Sage LFQ output into the same canonical <code>ProtVis_dataset</code> used by all downstream modules.</p>
+<section id="when-to-use-sage" class="level2">
+<h2 class="anchored" data-anchor-id="when-to-use-sage">When to use Sage</h2>
+<p>Use <strong>Search → Sage</strong> for a lightweight Raw-project database search from <strong>mzML + protein FASTA</strong>. Sage is bundled with ProtVis on Windows, Linux, Apple Silicon macOS and Intel macOS.</p>
 <p>The route is:</p>
-<p><strong>Project init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization</strong></p>
-<p>The top-level <strong>Search</strong> tab is intentionally visible only while <strong>Raw</strong> is selected in Project init.</p>
+<p><strong>Project init → Search → Sage → Project Dashboard → Pre-processing</strong></p>
 </section>
 <section id="prerequisites" class="level2">
 <h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
-<p>Before opening Search, complete the Raw-specific part of <a href="../../content/Project_init/Project_init.html">Project init</a>:</p>
+<p>Complete the Raw route in Project init first:</p>
 <ol type="1">
-<li>Set a writable working directory.</li>
-<li>Load or upload sample information containing <code>sample_id</code> and <code>mzml_file</code>.</li>
-<li>Upload the matching protein FASTA.</li>
-<li>Select the directory containing the mzML files.</li>
-<li>Click <strong>Check mzML files</strong> and resolve every Missing or Invalid extension row.</li>
-<li>Select <strong>Raw</strong>.</li>
-<li>Click <strong>Project init</strong> to create the Sage staging object.</li>
+<li>set a writable working directory;</li>
+<li>load sample information with <code>sample_id</code> and <code>mzml_file</code>;</li>
+<li>upload the protein FASTA;</li>
+<li>select the mzML directory;</li>
+<li>click <strong>Check LC-MS files</strong>;</li>
+<li>select <strong>Raw</strong>;</li>
+<li>run <strong>Project init</strong>.</li>
 </ol>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -784,240 +782,107 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Do not create a fake expression matrix
+Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A Raw/Sage project does not need a protein expression matrix before Search. ProtVis creates a <code>Sage_staging</code> project object and fills the expression layer only after LFQ results are available.</p>
+<p>A Sage project does not need a protein expression matrix before Search. The staging object is intentionally matrix-free until LFQ is produced.</p>
 </div>
 </div>
 </section>
 <section id="example-dataset-pxd065315" class="level2">
 <h2 class="anchored" data-anchor-id="example-dataset-pxd065315">Example dataset: PXD065315</h2>
-<p>The built-in Raw example is based on the public maize proteomics dataset <strong>PXD065315</strong>, titled <em>Proteomics analysis of B73 and EA2024 maize plants under control and drought conditions</em>. The complete dataset contains 12 Thermo <code>.raw</code> files: six control samples and six drought samples. The current ProtVis built-in example uses only the six <strong>control</strong> samples shown below.</p>
+<p>The bundled template uses six maize control samples from public PRIDE project <strong>PXD065315</strong>: <code>B73_C1</code>–<code>B73_C3</code> and <code>EA2024_C1</code>–<code>EA2024_C3</code>.</p>
 <ul>
-<li><a href="https://www.ebi.ac.uk/pride/archive/projects/PXD065315">PRIDE project page</a></li>
-<li><a href="https://proteomecentral.proteomexchange.org/?pxid=PXD065315">ProteomeXchange dataset page</a></li>
-<li><a href="https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/">Complete PRIDE download directory</a></li>
+<li><a href="https://www.ebi.ac.uk/pride/archive/projects/PXD065315">PRIDE project</a></li>
+<li><a href="https://proteomecentral.proteomexchange.org/?pxid=PXD065315">ProteomeXchange</a></li>
 </ul>
+<p>The PRIDE deposit contains vendor <code>.raw</code> files. The Sage tutorial uses locally converted <code>.mzML</code> files with matching names such as <code>B73_C1.mzML</code>. See the <a href="../../content/data_import/msconvert_raw_to_mzml.html">RAW → mzML</a> tutorials.</p>
+</section>
+<section id="bundled-sage-executable" class="level2">
+<h2 class="anchored" data-anchor-id="bundled-sage-executable">Bundled Sage executable</h2>
+<p>ProtVis resolves Sage in this order: an explicitly supplied path, the platform-specific bundled binary, then <code>sage</code>/<code>sage.exe</code> on <code>PATH</code>.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>ProtVis sample</th>
-<th>Original PRIDE RAW file</th>
-<th>mzML filename used by ProtVis</th>
+<th>Platform</th>
+<th>Bundled binary</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>B73_C1</code></td>
-<td><a href="https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/B73_C1.raw">B73_C1.raw</a></td>
-<td><code>B73_C1.mzML</code></td>
+<td>Windows</td>
+<td><code>inst/extdata/sage/windows/sage.exe</code></td>
 </tr>
 <tr class="even">
-<td><code>B73_C2</code></td>
-<td><a href="https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/B73_C2.raw">B73_C2.raw</a></td>
-<td><code>B73_C2.mzML</code></td>
+<td>Linux</td>
+<td><code>inst/extdata/sage/Linux/sage</code></td>
 </tr>
 <tr class="odd">
-<td><code>B73_C3</code></td>
-<td><a href="https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/B73_C3.raw">B73_C3.raw</a></td>
-<td><code>B73_C3.mzML</code></td>
+<td>macOS Apple Silicon</td>
+<td><code>inst/extdata/sage/macOS/ARM64/sage</code></td>
 </tr>
 <tr class="even">
-<td><code>EA2024_C1</code></td>
-<td><a href="https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/EA2024_C1.raw">EA2024_C1.raw</a></td>
-<td><code>EA2024_C1.mzML</code></td>
-</tr>
-<tr class="odd">
-<td><code>EA2024_C2</code></td>
-<td><a href="https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/EA2024_C2.raw">EA2024_C2.raw</a></td>
-<td><code>EA2024_C2.mzML</code></td>
-</tr>
-<tr class="even">
-<td><code>EA2024_C3</code></td>
-<td><a href="https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/05/PXD065315/EA2024_C3.raw">EA2024_C3.raw</a></td>
-<td><code>EA2024_C3.mzML</code></td>
+<td>macOS Intel</td>
+<td><code>inst/extdata/sage/macOS/Intel/sage</code></td>
 </tr>
 </tbody>
 </table>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>RAW and mzML are different files
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>PRIDE hosts the original vendor <code>.raw</code> files for PXD065315. The <code>.mzML</code> files used by ProtVis are local conversions of those RAW files and are <strong>not separate files deposited in PXD065315</strong>. Convert the six control RAW files with ProteoWizard/MSConvert or another validated converter, and keep the output names exactly as listed in the <code>mzML filename used by ProtVis</code> column unless you also update <code>sample_info$mzml_file</code>.</p>
-</div>
-</div>
-<p>A convenient directory after conversion is:</p>
-<pre class="text"><code>PXD065315_control/
-├── B73_C1.mzML
-├── B73_C2.mzML
-├── B73_C3.mzML
-├── EA2024_C1.mzML
-├── EA2024_C2.mzML
-└── EA2024_C3.mzML</code></pre>
-<p>Point <strong>Project init → Raw/mzML input</strong> to the directory containing these six converted files, then click <strong>Check mzML files</strong>.</p>
-</section>
-<section id="sage-executable" class="level2">
-<h2 class="anchored" data-anchor-id="sage-executable">Sage executable</h2>
-<p>ProtVis uses <code>protvis_sage_executable()</code> to resolve Sage.</p>
-<p>On <strong>Windows</strong>, the package can use the bundled Sage executable at:</p>
-<pre class="text"><code>inst/extdata/sage/windows/sage.exe</code></pre>
-<p>On Linux or macOS, install Sage separately and make <code>sage</code> available on <code>PATH</code>.</p>
-<p>You can verify discovery from R:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ProtVis<span class="sc">::</span><span class="fu">protvis_sage_executable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The Search page shows the resolved <strong>FASTA</strong>, <strong>mzML directory</strong>, <strong>Output</strong>, and <strong>Sage</strong> paths before execution.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ProtVis<span class="sc">::</span><span class="fu">protvis_sage_executable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>On Unix-like systems ProtVis also attempts to restore the executable bit if packaging/transfer removed it.</p>
 </section>
 <section id="search-parameters" class="level2">
 <h2 class="anchored" data-anchor-id="search-parameters">Search parameters</h2>
-<p>The current Search interface exposes the following defaults:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Parameter</th>
-<th style="text-align: right;">Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Precursor tolerance</td>
-<td style="text-align: right;">20 ppm</td>
-</tr>
-<tr class="even">
-<td>Fragment tolerance</td>
-<td style="text-align: right;">0.5 Da</td>
-</tr>
-<tr class="odd">
-<td>Enzyme</td>
-<td style="text-align: right;">Trypsin/P</td>
-</tr>
-<tr class="even">
-<td>Missed cleavages</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="odd">
-<td>Minimum peptide length</td>
-<td style="text-align: right;">7</td>
-</tr>
-<tr class="even">
-<td>Maximum peptide length</td>
-<td style="text-align: right;">50</td>
-</tr>
-<tr class="odd">
-<td>Carbamidomethyl (C), fixed</td>
-<td style="text-align: right;">enabled</td>
-</tr>
-<tr class="even">
-<td>Oxidation (M), variable</td>
-<td style="text-align: right;">enabled</td>
-</tr>
-<tr class="odd">
-<td>Protein N-term acetyl, variable</td>
-<td style="text-align: right;">enabled</td>
-</tr>
-<tr class="even">
-<td>Spectrum/peptide/protein FDR</td>
-<td style="text-align: right;">0.01</td>
-</tr>
-<tr class="odd">
-<td>LFQ</td>
-<td style="text-align: right;">enabled</td>
-</tr>
-</tbody>
-</table>
-<p>The generated Sage configuration uses target-decoy searching with <code>rev_</code> as the decoy prefix. LFQ should remain enabled when the goal is to create a protein-by-sample matrix for downstream ProtVis analysis.</p>
+<p>The Sage panel exposes the search tolerances, enzyme/missed cleavages, peptide length, fixed/variable modifications, FDR and LFQ settings. Review them for the experiment rather than treating the demo defaults as universal.</p>
+<p>Common defaults in the current workflow include 20 ppm precursor tolerance, 0.5 Da fragment tolerance, Trypsin/P, two missed cleavages, peptide length 7–50, fixed Carbamidomethyl(C), variable Oxidation(M), protein N-term acetylation, 1% FDR and LFQ enabled.</p>
 </section>
-<section id="run-the-search" class="level2">
-<h2 class="anchored" data-anchor-id="run-the-search">Run the search</h2>
-<p>The full-resolution screenshot below shows a completed Sage run for the six PXD065315 control samples. The left side contains the search parameters and the two numbered actions; the upper-right area reports <strong>Search status</strong> and the <strong>Sage log</strong>; the lower-right area exposes the result tables.</p>
-<div id="fig-sage-search-gui" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of the ProtVis Search module. The sidebar contains Sage search parameters and red markers for Run Sage Search and Download Sage Config. The main panel shows Search status, Sage log, and result table tabs Summary, PSMs and LFQ. A completed example reports success with 1,170,861 PSM rows and 15,209 LFQ rows." data-fig-align="center">
+<section id="run-sage" class="level2">
+<h2 class="anchored" data-anchor-id="run-sage">Run Sage</h2>
+<div id="fig-sage-search-gui" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="ProtVis Search Sage tab with search controls, status/log and Summary, PSMs and LFQ result tables.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sage-search-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/screenshots/PixPin_2026-09-13_17-58-54.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of the ProtVis Search module. The sidebar contains Sage search parameters and red markers for Run Sage Search and Download Sage Config. The main panel shows Search status, Sage log, and result table tabs Summary, PSMs and LFQ. A completed example reports success with 1,170,861 PSM rows and 15,209 LFQ rows.">
+<img src="../../images/screenshots/PixPin_2026-09-13_17-58-54.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="ProtVis Search Sage tab with search controls, status/log and Summary, PSMs and LFQ result tables.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sage-search-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Sage Search in ProtVis after a successful six-sample search. Marker 1 is Run Sage Search and marker 2 is Download Sage Config. The Search status reports success, while the Sage log records indexing, file processing and search progress. Summary, PSMs and LFQ tabs provide result tables.
+Figure&nbsp;1: Sage Search in ProtVis. The main panel reports Search status, Sage log, Summary, PSM and LFQ tables.
 </figcaption>
 </figure>
 </div>
-<p>Before pressing the numbered controls, confirm that the FASTA path, mzML directory, output directory and resolved Sage executable are all correct. Review the enzyme, tolerances, modifications, peptide-length limits, FDR and LFQ settings; changing these values changes the database-search model and should be recorded as part of the analysis.</p>
-<p><strong>1. Run Sage Search.</strong> Click <strong>Run Sage Search</strong> once. ProtVis writes the current settings to the Sage configuration, starts Sage against every registered mzML file, and streams progress into <strong>Search status</strong> and <strong>Sage log</strong>. While a search is running, duplicate-click protection prevents the same operation from being launched a second time.</p>
-<p>Follow the log until the status becomes <strong>success</strong> or an actionable error is reported. In the illustrated example, the completed run reports <strong>1,170,861 PSM rows</strong> and <strong>15,209 LFQ rows</strong>. These numbers document this particular search; they are not expected thresholds and will vary with organism, FASTA, acquisition depth, search parameters and sample number.</p>
-<p>After success, inspect the result tabs. <strong>Summary</strong> provides the compact search-level overview. <strong>PSMs</strong> contains peptide-spectrum-match level results and is useful for verifying that the search produced substantial target evidence. <strong>LFQ</strong> contains the quantitative output used to construct the downstream protein-by-sample matrix; verify that the expected six mzML/sample columns are represented before moving to preprocessing.</p>
-<p><strong>2. Download Sage Config.</strong> Click <strong>Download Sage Config</strong> to save the exact generated configuration independently. The project also records the configuration and search provenance in <code>ProtVis_dataset</code>, but keeping the downloaded JSON alongside the mzML/FASTA inputs is useful for external reproduction, troubleshooting and methods reporting.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Read the log, not only the green status
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Warnings can be informative even when Sage ultimately finishes successfully. Preserve the log/configuration and check unexpected modification warnings, input-file failures, unusually small result tables, or missing LFQ sample columns before treating the search as finalized.</p>
-</div>
-</div>
+<p>Click <strong>Run Sage Search</strong> once and follow the log. Duplicate-run protection prevents the same long-running action from being launched repeatedly.</p>
+<p>After success, inspect:</p>
+<ul>
+<li><strong>Summary</strong> for search-level counts;</li>
+<li><strong>PSMs</strong> for peptide-spectrum matches;</li>
+<li><strong>LFQ</strong> for the quantitative table used to create the protein matrix.</li>
+</ul>
+<p>The row counts shown in the screenshot are example-specific, not QC thresholds.</p>
 </section>
-<section id="files-produced-by-sage" class="level2">
-<h2 class="anchored" data-anchor-id="files-produced-by-sage">Files produced by Sage</h2>
-<p>ProtVis writes the search into the project <code>Sage_search</code> directory. The principal files are:</p>
+<section id="produced-files" class="level2">
+<h2 class="anchored" data-anchor-id="produced-files">Produced files</h2>
 <pre class="text"><code>Sage_search/
 ├── sage_config.json
 ├── results.sage.tsv
 ├── lfq.tsv
 └── results.json</code></pre>
+<p>Use <strong>Download Sage Config</strong> to keep an independent copy of the generated configuration.</p>
 </section>
-<section id="how-lfq-becomes-a-protvis-matrix" class="level2">
-<h2 class="anchored" data-anchor-id="how-lfq-becomes-a-protvis-matrix">How LFQ becomes a ProtVis matrix</h2>
-<p>After a successful search, ProtVis reads the Sage LFQ table, finds the <code>proteins</code>/<code>protein</code> field, matches LFQ sample columns to the registered mzML filenames and <code>sample_id</code> values, removes <code>rev_</code> decoy identifiers, and aggregates target intensities into a protein-by-sample matrix.</p>
-<p>The completed object uses the workflow stage <code>Sage_complete</code> and receives a traceable name such as:</p>
-<pre class="text"><code>ProtVis_dataset__Sage_database_search__v2</code></pre>
-<p>The original staging metadata and process history are retained. Search parameters, log information, configuration, result tables, and produced files are recorded under the project, including:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dataset<span class="sc">$</span>analysis_results<span class="sc">$</span>Sage_database_search</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Search output files that exist on disk are also registered in <code>other_files</code> with path, filename, size, MD5 and attachment time.</p>
+<section id="how-sage-becomes-protvis_dataset" class="level2">
+<h2 class="anchored" data-anchor-id="how-sage-becomes-protvis_dataset">How Sage becomes ProtVis_dataset</h2>
+<p>ProtVis maps LFQ columns back to registered sample IDs, removes <code>rev_</code> decoys, aggregates target protein intensities, retains the PSM assay and finalizes the staging object into the canonical protein-by-sample project.</p>
+<p>Search configuration, paths, result tables, files, log and provenance are stored in the project. Existing output files are fingerprinted for reproducibility.</p>
+<p>Compatibility checkpoints such as <code>Step2_sage_database_search.rda</code> and the cross-source Step2 handoff can still be written, but schema-v4 run history is the canonical analytical record.</p>
 </section>
-<section id="stage-handoff-to-preprocessing" class="level2">
-<h2 class="anchored" data-anchor-id="stage-handoff-to-preprocessing">Stage handoff to preprocessing</h2>
-<p>A successful Search writes two compatibility snapshots:</p>
-<pre class="text"><code>Step2_sage_database_search.rda
-Step2_remove_unreliable_peptide.rda</code></pre>
-<p><code>Step2_sage_database_search.rda</code> preserves the Sage-specific stage name for compatibility. The important cross-source handoff is:</p>
-<pre class="text"><code>Step2_remove_unreliable_peptide.rda</code></pre>
-<p>This is the <strong>data-source-independent Step2 checkpoint</strong> consumed by <strong>Correct Noise</strong>. Downstream preprocessing therefore does not need to know whether Step2 originated from Sage, MaxQuant, or another supported input path.</p>
-<p>Continue with <a href="../../content/Pre_processing/correct_noise.html">Correct noise</a>.</p>
-</section>
-<section id="recovery-after-restarting-protvis" class="level2">
-<h2 class="anchored" data-anchor-id="recovery-after-restarting-protvis">Recovery after restarting ProtVis</h2>
-<p>ProtVis can recover a completed Sage search from the existing <code>Sage_search</code> directory when <code>lfq.tsv</code> is present and the configuration still resolves the FASTA and mzML inputs. Recovery reads the prior configuration and result tables instead of requiring the database search to be repeated simply because the Shiny session restarted.</p>
-<p>Correct Noise also checks the active <code>ProtVis_dataset</code> first. If no in-memory object is available, it looks for the canonical <code>Step2_remove_unreliable_peptide.rda</code>, then Sage-specific/older stage files as fallbacks.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Keep the complete project directory
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For a recoverable Raw/Sage project, keep the working directory, <code>Sage_search</code> folder, stage files, and portable <code>ProtVis_dataset</code> export together. Moving only <code>lfq.tsv</code> away from the FASTA/configuration context weakens provenance and may prevent automatic recovery.</p>
-</div>
-</div>
+<section id="search-qc-and-recovery" class="level2">
+<h2 class="anchored" data-anchor-id="search-qc-and-recovery">Search QC and recovery</h2>
+<p>After search, open <a href="../../content/reproducibility/Project_Dashboard.html">Project Dashboard</a>. Sage QC can summarize run-level IDs, precursor charge, mass error, q-values, peptide length, missed cleavages and retention time.</p>
+<p>If the Shiny session restarts, ProtVis can recover a completed Sage search when the project directory, Sage results, FASTA and mzML context remain available. Keep the complete project directory together rather than moving only <code>lfq.tsv</code>.</p>
 </section>
 <section id="troubleshooting" class="level2">
 <h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
-<p><strong>Search tab is missing.</strong> Return to Project init and select <strong>Raw</strong>. Search is hidden for other source types by design.</p>
-<p><strong>Sage is shown as Not found.</strong> On Windows, reinstall the current ProtVis build and confirm the bundled executable is present. On Linux/macOS, install Sage and place it on <code>PATH</code>.</p>
-<p><strong>No <code>.mzML</code> files were found.</strong> Select the directory that directly contains the converted files and rerun <strong>Check mzML files</strong>.</p>
-<p><strong>Sample names do not map to LFQ columns.</strong> Confirm that <code>sample_info$mzml_file</code> matches the registered mzML filenames. ProtVis falls back to filename stems only when a direct sample mapping is unavailable.</p>
-<p><strong>Correct Noise says the expression matrix is unavailable.</strong> The current object is probably still a Sage staging object. Complete Search successfully first so LFQ can be converted to the protein abundance matrix.</p>
+<p><strong>Search is hidden.</strong> Select Raw in Project init.</p>
+<p><strong>Sage is not found.</strong> Reinstall the current package and check <code>protvis_sage_executable()</code>; all four supported platform binaries are now bundled.</p>
+<p><strong>LFQ does not map to samples.</strong> Check <code>sample_info$mzml_file</code> against actual mzML filenames.</p>
+<p><strong>Pre-processing cannot load a matrix.</strong> The project is probably still in search staging; complete Sage successfully first.</p>
 
 
 </section>

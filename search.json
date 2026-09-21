@@ -1843,108 +1843,130 @@
   {
     "objectID": "content/reproducibility/ProtVis_dataset.html",
     "href": "content/reproducibility/ProtVis_dataset.html",
-    "title": "ProtVis_dataset",
+    "title": "ProtVis_dataset schema v4",
     "section": "",
-    "text": "ProtVis_dataset is an independent S4 class designed for proteomics. It does not inherit from mass_dataset and does not require the massdataset package. Its validity checks enforce exact alignment between expression columns and sample_info, and between expression rows and variable_info.\nThis architecture allows ProtVis to preserve one coherent scientific record while every module adds a new result or processing step.\n\n\n\n\n\n\nFigure 1: Conceptual architecture of ProtVis_dataset. Expression data are linked to sample and variable metadata, annotation resources, analysis results, processing history, and provenance/extra files to support interoperability, reproducibility, and recoverability.\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe processing-function names shown in the schematic describe the conceptual workflow stages. The code examples in this chapter use the current exported ProtVis API, such as create_protvis_dataset().",
+    "text": "ProtVis_dataset is the canonical state container for the current application. It keeps the active quantitative matrix aligned with sample/protein metadata while preserving annotations, search evidence, analysis runs, artifacts, workflow dependencies and provenance.\nThe object does not inherit from mass_dataset. Legacy workspaces can be migrated where supported, but new analyses use ProtVis_dataset directly.",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset schema v4"
     ]
   },
   {
-    "objectID": "content/reproducibility/ProtVis_dataset.html#why-protvis-uses-a-project-object",
-    "href": "content/reproducibility/ProtVis_dataset.html#why-protvis-uses-a-project-object",
-    "title": "ProtVis_dataset",
+    "objectID": "content/reproducibility/ProtVis_dataset.html#why-protvis-uses-one-project-object",
+    "href": "content/reproducibility/ProtVis_dataset.html#why-protvis-uses-one-project-object",
+    "title": "ProtVis_dataset schema v4",
     "section": "",
-    "text": "ProtVis_dataset is an independent S4 class designed for proteomics. It does not inherit from mass_dataset and does not require the massdataset package. Its validity checks enforce exact alignment between expression columns and sample_info, and between expression rows and variable_info.\nThis architecture allows ProtVis to preserve one coherent scientific record while every module adds a new result or processing step.\n\n\n\n\n\n\nFigure 1: Conceptual architecture of ProtVis_dataset. Expression data are linked to sample and variable metadata, annotation resources, analysis results, processing history, and provenance/extra files to support interoperability, reproducibility, and recoverability.\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe processing-function names shown in the schematic describe the conceptual workflow stages. The code examples in this chapter use the current exported ProtVis API, such as create_protvis_dataset().",
+    "text": "ProtVis_dataset is the canonical state container for the current application. It keeps the active quantitative matrix aligned with sample/protein metadata while preserving annotations, search evidence, analysis runs, artifacts, workflow dependencies and provenance.\nThe object does not inherit from mass_dataset. Legacy workspaces can be migrated where supported, but new analyses use ProtVis_dataset directly.",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset schema v4"
     ]
   },
   {
-    "objectID": "content/reproducibility/ProtVis_dataset.html#core-components",
-    "href": "content/reproducibility/ProtVis_dataset.html#core-components",
-    "title": "ProtVis_dataset",
-    "section": "Core components",
-    "text": "Core components\n\n\n\n\n\n\n\nComponent\nWhat it stores\n\n\n\n\nexpression_data\nNumeric protein-by-sample abundance matrix\n\n\nsample_info\nSample identifiers and experimental metadata\n\n\nvariable_info\nProtein/feature metadata aligned to expression rows\n\n\nsample_info_note\nOrdered documentation of sample-information columns\n\n\nvariable_info_note\nOrdered documentation of variable-information columns\n\n\nannotation\nFixed annotation schema with eggnog_output, GO_annotation, and KEGG_annotation\n\n\nanalysis_results\nStage-specific statistical, search and biological results\n\n\nprocess_info\nActive stage, parameters, messages, status and history\n\n\nmetadata\nProject-level information, source, input paths and object naming/version information\n\n\nother_files\nRegistered auxiliary/result-file provenance\n\n\ncheckpoint_info\nCheckpoint/recovery and export metadata\n\n\nversion\nInternal object schema version\n\n\nactivated\nCurrently activated data layer\n\n\n\nThe historical names annotation_table and ms2_data are not part of the current annotation model.",
+    "objectID": "content/reproducibility/ProtVis_dataset.html#physical-s4-slots",
+    "href": "content/reproducibility/ProtVis_dataset.html#physical-s4-slots",
+    "title": "ProtVis_dataset schema v4",
+    "section": "Physical S4 slots",
+    "text": "Physical S4 slots\n\n\n\n\n\n\n\nSlot\nMain role\n\n\n\n\nexpression_data\nactive protein-by-sample matrix\n\n\nsample_info\naligned sample metadata\n\n\nvariable_info\naligned protein/feature metadata\n\n\nsample_info_note / variable_info_note\ncolumn documentation\n\n\nannotation\neggnog_output, GO_annotation, KEGG_annotation\n\n\nanalysis_results\nanalysis/search outputs and schema-v4 run store\n\n\nprocess_info\nprocess state/history\n\n\nmetadata\nsource, schema version, provenance, registry/workflow/artifacts\n\n\nother_files\nregistered auxiliary/result files\n\n\ncheckpoint_info\ncheckpoint/export metadata\n\n\nversion\nobject version\n\n\nactivated\nactive data layer/result",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset schema v4"
     ]
   },
   {
-    "objectID": "content/reproducibility/ProtVis_dataset.html#create-a-dataset-programmatically",
-    "href": "content/reproducibility/ProtVis_dataset.html#create-a-dataset-programmatically",
-    "title": "ProtVis_dataset",
-    "section": "Create a dataset programmatically",
-    "text": "Create a dataset programmatically\nlibrary(ProtVis)\n\nexpr &lt;- data.frame(\n  S1 = c(10, 20, 30),\n  S2 = c(12, 18, 33),\n  row.names = c(\"P1\", \"P2\", \"P3\")\n)\n\nsamples &lt;- data.frame(\n  sample_id = c(\"S1\", \"S2\"),\n  group = c(\"Control\", \"Treatment\"),\n  row.names = c(\"S1\", \"S2\")\n)\n\nds &lt;- create_protvis_dataset(\n  expression_data = expr,\n  sample_info = samples,\n  metadata = list(source = \"User-defined matrix\")\n)\n\nvalidate_protvis_dataset(ds)\nFor day-to-day GUI use, Project init creates this object automatically.",
+    "objectID": "content/reproducibility/ProtVis_dataset.html#schema-v4-logical-fields",
+    "href": "content/reproducibility/ProtVis_dataset.html#schema-v4-logical-fields",
+    "title": "ProtVis_dataset schema v4",
+    "section": "Schema v4 logical fields",
+    "text": "Schema v4 logical fields\nSchema v4 keeps the S4 slot layout backward compatible while adding three project-wide logical structures:\n\nresult registry → metadata$result_registry;\nworkflow graph → metadata$workflow;\nartifact index → metadata$artifacts.\n\nThe canonical immutable run store is:\ndataset$analysis_results$v4$runs\nModule-local/latest views are still available for compatibility, but they are mirrored into the append-only history rather than replacing previous runs.",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset schema v4"
     ]
   },
   {
-    "objectID": "content/reproducibility/ProtVis_dataset.html#inspect-a-built-in-project",
-    "href": "content/reproducibility/ProtVis_dataset.html#inspect-a-built-in-project",
-    "title": "ProtVis_dataset",
-    "section": "Inspect a built-in project",
-    "text": "Inspect a built-in project\nlibrary(ProtVis)\n\nds &lt;- load_protvis_builtin_data(\n  source = \"DIA-NN\",\n  auto_export = FALSE\n)\n\nclass(ds)\nslotNames(ds)\ndim(ds$expression_data)\nhead(ds$sample_info)\nUse protvis_expression_matrix(ds) when you need an ID-first data frame suitable for UI boundaries or export.",
+    "objectID": "content/reproducibility/ProtVis_dataset.html#append-only-analysis-history",
+    "href": "content/reproducibility/ProtVis_dataset.html#append-only-analysis-history",
+    "title": "ProtVis_dataset schema v4",
+    "section": "Append-only analysis history",
+    "text": "Append-only analysis history\nEvery analysis execution receives a run ID and stores its method, category, status, parameters, tables/statistics/plot data, files and dependencies. Re-running a module does not delete the previous execution.\nCore matrix-changing modules—noise correction, transformation, imputation and normalization—retain complete matrix snapshots with aligned metadata. Ordinary analyses retain their results and plotting/statistical context without duplicating the entire active matrix.\nUseful APIs:\nprotvis_result_registry(dataset)\nprotvis_latest_result(dataset, \"normalization\")\nprotvis_result_history(dataset, \"normalization\")\nprotvis_result(dataset, run_id)\nTo activate a historical preprocessing matrix:\ndataset &lt;- protvis_activate_result(dataset, run_id)\nCustom extensions can append results with:\ndataset &lt;- record_protvis_output(\n  dataset,\n  module = \"custom_analysis\",\n  tables = list(result = my_table),\n  plot_data = list(volcano = volcano_df),\n  parameters = list(method = \"my_method\")\n)",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset schema v4"
     ]
   },
   {
-    "objectID": "content/reproducibility/ProtVis_dataset.html#the-rawsage-staging-exception",
-    "href": "content/reproducibility/ProtVis_dataset.html#the-rawsage-staging-exception",
-    "title": "ProtVis_dataset",
-    "section": "The Raw/Sage staging exception",
-    "text": "The Raw/Sage staging exception\nA normal validated ProtVis_dataset must contain a non-empty numeric expression layer aligned to its sample and variable metadata. The current class has one deliberate exception: a project whose metadata marks workflow_stage = \"Sage_staging\" may temporarily have an empty expression layer.\nThis supports a scientifically correct Raw workflow:\nsample metadata + FASTA + mzML registration → Sage search → protein LFQ matrix\nInstead of inventing protein values before a search exists, Project init creates:\nProtVis_dataset__project_init__Sage_staging__v1\nAfter Sage succeeds, the LFQ table is converted to the protein matrix and the object is finalized as a normal quantitative project, for example:\nProtVis_dataset__Sage_database_search__v2\nThe parent/staging information and process history remain available in the finalized object.",
+    "objectID": "content/reproducibility/ProtVis_dataset.html#workflow-dependencies",
+    "href": "content/reproducibility/ProtVis_dataset.html#workflow-dependencies",
+    "title": "ProtVis_dataset schema v4",
+    "section": "Workflow dependencies",
+    "text": "Workflow dependencies\nThe workflow graph records nodes and edges between upstream/downstream runs. Re-running an upstream stage can mark dependent downstream nodes as invalidated. Invalidated results remain in history for auditability but should not be treated as current evidence.\nUse Project Dashboard to inspect the run registry, workflow nodes/edges and current state.",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset schema v4"
     ]
   },
   {
-    "objectID": "content/reproducibility/ProtVis_dataset.html#sage-results-and-provenance",
-    "href": "content/reproducibility/ProtVis_dataset.html#sage-results-and-provenance",
-    "title": "ProtVis_dataset",
-    "section": "Sage results and provenance",
-    "text": "Sage results and provenance\nA completed Sage search is stored under:\nds$analysis_results$Sage_database_search\nThe bundle includes search status, configuration, result-file paths, log information, PSM table and LFQ table. Search metadata also records the FASTA, mzML directory, output directory and Sage engine version.\nProduced files that exist on disk are registered in other_files with filename, normalized path, file size, MD5 checksum and attachment timestamp. Raw mzML/FASTA bytes are not duplicated into the S4 object itself; the object records the analytical context and result provenance while the project directory retains the files.",
+    "objectID": "content/reproducibility/ProtVis_dataset.html#assay-registry",
+    "href": "content/reproducibility/ProtVis_dataset.html#assay-registry",
+    "title": "ProtVis_dataset schema v4",
+    "section": "Assay registry",
+    "text": "Assay registry\nSearch workflows can retain PSM- and peptide-level assays separately from the active protein matrix. This allows Sage/FragPipe evidence and PSM Explorer workflows to coexist with protein-level quantitation without forcing every evidence type into expression_data.",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset schema v4"
     ]
   },
   {
-    "objectID": "content/reproducibility/ProtVis_dataset.html#object-versions",
-    "href": "content/reproducibility/ProtVis_dataset.html#object-versions",
-    "title": "ProtVis_dataset",
-    "section": "Object versions",
-    "text": "Object versions\nProtVis analysis helpers create traceable object versions rather than overwriting an unnamed global object. Object names encode the project stage or method, and the object retains parameters and process history so results can be related back to their analytical context.\nFor long-running GUI actions, current ProtVis also protects against duplicate execution. This matters for object versioning because an accidental second click should not create an unintended parallel search or preprocessing state.",
+    "objectID": "content/reproducibility/ProtVis_dataset.html#provenance",
+    "href": "content/reproducibility/ProtVis_dataset.html#provenance",
+    "title": "ProtVis_dataset schema v4",
+    "section": "Provenance",
+    "text": "Provenance\nStructured provenance can include:\n\nR/ProtVis/package versions;\nSage or FragPipe runtime/version and parameters;\ntimestamps and run status/errors;\nMD5 fingerprints of input/output files;\nparent object/run lineage;\ngenerated artifacts and paths.\n\nPortable exports can include provenance.json, provenance.rds, workflow_status.csv, result-registry tables and per-run RDS files.",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset schema v4"
     ]
   },
   {
-    "objectID": "content/reproducibility/ProtVis_dataset.html#annotation-schema",
-    "href": "content/reproducibility/ProtVis_dataset.html#annotation-schema",
-    "title": "ProtVis_dataset",
-    "section": "Annotation schema",
-    "text": "Annotation schema\nThe annotation slot always exposes the same three named data frames:\nnames(ds$annotation)\n# eggnog_output, GO_annotation, KEGG_annotation\nMissing annotation layers are represented as empty data frames rather than changing the object schema. This makes downstream code more predictable.",
+    "objectID": "content/reproducibility/ProtVis_dataset.html#create-a-project-programmatically",
+    "href": "content/reproducibility/ProtVis_dataset.html#create-a-project-programmatically",
+    "title": "ProtVis_dataset schema v4",
+    "section": "Create a project programmatically",
+    "text": "Create a project programmatically\nlibrary(ProtVis)\n\nexpr &lt;- data.frame(\n  S1 = c(10, 20, 30),\n  S2 = c(12, 18, 33),\n  row.names = c(\"P1\", \"P2\", \"P3\")\n)\n\nsamples &lt;- data.frame(\n  sample_id = c(\"S1\", \"S2\"),\n  group = c(\"Control\", \"Treatment\"),\n  row.names = c(\"S1\", \"S2\")\n)\n\nds &lt;- create_protvis_dataset(\n  expression_data = expr,\n  sample_info = samples\n)",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset schema v4"
     ]
   },
   {
-    "objectID": "content/reproducibility/ProtVis_dataset.html#export-a-portable-project",
-    "href": "content/reproducibility/ProtVis_dataset.html#export-a-portable-project",
-    "title": "ProtVis_dataset",
-    "section": "Export a portable project",
-    "text": "Export a portable project\nout &lt;- export_protvis_dataset(\n  ds,\n  directory = \"ProtVis_export\",\n  include_raw = FALSE\n)\n\nout\nThe export bundle contains the serialized ProtVis_dataset, expression and metadata tables, annotation tables, process history, serialized analysis results, a metadata JSON file, and an HTML report. If include_raw = TRUE, available attached source files can also be copied where supported.\n\n\n\n\n\n\nImportantTreat the object as the authoritative record\n\n\n\nStage .rda files are useful for compatibility and recovery, but new analyses should use the active ProtVis_dataset whenever possible. This prevents parameters, annotation, search provenance, and file context from becoming detached from the quantitative matrix.",
+    "objectID": "content/reproducibility/ProtVis_dataset.html#qfeatures-interoperability",
+    "href": "content/reproducibility/ProtVis_dataset.html#qfeatures-interoperability",
+    "title": "ProtVis_dataset schema v4",
+    "section": "QFeatures interoperability",
+    "text": "QFeatures interoperability\nOptional helpers as_QFeatures() and from_QFeatures() connect ProtVis with the Bioconductor QFeatures ecosystem when those packages are installed. The conversion is optional; ProtVis_dataset remains the primary GUI/project state.",
+    "crumbs": [
+      "Reproducible workflow",
+      "ProtVis_dataset schema v4"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/ProtVis_dataset.html#raw-search-staging",
+    "href": "content/reproducibility/ProtVis_dataset.html#raw-search-staging",
+    "title": "ProtVis_dataset schema v4",
+    "section": "Raw-search staging",
+    "text": "Raw-search staging\nA Raw project is a deliberate exception to the normal non-empty expression-matrix rule. Project init can create a search staging object before protein quantitation exists. Search finalizes the project once Sage LFQ or a compatible FragPipe protein report has been parsed.",
+    "crumbs": [
+      "Reproducible workflow",
+      "ProtVis_dataset schema v4"
+    ]
+  },
+  {
+    "objectID": "content/reproducibility/ProtVis_dataset.html#compatibility-checkpoints",
+    "href": "content/reproducibility/ProtVis_dataset.html#compatibility-checkpoints",
+    "title": "ProtVis_dataset schema v4",
+    "section": "Compatibility checkpoints",
+    "text": "Compatibility checkpoints\nStage files such as Step1_project_init.rda through Step7_differential_analysis.rda remain useful for older workflows and recovery. They are compatibility snapshots, not the canonical run registry.\n\n\n\n\n\n\nImportantCurrent state versus history\n\n\n\nexpression_data points to the active matrix. Historical matrices/results remain available through the run registry. Always verify the active run/node before exporting a final figure or table.",
     "crumbs": [
       "Reproducible workflow",
       "ProtVis_dataset schema v4"
@@ -3630,9 +3652,9 @@
   {
     "objectID": "content/data_import/raw_sage_search.html",
     "href": "content/data_import/raw_sage_search.html",
-    "title": "Raw/mzML + Sage search",
+    "title": "Sage search",
     "section": "",
-    "text": "Use Project init → Search when your starting point is converted .mzML files rather than a precomputed protein-abundance table. ProtVis registers sample metadata, the mzML directory and a protein FASTA, runs Sage, then converts Sage LFQ output into the same canonical ProtVis_dataset used by all downstream modules.\nThe route is:\nProject init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization\nThe top-level Search tab is intentionally visible only while Raw is selected in Project init.",
+    "text": "Use Search → Sage for a lightweight Raw-project database search from mzML + protein FASTA. Sage is bundled with ProtVis on Windows, Linux, Apple Silicon macOS and Intel macOS.\nThe route is:\nProject init → Search → Sage → Project Dashboard → Pre-processing",
     "crumbs": [
       "Getting started",
       "Search",
@@ -3640,11 +3662,11 @@
     ]
   },
   {
-    "objectID": "content/data_import/raw_sage_search.html#when-to-use-this-workflow",
-    "href": "content/data_import/raw_sage_search.html#when-to-use-this-workflow",
-    "title": "Raw/mzML + Sage search",
+    "objectID": "content/data_import/raw_sage_search.html#when-to-use-sage",
+    "href": "content/data_import/raw_sage_search.html#when-to-use-sage",
+    "title": "Sage search",
     "section": "",
-    "text": "Use Project init → Search when your starting point is converted .mzML files rather than a precomputed protein-abundance table. ProtVis registers sample metadata, the mzML directory and a protein FASTA, runs Sage, then converts Sage LFQ output into the same canonical ProtVis_dataset used by all downstream modules.\nThe route is:\nProject init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization\nThe top-level Search tab is intentionally visible only while Raw is selected in Project init.",
+    "text": "Use Search → Sage for a lightweight Raw-project database search from mzML + protein FASTA. Sage is bundled with ProtVis on Windows, Linux, Apple Silicon macOS and Intel macOS.\nThe route is:\nProject init → Search → Sage → Project Dashboard → Pre-processing",
     "crumbs": [
       "Getting started",
       "Search",
@@ -3654,9 +3676,9 @@
   {
     "objectID": "content/data_import/raw_sage_search.html#prerequisites",
     "href": "content/data_import/raw_sage_search.html#prerequisites",
-    "title": "Raw/mzML + Sage search",
+    "title": "Sage search",
     "section": "Prerequisites",
-    "text": "Prerequisites\nBefore opening Search, complete the Raw-specific part of Project init:\n\nSet a writable working directory.\nLoad or upload sample information containing sample_id and mzml_file.\nUpload the matching protein FASTA.\nSelect the directory containing the mzML files.\nClick Check mzML files and resolve every Missing or Invalid extension row.\nSelect Raw.\nClick Project init to create the Sage staging object.\n\n\n\n\n\n\n\nImportantDo not create a fake expression matrix\n\n\n\nA Raw/Sage project does not need a protein expression matrix before Search. ProtVis creates a Sage_staging project object and fills the expression layer only after LFQ results are available.",
+    "text": "Prerequisites\nComplete the Raw route in Project init first:\n\nset a writable working directory;\nload sample information with sample_id and mzml_file;\nupload the protein FASTA;\nselect the mzML directory;\nclick Check LC-MS files;\nselect Raw;\nrun Project init.\n\n\n\n\n\n\n\nImportant\n\n\n\nA Sage project does not need a protein expression matrix before Search. The staging object is intentionally matrix-free until LFQ is produced.",
     "crumbs": [
       "Getting started",
       "Search",
@@ -3666,9 +3688,9 @@
   {
     "objectID": "content/data_import/raw_sage_search.html#example-dataset-pxd065315",
     "href": "content/data_import/raw_sage_search.html#example-dataset-pxd065315",
-    "title": "Raw/mzML + Sage search",
+    "title": "Sage search",
     "section": "Example dataset: PXD065315",
-    "text": "Example dataset: PXD065315\nThe built-in Raw example is based on the public maize proteomics dataset PXD065315, titled Proteomics analysis of B73 and EA2024 maize plants under control and drought conditions. The complete dataset contains 12 Thermo .raw files: six control samples and six drought samples. The current ProtVis built-in example uses only the six control samples shown below.\n\nPRIDE project page\nProteomeXchange dataset page\nComplete PRIDE download directory\n\n\n\n\nProtVis sample\nOriginal PRIDE RAW file\nmzML filename used by ProtVis\n\n\n\n\nB73_C1\nB73_C1.raw\nB73_C1.mzML\n\n\nB73_C2\nB73_C2.raw\nB73_C2.mzML\n\n\nB73_C3\nB73_C3.raw\nB73_C3.mzML\n\n\nEA2024_C1\nEA2024_C1.raw\nEA2024_C1.mzML\n\n\nEA2024_C2\nEA2024_C2.raw\nEA2024_C2.mzML\n\n\nEA2024_C3\nEA2024_C3.raw\nEA2024_C3.mzML\n\n\n\n\n\n\n\n\n\nNoteRAW and mzML are different files\n\n\n\nPRIDE hosts the original vendor .raw files for PXD065315. The .mzML files used by ProtVis are local conversions of those RAW files and are not separate files deposited in PXD065315. Convert the six control RAW files with ProteoWizard/MSConvert or another validated converter, and keep the output names exactly as listed in the mzML filename used by ProtVis column unless you also update sample_info$mzml_file.\n\n\nA convenient directory after conversion is:\nPXD065315_control/\n├── B73_C1.mzML\n├── B73_C2.mzML\n├── B73_C3.mzML\n├── EA2024_C1.mzML\n├── EA2024_C2.mzML\n└── EA2024_C3.mzML\nPoint Project init → Raw/mzML input to the directory containing these six converted files, then click Check mzML files.",
+    "text": "Example dataset: PXD065315\nThe bundled template uses six maize control samples from public PRIDE project PXD065315: B73_C1–B73_C3 and EA2024_C1–EA2024_C3.\n\nPRIDE project\nProteomeXchange\n\nThe PRIDE deposit contains vendor .raw files. The Sage tutorial uses locally converted .mzML files with matching names such as B73_C1.mzML. See the RAW → mzML tutorials.",
     "crumbs": [
       "Getting started",
       "Search",
@@ -3676,11 +3698,11 @@
     ]
   },
   {
-    "objectID": "content/data_import/raw_sage_search.html#sage-executable",
-    "href": "content/data_import/raw_sage_search.html#sage-executable",
-    "title": "Raw/mzML + Sage search",
-    "section": "Sage executable",
-    "text": "Sage executable\nProtVis uses protvis_sage_executable() to resolve Sage.\nOn Windows, the package can use the bundled Sage executable at:\ninst/extdata/sage/windows/sage.exe\nOn Linux or macOS, install Sage separately and make sage available on PATH.\nYou can verify discovery from R:\nProtVis::protvis_sage_executable()\nThe Search page shows the resolved FASTA, mzML directory, Output, and Sage paths before execution.",
+    "objectID": "content/data_import/raw_sage_search.html#bundled-sage-executable",
+    "href": "content/data_import/raw_sage_search.html#bundled-sage-executable",
+    "title": "Sage search",
+    "section": "Bundled Sage executable",
+    "text": "Bundled Sage executable\nProtVis resolves Sage in this order: an explicitly supplied path, the platform-specific bundled binary, then sage/sage.exe on PATH.\n\n\n\nPlatform\nBundled binary\n\n\n\n\nWindows\ninst/extdata/sage/windows/sage.exe\n\n\nLinux\ninst/extdata/sage/Linux/sage\n\n\nmacOS Apple Silicon\ninst/extdata/sage/macOS/ARM64/sage\n\n\nmacOS Intel\ninst/extdata/sage/macOS/Intel/sage\n\n\n\nProtVis::protvis_sage_executable()\nOn Unix-like systems ProtVis also attempts to restore the executable bit if packaging/transfer removed it.",
     "crumbs": [
       "Getting started",
       "Search",
@@ -3690,9 +3712,9 @@
   {
     "objectID": "content/data_import/raw_sage_search.html#search-parameters",
     "href": "content/data_import/raw_sage_search.html#search-parameters",
-    "title": "Raw/mzML + Sage search",
+    "title": "Sage search",
     "section": "Search parameters",
-    "text": "Search parameters\nThe current Search interface exposes the following defaults:\n\n\n\nParameter\nDefault\n\n\n\n\nPrecursor tolerance\n20 ppm\n\n\nFragment tolerance\n0.5 Da\n\n\nEnzyme\nTrypsin/P\n\n\nMissed cleavages\n2\n\n\nMinimum peptide length\n7\n\n\nMaximum peptide length\n50\n\n\nCarbamidomethyl (C), fixed\nenabled\n\n\nOxidation (M), variable\nenabled\n\n\nProtein N-term acetyl, variable\nenabled\n\n\nSpectrum/peptide/protein FDR\n0.01\n\n\nLFQ\nenabled\n\n\n\nThe generated Sage configuration uses target-decoy searching with rev_ as the decoy prefix. LFQ should remain enabled when the goal is to create a protein-by-sample matrix for downstream ProtVis analysis.",
+    "text": "Search parameters\nThe Sage panel exposes the search tolerances, enzyme/missed cleavages, peptide length, fixed/variable modifications, FDR and LFQ settings. Review them for the experiment rather than treating the demo defaults as universal.\nCommon defaults in the current workflow include 20 ppm precursor tolerance, 0.5 Da fragment tolerance, Trypsin/P, two missed cleavages, peptide length 7–50, fixed Carbamidomethyl(C), variable Oxidation(M), protein N-term acetylation, 1% FDR and LFQ enabled.",
     "crumbs": [
       "Getting started",
       "Search",
@@ -3700,11 +3722,11 @@
     ]
   },
   {
-    "objectID": "content/data_import/raw_sage_search.html#run-the-search",
-    "href": "content/data_import/raw_sage_search.html#run-the-search",
-    "title": "Raw/mzML + Sage search",
-    "section": "Run the search",
-    "text": "Run the search\nThe full-resolution screenshot below shows a completed Sage run for the six PXD065315 control samples. The left side contains the search parameters and the two numbered actions; the upper-right area reports Search status and the Sage log; the lower-right area exposes the result tables.\n\n\n\n\n\n\nFigure 1: Sage Search in ProtVis after a successful six-sample search. Marker 1 is Run Sage Search and marker 2 is Download Sage Config. The Search status reports success, while the Sage log records indexing, file processing and search progress. Summary, PSMs and LFQ tabs provide result tables.\n\n\n\nBefore pressing the numbered controls, confirm that the FASTA path, mzML directory, output directory and resolved Sage executable are all correct. Review the enzyme, tolerances, modifications, peptide-length limits, FDR and LFQ settings; changing these values changes the database-search model and should be recorded as part of the analysis.\n1. Run Sage Search. Click Run Sage Search once. ProtVis writes the current settings to the Sage configuration, starts Sage against every registered mzML file, and streams progress into Search status and Sage log. While a search is running, duplicate-click protection prevents the same operation from being launched a second time.\nFollow the log until the status becomes success or an actionable error is reported. In the illustrated example, the completed run reports 1,170,861 PSM rows and 15,209 LFQ rows. These numbers document this particular search; they are not expected thresholds and will vary with organism, FASTA, acquisition depth, search parameters and sample number.\nAfter success, inspect the result tabs. Summary provides the compact search-level overview. PSMs contains peptide-spectrum-match level results and is useful for verifying that the search produced substantial target evidence. LFQ contains the quantitative output used to construct the downstream protein-by-sample matrix; verify that the expected six mzML/sample columns are represented before moving to preprocessing.\n2. Download Sage Config. Click Download Sage Config to save the exact generated configuration independently. The project also records the configuration and search provenance in ProtVis_dataset, but keeping the downloaded JSON alongside the mzML/FASTA inputs is useful for external reproduction, troubleshooting and methods reporting.\n\n\n\n\n\n\nTipRead the log, not only the green status\n\n\n\nWarnings can be informative even when Sage ultimately finishes successfully. Preserve the log/configuration and check unexpected modification warnings, input-file failures, unusually small result tables, or missing LFQ sample columns before treating the search as finalized.",
+    "objectID": "content/data_import/raw_sage_search.html#run-sage",
+    "href": "content/data_import/raw_sage_search.html#run-sage",
+    "title": "Sage search",
+    "section": "Run Sage",
+    "text": "Run Sage\n\n\n\n\n\n\nFigure 1: Sage Search in ProtVis. The main panel reports Search status, Sage log, Summary, PSM and LFQ tables.\n\n\n\nClick Run Sage Search once and follow the log. Duplicate-run protection prevents the same long-running action from being launched repeatedly.\nAfter success, inspect:\n\nSummary for search-level counts;\nPSMs for peptide-spectrum matches;\nLFQ for the quantitative table used to create the protein matrix.\n\nThe row counts shown in the screenshot are example-specific, not QC thresholds.",
     "crumbs": [
       "Getting started",
       "Search",
@@ -3712,11 +3734,11 @@
     ]
   },
   {
-    "objectID": "content/data_import/raw_sage_search.html#files-produced-by-sage",
-    "href": "content/data_import/raw_sage_search.html#files-produced-by-sage",
-    "title": "Raw/mzML + Sage search",
-    "section": "Files produced by Sage",
-    "text": "Files produced by Sage\nProtVis writes the search into the project Sage_search directory. The principal files are:\nSage_search/\n├── sage_config.json\n├── results.sage.tsv\n├── lfq.tsv\n└── results.json",
+    "objectID": "content/data_import/raw_sage_search.html#produced-files",
+    "href": "content/data_import/raw_sage_search.html#produced-files",
+    "title": "Sage search",
+    "section": "Produced files",
+    "text": "Produced files\nSage_search/\n├── sage_config.json\n├── results.sage.tsv\n├── lfq.tsv\n└── results.json\nUse Download Sage Config to keep an independent copy of the generated configuration.",
     "crumbs": [
       "Getting started",
       "Search",
@@ -3724,11 +3746,11 @@
     ]
   },
   {
-    "objectID": "content/data_import/raw_sage_search.html#how-lfq-becomes-a-protvis-matrix",
-    "href": "content/data_import/raw_sage_search.html#how-lfq-becomes-a-protvis-matrix",
-    "title": "Raw/mzML + Sage search",
-    "section": "How LFQ becomes a ProtVis matrix",
-    "text": "How LFQ becomes a ProtVis matrix\nAfter a successful search, ProtVis reads the Sage LFQ table, finds the proteins/protein field, matches LFQ sample columns to the registered mzML filenames and sample_id values, removes rev_ decoy identifiers, and aggregates target intensities into a protein-by-sample matrix.\nThe completed object uses the workflow stage Sage_complete and receives a traceable name such as:\nProtVis_dataset__Sage_database_search__v2\nThe original staging metadata and process history are retained. Search parameters, log information, configuration, result tables, and produced files are recorded under the project, including:\ndataset$analysis_results$Sage_database_search\nSearch output files that exist on disk are also registered in other_files with path, filename, size, MD5 and attachment time.",
+    "objectID": "content/data_import/raw_sage_search.html#how-sage-becomes-protvis_dataset",
+    "href": "content/data_import/raw_sage_search.html#how-sage-becomes-protvis_dataset",
+    "title": "Sage search",
+    "section": "How Sage becomes ProtVis_dataset",
+    "text": "How Sage becomes ProtVis_dataset\nProtVis maps LFQ columns back to registered sample IDs, removes rev_ decoys, aggregates target protein intensities, retains the PSM assay and finalizes the staging object into the canonical protein-by-sample project.\nSearch configuration, paths, result tables, files, log and provenance are stored in the project. Existing output files are fingerprinted for reproducibility.\nCompatibility checkpoints such as Step2_sage_database_search.rda and the cross-source Step2 handoff can still be written, but schema-v4 run history is the canonical analytical record.",
     "crumbs": [
       "Getting started",
       "Search",
@@ -3736,23 +3758,11 @@
     ]
   },
   {
-    "objectID": "content/data_import/raw_sage_search.html#stage-handoff-to-preprocessing",
-    "href": "content/data_import/raw_sage_search.html#stage-handoff-to-preprocessing",
-    "title": "Raw/mzML + Sage search",
-    "section": "Stage handoff to preprocessing",
-    "text": "Stage handoff to preprocessing\nA successful Search writes two compatibility snapshots:\nStep2_sage_database_search.rda\nStep2_remove_unreliable_peptide.rda\nStep2_sage_database_search.rda preserves the Sage-specific stage name for compatibility. The important cross-source handoff is:\nStep2_remove_unreliable_peptide.rda\nThis is the data-source-independent Step2 checkpoint consumed by Correct Noise. Downstream preprocessing therefore does not need to know whether Step2 originated from Sage, MaxQuant, or another supported input path.\nContinue with Correct noise.",
-    "crumbs": [
-      "Getting started",
-      "Search",
-      "Sage"
-    ]
-  },
-  {
-    "objectID": "content/data_import/raw_sage_search.html#recovery-after-restarting-protvis",
-    "href": "content/data_import/raw_sage_search.html#recovery-after-restarting-protvis",
-    "title": "Raw/mzML + Sage search",
-    "section": "Recovery after restarting ProtVis",
-    "text": "Recovery after restarting ProtVis\nProtVis can recover a completed Sage search from the existing Sage_search directory when lfq.tsv is present and the configuration still resolves the FASTA and mzML inputs. Recovery reads the prior configuration and result tables instead of requiring the database search to be repeated simply because the Shiny session restarted.\nCorrect Noise also checks the active ProtVis_dataset first. If no in-memory object is available, it looks for the canonical Step2_remove_unreliable_peptide.rda, then Sage-specific/older stage files as fallbacks.\n\n\n\n\n\n\nTipKeep the complete project directory\n\n\n\nFor a recoverable Raw/Sage project, keep the working directory, Sage_search folder, stage files, and portable ProtVis_dataset export together. Moving only lfq.tsv away from the FASTA/configuration context weakens provenance and may prevent automatic recovery.",
+    "objectID": "content/data_import/raw_sage_search.html#search-qc-and-recovery",
+    "href": "content/data_import/raw_sage_search.html#search-qc-and-recovery",
+    "title": "Sage search",
+    "section": "Search QC and recovery",
+    "text": "Search QC and recovery\nAfter search, open Project Dashboard. Sage QC can summarize run-level IDs, precursor charge, mass error, q-values, peptide length, missed cleavages and retention time.\nIf the Shiny session restarts, ProtVis can recover a completed Sage search when the project directory, Sage results, FASTA and mzML context remain available. Keep the complete project directory together rather than moving only lfq.tsv.",
     "crumbs": [
       "Getting started",
       "Search",
@@ -3762,9 +3772,9 @@
   {
     "objectID": "content/data_import/raw_sage_search.html#troubleshooting",
     "href": "content/data_import/raw_sage_search.html#troubleshooting",
-    "title": "Raw/mzML + Sage search",
+    "title": "Sage search",
     "section": "Troubleshooting",
-    "text": "Troubleshooting\nSearch tab is missing. Return to Project init and select Raw. Search is hidden for other source types by design.\nSage is shown as Not found. On Windows, reinstall the current ProtVis build and confirm the bundled executable is present. On Linux/macOS, install Sage and place it on PATH.\nNo .mzML files were found. Select the directory that directly contains the converted files and rerun Check mzML files.\nSample names do not map to LFQ columns. Confirm that sample_info$mzml_file matches the registered mzML filenames. ProtVis falls back to filename stems only when a direct sample mapping is unavailable.\nCorrect Noise says the expression matrix is unavailable. The current object is probably still a Sage staging object. Complete Search successfully first so LFQ can be converted to the protein abundance matrix.",
+    "text": "Troubleshooting\nSearch is hidden. Select Raw in Project init.\nSage is not found. Reinstall the current package and check protvis_sage_executable(); all four supported platform binaries are now bundled.\nLFQ does not map to samples. Check sample_info$mzml_file against actual mzML filenames.\nPre-processing cannot load a matrix. The project is probably still in search staging; complete Sage successfully first.",
     "crumbs": [
       "Getting started",
       "Search",
