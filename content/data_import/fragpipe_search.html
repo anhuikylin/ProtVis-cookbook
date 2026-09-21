@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Convert Thermo RAW files to mzML on macOS with ThermoRawFileParser, verify the output, and continue into ProtVis/Sage.">
+<meta name="description" content="Run FragPipe as the comprehensive raw-data search backend and harmonize its PSM, peptide and protein outputs into ProtVis_dataset.">
 
-<title>RAW → mzML on macOS – ProtVis Cookbook</title>
+<title>FragPipe search – ProtVis Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -71,8 +71,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/data_import/raw_sage_search.html" rel="next">
-<link href="../../content/data_import/raw_to_mzml_linux.html" rel="prev">
+<link href="../../content/reproducibility/Project_Dashboard.html" rel="next">
+<link href="../../content/data_import/raw_sage_search.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -291,7 +291,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/introduce.html">Getting started</a></li><li class="breadcrumb-item"><a href="../../content/data_import/msconvert_raw_to_mzml.html">RAW → mzML</a></li><li class="breadcrumb-item"><a href="../../content/data_import/raw_to_mzml_macos.html">macOS · RAW → mzML</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/introduce.html">Getting started</a></li><li class="breadcrumb-item"><a href="../../content/data_import/raw_sage_search.html">Search</a></li><li class="breadcrumb-item"><a href="../../content/data_import/fragpipe_search.html">FragPipe</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -361,13 +361,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">RAW → mzML</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/data_import/msconvert_raw_to_mzml.html" class="sidebar-item-text sidebar-link">
@@ -388,7 +388,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/data_import/raw_to_mzml_macos.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../content/data_import/raw_to_mzml_macos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">macOS · RAW → mzML</span></a>
   </div>
 </li>
@@ -396,13 +396,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Search</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/data_import/raw_sage_search.html" class="sidebar-item-text sidebar-link">
@@ -411,7 +411,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/data_import/fragpipe_search.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/data_import/fragpipe_search.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">FragPipe</span></a>
   </div>
 </li>
@@ -717,43 +717,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#recommended-macos-route" id="toc-recommended-macos-route" class="nav-link active" data-scroll-target="#recommended-macos-route">Recommended macOS route</a></li>
-  <li><a href="#download-thermorawfileparser" id="toc-download-thermorawfileparser" class="nav-link" data-scroll-target="#download-thermorawfileparser">Download ThermoRawFileParser</a></li>
-  <li><a href="#option-a-self-contained-macos-release" id="toc-option-a-self-contained-macos-release" class="nav-link" data-scroll-target="#option-a-self-contained-macos-release">Option A — self-contained macOS release</a>
-  <ul class="collapse">
-  <li><a href="#download-the-matching-release" id="toc-download-the-matching-release" class="nav-link" data-scroll-target="#download-the-matching-release">1. Download the matching release</a></li>
-  <li><a href="#allow-execution" id="toc-allow-execution" class="nav-link" data-scroll-target="#allow-execution">2. Allow execution</a></li>
-  <li><a href="#verify-the-executable" id="toc-verify-the-executable" class="nav-link" data-scroll-target="#verify-the-executable">3. Verify the executable</a></li>
-  </ul></li>
-  <li><a href="#option-b-framework-based-release-with-.net-8" id="toc-option-b-framework-based-release-with-.net-8" class="nav-link" data-scroll-target="#option-b-framework-based-release-with-.net-8">Option B — framework-based release with .NET 8</a></li>
-  <li><a href="#option-c-docker" id="toc-option-c-docker" class="nav-link" data-scroll-target="#option-c-docker">Option C — Docker</a></li>
-  <li><a href="#prepare-the-project-directories" id="toc-prepare-the-project-directories" class="nav-link" data-scroll-target="#prepare-the-project-directories">Prepare the project directories</a></li>
-  <li><a href="#convert-one-raw-file" id="toc-convert-one-raw-file" class="nav-link" data-scroll-target="#convert-one-raw-file">Convert one RAW file</a></li>
-  <li><a href="#convert-all-raw-files-in-the-directory" id="toc-convert-all-raw-files-in-the-directory" class="nav-link" data-scroll-target="#convert-all-raw-files-in-the-directory">Convert all RAW files in the directory</a></li>
-  <li><a href="#peak-picking-and-zlib-compression" id="toc-peak-picking-and-zlib-compression" class="nav-link" data-scroll-target="#peak-picking-and-zlib-compression">Peak picking and zlib compression</a></li>
-  <li><a href="#docker-conversion-example" id="toc-docker-conversion-example" class="nav-link" data-scroll-target="#docker-conversion-example">Docker conversion example</a></li>
-  <li><a href="#expected-output" id="toc-expected-output" class="nav-link" data-scroll-target="#expected-output">Expected output</a></li>
-  <li><a href="#verify-the-mzml-files" id="toc-verify-the-mzml-files" class="nav-link" data-scroll-target="#verify-the-mzml-files">Verify the mzML files</a></li>
-  <li><a href="#continue-into-protvis-on-macos" id="toc-continue-into-protvis-on-macos" class="nav-link" data-scroll-target="#continue-into-protvis-on-macos">Continue into ProtVis on macOS</a></li>
-  <li><a href="#if-protvissage-runs-on-another-computer-or-server" id="toc-if-protvissage-runs-on-another-computer-or-server" class="nav-link" data-scroll-target="#if-protvissage-runs-on-another-computer-or-server">If ProtVis/Sage runs on another computer or server</a></li>
-  <li><a href="#if-the-instrument-is-not-thermo" id="toc-if-the-instrument-is-not-thermo" class="nav-link" data-scroll-target="#if-the-instrument-is-not-thermo">If the instrument is not Thermo</a></li>
-  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
-  <li><a href="#reproducibility-checklist" id="toc-reproducibility-checklist" class="nav-link" data-scroll-target="#reproducibility-checklist">Reproducibility checklist</a></li>
+  <li><a href="#when-to-use-fragpipe" id="toc-when-to-use-fragpipe" class="nav-link active" data-scroll-target="#when-to-use-fragpipe">When to use FragPipe</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#runtime-detection-and-installation" id="toc-runtime-detection-and-installation" class="nav-link" data-scroll-target="#runtime-detection-and-installation">Runtime detection and installation</a></li>
+  <li><a href="#workflow-presets" id="toc-workflow-presets" class="nav-link" data-scroll-target="#workflow-presets">Workflow presets</a></li>
+  <li><a href="#what-protvis-prepares" id="toc-what-protvis-prepares" class="nav-link" data-scroll-target="#what-protvis-prepares">What ProtVis prepares</a></li>
+  <li><a href="#run-fragpipe" id="toc-run-fragpipe" class="nav-link" data-scroll-target="#run-fragpipe">Run FragPipe</a></li>
+  <li><a href="#handoff-to-protvis_dataset" id="toc-handoff-to-protvis_dataset" class="nav-link" data-scroll-target="#handoff-to-protvis_dataset">Handoff to ProtVis_dataset</a></li>
+  <li><a href="#script-entry-points" id="toc-script-entry-points" class="nav-link" data-scroll-target="#script-entry-points">Script entry points</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/data_import/raw_to_mzml_macos.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/data_import/raw_to_mzml_macos.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/data_import/fragpipe_search.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/data_import/fragpipe_search.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/introduce.html">Getting started</a></li><li class="breadcrumb-item"><a href="../../content/data_import/msconvert_raw_to_mzml.html">RAW → mzML</a></li><li class="breadcrumb-item"><a href="../../content/data_import/raw_to_mzml_macos.html">macOS · RAW → mzML</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/introduce.html">Getting started</a></li><li class="breadcrumb-item"><a href="../../content/data_import/raw_sage_search.html">Search</a></li><li class="breadcrumb-item"><a href="../../content/data_import/fragpipe_search.html">FragPipe</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">RAW → mzML on macOS</h1>
+<h1 class="title">FragPipe search</h1>
 </div>
 
 <div>
   <div class="description">
-    Convert Thermo RAW files to mzML on macOS with ThermoRawFileParser, verify the output, and continue into ProtVis/Sage.
+    Run FragPipe as the comprehensive raw-data search backend and harmonize its PSM, peptide and protein outputs into ProtVis_dataset.
   </div>
 </div>
 
@@ -770,234 +756,88 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="recommended-macos-route" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-macos-route">Recommended macOS route</h2>
-<p>For <strong>Thermo Scientific <code>.raw</code></strong> files on macOS, use <strong>ThermoRawFileParser</strong>. The current project provides self-contained macOS releases and a framework-based package that can run with the <strong>.NET 8 runtime</strong>.</p>
-<p>The recommended route is:</p>
-<p><strong>Thermo RAW → ThermoRawFileParser → mzML → ProtVis Project init → Sage Search → ProtVis_dataset</strong></p>
-<div class="callout callout-style-default callout-important callout-titled">
+<section id="when-to-use-fragpipe" class="level2">
+<h2 class="anchored" data-anchor-id="when-to-use-fragpipe">When to use FragPipe</h2>
+<p>Open <strong>Search → FragPipe</strong> when a Raw project needs a more comprehensive search workflow than the lightweight Sage route. ProtVis uses the official FragPipe runtime and its headless interface; it does <strong>not</strong> redistribute separately licensed FragPipe companion binaries inside the R package.</p>
+<p>The Raw route is:</p>
+<p><strong>Project init → Search → FragPipe → Project Dashboard → Pre-processing</strong></p>
+<p>FragPipe can work with compatible LC-MS inputs registered in Project init, including mzML/mzXML and, when the official runtime supports them, vendor RAW, MGF or <code>.d</code> inputs.</p>
+</section>
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<p>Before opening Search:</p>
+<ol type="1">
+<li>Set a writable project directory.</li>
+<li>Upload sample information with <code>sample_id</code> plus a file column such as <code>mzml_file</code>, <code>raw_file</code> or <code>filename</code>.</li>
+<li>Upload the protein FASTA.</li>
+<li>Select the LC-MS input directory and click <strong>Check LC-MS files</strong>.</li>
+<li>Select <strong>Raw</strong> and run <strong>Project init</strong>.</li>
+</ol>
+<p>Unlike Sage, FragPipe is not bundled into ProtVis because the complete FragPipe ecosystem contains components with separate licenses. ProtVis instead detects an existing official runtime or helps obtain the official platform release at runtime.</p>
+</section>
+<section id="runtime-detection-and-installation" class="level2">
+<h2 class="anchored" data-anchor-id="runtime-detection-and-installation">Runtime detection and installation</h2>
+<p>The FragPipe panel reports the status of FragPipe/version, workflows, tools folder, MSFragger, IonQuant, diaTracer, DIA-NN, Java and Python. Use <strong>Refresh</strong> after changing a path. If FragPipe is not detected, use <strong>Install FragPipe</strong> or provide the installation path manually.</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>MSConvertGUI is primarily a Windows workflow for vendor RAW
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>ProteoWizard/MSConvert is the preferred direct vendor-RAW converter on Windows because many proprietary readers are Windows-dependent. For the Thermo RAW files used by the ProtVis example, ThermoRawFileParser is the practical native macOS route.</p>
+<p>On macOS, the current integration reports official FragPipe support as Docker/headless. Configure a compatible Docker/headless wrapper rather than assuming a native desktop installation is available.</p>
 </div>
 </div>
 </section>
-<section id="download-thermorawfileparser" class="level2">
-<h2 class="anchored" data-anchor-id="download-thermorawfileparser">Download ThermoRawFileParser</h2>
-<p>Official resources:</p>
-<ul>
-<li><a href="https://github.com/CompOmics/ThermoRawFileParser">ThermoRawFileParser repository</a></li>
-<li><a href="https://github.com/CompOmics/ThermoRawFileParser/releases">ThermoRawFileParser releases</a></li>
-<li><a href="https://pubmed.ncbi.nlm.nih.gov/31755270/">ThermoRawFileParser publication</a></li>
-</ul>
-<p>The current project README states that releases include <strong>self-contained OSX/macOS builds</strong> and a framework-based release. The framework-based release requires the <strong>.NET 8 runtime</strong>.</p>
+<section id="workflow-presets" class="level2">
+<h2 class="anchored" data-anchor-id="workflow-presets">Workflow presets</h2>
+<p>ProtVis exposes official presets including <strong>LFQ + MBR</strong>, <strong>Basic search</strong>, <strong>LFQ phosphoproteomics</strong>, <strong>Open search</strong>, <strong>Quick open search</strong>, <strong>TMT10 phosphoproteomics</strong>, <strong>DIA spectral library + quantification</strong>, and <strong>DIA phosphoproteomics</strong>. A custom <code>.workflow</code> file can also be supplied.</p>
+<p>Choose the preset that matches the acquisition design. Workflow selection is part of the search model and should be recorded.</p>
 </section>
-<section id="option-a-self-contained-macos-release" class="level2">
-<h2 class="anchored" data-anchor-id="option-a-self-contained-macos-release">Option A — self-contained macOS release</h2>
-<section id="download-the-matching-release" class="level3">
-<h3 class="anchored" data-anchor-id="download-the-matching-release">1. Download the matching release</h3>
-<p>Download the current macOS/OSX release asset from the official Releases page. Choose the architecture that matches your Mac when multiple assets are provided.</p>
-<p>Create a local software directory, for example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/Applications/ThermoRawFileParser</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Applications/ThermoRawFileParser</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Extract the downloaded release there.</p>
+<section id="what-protvis-prepares" class="level2">
+<h2 class="anchored" data-anchor-id="what-protvis-prepares">What ProtVis prepares</h2>
+<p>Before launching headless FragPipe, ProtVis resolves the runtime, prepares the workflow, writes the project FASTA into the workflow configuration, writes a no-header manifest from registered LC-MS files/sample metadata, creates <code>FragPipe_search</code>, and records runtime versions, parameters and file fingerprints.</p>
 </section>
-<section id="allow-execution" class="level3">
-<h3 class="anchored" data-anchor-id="allow-execution">2. Allow execution</h3>
-<p>If required:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x ThermoRawFileParser</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="run-fragpipe" class="level2">
+<h2 class="anchored" data-anchor-id="run-fragpipe">Run FragPipe</h2>
+<p>Review workflow, data type, threads, RAM and optional runtime paths. Advanced workflows can also require Python or DIA-NN. Use <strong>FragPipe dry run</strong> when you want to validate the generated command/workflow without completing the search.</p>
+<p>Click <strong>Run FragPipe Search</strong> once. The result area provides <strong>QC Summary</strong>, <strong>PSMs</strong>, <strong>Peptides</strong>, <strong>Proteins</strong>, <strong>Files</strong>, the FragPipe log and the runtime-component table. The status panel reports parsed PSM, peptide and protein row counts.</p>
 </section>
-<section id="verify-the-executable" class="level3">
-<h3 class="anchored" data-anchor-id="verify-the-executable">3. Verify the executable</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./ThermoRawFileParser</span> <span class="at">--version</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./ThermoRawFileParser</span> <span class="at">--help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>If macOS blocks the downloaded binary, confirm that it came from the official ThermoRawFileParser release page, then use the normal macOS Privacy &amp; Security workflow to allow the trusted application. Do not bypass system security for an unverified download.</p>
+<section id="handoff-to-protvis_dataset" class="level2">
+<h2 class="anchored" data-anchor-id="handoff-to-protvis_dataset">Handoff to ProtVis_dataset</h2>
+<p>ProtVis stores the search bundle in the active project and registers PSM/peptide assays in schema v4. A compatible protein report is harmonized into the canonical protein-by-sample matrix so later modules use the same <code>ProtVis_dataset</code> interface as Sage or tabular imports.</p>
+<p>Search provenance includes workflow, manifest, runtime versions, input/output fingerprints, parameters and log. Re-running a search creates a new recorded run instead of silently replacing previous analytical history.</p>
+<p>After a successful search, inspect <strong>Project Dashboard</strong> before continuing.</p>
 </section>
-</section>
-<section id="option-b-framework-based-release-with-.net-8" class="level2">
-<h2 class="anchored" data-anchor-id="option-b-framework-based-release-with-.net-8">Option B — framework-based release with .NET 8</h2>
-<p>Install the current <strong>.NET 8 runtime</strong> for macOS from Microsoft:</p>
-<ul>
-<li><a href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0">Download .NET 8</a></li>
-</ul>
-<p>Choose the runtime for your Mac architecture, then verify:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> <span class="at">--info</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Run the framework-based parser with:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> ThermoRawFileParser.dll <span class="at">--help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="option-c-docker" class="level2">
-<h2 class="anchored" data-anchor-id="option-c-docker">Option C — Docker</h2>
-<p>Docker is useful when you want a reproducible containerized conversion environment. Install Docker Desktop for macOS and use a current BioContainers ThermoRawFileParser image.</p>
-<p>General pattern:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">-it</span> <span class="dt">\</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/PXD065315_control/raw:/data_input"</span> <span class="dt">\</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/PXD065315_control/mzML:/data_output"</span> <span class="dt">\</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  quay.io/biocontainers/thermorawfileparser:<span class="op">&lt;</span>tag<span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  ThermoRawFileParser.sh <span class="at">--help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Replace <code>&lt;tag&gt;</code> with a current BioContainers tag.</p>
-</section>
-<section id="prepare-the-project-directories" class="level2">
-<h2 class="anchored" data-anchor-id="prepare-the-project-directories">Prepare the project directories</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/PXD065315_control/raw</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/PXD065315_control/mzML</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Example input:</p>
-<pre class="text"><code>~/PXD065315_control/raw/
-├── B73_C1.raw
-├── B73_C2.raw
-├── B73_C3.raw
-├── EA2024_C1.raw
-├── EA2024_C2.raw
-└── EA2024_C3.raw</code></pre>
-</section>
-<section id="convert-one-raw-file" class="level2">
-<h2 class="anchored" data-anchor-id="convert-one-raw-file">Convert one RAW file</h2>
-<p>Self-contained executable:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./ThermoRawFileParser</span> <span class="dt">\</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-i</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/PXD065315_control/raw/B73_C1.raw"</span> <span class="dt">\</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/PXD065315_control/mzML"</span> <span class="dt">\</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-f</span><span class="op">=</span>2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Framework-based build:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> ThermoRawFileParser.dll <span class="dt">\</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-i</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/PXD065315_control/raw/B73_C1.raw"</span> <span class="dt">\</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/PXD065315_control/mzML"</span> <span class="dt">\</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-f</span><span class="op">=</span>2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>-f=2</code> requests <strong>indexed mzML</strong>. Indexed mzML retains the <code>.mzML</code> extension and works as an mzML input for the ProtVis/Sage workflow. Use <code>-f=1</code> for ordinary non-indexed mzML.</p>
-</section>
-<section id="convert-all-raw-files-in-the-directory" class="level2">
-<h2 class="anchored" data-anchor-id="convert-all-raw-files-in-the-directory">Convert all RAW files in the directory</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./ThermoRawFileParser</span> <span class="dt">\</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/PXD065315_control/raw"</span> <span class="dt">\</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/PXD065315_control/mzML"</span> <span class="dt">\</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-f</span><span class="op">=</span>2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Framework-based equivalent:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> ThermoRawFileParser.dll <span class="dt">\</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/PXD065315_control/raw"</span> <span class="dt">\</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/PXD065315_control/mzML"</span> <span class="dt">\</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-f</span><span class="op">=</span>2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="peak-picking-and-zlib-compression" class="level2">
-<h2 class="anchored" data-anchor-id="peak-picking-and-zlib-compression">Peak picking and zlib compression</h2>
-<p>Current ThermoRawFileParser behavior:</p>
-<ul>
-<li>Thermo native peak picking is <strong>enabled by default</strong>;</li>
-<li>zlib compression is <strong>enabled by default</strong>;</li>
-<li><code>-p</code> disables native peak picking;</li>
-<li><code>-z</code> disables zlib compression.</li>
-</ul>
-<p>For the usual Thermo RAW → Sage route, do not disable these defaults unless you have a documented reason.</p>
-<p>You can restrict exported MS levels with <code>-L</code>. For example, to keep MS1 and MS2:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./ThermoRawFileParser</span> <span class="dt">\</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/PXD065315_control/raw"</span> <span class="dt">\</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/PXD065315_control/mzML"</span> <span class="dt">\</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-f</span><span class="op">=</span>2 <span class="dt">\</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">-L</span><span class="op">=</span>1-2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="script-entry-points" class="level2">
+<h2 class="anchored" data-anchor-id="script-entry-points">Script entry points</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ProtVis<span class="sc">::</span><span class="fu">protvis_fragpipe_status</span>()</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>ProtVis<span class="sc">::</span><span class="fu">protvis_install_fragpipe</span>()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ProtVis<span class="sc">::</span><span class="fu">protvis_fragpipe_workflow_presets</span>()</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> ProtVis<span class="sc">::</span><span class="fu">run_fragpipe_search</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">fasta =</span> <span class="st">"proteins.fasta"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">spectra_paths =</span> <span class="fu">list.files</span>(<span class="st">"spectra"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_directory =</span> <span class="st">"FragPipe_search"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">workflow =</span> <span class="st">"LFQ + MBR"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The same backend is available from the <a href="../reproducibility/cli.qmd">Headless / CLI</a> workflow.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Keep acquisition and conversion strategy consistent
+Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Do not change centroiding or MS-level filters between biological samples. If the acquisition is already centroided, document how peak picking is handled and use the same policy for every file.</p>
+<p>Preserve the exact workflow file, manifest, FASTA and runtime version used for the final result.</p>
 </div>
 </div>
-</section>
-<section id="docker-conversion-example" class="level2">
-<h2 class="anchored" data-anchor-id="docker-conversion-example">Docker conversion example</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="dt">\</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/PXD065315_control/raw:/data_input"</span> <span class="dt">\</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/PXD065315_control/mzML:/data_output"</span> <span class="dt">\</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  quay.io/biocontainers/thermorawfileparser:<span class="op">&lt;</span>tag<span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  ThermoRawFileParser.sh <span class="dt">\</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span><span class="op">=</span>/data_input <span class="dt">\</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span><span class="op">=</span>/data_output <span class="dt">\</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">-f</span><span class="op">=</span>2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="expected-output" class="level2">
-<h2 class="anchored" data-anchor-id="expected-output">Expected output</h2>
-<pre class="text"><code>~/PXD065315_control/mzML/
-├── B73_C1.mzML
-├── B73_C2.mzML
-├── B73_C3.mzML
-├── EA2024_C1.mzML
-├── EA2024_C2.mzML
-└── EA2024_C3.mzML</code></pre>
-</section>
-<section id="verify-the-mzml-files" class="level2">
-<h2 class="anchored" data-anchor-id="verify-the-mzml-files">Verify the mzML files</h2>
-<p>Check the generated files:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> ~/PXD065315_control/mzML <span class="at">-maxdepth</span> 1 <span class="at">-type</span> f <span class="at">-name</span> <span class="st">'*.mzML'</span> <span class="at">-print</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> ~/PXD065315_control/mzML/<span class="pp">*</span>.mzML</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Confirm:</p>
-<ol type="1">
-<li>every expected RAW file produced a matching mzML;</li>
-<li>outputs are not empty;</li>
-<li>filename stems match the sample metadata;</li>
-<li>conversion completed without errors;</li>
-<li>expected MS1/MS2 spectra are present for DDA proteomics;</li>
-<li>every sample used identical conversion settings.</li>
-</ol>
-</section>
-<section id="continue-into-protvis-on-macos" class="level2">
-<h2 class="anchored" data-anchor-id="continue-into-protvis-on-macos">Continue into ProtVis on macOS</h2>
-<p>If ProtVis is running locally on the same Mac:</p>
-<ol type="1">
-<li>open <strong>Project init</strong>;</li>
-<li>select <strong>Raw</strong>;</li>
-<li>load or upload sample information containing <code>sample_id</code> and <code>mzml_file</code>;</li>
-<li>upload the protein FASTA;</li>
-<li>select the mzML directory;</li>
-<li>click <strong>Check mzML files</strong>;</li>
-<li>resolve any missing/invalid file rows;</li>
-<li>click <strong>Project init</strong>;</li>
-<li>open <strong>Search</strong> and run Sage.</li>
-</ol>
-<p>Example directory:</p>
-<pre class="text"><code>/Users/yourname/PXD065315_control/mzML</code></pre>
-<p>Continue with <a href="../../content/data_import/raw_sage_search.html">Raw/mzML + Sage search</a>.</p>
-</section>
-<section id="if-protvissage-runs-on-another-computer-or-server" class="level2">
-<h2 class="anchored" data-anchor-id="if-protvissage-runs-on-another-computer-or-server">If ProtVis/Sage runs on another computer or server</h2>
-<p>After conversion, copy the complete <code>mzML</code> directory and FASTA to the target machine. Keep filenames unchanged so that <code>sample_info$mzml_file</code> still matches the files.</p>
-<p>For example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rsync</span> <span class="at">-av</span> ~/PXD065315_control/mzML/ user@server:/data/PXD065315_control/mzML/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Then use the server-side mzML path in ProtVis.</p>
-</section>
-<section id="if-the-instrument-is-not-thermo" class="level2">
-<h2 class="anchored" data-anchor-id="if-the-instrument-is-not-thermo">If the instrument is not Thermo</h2>
-<p>ThermoRawFileParser is specific to Thermo RAW. Other vendors may require their own converter or a Windows ProteoWizard/MSConvert workflow. If a proprietary format cannot be read reliably on macOS, convert it on a supported Windows system and transfer the resulting <code>.mzML</code> files to macOS or the analysis server.</p>
-</section>
-<section id="troubleshooting" class="level2">
-<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
-<p><strong>macOS reports that the executable cannot be opened.</strong> Verify the release source, executable permissions, architecture, and macOS Privacy &amp; Security settings.</p>
-<p><strong><code>dotnet</code> is unavailable.</strong> Install the matching .NET 8 runtime or use a self-contained release.</p>
-<p><strong>The parser fails on a RAW file.</strong> Confirm the file is a valid, fully copied Thermo RAW file and that the parser build matches the Mac architecture.</p>
-<p><strong>ProtVis cannot see the output.</strong> Confirm the selected directory contains ordinary <code>.mzML</code> files directly and that <code>sample_info$mzml_file</code> matches exactly.</p>
-<p><strong>Sage produces very few identifications.</strong> Check MS2 content, centroiding, FASTA, enzyme, modifications, and mass tolerances before changing search thresholds.</p>
-</section>
-<section id="reproducibility-checklist" class="level2">
-<h2 class="anchored" data-anchor-id="reproducibility-checklist">Reproducibility checklist</h2>
-<pre class="text"><code>Operating system: macOS
-Mac architecture:
-ThermoRawFileParser version:
-Installation type: self-contained / .NET / Docker
-Original vendor format: Thermo RAW
-Output format: mzML / indexed mzML
-Native peak picking: enabled/disabled
-zlib compression: enabled/disabled
-MS-level selection:
-Additional options:
-Conversion date:</code></pre>
 
 
 </section>
@@ -1423,13 +1263,13 @@ Conversion date:</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/data_import/raw_to_mzml_linux.html" class="pagination-link" aria-label="Linux · RAW → mzML">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Linux · RAW → mzML</span>
+      <a href="../../content/data_import/raw_sage_search.html" class="pagination-link" aria-label="Sage">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Sage</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/data_import/raw_sage_search.html" class="pagination-link" aria-label="Sage">
-        <span class="nav-page-text">Sage</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/reproducibility/Project_Dashboard.html" class="pagination-link" aria-label="Project Dashboard">
+        <span class="nav-page-text">Project Dashboard</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1441,7 +1281,7 @@ Conversion date:</code></pre>
 </div>   
     <div class="nav-footer-center">
 <p>ProtVis Cookbook · Documentation for reproducible proteomics workflows</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/data_import/raw_to_mzml_macos.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/data_import/raw_to_mzml_macos.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/data_import/fragpipe_search.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/data_import/fragpipe_search.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org/">Quarto</a></p>
 </div>
