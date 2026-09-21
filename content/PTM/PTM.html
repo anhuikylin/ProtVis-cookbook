@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Explore post-translational modification evidence within the ProtVis workflow.">
+<meta name="description" content="Explore modification-oriented summaries and validate a published phosphopeptide spectrum benchmark inside the PTM workspace.">
 
 <title>PTM analysis – ProtVis Cookbook</title>
 <style>
@@ -682,8 +682,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#scope" id="toc-scope" class="nav-link active" data-scroll-target="#scope">Scope</a></li>
-  <li><a href="#recommended-workflow" id="toc-recommended-workflow" class="nav-link" data-scroll-target="#recommended-workflow">Recommended workflow</a></li>
+  <li><a href="#current-ptm-workspace" id="toc-current-ptm-workspace" class="nav-link active" data-scroll-target="#current-ptm-workspace">Current PTM workspace</a></li>
+  <li><a href="#ptm-data-overview" id="toc-ptm-data-overview" class="nav-link" data-scroll-target="#ptm-data-overview">PTM data overview</a></li>
+  <li><a href="#ptm-spectrum-vac14-benchmark" id="toc-ptm-spectrum-vac14-benchmark" class="nav-link" data-scroll-target="#ptm-spectrum-vac14-benchmark">PTM spectrum: Vac14 benchmark</a></li>
   <li><a href="#biological-interpretation" id="toc-biological-interpretation" class="nav-link" data-scroll-target="#biological-interpretation">Biological interpretation</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/PTM/PTM.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/PTM/PTM.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -699,7 +700,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Explore post-translational modification evidence within the ProtVis workflow.
+    Explore modification-oriented summaries and validate a published phosphopeptide spectrum benchmark inside the PTM workspace.
   </div>
 </div>
 
@@ -716,25 +717,42 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="scope" class="level2">
-<h2 class="anchored" data-anchor-id="scope">Scope</h2>
-<p>The <strong>PTM</strong> section is intended for modification-centric proteomics workflows in which peptide/site-level evidence needs to be inspected separately from ordinary protein abundance analysis.</p>
-<p>Because PTM search-engine exports differ substantially in site localization, peptide sequence, modification notation and protein mapping, always check that the selected source parser and input columns match the dataset that generated the evidence.</p>
+<section id="current-ptm-workspace" class="level2">
+<h2 class="anchored" data-anchor-id="current-ptm-workspace">Current PTM workspace</h2>
+<p>The PTM page now contains two tabs:</p>
+<ul>
+<li><strong>PTM data overview</strong> — upload a CSV/XLSX PTM table, choose peptide/modification settings and generate a summary plot;</li>
+<li><strong>PTM spectrum</strong> — use the validated Vac14/PXD001057 phosphopeptide spectrum workflow.</li>
+</ul>
 </section>
-<section id="recommended-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-workflow">Recommended workflow</h2>
-<ol type="1">
-<li>Complete the standard project setup and source selection.</li>
-<li>Open <strong>PTM</strong> and load the PTM-specific table expected by the module.</li>
-<li>Verify modified sequence/site notation and protein identifiers before filtering.</li>
-<li>Apply localization/evidence filters appropriate to the experiment.</li>
-<li>Inspect modification-level quantitative patterns separately from total protein abundance.</li>
-<li>Export the filtered evidence table used for every figure.</li>
-</ol>
+<section id="ptm-data-overview" class="level2">
+<h2 class="anchored" data-anchor-id="ptm-data-overview">PTM data overview</h2>
+<p>Upload a PTM table (<code>.csv</code> or <code>.xlsx</code>), then configure:</p>
+<ul>
+<li>optional ion additions/removals;</li>
+<li>peptide selection;</li>
+<li>modification type: <strong>Phosphorylation, Ubiquitination, Acetylation, Methylation, Glycosylation</strong>;</li>
+<li>b/y ion presentation colors.</li>
+</ul>
+<p>Click <strong>VISUALIZE PTM</strong>. The current overview plot summarizes observed numeric/non-empty values by uploaded column and records the uploaded table plus plot configuration as a project run when an active <code>ProtVis_dataset</code> exists.</p>
+<p>Treat this view as a data overview rather than a site-localization statistical model.</p>
+</section>
+<section id="ptm-spectrum-vac14-benchmark" class="level2">
+<h2 class="anchored" data-anchor-id="ptm-spectrum-vac14-benchmark">PTM spectrum: Vac14 benchmark</h2>
+<p>The built-in spectrum workflow validates a published Arabidopsis phosphopeptide from <strong>PXD001057</strong>:</p>
+<ul>
+<li>protein <code>AT2G01690.1 (Vac14)</code>;</li>
+<li>modified peptide <code>AT[pS]GVPFSQYK</code>;</li>
+<li>phosphosite Ser3;</li>
+<li>precursor charge 2+;</li>
+<li>run <code>E1R2_SCX5_soluble</code>.</li>
+</ul>
+<p>ProtVis can obtain/cache the matching public mzIdentML + MGF evidence, calculate PTM-aware theoretical b/y fragments including relevant neutral losses, match observed peaks and render the evidence table/spectrum.</p>
+<p>For general uploaded PSM inspection, use the dedicated <a href="../../content/PTM/PSM_Explorer.html">PSM Explorer</a>.</p>
 </section>
 <section id="biological-interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="biological-interpretation">Biological interpretation</h2>
-<p>A change at a phosphosite, acetylation site or other PTM can reflect altered modification occupancy, altered total protein abundance, or both. When possible, compare PTM abundance with the corresponding protein-level signal before assigning a regulatory interpretation.</p>
+<p>A PTM abundance change can reflect modification occupancy, total-protein abundance, or both. Compare site/peptide evidence with protein-level abundance when possible.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -745,7 +763,7 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Do not interpret a modified peptide as a unique site when the search result does not localize the modification confidently. Preserve the original localization evidence in the exported record.</p>
+<p>Do not claim a unique modification site when the underlying search result does not localize the site confidently. Preserve the modified sequence, spectrum ID, precursor information and fragment evidence with the figure.</p>
 </div>
 </div>
 

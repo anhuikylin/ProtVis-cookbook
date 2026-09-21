@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Prepare quantitative proteomics data for QC and differential abundance analysis after any supported input route.">
+<meta name="description" content="Use source-aware transformation, imputation and normalization while preserving an observed pre-imputation matrix for Recommended DEP.">
 
 <title>Pre-processing workflow – ProtVis Cookbook</title>
 <style>
@@ -682,14 +682,14 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#recommended-order" id="toc-recommended-order" class="nav-link active" data-scroll-target="#recommended-order">Recommended order</a></li>
-  <li><a href="#correct-noise" id="toc-correct-noise" class="nav-link" data-scroll-target="#correct-noise">1. Correct noise</a></li>
-  <li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation">2. Data transformation</a></li>
-  <li><a href="#data-imputation" id="toc-data-imputation" class="nav-link" data-scroll-target="#data-imputation">3. Data imputation</a></li>
-  <li><a href="#data-normalization" id="toc-data-normalization" class="nav-link" data-scroll-target="#data-normalization">4. Data normalization</a></li>
-  <li><a href="#stage-outputs" id="toc-stage-outputs" class="nav-link" data-scroll-target="#stage-outputs">Stage outputs</a></li>
-  <li><a href="#duplicate-run-protection" id="toc-duplicate-run-protection" class="nav-link" data-scroll-target="#duplicate-run-protection">Duplicate-run protection</a></li>
-  <li><a href="#what-to-check-before-downstream-analysis" id="toc-what-to-check-before-downstream-analysis" class="nav-link" data-scroll-target="#what-to-check-before-downstream-analysis">What to check before downstream analysis</a></li>
+  <li><a href="#shared-workflow" id="toc-shared-workflow" class="nav-link active" data-scroll-target="#shared-workflow">Shared workflow</a></li>
+  <li><a href="#source-aware-defaults" id="toc-source-aware-defaults" class="nav-link" data-scroll-target="#source-aware-defaults">Source-aware defaults</a></li>
+  <li><a href="#correct-noise" id="toc-correct-noise" class="nav-link" data-scroll-target="#correct-noise">1. Correct Noise</a></li>
+  <li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation">2. Data Transformation</a></li>
+  <li><a href="#data-imputation" id="toc-data-imputation" class="nav-link" data-scroll-target="#data-imputation">3. Data Imputation</a></li>
+  <li><a href="#data-normalization" id="toc-data-normalization" class="nav-link" data-scroll-target="#data-normalization">4. Data Normalization</a></li>
+  <li><a href="#important-change-for-differential-analysis" id="toc-important-change-for-differential-analysis" class="nav-link" data-scroll-target="#important-change-for-differential-analysis">Important change for differential analysis</a></li>
+  <li><a href="#compatibility-snapshots" id="toc-compatibility-snapshots" class="nav-link" data-scroll-target="#compatibility-snapshots">Compatibility snapshots</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Pre_processing/Pre_processing.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Pre_processing/Pre_processing.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -704,7 +704,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Prepare quantitative proteomics data for QC and differential abundance analysis after any supported input route.
+    Use source-aware transformation, imputation and normalization while preserving an observed pre-imputation matrix for Recommended DEP.
   </div>
 </div>
 
@@ -721,43 +721,61 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="recommended-order" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-order">Recommended order</h2>
-<p>Once an input route has produced a real protein-by-sample matrix, ProtVis uses four source-independent preprocessing modules:</p>
+<section id="shared-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="shared-workflow">Shared workflow</h2>
+<p>After Search/import has produced a real protein-by-sample matrix, the GUI presents:</p>
 <p><strong>Correct Noise → Data Transformation → Data Imputation → Data Normalization</strong></p>
-<p>Keeping these decisions separate makes it easier to inspect the effect of each operation and to record the selected method in project history.</p>
-<p>For <strong>Raw/mzML</strong>, run <strong>Search</strong> first. A <code>Sage_staging</code> object deliberately has no expression matrix and cannot enter Correct Noise until Sage LFQ has been finalized.</p>
-<p>For <strong>MaxQuant</strong>, complete the conditional <strong>MaxQuant Output Preparation</strong> step first. Other supported tabular sources enter preprocessing after their source-specific parser/import has produced the canonical matrix.</p>
+<p>Schema v4 appends every successful stage as a new run. The active matrix advances through the workflow, while prior matrix states remain recoverable.</p>
+</section>
+<section id="source-aware-defaults" class="level2">
+<h2 class="anchored" data-anchor-id="source-aware-defaults">Source-aware defaults</h2>
+<p>ProtVis 0.9.1 can resolve <strong>Auto (source recommended)</strong> settings. For MaxQuant, the archived-compatible preset is:</p>
+<p><strong>replicate correction → log2(intensity × 1e7) → kNN (seed 12345) → sample-median normalization + historical row shift</strong></p>
+<p>For other sources, defaults are more conservative and can be changed explicitly in the module.</p>
 </section>
 <section id="correct-noise" class="level2">
-<h2 class="anchored" data-anchor-id="correct-noise">1. Correct noise</h2>
-<p>Correct Noise is the first shared preprocessing stage. It prefers the active <code>ProtVis_dataset</code>; if recovery from disk is needed, <code>Step2_remove_unreliable_peptide.rda</code> is the canonical cross-source handoff. Raw/Sage also retains <code>Step2_sage_database_search.rda</code> as a compatibility snapshot.</p>
-<p>The correction itself is replicate-aware. For sample groups whose names contain replicate suffixes such as <code>_1</code>, <code>_2</code>, and <code>_3</code>, zero/missing cells are corrected only when sufficient non-zero replicate evidence exists; otherwise the affected replicate group remains missing. Duplicate protein IDs are collapsed safely before reshaping.</p>
+<h2 class="anchored" data-anchor-id="correct-noise">1. Correct Noise</h2>
+<p>Correct Noise performs replicate-aware correction when <code>_1/_2/_3</code> sample suffixes are available, removes all-zero proteins in that replicate workflow, and safely collapses duplicated protein IDs before reshaping. If recognizable replicate suffixes are absent, the validated matrix is retained without forcing replicate correction.</p>
 <p>Read <a href="../../content/Pre_processing/correct_noise.html">Correct noise</a>.</p>
 </section>
 <section id="data-transformation" class="level2">
-<h2 class="anchored" data-anchor-id="data-transformation">2. Data transformation</h2>
-<p>ProtVis currently exposes <strong>None, log10, log2, Standardization, Z-Score, scale, center, and scale-center</strong>. Original and transformed distributions can be compared before proceeding.</p>
+<h2 class="anchored" data-anchor-id="data-transformation">2. Data Transformation</h2>
+<p>The current menu includes <strong>Auto (source recommended)</strong>, <strong>MaxQuant: log2(x × 1e7)</strong>, <strong>log2</strong>, <strong>None</strong>, <strong>log10</strong>, plus advanced Z-score/scale/center options. The transformation method is stored with the project and later used to infer normalization input scale.</p>
 <p>Read <a href="../../content/Pre_processing/data_transformed.html">Data transformation</a>.</p>
 </section>
 <section id="data-imputation" class="level2">
-<h2 class="anchored" data-anchor-id="data-imputation">3. Data imputation</h2>
-<p>Missing measurements are visualized before imputation. The current GUI offers <strong>kNN, RF, Mean, Median, Zero, and Minimum</strong>, with <strong>kNN</strong> selected by default. Legacy missing sentinels such as <code>0</code> and <code>-8</code> are kept as true <code>NA</code> until the user runs imputation.</p>
+<h2 class="anchored" data-anchor-id="data-imputation">3. Data Imputation</h2>
+<p>The current GUI offers <strong>kNN</strong>, <strong>RF</strong>, <strong>Mean</strong>, <strong>Median</strong>, and <strong>Minimum</strong>. It no longer exposes Zero or MinProb/q controls. A <strong>Random seed</strong> is explicit (default <code>12345</code>) so stochastic/reproducibility-sensitive methods can be repeated.</p>
 <p>Read <a href="../../content/Pre_processing/data_imputation.html">Data imputation</a>.</p>
 </section>
 <section id="data-normalization" class="level2">
-<h2 class="anchored" data-anchor-id="data-normalization">4. Data normalization</h2>
-<p>The current normalization module performs <strong>column-wise median subtraction</strong>, centering each sample by its median. Original and normalized boxplots can be compared and downloaded.</p>
+<h2 class="anchored" data-anchor-id="data-normalization">4. Data Normalization</h2>
+<p>Normalization is no longer fixed to median subtraction. Current methods include <strong>Median, Quantile, VSN, Cyclic Loess, RLR</strong> and a proteiNorm-compatible family, plus a source-aware Auto preset. <strong>Compare all methods</strong> calculates diagnostic metrics rather than silently selecting a winner.</p>
 <p>Read <a href="../../content/Pre_processing/data_normalization.html">Data normalization</a>.</p>
 </section>
-<section id="stage-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="stage-outputs">Stage outputs</h2>
-<p>The canonical result after every step is a new <code>ProtVis_dataset</code> state. Compatibility/recovery files used by the GUI include:</p>
+<section id="important-change-for-differential-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="important-change-for-differential-analysis">Important change for differential analysis</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Imputation is not the default inferential input
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Recommended DEP</strong> deliberately uses the observed <strong>Step4 transformed matrix before imputation</strong>, then applies its own sample-median centering and detection filter. Step5/Step6 remain important for complete-matrix visualization, QC and analyses that explicitly require imputed/normalized data, but they do not force imputed values into the default DEP model.</p>
+</div>
+</div>
+</section>
+<section id="compatibility-snapshots" class="level2">
+<h2 class="anchored" data-anchor-id="compatibility-snapshots">Compatibility snapshots</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Stage</th>
-<th>Compatibility file</th>
+<th>File</th>
 </tr>
 </thead>
 <tbody>
@@ -766,7 +784,7 @@ ul.task-list li input[type="checkbox"] {
 <td><code>Step2_remove_unreliable_peptide.rda</code></td>
 </tr>
 <tr class="even">
-<td>Sage search compatibility</td>
+<td>Sage compatibility</td>
 <td><code>Step2_sage_database_search.rda</code></td>
 </tr>
 <tr class="odd">
@@ -787,28 +805,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>Correct Noise also refreshes the canonical Step2 handoff after successful correction so older downstream paths remain interoperable.</p>
-</section>
-<section id="duplicate-run-protection" class="level2">
-<h2 class="anchored" data-anchor-id="duplicate-run-protection">Duplicate-run protection</h2>
-<p>Current ProtVis protects important run buttons at two levels: the interface disables an active run button while Shiny is busy, and server-side guards reject the same operation if it is already executing. This is particularly important for Sage search and preprocessing steps, where an accidental double click could otherwise create duplicate work or competing output files.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Do not impute before inspecting missingness
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Missing values in proteomics are not always random. Use the missing-value visualization and the biological design to decide whether a global imputation strategy is appropriate for your experiment.</p>
-</div>
-</div>
-</section>
-<section id="what-to-check-before-downstream-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="what-to-check-before-downstream-analysis">What to check before downstream analysis</h2>
-<p>Before opening <strong>Overview</strong> or <strong>DEP analysis</strong>, verify that sample names match <code>sample_info</code>, no sample is unexpectedly all missing, transformed values are on the intended scale, imputation did not create implausible distributions, and normalization reduced unwanted sample-level shifts without erasing known biological differences.</p>
+<p>Before downstream analysis, inspect <a href="../../content/reproducibility/Project_Dashboard.html">Project Dashboard</a> and confirm the current/active run, sample mapping, missingness and workflow validity.</p>
 
 
 </section>

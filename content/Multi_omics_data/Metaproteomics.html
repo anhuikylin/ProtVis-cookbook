@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Integrate protein abundance with taxonomy and functional annotation.">
+<meta name="description" content="Combine protein abundance, taxonomy, function and optional peptide-centric evidence, and append each analysis as a schema-v4 run.">
 
 <title>Metaproteomics – ProtVis Cookbook</title>
 <style>
@@ -682,15 +682,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#inputs" id="toc-inputs" class="nav-link active" data-scroll-target="#inputs">Inputs</a>
-  <ul class="collapse">
-  <li><a href="#abundance" id="toc-abundance" class="nav-link" data-scroll-target="#abundance">Abundance</a></li>
-  <li><a href="#taxonomy" id="toc-taxonomy" class="nav-link" data-scroll-target="#taxonomy">Taxonomy</a></li>
-  <li><a href="#function-annotation" id="toc-function-annotation" class="nav-link" data-scroll-target="#function-annotation">Function annotation</a></li>
-  </ul></li>
+  <li><a href="#input-routes" id="toc-input-routes" class="nav-link active" data-scroll-target="#input-routes">Input routes</a></li>
   <li><a href="#analysis-settings" id="toc-analysis-settings" class="nav-link" data-scroll-target="#analysis-settings">Analysis settings</a></li>
-  <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
-  <li><a href="#group-labels" id="toc-group-labels" class="nav-link" data-scroll-target="#group-labels">Group labels</a></li>
+  <li><a href="#current-result-panels" id="toc-current-result-panels" class="nav-link" data-scroll-target="#current-result-panels">Current result panels</a></li>
+  <li><a href="#peptide-centric-evidence" id="toc-peptide-centric-evidence" class="nav-link" data-scroll-target="#peptide-centric-evidence">Peptide-centric evidence</a></li>
+  <li><a href="#active-project-integration" id="toc-active-project-integration" class="nav-link" data-scroll-target="#active-project-integration">Active-project integration</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Multi_omics_data/Metaproteomics.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Multi_omics_data/Metaproteomics.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -705,7 +701,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Integrate protein abundance with taxonomy and functional annotation.
+    Combine protein abundance, taxonomy, function and optional peptide-centric evidence, and append each analysis as a schema-v4 run.
   </div>
 </div>
 
@@ -722,58 +718,97 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="inputs" class="level2">
-<h2 class="anchored" data-anchor-id="inputs">Inputs</h2>
-<p>The current metaproteomics module joins three CSV tables by <code>ProteinID</code>.</p>
-<section id="abundance" class="level3">
-<h3 class="anchored" data-anchor-id="abundance">Abundance</h3>
-<pre class="text"><code>ProteinID,Control_1,Control_2,Treatment_1,Treatment_2
-P001,100,120,160,150</code></pre>
-</section>
-<section id="taxonomy" class="level3">
-<h3 class="anchored" data-anchor-id="taxonomy">Taxonomy</h3>
-<p>Required columns:</p>
-<pre class="text"><code>ProteinID,Phylum,Genus,Species</code></pre>
-</section>
-<section id="function-annotation" class="level3">
-<h3 class="anchored" data-anchor-id="function-annotation">Function annotation</h3>
-<p>Required columns:</p>
-<pre class="text"><code>ProteinID,KO,Pathway,COG</code></pre>
-<p>A built-in demo and downloadable demo tables are provided in the interface.</p>
-</section>
+<section id="input-routes" class="level2">
+<h2 class="anchored" data-anchor-id="input-routes">Input routes</h2>
+<p>The current module can either:</p>
+<ul>
+<li><strong>Use Active ProtVis_dataset</strong>; or</li>
+<li>upload dedicated metaproteomics CSV tables.</li>
+</ul>
+<p>Uploaded tables are:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Input</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Protein abundance</td>
+<td><code>ProteinID</code> plus sample columns</td>
+</tr>
+<tr class="even">
+<td>Sample metadata</td>
+<td>optional; sample/group fields</td>
+</tr>
+<tr class="odd">
+<td>Taxonomy annotation</td>
+<td><code>ProteinID</code> plus taxonomic ranks</td>
+</tr>
+<tr class="even">
+<td>Function annotation</td>
+<td><code>ProteinID</code> plus function fields such as KO/Pathway/COG/CAZy</td>
+</tr>
+<tr class="odd">
+<td>Peptide-centric table</td>
+<td>optional peptide-to-protein/function evidence and sample intensities</td>
+</tr>
+</tbody>
+</table>
+<p>A built-in demonstration includes abundance, sample metadata, taxonomy, function and peptide tables.</p>
 </section>
 <section id="analysis-settings" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-settings">Analysis settings</h2>
-<p>Choose a taxonomic level (<strong>Phylum, Genus, Species</strong>) and a functional level (<strong>Pathway, KO, COG</strong>). You can switch between summed intensity and relative abundance and choose how many top categories are displayed.</p>
-</section>
-<section id="outputs" class="level2">
-<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
-<p>The module reports the number of proteins, taxa and functions and provides:</p>
+<p>Taxonomic levels and functional levels are detected from the loaded annotation tables rather than being hard-coded to one fixed set. When available, ProtVis prefers <strong>Genus</strong> for taxonomy and <strong>Pathway</strong> for function in the initial demo view.</p>
+<p>Choose:</p>
 <ul>
-<li>merged abundance/taxonomy/function table;</li>
-<li>taxonomy composition plot;</li>
-<li>function composition plot;</li>
-<li>taxon-function Sankey diagram;</li>
-<li>taxon-function heatmap;</li>
-<li>downloadable merged table.</li>
+<li>taxonomic level;</li>
+<li>functional level;</li>
+<li><strong>Use relative abundance</strong> (default on);</li>
+<li><strong>Top categories</strong> (default 10).</li>
 </ul>
+<p>Click <strong>Run Metaproteomics Analysis</strong>. When an active dataset exists, the completed run is appended to that project’s schema-v4 history; otherwise ProtVis can create a project state from the abundance table.</p>
 </section>
-<section id="group-labels" class="level2">
-<h2 class="anchored" data-anchor-id="group-labels">Group labels</h2>
-<p>In the current module, sample names containing terms such as <code>treat</code>, <code>case</code>, or <code>disease</code> are assigned to <strong>Treatment</strong>; other samples default to <strong>Control</strong> for the display grouping. Use clear sample names when relying on this behavior.</p>
-<div class="callout callout-style-default callout-important callout-titled">
+<section id="current-result-panels" class="level2">
+<h2 class="anchored" data-anchor-id="current-result-panels">Current result panels</h2>
+<p>The header cards summarize <strong>Proteins, Taxa, Functions, Peptides</strong>. Result tabs include:</p>
+<ul>
+<li><strong>Merged table</strong>;</li>
+<li><strong>Taxonomy composition</strong>;</li>
+<li><strong>Taxonomy rank</strong>;</li>
+<li><strong>Function composition</strong>;</li>
+<li><strong>Differential categories</strong> for taxonomy/function;</li>
+<li><strong>Taxon × Function</strong> Sankey and heatmap;</li>
+<li><strong>Peptide-centric</strong> heatmap/table;</li>
+<li><strong>Result tables</strong> for stored outputs.</li>
+</ul>
+<p>Use <strong>Merged Protein Table</strong> to export the merged table and <strong>Current Run RDS</strong> to preserve the complete metaproteomics run.</p>
+</section>
+<section id="peptide-centric-evidence" class="level2">
+<h2 class="anchored" data-anchor-id="peptide-centric-evidence">Peptide-centric evidence</h2>
+<p>When a peptide is associated with multiple functional assignments, the current peptide-centric workflow splits its intensity equally across those assignments before sample-level aggregation. This rule is explicit because shared peptides can otherwise inflate functional totals.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Taxonomic and functional annotations can be many-to-many in real metaproteomes. Confirm how protein groups, shared peptides and ambiguous taxonomic assignments were handled upstream before interpreting summed compositions as organism-level abundance.</p>
+<p>Protein groups and shared peptides create genuine ambiguity in metaproteomics. Taxonomic/function composition is only as specific as the upstream protein/peptide assignment. Preserve annotation and peptide mapping tables with the result.</p>
 </div>
 </div>
+</section>
+<section id="active-project-integration" class="level2">
+<h2 class="anchored" data-anchor-id="active-project-integration">Active-project integration</h2>
+<p>Loading the active <code>ProtVis_dataset</code> allows metaproteomics outputs to remain linked to the protein matrix, sample metadata and earlier provenance. This is preferred over manually copying selected values into a disconnected table.</p>
 
 
 </section>

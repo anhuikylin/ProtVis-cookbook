@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Transform quantitative intensities while comparing original and transformed distributions.">
+<meta name="description" content="Apply source-aware intensity transformations while preserving the observed Step4 matrix used by Recommended DEP.">
 
 <title>Data transformation – ProtVis Cookbook</title>
 <style>
@@ -682,10 +682,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#available-methods" id="toc-available-methods" class="nav-link active" data-scroll-target="#available-methods">Available methods</a></li>
+  <li><a href="#current-methods" id="toc-current-methods" class="nav-link active" data-scroll-target="#current-methods">Current methods</a></li>
   <li><a href="#gui-workflow" id="toc-gui-workflow" class="nav-link" data-scroll-target="#gui-workflow">GUI workflow</a></li>
-  <li><a href="#interpreting-the-worked-log10-example" id="toc-interpreting-the-worked-log10-example" class="nav-link" data-scroll-target="#interpreting-the-worked-log10-example">Interpreting the worked <code>log10</code> example</a></li>
-  <li><a href="#output" id="toc-output" class="nav-link" data-scroll-target="#output">Output</a></li>
+  <li><a href="#choosing-the-scale" id="toc-choosing-the-scale" class="nav-link" data-scroll-target="#choosing-the-scale">Choosing the scale</a></li>
+  <li><a href="#output-and-downstream-role" id="toc-output-and-downstream-role" class="nav-link" data-scroll-target="#output-and-downstream-role">Output and downstream role</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Pre_processing/data_transformed.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Pre_processing/data_transformed.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -700,7 +700,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Transform quantitative intensities while comparing original and transformed distributions.
+    Apply source-aware intensity transformations while preserving the observed Step4 matrix used by Recommended DEP.
   </div>
 </div>
 
@@ -717,62 +717,57 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="available-methods" class="level2">
-<h2 class="anchored" data-anchor-id="available-methods">Available methods</h2>
-<p>The current transformation menu provides:</p>
+<section id="current-methods" class="level2">
+<h2 class="anchored" data-anchor-id="current-methods">Current methods</h2>
+<p>The current transformation selector is grouped into:</p>
+<p><strong>Recommended</strong></p>
 <ul>
+<li><strong>Auto (source recommended)</strong></li>
+<li><strong>MaxQuant: log2(x × 1e7)</strong></li>
+<li><strong>log2</strong></li>
 <li><strong>None</strong></li>
 <li><strong>log10</strong></li>
-<li><strong>log2</strong></li>
-<li><strong>Standardization</strong></li>
-<li><strong>Z-Score</strong></li>
-<li><strong>scale</strong></li>
-<li><strong>center</strong></li>
-<li><strong>scale-center</strong></li>
 </ul>
-<p>Choose a method that matches the scale and distribution of the imported quantitative data. Do not log-transform values that are already on a logarithmic scale.</p>
+<p><strong>Advanced</strong></p>
+<ul>
+<li><strong>Z-Score</strong></li>
+<li><strong>Scale only</strong></li>
+<li><strong>Center only</strong></li>
+<li><strong>Scale + center</strong></li>
+</ul>
+<p>For MaxQuant, Auto reproduces the archived preprocessing transform <code>log2(intensity × 1e7)</code> and requires positive observed intensities. For other sources, Auto resolves to the source-specific preset.</p>
 </section>
 <section id="gui-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="gui-workflow">GUI workflow</h2>
-<p>The full-resolution screenshot below shows the transformation page after the six-sample PXD065315 example has been loaded and transformed with <code>log10</code>.</p>
-<div id="fig-data-transformation-gui" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of the ProtVis Data Transformation module. The sidebar contains Load data, a Transformation Method selector set to log10, the Run transformation control, status text, plot colors, and download settings. The main panel compares Original Data and Transformed Data tables with their boxplots.">
+<div id="fig-data-transformation-gui" class="quarto-float quarto-figure quarto-figure-center anchored" alt="ProtVis Data Transformation page with Load data, transformation selection, Run transformation, input/output tables and boxplots." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-data-transformation-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/screenshots/PixPin_2026-09-13_18-20-14.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of the ProtVis Data Transformation module. The sidebar contains Load data, a Transformation Method selector set to log10, the Run transformation control, status text, plot colors, and download settings. The main panel compares Original Data and Transformed Data tables with their boxplots.">
+<img src="../../images/screenshots/PixPin_2026-09-13_18-20-14.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="ProtVis Data Transformation page with Load data, transformation selection, Run transformation, input/output tables and boxplots.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-data-transformation-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Data Transformation in ProtVis. The left panel is used to load the corrected matrix, choose a transformation method, and run the transformation. The upper cards display the original protein table and sample boxplot; the lower cards display the transformed table and transformed boxplot. The screenshot uses log10 as an example.
+Figure&nbsp;1: Data Transformation in ProtVis. The page compares the input matrix/distribution with the transformed matrix/distribution.
 </figcaption>
 </figure>
 </div>
-<p>Follow the interface in this order. <strong>1. Load data.</strong> Click <strong>Load data</strong>. ProtVis uses the active <code>ProtVis_dataset</code> first and can recover <code>Step3_correct_noise.rda</code> for legacy projects. Confirm that the load status changes to <strong>Data loaded</strong> and that the upper <strong>Original Data</strong> table contains the expected protein IDs and sample columns.</p>
-<p><strong>2. Choose the Transformation Method.</strong> Select the intended method in the sidebar. The screenshot uses <strong>log10</strong> only as a worked example; it is not a universal recommendation. Check the original boxplot before transforming so you know whether the values are strongly right-skewed, already logarithmic, standardized, or centered.</p>
-<p><strong>3. Run the transformation.</strong> Click <strong>Run transformation</strong>. After completion, the status panel reports the current method and the lower <strong>Transformed Data</strong> table and visualization are refreshed. Compare the upper and lower panels rather than judging only from the numeric table: the transformed distributions should reflect the mathematical operation you selected without changing sample identity or protein order unexpectedly.</p>
-<p>The color selectors and plot width/height controls affect presentation and downloaded plots only; they do not alter the quantitative matrix. Download the original and transformed PDF plots when they are part of the analysis record.</p>
+<ol type="1">
+<li>Click <strong>Load data</strong> and verify the protein/sample matrix.</li>
+<li>Select <strong>Auto</strong> or an explicit method.</li>
+<li>Click <strong>Run transformation</strong>.</li>
+<li>Compare original and transformed distributions.</li>
+<li>Export the diagnostic PDFs when they are part of the analysis record.</li>
+</ol>
+<p>The screenshot predates the newer source-aware Auto/MaxQuant choices, so use the <strong>current control labels in the running app</strong> rather than copying the screenshot’s selected method.</p>
 </section>
-<section id="interpreting-the-worked-log10-example" class="level2">
-<h2 class="anchored" data-anchor-id="interpreting-the-worked-log10-example">Interpreting the worked <code>log10</code> example</h2>
-<p>Current ProtVis applies <code>log10(x + 1e-8)</code> for the <code>log10</code> option and <code>log2(x + 1e-8)</code> for <code>log2</code>. Consequently, an exact zero can appear close to <strong>-8.00</strong> after <code>log10</code>, as visible in the screenshot. In the following imputation stage, ProtVis treats legacy not-observed sentinels such as <code>0</code> and <code>-8</code> as missing rather than as biological abundance.</p>
-<p>For many positive intensity-based proteomics datasets, a logarithmic transform can reduce right-skew and compress large abundance differences. Standardization or Z-score transformations are more appropriate for some pattern-oriented analyses but change the interpretation of absolute values. The intended downstream model should therefore guide the choice.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Check the input scale first
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Do not apply an additional log transformation to data that are already logarithmic. Also inspect zero and missing-value behavior before moving to imputation; a displayed <code>-8</code> in the current <code>log10</code> workflow can represent a transformed zero rather than a genuine measured abundance.</p>
-</div>
-</div>
+<section id="choosing-the-scale" class="level2">
+<h2 class="anchored" data-anchor-id="choosing-the-scale">Choosing the scale</h2>
+<p>Do not apply log2/log10 to values that are already logarithmic. Advanced scaling methods are useful for pattern visualization but change the quantitative interpretation and may be inappropriate before abundance-based differential models.</p>
 </section>
-<section id="output" class="level2">
-<h2 class="anchored" data-anchor-id="output">Output</h2>
-<p>The transformed state is written to the active <code>ProtVis_dataset</code>, recorded in process history with the selected method, and persisted in the compatibility file:</p>
+<section id="output-and-downstream-role" class="level2">
+<h2 class="anchored" data-anchor-id="output-and-downstream-role">Output and downstream role</h2>
+<p>The transformed state is recorded in schema v4 and written to the compatibility snapshot:</p>
 <pre class="text"><code>Step4_data_transformed.rda</code></pre>
-<p>Continue with <a href="../../content/Pre_processing/data_imputation.html">Data imputation</a>.</p>
+<p>Step4 is especially important because <strong>Recommended DEP uses the observed transformed matrix before imputation</strong>. Preserve missing values here rather than replacing them merely to make the matrix visually complete.</p>
+<p>Continue with <a href="../../content/Pre_processing/data_imputation.html">Data imputation</a> for analyses requiring a complete matrix, or later use Step4 directly through Recommended DEP.</p>
 
 
 </section>

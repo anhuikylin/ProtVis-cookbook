@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Specialized modules for expression trends, networks, metaproteomics and cross-dataset integration.">
+<meta name="description" content="Specialized expression, network, metaproteomics and cross-dataset integration modules that append results to the active project when available.">
 
 <title>Multi-omics – ProtVis Cookbook</title>
 <style>
@@ -683,6 +683,8 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#module-map" id="toc-module-map" class="nav-link active" data-scroll-target="#module-map">Module map</a></li>
+  <li><a href="#schema-v4-behavior" id="toc-schema-v4-behavior" class="nav-link" data-scroll-target="#schema-v4-behavior">Schema-v4 behavior</a></li>
+  <li><a href="#recommended-practice" id="toc-recommended-practice" class="nav-link" data-scroll-target="#recommended-practice">Recommended practice</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Multi_omics_data/Multi_omics_data.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Multi_omics_data/Multi_omics_data.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -697,7 +699,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Specialized modules for expression trends, networks, metaproteomics and cross-dataset integration.
+    Specialized expression, network, metaproteomics and cross-dataset integration modules that append results to the active project when available.
   </div>
 </div>
 
@@ -716,7 +718,6 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="module-map" class="level2">
 <h2 class="anchored" data-anchor-id="module-map">Module map</h2>
-<p>The <strong>Multi-omics</strong> menu groups analyses that extend beyond a single DEP table:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -730,45 +731,40 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Expression Profile</td>
+<td><strong>Expression Profile</strong></td>
 <td>Which proteins share similar abundance trends?</td>
 </tr>
 <tr class="even">
-<td>WGCNA</td>
-<td>Which co-expression modules and hub proteins relate to traits?</td>
+<td><strong>WGCNA</strong></td>
+<td>Which co-expression modules/hub proteins relate to traits?</td>
 </tr>
 <tr class="odd">
-<td>Metaproteomics</td>
+<td><strong>Metaproteomics</strong></td>
 <td>How do taxonomic and functional compositions change together?</td>
 </tr>
 <tr class="even">
-<td>Nine Quadrant</td>
-<td>How do two quantitative contrasts/datasets agree or disagree?</td>
+<td><strong>Nine Quadrant</strong></td>
+<td>How do two effect estimates agree, disagree or change in only one layer?</td>
 </tr>
 <tr class="odd">
-<td>Co-enrichment</td>
-<td>Which functional signals are shared or distinct across result sets?</td>
+<td><strong>Co-enrichment</strong></td>
+<td>Which enriched pathways are shared or layer-specific?</td>
 </tr>
 <tr class="even">
-<td>Venn</td>
-<td>Which identifiers overlap among multiple sets?</td>
+<td><strong>Venn / UpSet</strong></td>
+<td>Which identifiers overlap across sets?</td>
 </tr>
 </tbody>
 </table>
-<p>These modules do not all require the same input type. Follow the dedicated page for each analysis rather than assuming the normalized matrix alone is sufficient.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For manuscript figures, use an integration module only when the biological question is genuinely cross-layer or network-oriented. A more complex plot is not automatically more informative than a well-supported DEP or enrichment result.</p>
-</div>
-</div>
+<p>These analyses do not require identical inputs. Expression/WGCNA-like analyses can use the active quantitative project, while cross-omics integration often needs external matched result tables.</p>
+</section>
+<section id="schema-v4-behavior" class="level2">
+<h2 class="anchored" data-anchor-id="schema-v4-behavior">Schema-v4 behavior</h2>
+<p>Where a module is connected to the active <code>ProtVis_dataset</code>, a completed analysis is appended as a new run with parameters and result tables rather than overwriting previous output. This is especially important for Metaproteomics, which can load the active project and preserve taxonomy/function/peptide analysis in the same lineage.</p>
+</section>
+<section id="recommended-practice" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-practice">Recommended practice</h2>
+<p>Use a multi-omics module only when the biological question genuinely requires integration. Keep identifiers harmonized across layers, preserve each layer’s original statistics, and do not interpret visual overlap as statistical evidence unless an explicit test supports it.</p>
 
 
 </section>

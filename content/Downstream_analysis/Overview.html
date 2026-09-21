@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Inspect sample relationships, expression patterns, dimensionality reduction and proteomics quality metrics.">
+<meta name="description" content="Inspect sample correlation, expression patterns, archived UMAP structure, normalized intensity density and protein CV before formal differential analysis.">
 
 <title>Overview &amp; QC – ProtVis Cookbook</title>
 <style>
@@ -683,15 +683,13 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#overview-interface" id="toc-overview-interface" class="nav-link" data-scroll-target="#overview-interface">Overview interface</a>
-  <ul class="collapse">
-  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
-  </ul></li>
+  <li><a href="#current-interface" id="toc-current-interface" class="nav-link" data-scroll-target="#current-interface">Current interface</a></li>
   <li><a href="#correlation" id="toc-correlation" class="nav-link" data-scroll-target="#correlation">Correlation</a></li>
   <li><a href="#expression-pattern" id="toc-expression-pattern" class="nav-link" data-scroll-target="#expression-pattern">Expression pattern</a></li>
-  <li><a href="#dimensionality-reduction" id="toc-dimensionality-reduction" class="nav-link" data-scroll-target="#dimensionality-reduction">Dimensionality reduction</a></li>
-  <li><a href="#proteomics-qc" id="toc-proteomics-qc" class="nav-link" data-scroll-target="#proteomics-qc">Proteomics QC</a></li>
-  <li><a href="#handoff-to-dep-analysis" id="toc-handoff-to-dep-analysis" class="nav-link" data-scroll-target="#handoff-to-dep-analysis">Handoff to DEP analysis</a></li>
+  <li><a href="#dimensionality-reduction-archived-umap-reproduction" id="toc-dimensionality-reduction-archived-umap-reproduction" class="nav-link" data-scroll-target="#dimensionality-reduction-archived-umap-reproduction">Dimensionality reduction: archived UMAP reproduction</a></li>
+  <li><a href="#normalized-intensity-density" id="toc-normalized-intensity-density" class="nav-link" data-scroll-target="#normalized-intensity-density">Normalized intensity density</a></li>
+  <li><a href="#protein-coefficient-of-variation" id="toc-protein-coefficient-of-variation" class="nav-link" data-scroll-target="#protein-coefficient-of-variation">Protein coefficient of variation</a></li>
+  <li><a href="#relationship-to-project-dashboard" id="toc-relationship-to-project-dashboard" class="nav-link" data-scroll-target="#relationship-to-project-dashboard">Relationship to Project Dashboard</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Downstream_analysis/Overview.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Downstream_analysis/Overview.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -706,7 +704,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Inspect sample relationships, expression patterns, dimensionality reduction and proteomics quality metrics.
+    Inspect sample correlation, expression patterns, archived UMAP structure, normalized intensity density and protein CV before formal differential analysis.
   </div>
 </div>
 
@@ -725,72 +723,69 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>Use <strong>Downstream analysis → Overview</strong> after preprocessing and before differential abundance analysis. It is the fastest place to check sample relationships, normalization effects, missingness, replicate behavior and broad data quality before formal testing.</p>
-<p>The current module loads both the imputed and normalized stages. When stage snapshots are unavailable but a valid <code>ProtVis_dataset</code> is active, ProtVis can derive an overview from the current project object and report that fallback.</p>
+<p>Use <strong>Downstream analysis → Overview</strong> after preprocessing to inspect broad sample/data quality. Project-wide provenance and workflow validity are handled separately by <a href="../../content/reproducibility/Project_Dashboard.html">Project Dashboard</a>.</p>
+<p>The current Overview loader prefers Step4 + Step6 snapshots. If only the active <code>ProtVis_dataset</code> is available, general QC can still use the current matrix, but the archived UMAP reproduction requires <code>Step4_data_transformed.rda</code>.</p>
 </section>
-<section id="overview-interface" class="level2">
-<h2 class="anchored" data-anchor-id="overview-interface">Overview interface</h2>
-<p>The full-resolution screenshot below shows the current Overview/QC page using the six-sample maize example. Values such as <strong>5,209 proteins</strong> and <strong>6 samples</strong> belong to this example and should not be treated as fixed ProtVis output sizes.</p>
-<div id="fig-overview-qc-gui" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of the ProtVis Downstream analysis Overview page. The interface shows Load Data, correlation and expression-pattern sections, dimensionality reduction with UMAP selected, before- and after-normalization plots, and a Proteomics QC summary with missing-value and sample-intensity diagnostics." data-fig-align="center">
+<section id="current-interface" class="level2">
+<h2 class="anchored" data-anchor-id="current-interface">Current interface</h2>
+<div id="fig-overview-qc-gui" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="ProtVis Overview screenshot. Current interface provides correlation, expression pattern, archived UMAP reproduction, normalized intensity density and protein coefficient-of-variation analysis.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-overview-qc-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/screenshots/PixPin_2026-09-13_18-34-05.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of the ProtVis Downstream analysis Overview page. The interface shows Load Data, correlation and expression-pattern sections, dimensionality reduction with UMAP selected, before- and after-normalization plots, and a Proteomics QC summary with missing-value and sample-intensity diagnostics.">
+<img src="../../images/screenshots/PixPin_2026-09-13_18-34-05.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="ProtVis Overview screenshot. Current interface provides correlation, expression pattern, archived UMAP reproduction, normalized intensity density and protein coefficient-of-variation analysis.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-overview-qc-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: ProtVis Overview and quality-control interface. The left panel begins with Load Data and provides Correlation, Expression pattern and Dimensionality Reduction controls. The main area compares dimensionality-reduction results before and after normalization and summarizes proteomics QC, missingness and sample-level intensity diagnostics.
+Figure&nbsp;1: Earlier Overview/QC screenshot. Current 0.9.1 keeps correlation and expression-pattern analysis but the dimensionality-reduction panel is now an explicit archived UMAP reproduction workflow, with normalized intensity density and protein-CV panels added.
 </figcaption>
 </figure>
 </div>
-<section id="recommended-operating-order" class="level3">
-<h3 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h3>
-<p><strong>1. Load the project data.</strong> Open <strong>Downstream analysis → Overview</strong> and click <strong>Load Data</strong>. ProtVis loads the imputed and normalized quantitative states needed for side-by-side diagnostics. Confirm the status message before interpreting any plot. In the screenshot, both datasets load successfully and each contains 5,209 proteins across 6 samples.</p>
-<p><strong>2. Inspect correlation first.</strong> Open <strong>Correlation</strong>, choose <strong>Pearson</strong>, <strong>Spearman</strong>, or <strong>Kendall</strong>, and inspect whether samples expected to be biologically similar cluster together. Correlation is especially useful for identifying a single failed replicate or a sample whose overall profile is inconsistent with its group.</p>
-<p><strong>3. Inspect the expression-pattern heatmap.</strong> Use <strong>Expression pattern</strong> to view broad abundance structure among the most variable proteins. This view is intended for global pattern checking rather than formal differential-abundance inference. If scaling is enabled, interpret relative patterns rather than absolute abundance differences.</p>
-<p><strong>4. Compare dimensionality reduction before and after normalization.</strong> In <strong>Dimensionality Reduction</strong>, choose <strong>PCA</strong>, <strong>PCoA</strong>, <strong>t-SNE</strong>, <strong>UMAP</strong>, or <strong>NMDS</strong>. The screenshot uses <strong>UMAP</strong> and displays results before normalization and after normalization side by side. A useful normalization should reduce unwanted technical structure without erasing biologically plausible separation.</p>
-<p><strong>5. Set grouping aesthetics from sample metadata.</strong> Color and 95% confidence ellipses can use metadata such as <code>group</code>, <code>tissue</code>, <code>species</code>, <code>batch</code>, or <code>condition</code>; point shape can be assigned independently. In the illustrated interface, <strong>tissue</strong> is used for color/ellipse grouping and <strong>species</strong> for point shape. Use fields that match the actual experimental design rather than forcing the demo defaults onto another dataset.</p>
-<p><strong>6. Finish with the proteomics QC panel.</strong> Review the <strong>Proteomics QC summary</strong>, missing-value rate by sample, sample total normalized intensity, intensity distributions, PCA/CV diagnostics and related summaries. Unexpectedly high missingness, a large sample-level intensity shift, or a single isolated sample should be investigated before DEP analysis.</p>
-</section>
 </section>
 <section id="correlation" class="level2">
 <h2 class="anchored" data-anchor-id="correlation">Correlation</h2>
-<p>Choose <strong>Pearson</strong>, <strong>Spearman</strong>, or <strong>Kendall</strong> correlation, then configure clustering and whether correlation values/sample names are displayed. Replicates do not need to be identical, but samples from the same biological condition should usually be more similar to one another than to unrelated groups unless the experiment provides a biological reason otherwise.</p>
+<p>Choose <strong>Pearson, Spearman, or Kendall</strong>, set clustering/display options and run the correlation matrix. ProtVis stores the matrix plus color/plot configuration as a schema-v4 QC run.</p>
+<p>Undefined correlations from constant or entirely missing samples remain scientifically undefined; the heatmap can use a neutral display value without rewriting the underlying project data.</p>
 </section>
 <section id="expression-pattern" class="level2">
 <h2 class="anchored" data-anchor-id="expression-pattern">Expression pattern</h2>
-<p>The expression-pattern heatmap can focus on the top variable features and optionally scale by protein or sample. This is useful for identifying broad coordinated patterns, outlier samples and dominant abundance blocks. It should not replace a statistical DEP model.</p>
+<p>Select the top variable proteins, choose row/column/no scaling, clustering and color settings, then run the heatmap. This is a global pattern/QC view, not a differential-abundance test.</p>
 </section>
-<section id="dimensionality-reduction" class="level2">
-<h2 class="anchored" data-anchor-id="dimensionality-reduction">Dimensionality reduction</h2>
-<p>Available methods are:</p>
+<section id="dimensionality-reduction-archived-umap-reproduction" class="level2">
+<h2 class="anchored" data-anchor-id="dimensionality-reduction-archived-umap-reproduction">Dimensionality reduction: archived UMAP reproduction</h2>
+<p>The current <strong>Dimensionality Reduction</strong> control is no longer a generic PCA/PCoA/t-SNE/UMAP/NMDS selector. It is an explicit <strong>Run UMAP</strong> route for the archived Figure 3 reproduction:</p>
 <ul>
-<li><strong>PCA</strong></li>
-<li><strong>PCoA</strong></li>
-<li><strong>t-SNE</strong></li>
-<li><strong>UMAP</strong></li>
-<li><strong>NMDS</strong></li>
+<li>transformed <strong>pre-KNN</strong> intensity matrix (Step4);</li>
+<li>five early developmental groups;</li>
+<li>random seed <code>10086</code>;</li>
+<li>group colors;</li>
+<li>species point shapes;</li>
+<li>four biological-region ellipses.</li>
 </ul>
-<p>ProtVis displays dimensionality reduction <strong>before normalization</strong> and <strong>after normalization</strong> so that the effect of preprocessing can be assessed directly. For stochastic methods such as t-SNE or UMAP, interpret neighborhood structure together with the experimental design rather than treating axis values as directly comparable biological quantities.</p>
+<p>Use this mode when reproducing that historical figure. For a new experiment, interpret UMAP only as an exploratory structure view and preserve the preprocessing/seed used.</p>
 </section>
-<section id="proteomics-qc" class="level2">
-<h2 class="anchored" data-anchor-id="proteomics-qc">Proteomics QC</h2>
-<p>The QC panel summarizes and exports key diagnostics including sample total intensity, sample missing-value rate, intensity boxplots/density, PCA based on variable features, coefficient-of-variation distributions and the normalized matrix.</p>
+<section id="normalized-intensity-density" class="level2">
+<h2 class="anchored" data-anchor-id="normalized-intensity-density">Normalized intensity density</h2>
+<p>The density panel uses the normalized matrix and can color lines by biological triplicate or individual sample. Bandwidth adjustment, line width and legend are presentation controls. The normalized matrix can also be downloaded from this panel.</p>
+</section>
+<section id="protein-coefficient-of-variation" class="level2">
+<h2 class="anchored" data-anchor-id="protein-coefficient-of-variation">Protein coefficient of variation</h2>
+<p>The CV panel summarizes protein-level variation across the current normalized data. Histogram binning/fill/border settings affect presentation only. Unexpectedly large CV should be interpreted together with missingness, sample design and abundance level.</p>
+</section>
+<section id="relationship-to-project-dashboard" class="level2">
+<h2 class="anchored" data-anchor-id="relationship-to-project-dashboard">Relationship to Project Dashboard</h2>
+<p>Use <strong>Overview</strong> for detailed exploratory plots. Use <strong>Project Dashboard</strong> for protein/sample counts, data completeness, workflow state, result registry, provenance, input fingerprints and search QC.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Do not select a preprocessing strategy only because a plot looks cleaner
+Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A visually tighter PCA or UMAP is not proof that preprocessing is correct. If normalization creates separation that conflicts with known biology, removes a strong expected effect, or produces implausible sample distributions, return to the preceding preprocessing stages and check the assumptions.</p>
+<p>A cleaner-looking heatmap or UMAP is not evidence that a preprocessing method is correct. Check whether technical alignment improved without erasing expected biological structure.</p>
 </div>
 </div>
-</section>
-<section id="handoff-to-dep-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="handoff-to-dep-analysis">Handoff to DEP analysis</h2>
-<p>Once sample relationships, missingness, distributions and group structure are acceptable, continue to <a href="../../content/Downstream_analysis/DEP_analysis.html">DEP analysis</a>. Keep the Overview/QC outputs as part of the analysis record because they provide the context needed to judge the reliability of downstream differential results.</p>
+<p>Once QC is acceptable, continue to <a href="../../content/Downstream_analysis/DEP_analysis.html">DEP analysis</a>.</p>
 
 
 </section>

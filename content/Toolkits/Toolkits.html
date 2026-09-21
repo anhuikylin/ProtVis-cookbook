@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Focused utilities that complement the main ProtVis workflow.">
+<meta name="description" content="Focused utilities for identifier preparation, plant localization, structures/networks, reusable plots and auxiliary analyses.">
 
 <title>Toolkits – ProtVis Cookbook</title>
 <style>
@@ -682,8 +682,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#toolkit-overview" id="toc-toolkit-overview" class="nav-link active" data-scroll-target="#toolkit-overview">Toolkit overview</a></li>
-  <li><a href="#how-to-use-toolkits-responsibly" id="toc-how-to-use-toolkits-responsibly" class="nav-link" data-scroll-target="#how-to-use-toolkits-responsibly">How to use toolkits responsibly</a></li>
+  <li><a href="#current-toolkit-map" id="toc-current-toolkit-map" class="nav-link active" data-scroll-target="#current-toolkit-map">Current toolkit map</a></li>
+  <li><a href="#how-to-use-toolkits" id="toc-how-to-use-toolkits" class="nav-link" data-scroll-target="#how-to-use-toolkits">How to use toolkits</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Toolkits.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Toolkits.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -698,7 +698,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Focused utilities that complement the main ProtVis workflow.
+    Focused utilities for identifier preparation, plant localization, structures/networks, reusable plots and auxiliary analyses.
   </div>
 </div>
 
@@ -715,21 +715,29 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="toolkit-overview" class="level2">
-<h2 class="anchored" data-anchor-id="toolkit-overview">Toolkit overview</h2>
-<p>Toolkits are intentionally smaller than the core pipeline. They help prepare identifiers/annotations, inspect proteins, generate focused plots, or connect results to external resources.</p>
-<p>Current utilities include <strong>Protein Extract, Background Make, Protein Links, Protein Structure, Boxplot, SwissModel, STRINGdb PPI, Stacked Column Diagram, Correlation chord, and DEG Analyse</strong>.</p>
-</section>
-<section id="how-to-use-toolkits-responsibly" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-use-toolkits-responsibly">How to use toolkits responsibly</h2>
+<section id="current-toolkit-map" class="level2">
+<h2 class="anchored" data-anchor-id="current-toolkit-map">Current toolkit map</h2>
+<p>The current Toolkits menu contains:</p>
 <ul>
-<li>Keep the input table used by the toolkit together with the exported figure.</li>
-<li>Use stable protein/gene identifiers when moving between ProtVis and external databases.</li>
-<li>Record species/taxonomy settings for database-backed tools.</li>
-<li>Treat structure and network visualizations as evidence-supporting views, not automatic proof of mechanism.</li>
-<li>Prefer the main workflow’s <code>ProtVis_dataset</code> results as the source of quantitative values rather than manually retyping numbers.</li>
+<li><strong>Protein Extract</strong></li>
+<li><strong>Plant-mPLoc</strong></li>
+<li><strong>Background Make</strong></li>
+<li><strong>Protein Links</strong></li>
+<li><strong>Protein Structure</strong></li>
+<li><strong>Boxplot</strong></li>
+<li><strong>SwissModel</strong></li>
+<li><strong>STRINGdb PPI</strong></li>
+<li><strong>Stacked Column Diagram</strong></li>
+<li><strong>Correlation chord</strong></li>
+<li><strong>DEG Analyse</strong></li>
 </ul>
-<p>The sidebar provides dedicated pages for the most commonly used utilities.</p>
+<p><a href="../../content/Toolkits/Plant_mPLoc.html">Plant-mPLoc</a> is the notable newer utility: it submits a complete plant protein sequence to the public Plant-mPLoc service, parses single/multiple subcellular-localization predictions and records the result in the active schema-v4 project when available.</p>
+</section>
+<section id="how-to-use-toolkits" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-use-toolkits">How to use toolkits</h2>
+<p>Toolkits are intentionally smaller than the main quantitative pipeline. They prepare identifiers/backgrounds, inspect selected proteins, connect external services or generate focused figures.</p>
+<p>Keep the input table/sequence together with exported results, use stable identifiers, record taxonomy/database/service settings, and treat structure/network/localization predictions as supporting evidence rather than automatic mechanism.</p>
+<p>Where a toolkit supports an active <code>ProtVis_dataset</code>, prefer that project-linked route so the result is recorded with its parameters and provenance instead of becoming a disconnected manual artifact.</p>
 
 
 </section>

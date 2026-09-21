@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Load the cross-source Step2 handoff, rename sample columns consistently, and apply replicate-aware zero/missing-value correction.">
+<meta name="description" content="Load the completed input/search matrix, harmonize sample names and apply replicate-aware correction without conflating it with imputation.">
 
 <title>Correct noise – ProtVis Cookbook</title>
 <style>
@@ -682,12 +682,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-the-module-does" id="toc-what-the-module-does" class="nav-link active" data-scroll-target="#what-the-module-does">What the module does</a></li>
-  <li><a href="#where-load-data-comes-from" id="toc-where-load-data-comes-from" class="nav-link" data-scroll-target="#where-load-data-comes-from">Where Load data comes from</a></li>
-  <li><a href="#replicate-aware-correction-rule" id="toc-replicate-aware-correction-rule" class="nav-link" data-scroll-target="#replicate-aware-correction-rule">Replicate-aware correction rule</a></li>
+  <li><a href="#role-in-the-current-workflow" id="toc-role-in-the-current-workflow" class="nav-link active" data-scroll-target="#role-in-the-current-workflow">Role in the current workflow</a></li>
+  <li><a href="#replicate-aware-rule" id="toc-replicate-aware-rule" class="nav-link" data-scroll-target="#replicate-aware-rule">Replicate-aware rule</a></li>
   <li><a href="#gui-workflow" id="toc-gui-workflow" class="nav-link" data-scroll-target="#gui-workflow">GUI workflow</a></li>
   <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
-  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Pre_processing/correct_noise.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Pre_processing/correct_noise.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -702,7 +700,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Load the cross-source Step2 handoff, rename sample columns consistently, and apply replicate-aware zero/missing-value correction.
+    Load the completed input/search matrix, harmonize sample names and apply replicate-aware correction without conflating it with imputation.
   </div>
 </div>
 
@@ -719,31 +717,20 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="what-the-module-does" class="level2">
-<h2 class="anchored" data-anchor-id="what-the-module-does">What the module does</h2>
-<p><strong>Correct Noise</strong> is the first source-independent preprocessing module. It loads the active <code>ProtVis_dataset</code> whenever possible, shows the expression matrix and sample information, optionally normalizes sample-column names, and applies the replicate-aware correction rule.</p>
-<p>The interface has three principal actions: <strong>Load data</strong>, <strong>Rename Columns</strong>, and <strong>Correct Noise</strong>.</p>
+<section id="role-in-the-current-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="role-in-the-current-workflow">Role in the current workflow</h2>
+<p><strong>Correct Noise</strong> is the first shared quantitative preprocessing module after a source-specific import or Raw database search has created a real protein-by-sample matrix. It prefers the active <code>ProtVis_dataset</code> and falls back to compatible stage files when recovering an older project.</p>
+<p>Raw projects can arrive here from either <strong>Sage</strong> or <strong>FragPipe</strong>. A search-staging project without a protein matrix must finish Search first.</p>
 </section>
-<section id="where-load-data-comes-from" class="level2">
-<h2 class="anchored" data-anchor-id="where-load-data-comes-from">Where Load data comes from</h2>
-<p>The current loader uses this priority:</p>
-<ol type="1">
-<li>the active in-memory <code>ProtVis_dataset</code>;</li>
-<li><code>Step2_remove_unreliable_peptide.rda</code>;</li>
-<li>Sage-specific compatibility snapshots such as <code>Step2_sage_database_search.rda</code>;</li>
-<li>older project-stage fallbacks when required for recovery.</li>
-</ol>
-<p><code>Step2_remove_unreliable_peptide.rda</code> is now the canonical <strong>data-source-independent Step2 checkpoint</strong>, even though its historical filename originated in the MaxQuant workflow. A successful Raw/Sage search publishes its completed <code>ProtVis_dataset</code> to this same handoff.</p>
-<p>If the current object is still <code>Sage_staging</code>, the expression table is intentionally unavailable. Complete <strong>Search</strong> before running Correct Noise.</p>
-</section>
-<section id="replicate-aware-correction-rule" class="level2">
-<h2 class="anchored" data-anchor-id="replicate-aware-correction-rule">Replicate-aware correction rule</h2>
-<p>For datasets that use replicate suffixes <code>_1</code>, <code>_2</code>, and <code>_3</code>, ProtVis groups corresponding replicate columns and evaluates each protein within that group.</p>
+<section id="replicate-aware-rule" class="level2">
+<h2 class="anchored" data-anchor-id="replicate-aware-rule">Replicate-aware rule</h2>
+<p>For sample names with <code>_1</code>, <code>_2</code>, <code>_3</code> replicate suffixes, ProtVis groups corresponding replicates per protein:</p>
 <ul>
-<li>If at least two replicate measurements are non-zero, zero/missing cells are replaced using half of the sum of the non-zero replicate values.</li>
-<li>If fewer than two non-zero replicates are present, the replicate-group values are set to zero and then converted to <code>NA</code>.</li>
-<li>If no recognizable replicate suffixes exist, ProtVis returns the validated matrix without applying replicate-level correction.</li>
-<li>Duplicate protein IDs are collapsed before the correction step, retaining the largest finite intensity per sample, to prevent many-to-many joins or reshaping from expanding the table.</li>
+<li>if at least two replicates are non-zero, missing/zero cells are replaced by half the sum of non-zero replicate values;</li>
+<li>if fewer than two replicates are observed, that replicate group becomes missing;</li>
+<li>proteins with no positive signal in any replicate are removed in this archived-compatible correction;</li>
+<li>duplicated protein IDs are collapsed first, retaining the largest finite intensity per sample;</li>
+<li>if no recognizable replicate suffix exists, the validated matrix is returned without forcing this replicate rule.</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -755,43 +742,35 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This behavior is intentionally different from a generic “more than half missing” filter or mean imputation. Missing-value imputation remains a separate downstream stage.</p>
+<p>This is a specific replicate-correction rule, not generic missing-value imputation. The later Imputation module remains a separate operation.</p>
 </div>
 </div>
 </section>
 <section id="gui-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="gui-workflow">GUI workflow</h2>
-<p>The screenshot below shows the actual Correct Noise interface for the Sage-derived PXD065315 example. The red labels identify the recommended order.</p>
-<div id="fig-correct-noise-gui" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of the ProtVis Correct Noise module. Red marker 1 is Load data, marker 2 is Rename Columns, and marker 3 is Correct Noise. The main panel shows a protein abundance table with B73_C1, B73_C2, B73_C3, EA2024_C1, EA2024_C2, and EA2024_C3 columns." data-fig-align="center">
+<div id="fig-correct-noise-gui" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="ProtVis Correct Noise module with Load data, Rename Columns, Correct Noise, and input/output tables.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-correct-noise-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/screenshots/PixPin_2026-09-13_18-15-07.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of the ProtVis Correct Noise module. Red marker 1 is Load data, marker 2 is Rename Columns, and marker 3 is Correct Noise. The main panel shows a protein abundance table with B73_C1, B73_C2, B73_C3, EA2024_C1, EA2024_C2, and EA2024_C3 columns.">
+<img src="../../images/screenshots/PixPin_2026-09-13_18-15-07.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="ProtVis Correct Noise module with Load data, Rename Columns, Correct Noise, and input/output tables.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-correct-noise-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Correct Noise in ProtVis. Marker 1 loads the completed input/search result, marker 2 renames or validates sample columns, and marker 3 runs replicate-aware noise correction. The main panel provides Sample info, Expression Matrix, Rename Columns and Correct Noise result tabs.
+Figure&nbsp;1: Correct Noise in ProtVis. Load the completed input/search result, validate/rename sample columns, then apply replicate-aware correction.
 </figcaption>
 </figure>
 </div>
-<p>Follow the numbered controls. <strong>1. Load data.</strong> Open <strong>Pre-processing → Correct Noise</strong> and click <strong>Load data</strong>. Wait for the green <strong>Data loaded</strong> status, then inspect <strong>Sample info</strong> and <strong>Expression Matrix</strong>. Check that the expected sample columns are present and that the protein table is non-empty. The 5,209 rows visible in the screenshot are specific to this example run and are not a required target count for other datasets.</p>
-<p><strong>2. Rename Columns.</strong> Click <strong>Rename Columns</strong>. ProtVis uses <code>maxquant_id</code> mappings when they are available; otherwise already-valid <code>sample_id</code> names are retained. Inspect the <strong>Rename Columns</strong> result before continuing. For the illustrated Raw/Sage project, the intended columns are <code>B73_C1</code>, <code>B73_C2</code>, <code>B73_C3</code>, <code>EA2024_C1</code>, <code>EA2024_C2</code>, and <code>EA2024_C3</code>. Unexpected duplicate or unmatched sample names should be fixed before correction because replicate grouping depends on stable identifiers.</p>
-<p><strong>3. Correct Noise.</strong> Click <strong>Correct Noise</strong>. After a successful run, ProtVis switches to the <strong>Correct Noise</strong> result tab automatically. Compare the corrected table with the loaded expression matrix and verify that protein IDs, sample names, row count, zero values and newly introduced <code>NA</code> values are biologically and technically plausible.</p>
-<p>Long-running actions use duplicate-run guards. A second rapid click on Load, Rename, or Correct Noise while the same operation is already running is ignored rather than executing it twice.</p>
+<ol type="1">
+<li><strong>Load data</strong> and inspect Sample info + Expression Matrix.</li>
+<li><strong>Rename Columns</strong> when source identifiers need mapping to canonical sample IDs.</li>
+<li><strong>Correct Noise</strong> and inspect the resulting <code>NA</code>/row pattern.</li>
+</ol>
+<p>Duplicate-run guards prevent the same action from being launched repeatedly while it is already running.</p>
 </section>
 <section id="outputs" class="level2">
 <h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
-<p>The corrected matrix is written back into a new traceable <code>ProtVis_dataset</code> analysis state. ProtVis records the <code>noise_correction</code> result and process entry with the method <code>replicate_correction</code>.</p>
-<p>For compatibility and recovery, the current implementation writes both:</p>
+<p>The result is appended as a schema-v4 preprocessing run and saved to the active dataset. Compatibility snapshots can include:</p>
 <pre class="text"><code>Step2_remove_unreliable_peptide.rda
 Step3_correct_noise.rda</code></pre>
-<p>Step2 is refreshed as the cross-source handoff, while Step3 remains the downstream compatibility snapshot.</p>
 <p>Continue with <a href="../../content/Pre_processing/data_transformed.html">Data transformation</a>.</p>
-</section>
-<section id="troubleshooting" class="level2">
-<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
-<p><strong>“No completed input stage was found.”</strong> Finish the previous input route first: run Sage Search for Raw data, MaxQuant Output Preparation for MaxQuant, or the appropriate parser/import for another source.</p>
-<p><strong>“The current ProtVis_dataset has no expression matrix.”</strong> The object is most likely a Raw/Sage staging project. Complete Search so Sage LFQ can create the protein matrix.</p>
-<p><strong>The corrected table looks empty although the action succeeded.</strong> Current ProtVis automatically selects the Correct Noise result tab after completion. If an older installation still behaves differently, reinstall the current <code>dev</code> version.</p>
-<p><strong>Working-directory errors after a restart.</strong> The module resolves the project directory from the shared workdir, dataset metadata, checkpoint metadata, Raw input directory, and finally the current R working directory. Keeping the project directory intact makes recovery more reliable.</p>
 
 
 </section>

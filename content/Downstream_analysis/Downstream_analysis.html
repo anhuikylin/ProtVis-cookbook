@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Move from normalized quantitative proteomics data to QC, differential abundance and biological interpretation.">
+<meta name="description" content="Move from project QC and observed transformed intensities to Recommended DEP, enrichment, GSEA and pathway interpretation.">
 
 <title>Downstream analysis – ProtVis Cookbook</title>
 <style>
@@ -682,9 +682,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#where-downstream-analysis-starts" id="toc-where-downstream-analysis-starts" class="nav-link active" data-scroll-target="#where-downstream-analysis-starts">Where downstream analysis starts</a></li>
-  <li><a href="#recommended-order" id="toc-recommended-order" class="nav-link" data-scroll-target="#recommended-order">Recommended order</a></li>
-  <li><a href="#canonical-data-flow" id="toc-canonical-data-flow" class="nav-link" data-scroll-target="#canonical-data-flow">Canonical data flow</a></li>
+  <li><a href="#current-analysis-logic" id="toc-current-analysis-logic" class="nav-link active" data-scroll-target="#current-analysis-logic">Current analysis logic</a></li>
+  <li><a href="#recommended-dep-versus-complete-matrix-analyses" id="toc-recommended-dep-versus-complete-matrix-analyses" class="nav-link" data-scroll-target="#recommended-dep-versus-complete-matrix-analyses">Recommended DEP versus complete-matrix analyses</a></li>
+  <li><a href="#reproduction-modes" id="toc-reproduction-modes" class="nav-link" data-scroll-target="#reproduction-modes">Reproduction modes</a></li>
+  <li><a href="#storage" id="toc-storage" class="nav-link" data-scroll-target="#storage">Storage</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Downstream_analysis/Downstream_analysis.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Downstream_analysis/Downstream_analysis.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -699,7 +700,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Move from normalized quantitative proteomics data to QC, differential abundance and biological interpretation.
+    Move from project QC and observed transformed intensities to Recommended DEP, enrichment, GSEA and pathway interpretation.
   </div>
 </div>
 
@@ -716,42 +717,45 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="where-downstream-analysis-starts" class="level2">
-<h2 class="anchored" data-anchor-id="where-downstream-analysis-starts">Where downstream analysis starts</h2>
-<p>The standard downstream workflow begins after <strong>Data Normalization</strong>. ProtVis then provides two complementary views of the data:</p>
-<ul>
-<li><strong>Overview</strong> asks whether the dataset is technically and biologically coherent.</li>
-<li><strong>DEP analysis</strong> asks which proteins differ between defined groups.</li>
-</ul>
-<p>Functional modules such as enrichment, GSEA, Pathview and PPI should be interpreted in the context of those upstream checks.</p>
-</section>
-<section id="recommended-order" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-order">Recommended order</h2>
+<section id="current-analysis-logic" class="level2">
+<h2 class="anchored" data-anchor-id="current-analysis-logic">Current analysis logic</h2>
+<p>ProtVis 0.9.1 separates <strong>visual/QC matrices</strong> from the <strong>default inferential matrix</strong>. Overview/QC can use normalized data, but <strong>Recommended DEP</strong> deliberately analyzes the observed transformed Step4 matrix before imputation.</p>
+<p>Recommended order:</p>
 <ol type="1">
-<li><strong>Overview &amp; QC</strong> — inspect correlations, distributions, missingness, PCA/CV and dimensionality-reduction structure.</li>
-<li><strong>DEP analysis</strong> — run one or more explicit <code>Group1</code> versus <code>Group2</code> comparisons.</li>
-<li><strong>Enrichment analysis</strong> — test significant protein IDs against GO/KEGG backgrounds.</li>
-<li><strong>GSEA</strong> — use a ranked signal when a thresholded DEP list would discard useful pathway-level information.</li>
-<li><strong>Pathview</strong> — project KO-level log fold changes onto a selected KEGG pathway.</li>
-<li>Add <strong>STRINGdb PPI</strong>, <strong>WGCNA</strong>, <strong>co-enrichment</strong> or other network/integration modules when relevant.</li>
+<li><strong>Project Dashboard</strong> — confirm current workflow/run validity and project-wide QC.</li>
+<li><strong>Overview &amp; QC</strong> — correlation, expression heatmap, archived UMAP reproduction, normalized intensity density and protein CV.</li>
+<li><strong>DEP analysis</strong> — use Recommended DEP for new work; use Archived reproduction only for historical comparability.</li>
+<li><strong>Enrichment analysis</strong> — standard GO/KEGG ORA or the directional KEGG reproduction workspace.</li>
+<li><strong>GSEA</strong> — standard ranked-list GSEA or B73-Y12 figure reproduction from stored DEP results.</li>
+<li><strong>Pathview</strong> — project pathway-level effects onto KEGG maps.</li>
+<li>Add <strong>STRINGdb PPI, WGCNA, co-enrichment, metaproteomics</strong> or other specialized modules when they answer the biological question.</li>
 </ol>
+</section>
+<section id="recommended-dep-versus-complete-matrix-analyses" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-dep-versus-complete-matrix-analyses">Recommended DEP versus complete-matrix analyses</h2>
+<p>Imputation and normalization remain valuable for visualization and methods that require a complete matrix. They are not automatically appropriate for hypothesis testing. Recommended DEP uses observed values, detection filtering and robust limma statistics so missing observations are not converted into artificial inferential evidence.</p>
+<p>Presence/absence candidates—proteins observed repeatedly in only one comparison group—are retained as a <strong>parallel evidence stream</strong> rather than being forced into ordinary fold-change statistics.</p>
+</section>
+<section id="reproduction-modes" class="level2">
+<h2 class="anchored" data-anchor-id="reproduction-modes">Reproduction modes</h2>
+<p>Some modules now have explicit historical-reproduction modes. These are intended to match archived manuscript figures/settings and should not be confused with the recommended default for a new experiment.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Separate statistical evidence from visualization settings
+Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Changing colors, point sizes, heatmap labels or plot dimensions should not change the underlying statistical model. In contrast, changing a fold-change or p-value threshold changes which proteins are labeled significant and therefore affects heatmaps and downstream gene lists.</p>
+<p>Changing plot aesthetics does not change the model; changing the input matrix, detection filter, ranking metric, FDR/effect-size threshold or statistical engine does. Preserve these analysis settings in the schema-v4 run record and manuscript Methods.</p>
 </div>
 </div>
 </section>
-<section id="canonical-data-flow" class="level2">
-<h2 class="anchored" data-anchor-id="canonical-data-flow">Canonical data flow</h2>
-<p>Current modules prefer the active <code>ProtVis_dataset</code>. Compatibility stage files remain readable when a project is reopened. Downstream results are stored in <code>analysis_results</code> and process history so the quantitative matrix and derived statistics stay connected.</p>
+<section id="storage" class="level2">
+<h2 class="anchored" data-anchor-id="storage">Storage</h2>
+<p>Downstream analyses append immutable runs to <code>ProtVis_dataset</code>. Tables, statistics, plot data/configuration, files and upstream dependencies are stored without overwriting previous executions. Re-running an upstream stage can invalidate downstream nodes while retaining their historical results.</p>
 
 
 </section>

@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Run GO and KEGG over-representation analysis using a validated two-sheet enrichment background.">
+<meta name="description" content="Run standard GO/KEGG over-representation analysis or reproduce directional KEGG enrichment from archived B73-Y12 DEP evidence.">
 
 <title>Enrichment analysis – ProtVis Cookbook</title>
 <style>
@@ -682,14 +682,15 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#inputs" id="toc-inputs" class="nav-link active" data-scroll-target="#inputs">Inputs</a>
+  <li><a href="#two-enrichment-workspaces" id="toc-two-enrichment-workspaces" class="nav-link active" data-scroll-target="#two-enrichment-workspaces">Two enrichment workspaces</a></li>
+  <li><a href="#standard-gokegg-enrichment" id="toc-standard-gokegg-enrichment" class="nav-link" data-scroll-target="#standard-gokegg-enrichment">Standard GO/KEGG enrichment</a>
   <ul class="collapse">
-  <li><a href="#gene-list-priority" id="toc-gene-list-priority" class="nav-link" data-scroll-target="#gene-list-priority">Gene list priority</a></li>
-  <li><a href="#enrichment-analysis-file" id="toc-enrichment-analysis-file" class="nav-link" data-scroll-target="#enrichment-analysis-file">Enrichment Analysis File</a></li>
+  <li><a href="#geneprotein-list" id="toc-geneprotein-list" class="nav-link" data-scroll-target="#geneprotein-list">Gene/protein list</a></li>
+  <li><a href="#background-workbook" id="toc-background-workbook" class="nav-link" data-scroll-target="#background-workbook">Background workbook</a></li>
+  <li><a href="#run-and-outputs" id="toc-run-and-outputs" class="nav-link" data-scroll-target="#run-and-outputs">Run and outputs</a></li>
   </ul></li>
-  <li><a href="#run-the-analysis" id="toc-run-the-analysis" class="nav-link" data-scroll-target="#run-the-analysis">Run the analysis</a></li>
-  <li><a href="#results-and-plots" id="toc-results-and-plots" class="nav-link" data-scroll-target="#results-and-plots">Results and plots</a></li>
-  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility">Reproducibility</a></li>
+  <li><a href="#directional-kegg" id="toc-directional-kegg" class="nav-link" data-scroll-target="#directional-kegg">Directional KEGG</a></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Downstream_analysis/Enrichment_analysis.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Downstream_analysis/Enrichment_analysis.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -704,7 +705,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Run GO and KEGG over-representation analysis using a validated two-sheet enrichment background.
+    Run standard GO/KEGG over-representation analysis or reproduce directional KEGG enrichment from archived B73-Y12 DEP evidence.
   </div>
 </div>
 
@@ -721,66 +722,53 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="inputs" class="level2">
-<h2 class="anchored" data-anchor-id="inputs">Inputs</h2>
-<p>Enrichment analysis uses two components:</p>
-<ol type="1">
-<li>a <strong>gene/protein ID list</strong>;</li>
-<li>an <strong>Enrichment Analysis File</strong> containing the GO and KEGG background definitions.</li>
-</ol>
-<section id="gene-list-priority" class="level3">
-<h3 class="anchored" data-anchor-id="gene-list-priority">Gene list priority</h3>
-<p>The current module follows this priority:</p>
-<ol type="1">
-<li>an uploaded gene-list file (<code>.csv</code> or <code>.xlsx</code>);</li>
-<li>IDs pasted in manual mode;</li>
-<li>significant IDs from the selected DEP comparison.</li>
-</ol>
-<p>Uploaded/pasted gene-list data should contain an <code>ID</code> column. The parser also recognizes common variants such as gene/protein ID names, but using <code>ID</code> is the most portable choice.</p>
+<section id="two-enrichment-workspaces" class="level2">
+<h2 class="anchored" data-anchor-id="two-enrichment-workspaces">Two enrichment workspaces</h2>
+<p>ProtVis 0.9.1 preserves the standard GO/KEGG workflow and adds a separate <strong>Directional KEGG</strong> reproduction workspace. They answer different questions and should not be mixed.</p>
 </section>
-<section id="enrichment-analysis-file" class="level3">
-<h3 class="anchored" data-anchor-id="enrichment-analysis-file">Enrichment Analysis File</h3>
-<p>Upload one <code>.xlsx</code> workbook with <strong>both</strong> worksheets:</p>
+<section id="standard-gokegg-enrichment" class="level2">
+<h2 class="anchored" data-anchor-id="standard-gokegg-enrichment">Standard GO/KEGG enrichment</h2>
+<section id="geneprotein-list" class="level3">
+<h3 class="anchored" data-anchor-id="geneprotein-list">Gene/protein list</h3>
+<p>Input priority is uploaded list, pasted list, then IDs from a selected stored DEP comparison. Use an <code>ID</code> column whenever possible.</p>
+</section>
+<section id="background-workbook" class="level3">
+<h3 class="anchored" data-anchor-id="background-workbook">Background workbook</h3>
+<p>Upload one <code>.xlsx</code> workbook containing:</p>
 <pre class="text"><code>GO_background
 KEGG_background</code></pre>
-<p>Each worksheet must contain:</p>
-<pre class="text"><code>TERM   GENE   NAME</code></pre>
-<p><code>TERM</code> is the ontology/pathway identifier, <code>GENE</code> contains associated IDs (multiple IDs can be separated by common delimiters), and <code>NAME</code> is the human-readable term name.</p>
-<p>After clicking <strong>Check File</strong>, ProtVis previews the first rows of <strong>both sheets</strong>. A validated workbook is stored with the active <code>ProtVis_dataset</code>; when it is selected before Project init, ProtVis retains it and attaches it when the project object is created.</p>
+<p>Each sheet must contain <code>TERM</code>, <code>GENE</code>, and <code>NAME</code>. Click <strong>Check File</strong> and review both previews before analysis.</p>
+</section>
+<section id="run-and-outputs" class="level3">
+<h3 class="anchored" data-anchor-id="run-and-outputs">Run and outputs</h3>
+<p>Choose taxonomic group, GO and/or KEGG, then run <strong>Analysis</strong>. Each analysis provides a result table plus Bar/Dot/Circle plots, Top-N control, colors, PDF figure export and CSV table export.</p>
+<p>Keep the exact background workbook with the project because enrichment p-values depend on the tested universe.</p>
 </section>
 </section>
-<section id="run-the-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="run-the-analysis">Run the analysis</h2>
-<ol type="1">
-<li>Open <strong>Enrichment analysis</strong>.</li>
-<li>Click <strong>LOAD DATA</strong> if you want to choose among stored DEP comparisons.</li>
-<li>Upload and <strong>Check File</strong> for the enrichment workbook.</li>
-<li>Either upload/paste an ID list or allow ProtVis to use the selected DEP list automatically.</li>
-<li>Choose the taxonomic group: <strong>Plant, Animals, Bacteria, Fungi, Eukaryotes, or Hsa</strong>.</li>
-<li>Select <strong>GO</strong>, <strong>KEGG</strong>, or both.</li>
-<li>Click <strong>Analysis</strong>.</li>
-</ol>
-</section>
-<section id="results-and-plots" class="level2">
-<h2 class="anchored" data-anchor-id="results-and-plots">Results and plots</h2>
-<p>GO and KEGG each provide a result table and visualization. Available plot types are <strong>Bar plot</strong>, <strong>Dot plot</strong>, and <strong>Circle plot</strong>. You can choose the number of top terms, change presentation colors, download the plot as PDF, and export the result table as CSV.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+<section id="directional-kegg" class="level2">
+<h2 class="anchored" data-anchor-id="directional-kegg">Directional KEGG</h2>
+<p>The newer <strong>Directional KEGG</strong> tab is designed for the archived maize/teosinte Figure 3 enrichment logic. It separates directional DEP evidence, can load the archived comparison context, and calculates KEGG pathway enrichment from the supplied/bundled background rather than embedding a static pre-rendered result table.</p>
+<p>The current layout provides selection/evidence controls, comparison/background settings, plot controls and configurable blue-gradient colors. The archived gene-membership support lives under <code>inst/extdata/figure3_archive/</code> so the historical figure can be reproduced from the analysis inputs rather than from a stored picture.</p>
+<p>Use this workspace when exact historical directional membership is the target. For a new dataset, use the standard enrichment tab unless the directional design is explicitly part of the analysis plan.</p>
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>When the plot is empty but the table is valid
+<span class="screen-reader-only">Important</span>Reproduction mode is not a new significance recommendation
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Check whether any term passes the plotting significance/filter criteria and whether the uploaded IDs use the same identifier namespace as the background <code>GENE</code> column. Identifier mismatch is a common reason for zero overlap.</p>
+<p>The archived Figure 3 settings exist for reproducibility. Do not adopt its gene membership or presentation thresholds as generic defaults for another experiment.</p>
 </div>
 </div>
 </section>
-<section id="reproducibility" class="level2">
-<h2 class="anchored" data-anchor-id="reproducibility">Reproducibility</h2>
-<p>The enrichment workbook is not treated as a disposable upload. Both validated background sheets are retained in the project object’s provenance/auxiliary-file layer so the analysis can be reopened without reconstructing the original workbook manually.</p>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
+<p><strong>Valid table but empty plot.</strong> Check term significance/filtering and confirm IDs match the background namespace.</p>
+<p><strong>No DEP list appears.</strong> Run/store DEP first or upload a gene list explicitly.</p>
+<p><strong>Pathways differ from an older figure.</strong> Confirm comparison direction, exact background database/version, DEP membership definition and whether the directional archived membership was selected.</p>
 
 
 </section>

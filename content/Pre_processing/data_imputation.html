@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Inspect missing-value patterns and apply an explicit imputation strategy.">
+<meta name="description" content="Inspect proteomics missingness, select an explicit imputation method, and fix the random seed for reproducible results.">
 
 <title>Data imputation – ProtVis Cookbook</title>
 <style>
@@ -682,8 +682,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#why-this-is-a-separate-step" id="toc-why-this-is-a-separate-step" class="nav-link active" data-scroll-target="#why-this-is-a-separate-step">Why this is a separate step</a></li>
-  <li><a href="#available-methods" id="toc-available-methods" class="nav-link" data-scroll-target="#available-methods">Available methods</a></li>
+  <li><a href="#why-imputation-is-explicit" id="toc-why-imputation-is-explicit" class="nav-link active" data-scroll-target="#why-imputation-is-explicit">Why imputation is explicit</a></li>
+  <li><a href="#current-methods" id="toc-current-methods" class="nav-link" data-scroll-target="#current-methods">Current methods</a></li>
+  <li><a href="#random-seed" id="toc-random-seed" class="nav-link" data-scroll-target="#random-seed">Random seed</a></li>
   <li><a href="#gui-workflow" id="toc-gui-workflow" class="nav-link" data-scroll-target="#gui-workflow">GUI workflow</a></li>
   <li><a href="#output" id="toc-output" class="nav-link" data-scroll-target="#output">Output</a></li>
   </ul>
@@ -700,7 +701,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Inspect missing-value patterns and apply an explicit imputation strategy.
+    Inspect proteomics missingness, select an explicit imputation method, and fix the random seed for reproducible results.
   </div>
 </div>
 
@@ -717,14 +718,13 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="why-this-is-a-separate-step" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-is-a-separate-step">Why this is a separate step</h2>
-<p>Proteomics missingness can arise from abundance limits, identification uncertainty, stochastic sampling, or technical failures. ProtVis therefore keeps missing values explicit until the user chooses an imputation method.</p>
-<p>Before imputation, the current module coerces quantitative columns to numeric, converts non-finite values to missing, and handles not-observed sentinels such as <code>0</code> and <code>-8</code> as <code>NA</code>. Rows or columns that are entirely missing are removed from the matrix used by the imputation calculation.</p>
+<section id="why-imputation-is-explicit" class="level2">
+<h2 class="anchored" data-anchor-id="why-imputation-is-explicit">Why imputation is explicit</h2>
+<p>Proteomics missingness may reflect abundance limits, identification uncertainty, stochastic sampling or technical failure. ProtVis keeps not-observed values as <code>NA</code> until this dedicated stage.</p>
+<p>At load time the module converts non-finite values to missing and treats <code>0</code>/<code>-8</code> sentinels as not observed in the compatibility workflow. Rows/columns that are entirely missing are removed from the matrix passed to the imputation engine.</p>
 </section>
-<section id="available-methods" class="level2">
-<h2 class="anchored" data-anchor-id="available-methods">Available methods</h2>
-<p>The current GUI provides:</p>
+<section id="current-methods" class="level2">
+<h2 class="anchored" data-anchor-id="current-methods">Current methods</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -733,73 +733,77 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th>Method</th>
-<th>Typical use</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>kNN</code></td>
-<td>Local similarity-based imputation; current default</td>
+<td><strong>kNN (MaxQuant recommended)</strong></td>
+<td><code>impute::impute.knn</code>; current GUI default</td>
 </tr>
 <tr class="even">
-<td><code>RF</code></td>
-<td>Random-forest based imputation</td>
+<td><strong>RF</strong></td>
+<td><code>missForest::missForest</code></td>
 </tr>
 <tr class="odd">
-<td><code>Mean</code></td>
-<td>Column mean replacement; useful mainly as a simple baseline</td>
+<td><strong>Mean</strong></td>
+<td>column-mean replacement</td>
 </tr>
 <tr class="even">
-<td><code>Median</code></td>
-<td>Column median replacement</td>
+<td><strong>Median</strong></td>
+<td>column-median replacement</td>
 </tr>
 <tr class="odd">
-<td><code>Zero</code></td>
-<td>Explicit zero filling; use only when zero has a valid interpretation</td>
-</tr>
-<tr class="even">
-<td><code>Minimum</code></td>
-<td>Replace missing values with the minimum observed value in each column</td>
+<td><strong>Minimum</strong></td>
+<td>column-minimum replacement</td>
 </tr>
 </tbody>
 </table>
-<p>Method choice should be justified by the expected missingness mechanism and downstream analysis.</p>
+<p><strong>Zero</strong> and the old <strong>q for MinProb</strong> control are no longer part of the current UI.</p>
+</section>
+<section id="random-seed" class="level2">
+<h2 class="anchored" data-anchor-id="random-seed">Random seed</h2>
+<p>The current interface exposes <strong>Random seed</strong>, default:</p>
+<pre class="text"><code>12345</code></pre>
+<p>ProtVis calls <code>set.seed()</code> before imputation. Preserve this value in Methods when exact reproduction matters.</p>
 </section>
 <section id="gui-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="gui-workflow">GUI workflow</h2>
-<p>The screenshot below shows the full Data Imputation interface and the recommended operating order.</p>
-<div id="fig-data-imputation-gui" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of the ProtVis Data Imputation module. The sidebar contains Load data, Visualize missing values, Imputation Settings, a method selector, q for MinProb, and Run imputation. The main panel has Sample Info, Expression Matrix and Visualize missing values tabs with original and imputed data cards.">
+<div id="fig-data-imputation-gui" class="quarto-float quarto-figure quarto-figure-center anchored" alt="ProtVis Data Imputation screenshot showing load, missingness visualization, method selection and input/output panels. Current interface now has Random seed and no q-for-MinProb control." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-data-imputation-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/screenshots/PixPin_2026-09-13_18-22-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of the ProtVis Data Imputation module. The sidebar contains Load data, Visualize missing values, Imputation Settings, a method selector, q for MinProb, and Run imputation. The main panel has Sample Info, Expression Matrix and Visualize missing values tabs with original and imputed data cards.">
+<img src="../../images/screenshots/PixPin_2026-09-13_18-22-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="ProtVis Data Imputation screenshot showing load, missingness visualization, method selection and input/output panels. Current interface now has Random seed and no q-for-MinProb control.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-data-imputation-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Data Imputation in ProtVis. Numbered controls guide the user from loading transformed data, visualizing missing values, choosing an imputation method, reviewing the q for MinProb compatibility field, and running imputation. The main panel compares original and imputed data and their missing-value visualizations.
+Figure&nbsp;1: Earlier Data Imputation interface in ProtVis. The current 0.9.1 app keeps the same load/visualize/run workflow but replaces the old q/MinProb area with an explicit Random seed and removes Zero from the method list.
 </figcaption>
 </figure>
 </div>
-<p>Follow the numbered controls in the screenshot. <strong>1. Load data.</strong> Click <strong>Load data</strong> to load the transformed <code>ProtVis_dataset</code> or its Step4 compatibility state. Confirm the green <strong>Data loaded</strong> status, then check the <strong>Sample Info</strong> and <strong>Expression Matrix</strong> tabs before changing any missing values.</p>
-<p><strong>2. Visualize missing values.</strong> Click <strong>Visualize missing values</strong>. ProtVis opens the diagnostic view containing <strong>Original Data</strong> and <strong>Original Data Visualization</strong>. Inspect whether missingness is concentrated in particular proteins or samples. If a sample is almost entirely missing, investigate the input/search/QC problem before attempting to solve it by imputation.</p>
-<p><strong>3. Select the imputation Method.</strong> Expand <strong>Imputation Settings</strong> and choose <code>kNN</code>, <code>RF</code>, <code>Mean</code>, <code>Median</code>, <code>Zero</code>, or <code>Minimum</code>. <code>kNN</code> is selected by default, but the default is not automatically the correct method for every proteomics experiment. ProtVis warns when rows with more than 50% missing values are present because similarity-based kNN estimates can become unstable for those rows.</p>
-<p><strong>4. Interpret <code>q for MinProb</code> correctly.</strong> The current interface still displays a numeric <strong>q for MinProb</strong> control (0.01 in the screenshot) for compatibility with earlier UI designs. In the present implementation, however, the active method menu does <strong>not</strong> contain a <code>MinProb</code> method and the current <code>kNN</code>, <code>RF</code>, <code>Mean</code>, <code>Median</code>, <code>Zero</code>, and <code>Minimum</code> branches do not use this q value. Do not report the q field as an active parameter unless a future ProtVis version restores a MinProb method.</p>
-<p><strong>5. Run imputation.</strong> Click <strong>Run imputation</strong>. After completion, compare <strong>Imputed Data</strong> and <strong>Imputed Data Visualization</strong> with the original panels. Confirm that missing cells were handled as intended and that the result did not create implausible sample distributions. Use the <strong>Download</strong> section to export the original and imputed diagnostic plots when they are needed for the analysis record.</p>
+<ol type="1">
+<li><strong>Load data</strong> from the active Step4/project state.</li>
+<li><strong>Visualize missing values</strong> before filling anything.</li>
+<li>Select the method and confirm the random seed.</li>
+<li>Click <strong>Run imputation</strong>.</li>
+<li>Compare original versus imputed tables/visualizations.</li>
+</ol>
+<p>ProtVis warns when rows contain more than 50% missing values because similarity-based kNN estimates can become unstable.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Default does not mean universally correct
+<span class="screen-reader-only">Important</span>Recommended DEP does not use Step5 imputed values
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>kNN</code> is the interface default, but no imputation method is optimal for every missingness mechanism. Report the method actually selected in the Methods section and preserve the pre-imputation project state for auditability.</p>
+<p>Imputation is still useful for heatmaps, complete-matrix QC, normalization benchmarking and other methods that require complete data. The default <strong>Recommended DEP</strong> inferential workflow instead uses observed Step4 intensities and a detection filter to avoid turning imputed values into artificial statistical evidence.</p>
 </div>
 </div>
 </section>
 <section id="output" class="level2">
 <h2 class="anchored" data-anchor-id="output">Output</h2>
-<p>The imputed matrix is written into the active <code>ProtVis_dataset</code>, recorded in the analysis/process history, and persisted in:</p>
+<p>The imputed matrix is appended as a schema-v4 preprocessing run and persisted for compatibility as:</p>
 <pre class="text"><code>Step5_data_imputation.rda</code></pre>
 <p>Continue with <a href="../../content/Pre_processing/data_normalization.html">Data normalization</a>.</p>
 

@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Apply sample-wise median subtraction and inspect normalization effects.">
+<meta name="description" content="Run source-aware normalization, benchmark multiple methods, and document the selected matrix without forcing one method on every experiment.">
 
 <title>Data normalization – ProtVis Cookbook</title>
 <style>
@@ -82,35 +82,6 @@ ul.task-list li input[type="checkbox"] {
 <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/xuebinzhang-lab/ProtVis/dev/app/www/ProtVis_ico.ico">
 <link rel="shortcut icon" type="image/x-icon" href="https://raw.githubusercontent.com/xuebinzhang-lab/ProtVis/dev/app/www/ProtVis_ico.ico">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -711,9 +682,11 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#current-normalization-method" id="toc-current-normalization-method" class="nav-link active" data-scroll-target="#current-normalization-method">Current normalization method</a></li>
+  <li><a href="#normalization-is-now-selectable" id="toc-normalization-is-now-selectable" class="nav-link active" data-scroll-target="#normalization-is-now-selectable">Normalization is now selectable</a></li>
+  <li><a href="#source-aware-auto" id="toc-source-aware-auto" class="nav-link" data-scroll-target="#source-aware-auto">Source-aware Auto</a></li>
+  <li><a href="#input-scale" id="toc-input-scale" class="nav-link" data-scroll-target="#input-scale">Input scale</a></li>
   <li><a href="#gui-workflow" id="toc-gui-workflow" class="nav-link" data-scroll-target="#gui-workflow">GUI workflow</a></li>
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#method-benchmarking" id="toc-method-benchmarking" class="nav-link" data-scroll-target="#method-benchmarking">Method benchmarking</a></li>
   <li><a href="#output" id="toc-output" class="nav-link" data-scroll-target="#output">Output</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Pre_processing/data_normalization.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Pre_processing/data_normalization.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -729,7 +702,7 @@ window.Quarto = {
 
 <div>
   <div class="description">
-    Apply sample-wise median subtraction and inspect normalization effects.
+    Run source-aware normalization, benchmark multiple methods, and document the selected matrix without forcing one method on every experiment.
   </div>
 </div>
 
@@ -746,51 +719,82 @@ window.Quarto = {
 </header>
 
 
-<section id="current-normalization-method" class="level2">
-<h2 class="anchored" data-anchor-id="current-normalization-method">Current normalization method</h2>
-<p>The current ProtVis normalization module performs <strong>median subtraction</strong>. For each numeric sample column, ProtVis subtracts that column’s median (ignoring <code>NA</code> values):</p>
-<p><span class="math display">\[x'_{ij} = x_{ij} - \operatorname{median}(x_{\cdot j})\]</span></p>
-<p>After normalization, each sample is centered around a comparable median while relative within-sample differences are retained.</p>
+<section id="normalization-is-now-selectable" class="level2">
+<h2 class="anchored" data-anchor-id="normalization-is-now-selectable">Normalization is now selectable</h2>
+<p>ProtVis 0.9.1 no longer provides only fixed median subtraction. The interface supports <strong>Auto (source recommended)</strong> plus multiple explicit normalization families.</p>
+<p>Current core methods include:</p>
+<ul>
+<li><strong>Median</strong></li>
+<li><strong>Quantile</strong></li>
+<li><strong>VSN</strong></li>
+<li><strong>Cyclic Loess</strong></li>
+<li><strong>RLR</strong></li>
+</ul>
+<p>The proteiNorm-compatible extension adds:</p>
+<ul>
+<li>Log2 baseline</li>
+<li>Median</li>
+<li>Mean</li>
+<li>VSN</li>
+<li>Quantile</li>
+<li>Cyclic Loess</li>
+<li>RLR</li>
+<li>Global Intensity</li>
+</ul>
+<p>Availability can depend on optional packages such as <code>vsn</code> or <code>NormalyzerDE</code> and on whether the current scale is compatible with the method.</p>
+</section>
+<section id="source-aware-auto" class="level2">
+<h2 class="anchored" data-anchor-id="source-aware-auto">Source-aware Auto</h2>
+<p>For MaxQuant, Auto reproduces the archived workflow: sample-wise median subtraction followed by the historical row-wise <code>+abs(min)+5</code> shift, with exact zeros mapped to 1. This is a compatibility preset, not a claim that the same procedure is universally appropriate.</p>
+<p>For other sources, Auto resolves to the source-specific default.</p>
+</section>
+<section id="input-scale" class="level2">
+<h2 class="anchored" data-anchor-id="input-scale">Input scale</h2>
+<p>Choose <strong>Auto from Transformation step</strong>, Raw intensity, log2 or log10. VSN/proteiNorm methods require raw intensities or a safely reversible log2/log10 scale; incompatible transformations are reported as unavailable instead of being applied silently.</p>
 </section>
 <section id="gui-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="gui-workflow">GUI workflow</h2>
-<p>The screenshot below shows the normalization page after the six-sample example has passed transformation and imputation.</p>
-<div id="fig-data-normalization-gui" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of the ProtVis Data Normalization module. Marker 1 identifies Load data and marker 2 identifies Run normalization. Original Data and Original Data Visualization are displayed above Normalized Data and Normalized Data Visualization. The sidebar reports Median subtraction normalization completed and includes color and download controls." data-fig-align="center">
+<div id="fig-data-normalization-gui" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="ProtVis normalization screenshot. Current interface adds source-aware method selection, input scale, method benchmarking and diagnostic metrics.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-data-normalization-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/screenshots/PixPin_2026-09-13_18-24-25.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of the ProtVis Data Normalization module. Marker 1 identifies Load data and marker 2 identifies Run normalization. Original Data and Original Data Visualization are displayed above Normalized Data and Normalized Data Visualization. The sidebar reports Median subtraction normalization completed and includes color and download controls.">
+<img src="../../images/screenshots/PixPin_2026-09-13_18-24-25.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="ProtVis normalization screenshot. Current interface adds source-aware method selection, input scale, method benchmarking and diagnostic metrics.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-data-normalization-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Data Normalization in ProtVis. The numbered controls show the recommended order: 1 load the imputed data and 2 run median-subtraction normalization. The upper panels show original values and their boxplot; the lower panels show normalized values and the normalized boxplot.
+Figure&nbsp;1: Earlier normalization interface in ProtVis. Current 0.9.1 keeps load/run/diagnostic views but adds method and input-scale selectors plus a Compare all methods workspace.
 </figcaption>
 </figure>
 </div>
-<p>Follow the two numbered controls. <strong>1. Load data.</strong> Click <strong>Load data</strong>. The module uses the current imputed <code>ProtVis_dataset</code> first and can recover <code>Step5_data_imputation.rda</code> for compatibility. Confirm that the interface reports <strong>Data loaded</strong>, then inspect the upper <strong>Original Data</strong> table and boxplot. Sample columns should still match the project sample information.</p>
-<p><strong>2. Run normalization.</strong> Click <strong>Run normalization</strong>. ProtVis subtracts each sample column’s median and reports <strong>Median subtraction normalization completed</strong> when the operation succeeds. Inspect the lower <strong>Normalized Data</strong> table and visualization immediately after completion.</p>
-<p>Compare the upper and lower boxplots rather than relying on the status message alone. Median subtraction should center broad sample-level offsets while preserving within-sample rank differences. The plot-color controls and download dimensions are presentation settings only; they do not change the stored normalized matrix.</p>
+<ol type="1">
+<li>Click <strong>Load data</strong> to load the Step5/active project state.</li>
+<li>Confirm the upstream transformation reported by the status panel.</li>
+<li>Select input scale and normalization method.</li>
+<li>Click <strong>Run selected normalization</strong>.</li>
+<li>Inspect the normalized matrix and distributions.</li>
+<li>Optionally click <strong>Compare all methods</strong> to benchmark candidate methods.</li>
+</ol>
 </section>
-<section id="interpretation" class="level2">
-<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
-<p>Median subtraction is useful when broad sample-level offsets are considered technical rather than biological. It is not appropriate to assume this for every experimental design. If most proteins are expected to shift globally in one biological direction, inspect the distributions carefully before interpreting normalized fold changes.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+<section id="method-benchmarking" class="level2">
+<h2 class="anchored" data-anchor-id="method-benchmarking">Method benchmarking</h2>
+<p>The comparison workspace reports diagnostic metrics such as sample-median dispersion, sample-IQR dispersion, pairwise correlation, within-group SD, and proteiNorm-style metrics (PCV, PMAD, PEV, intragroup correlation, total-intensity CV and log2-ratio IQR where calculable).</p>
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Check the full preprocessing sequence
+<span class="screen-reader-only">Warning</span>Diagnostics are not an automatic winner
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The screenshot belongs at the end of the shared preprocessing route: <strong>Correct Noise → Data Transformation → Data Imputation → Data Normalization</strong>. Before moving to differential abundance analysis, confirm that sample names are unchanged, imputation did not create implausible distributions, and normalization improved technical comparability without erasing the expected group pattern.</p>
+<p>Lower technical dispersion or higher correlation can be useful, but they do not prove that a normalization preserves the biological signal. Choose a method based on acquisition type, scale, design and expected global biology, then record the method explicitly.</p>
 </div>
 </div>
 </section>
 <section id="output" class="level2">
 <h2 class="anchored" data-anchor-id="output">Output</h2>
-<p>The normalized project state is written to the active <code>ProtVis_dataset</code> and persisted as:</p>
+<p>The selected normalized matrix becomes the active matrix, is stored as a schema-v4 preprocessing run, and is persisted for compatibility as:</p>
 <pre class="text"><code>Step6_data_normalization.rda</code></pre>
-<p>This stage is the standard input for <strong>Overview</strong> and <strong>DEP analysis</strong>.</p>
+<p>Overview/QC can use Step6, while <strong>Recommended DEP</strong> intentionally goes back to the observed Step4 matrix for its default inferential model.</p>
 
 
 </section>

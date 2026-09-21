@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Run file-driven gene set enrichment analysis and inspect ranked pathway signals.">
+<meta name="description" content="Run standard file-driven GSEA or reproduce the B73-Y12 phenylpropanoid figure from archived/current DEP rankings.">
 
 <title>GSEA – ProtVis Cookbook</title>
 <style>
@@ -682,14 +682,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#current-gsea-implementation" id="toc-current-gsea-implementation" class="nav-link active" data-scroll-target="#current-gsea-implementation">Current GSEA implementation</a></li>
-  <li><a href="#required-files" id="toc-required-files" class="nav-link" data-scroll-target="#required-files">Required files</a>
+  <li><a href="#analysis-modes" id="toc-analysis-modes" class="nav-link active" data-scroll-target="#analysis-modes">Analysis modes</a></li>
+  <li><a href="#standard-gsea" id="toc-standard-gsea" class="nav-link" data-scroll-target="#standard-gsea">Standard GSEA</a></li>
+  <li><a href="#b73-y12-figure-reproduction" id="toc-b73-y12-figure-reproduction" class="nav-link" data-scroll-target="#b73-y12-figure-reproduction">B73-Y12 Figure reproduction</a>
   <ul class="collapse">
-  <li><a href="#expression-matrix-.txt" id="toc-expression-matrix-.txt" class="nav-link" data-scroll-target="#expression-matrix-.txt">Expression matrix (<code>.txt</code>)</a></li>
-  <li><a href="#group-information-.txt" id="toc-group-information-.txt" class="nav-link" data-scroll-target="#group-information-.txt">Group information (<code>.txt</code>)</a></li>
-  <li><a href="#ko-pathway-information-.txt" id="toc-ko-pathway-information-.txt" class="nav-link" data-scroll-target="#ko-pathway-information-.txt">KO pathway information (<code>.txt</code>)</a></li>
+  <li><a href="#load-comparisons" id="toc-load-comparisons" class="nav-link" data-scroll-target="#load-comparisons">Load comparisons</a></li>
+  <li><a href="#root_ve-reproduction-source" id="toc-root_ve-reproduction-source" class="nav-link" data-scroll-target="#root_ve-reproduction-source">Root_VE reproduction source</a></li>
   </ul></li>
-  <li><a href="#gui-workflow" id="toc-gui-workflow" class="nav-link" data-scroll-target="#gui-workflow">GUI workflow</a></li>
   <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Downstream_analysis/GSEA.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Downstream_analysis/GSEA.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -705,7 +704,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Run file-driven gene set enrichment analysis and inspect ranked pathway signals.
+    Run standard file-driven GSEA or reproduce the B73-Y12 phenylpropanoid figure from archived/current DEP rankings.
   </div>
 </div>
 
@@ -722,71 +721,68 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="current-gsea-implementation" class="level2">
-<h2 class="anchored" data-anchor-id="current-gsea-implementation">Current GSEA implementation</h2>
-<p>The current GSEA module is a <strong>file-driven</strong> workflow. It reads an expression/count matrix, group information, and KO-to-pathway annotation, calculates a DESeq2 ranking, and passes the ranked log2 fold changes to <code>clusterProfiler::GSEA()</code>.</p>
-<p>Because the ranking step uses <strong>DESeq2</strong>, the uploaded matrix must be appropriate for DESeq2 count modeling. Do not upload already log-transformed continuous protein intensities and assume they are equivalent to counts.</p>
-</section>
-<section id="required-files" class="level2">
-<h2 class="anchored" data-anchor-id="required-files">Required files</h2>
-<section id="expression-matrix-.txt" class="level3">
-<h3 class="anchored" data-anchor-id="expression-matrix-.txt">Expression matrix (<code>.txt</code>)</h3>
-<p>First column: <code>ID</code>. Remaining columns: samples.</p>
-<pre class="text"><code>ID   S1   S2   S3   S4
-K00001  120  130  240  220
-K00002   40   35   70   65</code></pre>
-</section>
-<section id="group-information-.txt" class="level3">
-<h3 class="anchored" data-anchor-id="group-information-.txt">Group information (<code>.txt</code>)</h3>
-<p>Required columns:</p>
-<pre class="text"><code>Sample   Group
-S1       Control
-S2       Control
-S3       Treatment
-S4       Treatment</code></pre>
-</section>
-<section id="ko-pathway-information-.txt" class="level3">
-<h3 class="anchored" data-anchor-id="ko-pathway-information-.txt">KO pathway information (<code>.txt</code>)</h3>
-<p>The current parser uses the first column as pathway/term ID and the third column as a semicolon-separated gene/KO list.</p>
-</section>
-</section>
-<section id="gui-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="gui-workflow">GUI workflow</h2>
-<ol type="1">
-<li>Upload the <strong>Expression Matrix</strong>.</li>
-<li>Upload <strong>Group Info</strong>.</li>
-<li>Upload <strong>KO Pathway Info</strong>.</li>
-<li>Set <code>minGSSize</code> and <code>maxGSSize</code>.</li>
-<li>Set the number of top pathways to display.</li>
-<li>Optionally show only <code>p.adjust &lt; 0.05</code> results.</li>
-<li>Sort the dotplot by absolute <strong>NES</strong> or by <strong>p.adjust</strong>.</li>
-<li>Click <strong>Run Analysis</strong>.</li>
-<li>Select a pathway to inspect its enrichment curve.</li>
-</ol>
-</section>
-<section id="outputs" class="level2">
-<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
-<p>The module provides:</p>
+<section id="analysis-modes" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-modes">Analysis modes</h2>
+<p>The current GSEA page starts with:</p>
 <ul>
-<li>a GSEA result table;</li>
-<li>a top-pathway dotplot;</li>
-<li>a single-pathway enrichment curve using <code>GseaVis</code>;</li>
-<li>CSV export of all GSEA results;</li>
-<li>PDF export of the dotplot and enrichment curve.</li>
+<li><strong>Standard GSEA</strong></li>
+<li><strong>B73-Y12 Figure reproduction</strong></li>
 </ul>
+<p>These modes intentionally use different inputs.</p>
+</section>
+<section id="standard-gsea" class="level2">
+<h2 class="anchored" data-anchor-id="standard-gsea">Standard GSEA</h2>
+<p>Standard mode remains file-driven. Upload:</p>
+<ol type="1">
+<li><strong>Expression Matrix</strong> (<code>.txt</code>);</li>
+<li><strong>Group Info</strong> (<code>.txt</code>);</li>
+<li><strong>KO Pathway Info</strong> (<code>.txt</code>).</li>
+</ol>
+<p>The standard workflow builds a differential ranking and runs <code>clusterProfiler::GSEA()</code>. Current controls include <code>minGSSize</code>, <code>maxGSSize</code>, Top X pathways, significant-only (<code>p.adjust &lt; 0.05</code>), NES/p.adjust sorting, and a selected pathway for the enrichment curve.</p>
+<p>Because the standard ranking step uses count-model logic, do not supply already log-transformed continuous protein intensities as though they were integer counts.</p>
+</section>
+<section id="b73-y12-figure-reproduction" class="level2">
+<h2 class="anchored" data-anchor-id="b73-y12-figure-reproduction">B73-Y12 Figure reproduction</h2>
+<p>This mode works from previously stored DEP results rather than forcing the user to rebuild a separate expression/count input.</p>
+<section id="load-comparisons" class="level3">
+<h3 class="anchored" data-anchor-id="load-comparisons">Load comparisons</h3>
+<p>Click <strong>LOAD PREVIOUS DEP RESULTS</strong>. You can select multiple DEP comparisons, <strong>Select all</strong>, <strong>Clear</strong>, or choose <strong>Root_VE only</strong>. A separate <strong>Focus comparison</strong> determines which selected comparison is displayed in detail.</p>
+<p>The reproduction pathway is currently fixed to <strong>Phenylpropanoid biosynthesis</strong> for the archived target.</p>
+</section>
+<section id="root_ve-reproduction-source" class="level3">
+<h3 class="anchored" data-anchor-id="root_ve-reproduction-source">Root_VE reproduction source</h3>
+<p>Two sources are available:</p>
+<ul>
+<li><strong>Exact supplied figure (historical Root_VE)</strong> — default exact target;</li>
+<li><strong>Recalculate from loaded DEP result</strong> — rebuild the ranking from the selected stored comparison.</li>
+</ul>
+<p>The frozen historical Root_VE target records <strong>11,049 ranked proteins</strong>, <strong>196 map00940 hits</strong>, the historical <strong>B73 − Y12 log2FC</strong> metric, and weighted GSEA <strong>p = 1</strong>. It is bundled specifically to match the supplied historical panel.</p>
+<p>When recalculating from stored DEP, the ranking metric can be:</p>
+<ul>
+<li>moderated t statistic (script method);</li>
+<li>log2 fold change;</li>
+<li>signed <code>-log10(P-value)</code>.</li>
+</ul>
+<p>Protein inclusion can use all tested proteins (the GSEA default) or custom thresholds.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>GSEA is not the same as over-representation analysis
+<span class="screen-reader-only">Warning</span>Keep comparison direction consistent
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>GO/KEGG enrichment in the preceding chapter starts from a selected ID set. GSEA instead tests coordinated movement across a <strong>ranked list</strong>, which can detect pathway-level signals even when individual proteins do not cross a hard significance threshold.</p>
+<p>Changing B73−Y12 to Y12−B73 reverses the ranked statistic and therefore the enrichment direction. Record the comparison direction and ranking metric with every exported GSEA figure.</p>
 </div>
 </div>
+</section>
+</section>
+<section id="outputs" class="level2">
+<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
+<p>Both modes provide ranked-pathway results and pathway-level visualization/export. In reproduction mode, selected comparisons can be recalculated while Root_VE can remain locked to the exact historical archive when exact panel reproduction is required.</p>
+<p>Use standard mode for new general-purpose GSEA; use archived mode only when the historical B73/Y12 figure is the explicit target.</p>
 
 
 </section>
