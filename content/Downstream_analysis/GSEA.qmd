@@ -1,65 +1,63 @@
 ---
 title: "GSEA"
-description: "Run file-driven gene set enrichment analysis and inspect ranked pathway signals."
+description: "Run standard file-driven GSEA or reproduce the B73-Y12 phenylpropanoid figure from archived/current DEP rankings."
 ---
 
-## Current GSEA implementation
+## Analysis modes
 
-The current GSEA module is a **file-driven** workflow. It reads an expression/count matrix, group information, and KO-to-pathway annotation, calculates a DESeq2 ranking, and passes the ranked log2 fold changes to `clusterProfiler::GSEA()`.
+The current GSEA page starts with:
 
-Because the ranking step uses **DESeq2**, the uploaded matrix must be appropriate for DESeq2 count modeling. Do not upload already log-transformed continuous protein intensities and assume they are equivalent to counts.
+- **Standard GSEA**
+- **B73-Y12 Figure reproduction**
 
-## Required files
+These modes intentionally use different inputs.
 
-### Expression matrix (`.txt`)
+## Standard GSEA
 
-First column: `ID`. Remaining columns: samples.
+Standard mode remains file-driven. Upload:
 
-```text
-ID   S1   S2   S3   S4
-K00001  120  130  240  220
-K00002   40   35   70   65
-```
+1. **Expression Matrix** (`.txt`);
+2. **Group Info** (`.txt`);
+3. **KO Pathway Info** (`.txt`).
 
-### Group information (`.txt`)
+The standard workflow builds a differential ranking and runs `clusterProfiler::GSEA()`. Current controls include `minGSSize`, `maxGSSize`, Top X pathways, significant-only (`p.adjust < 0.05`), NES/p.adjust sorting, and a selected pathway for the enrichment curve.
 
-Required columns:
+Because the standard ranking step uses count-model logic, do not supply already log-transformed continuous protein intensities as though they were integer counts.
 
-```text
-Sample   Group
-S1       Control
-S2       Control
-S3       Treatment
-S4       Treatment
-```
+## B73-Y12 Figure reproduction
 
-### KO pathway information (`.txt`)
+This mode works from previously stored DEP results rather than forcing the user to rebuild a separate expression/count input.
 
-The current parser uses the first column as pathway/term ID and the third column as a semicolon-separated gene/KO list.
+### Load comparisons
 
-## GUI workflow
+Click **LOAD PREVIOUS DEP RESULTS**. You can select multiple DEP comparisons, **Select all**, **Clear**, or choose **Root_VE only**. A separate **Focus comparison** determines which selected comparison is displayed in detail.
 
-1. Upload the **Expression Matrix**.
-2. Upload **Group Info**.
-3. Upload **KO Pathway Info**.
-4. Set `minGSSize` and `maxGSSize`.
-5. Set the number of top pathways to display.
-6. Optionally show only `p.adjust < 0.05` results.
-7. Sort the dotplot by absolute **NES** or by **p.adjust**.
-8. Click **Run Analysis**.
-9. Select a pathway to inspect its enrichment curve.
+The reproduction pathway is currently fixed to **Phenylpropanoid biosynthesis** for the archived target.
+
+### Root_VE reproduction source
+
+Two sources are available:
+
+- **Exact supplied figure (historical Root_VE)** — default exact target;
+- **Recalculate from loaded DEP result** — rebuild the ranking from the selected stored comparison.
+
+The frozen historical Root_VE target records **11,049 ranked proteins**, **196 map00940 hits**, the historical **B73 − Y12 log2FC** metric, and weighted GSEA **p = 1**. It is bundled specifically to match the supplied historical panel.
+
+When recalculating from stored DEP, the ranking metric can be:
+
+- moderated t statistic (script method);
+- log2 fold change;
+- signed `-log10(P-value)`.
+
+Protein inclusion can use all tested proteins (the GSEA default) or custom thresholds.
+
+::: {.callout-warning}
+## Keep comparison direction consistent
+Changing B73−Y12 to Y12−B73 reverses the ranked statistic and therefore the enrichment direction. Record the comparison direction and ranking metric with every exported GSEA figure.
+:::
 
 ## Outputs
 
-The module provides:
+Both modes provide ranked-pathway results and pathway-level visualization/export. In reproduction mode, selected comparisons can be recalculated while Root_VE can remain locked to the exact historical archive when exact panel reproduction is required.
 
-- a GSEA result table;
-- a top-pathway dotplot;
-- a single-pathway enrichment curve using `GseaVis`;
-- CSV export of all GSEA results;
-- PDF export of the dotplot and enrichment curve.
-
-::: {.callout-warning}
-## GSEA is not the same as over-representation analysis
-GO/KEGG enrichment in the preceding chapter starts from a selected ID set. GSEA instead tests coordinated movement across a **ranked list**, which can detect pathway-level signals even when individual proteins do not cross a hard significance threshold.
-:::
+Use standard mode for new general-purpose GSEA; use archived mode only when the historical B73/Y12 figure is the explicit target.

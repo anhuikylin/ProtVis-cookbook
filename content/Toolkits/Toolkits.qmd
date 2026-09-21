@@ -1,20 +1,30 @@
 ---
 title: "Toolkits"
-description: "Focused utilities that complement the main ProtVis workflow."
+description: "Focused utilities for identifier preparation, plant localization, structures/networks, reusable plots and auxiliary analyses."
 ---
 
-## Toolkit overview
+## Current toolkit map
 
-Toolkits are intentionally smaller than the core pipeline. They help prepare identifiers/annotations, inspect proteins, generate focused plots, or connect results to external resources.
+The current Toolkits menu contains:
 
-Current utilities include **Protein Extract, Background Make, Protein Links, Protein Structure, Boxplot, SwissModel, STRINGdb PPI, Stacked Column Diagram, Correlation chord, and DEG Analyse**.
+- **Protein Extract**
+- **Plant-mPLoc**
+- **Background Make**
+- **Protein Links**
+- **Protein Structure**
+- **Boxplot**
+- **SwissModel**
+- **STRINGdb PPI**
+- **Stacked Column Diagram**
+- **Correlation chord**
+- **DEG Analyse**
 
-## How to use toolkits responsibly
+[Plant-mPLoc](Plant_mPLoc.qmd) is the notable newer utility: it submits a complete plant protein sequence to the public Plant-mPLoc service, parses single/multiple subcellular-localization predictions and records the result in the active schema-v4 project when available.
 
-- Keep the input table used by the toolkit together with the exported figure.
-- Use stable protein/gene identifiers when moving between ProtVis and external databases.
-- Record species/taxonomy settings for database-backed tools.
-- Treat structure and network visualizations as evidence-supporting views, not automatic proof of mechanism.
-- Prefer the main workflow's `ProtVis_dataset` results as the source of quantitative values rather than manually retyping numbers.
+## How to use toolkits
 
-The sidebar provides dedicated pages for the most commonly used utilities.
+Toolkits are intentionally smaller than the main quantitative pipeline. They prepare identifiers/backgrounds, inspect selected proteins, connect external services or generate focused figures.
+
+Keep the input table/sequence together with exported results, use stable identifiers, record taxonomy/database/service settings, and treat structure/network/localization predictions as supporting evidence rather than automatic mechanism.
+
+Where a toolkit supports an active `ProtVis_dataset`, prefer that project-linked route so the result is recorded with its parameters and provenance instead of becoming a disconnected manual artifact.

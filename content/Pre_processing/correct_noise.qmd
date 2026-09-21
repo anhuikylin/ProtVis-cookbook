@@ -1,75 +1,45 @@
 ---
 title: "Correct noise"
-description: "Load the cross-source Step2 handoff, rename sample columns consistently, and apply replicate-aware zero/missing-value correction."
+description: "Load the completed input/search matrix, harmonize sample names and apply replicate-aware correction without conflating it with imputation."
 ---
 
-## What the module does
+## Role in the current workflow
 
-**Correct Noise** is the first source-independent preprocessing module. It loads the active `ProtVis_dataset` whenever possible, shows the expression matrix and sample information, optionally normalizes sample-column names, and applies the replicate-aware correction rule.
+**Correct Noise** is the first shared quantitative preprocessing module after a source-specific import or Raw database search has created a real protein-by-sample matrix. It prefers the active `ProtVis_dataset` and falls back to compatible stage files when recovering an older project.
 
-The interface has three principal actions: **Load data**, **Rename Columns**, and **Correct Noise**.
+Raw projects can arrive here from either **Sage** or **FragPipe**. A search-staging project without a protein matrix must finish Search first.
 
-## Where Load data comes from
+## Replicate-aware rule
 
-The current loader uses this priority:
+For sample names with `_1`, `_2`, `_3` replicate suffixes, ProtVis groups corresponding replicates per protein:
 
-1. the active in-memory `ProtVis_dataset`;
-2. `Step2_remove_unreliable_peptide.rda`;
-3. Sage-specific compatibility snapshots such as `Step2_sage_database_search.rda`;
-4. older project-stage fallbacks when required for recovery.
-
-`Step2_remove_unreliable_peptide.rda` is now the canonical **data-source-independent Step2 checkpoint**, even though its historical filename originated in the MaxQuant workflow. A successful Raw/Sage search publishes its completed `ProtVis_dataset` to this same handoff.
-
-If the current object is still `Sage_staging`, the expression table is intentionally unavailable. Complete **Search** before running Correct Noise.
-
-## Replicate-aware correction rule
-
-For datasets that use replicate suffixes `_1`, `_2`, and `_3`, ProtVis groups corresponding replicate columns and evaluates each protein within that group.
-
-- If at least two replicate measurements are non-zero, zero/missing cells are replaced using half of the sum of the non-zero replicate values.
-- If fewer than two non-zero replicates are present, the replicate-group values are set to zero and then converted to `NA`.
-- If no recognizable replicate suffixes exist, ProtVis returns the validated matrix without applying replicate-level correction.
-- Duplicate protein IDs are collapsed before the correction step, retaining the largest finite intensity per sample, to prevent many-to-many joins or reshaping from expanding the table.
+- if at least two replicates are non-zero, missing/zero cells are replaced by half the sum of non-zero replicate values;
+- if fewer than two replicates are observed, that replicate group becomes missing;
+- proteins with no positive signal in any replicate are removed in this archived-compatible correction;
+- duplicated protein IDs are collapsed first, retaining the largest finite intensity per sample;
+- if no recognizable replicate suffix exists, the validated matrix is returned without forcing this replicate rule.
 
 ::: {.callout-note}
-This behavior is intentionally different from a generic “more than half missing” filter or mean imputation. Missing-value imputation remains a separate downstream stage.
+This is a specific replicate-correction rule, not generic missing-value imputation. The later Imputation module remains a separate operation.
 :::
 
 ## GUI workflow
 
-The screenshot below shows the actual Correct Noise interface for the Sage-derived PXD065315 example. The red labels identify the recommended order.
+![Correct Noise in ProtVis. Load the completed input/search result, validate/rename sample columns, then apply replicate-aware correction.](../../images/screenshots/PixPin_2026-09-13_18-15-07.png){#fig-correct-noise-gui fig-alt="ProtVis Correct Noise module with Load data, Rename Columns, Correct Noise, and input/output tables." width="100%" fig-align="center"}
 
-![Correct Noise in ProtVis. Marker 1 loads the completed input/search result, marker 2 renames or validates sample columns, and marker 3 runs replicate-aware noise correction. The main panel provides Sample info, Expression Matrix, Rename Columns and Correct Noise result tabs.](../../images/screenshots/PixPin_2026-09-13_18-15-07.png){#fig-correct-noise-gui fig-alt="Screenshot of the ProtVis Correct Noise module. Red marker 1 is Load data, marker 2 is Rename Columns, and marker 3 is Correct Noise. The main panel shows a protein abundance table with B73_C1, B73_C2, B73_C3, EA2024_C1, EA2024_C2, and EA2024_C3 columns." width="100%" fig-align="center"}
+1. **Load data** and inspect Sample info + Expression Matrix.
+2. **Rename Columns** when source identifiers need mapping to canonical sample IDs.
+3. **Correct Noise** and inspect the resulting `NA`/row pattern.
 
-Follow the numbered controls. **1. Load data.** Open **Pre-processing → Correct Noise** and click **Load data**. Wait for the green **Data loaded** status, then inspect **Sample info** and **Expression Matrix**. Check that the expected sample columns are present and that the protein table is non-empty. The 5,209 rows visible in the screenshot are specific to this example run and are not a required target count for other datasets.
-
-**2. Rename Columns.** Click **Rename Columns**. ProtVis uses `maxquant_id` mappings when they are available; otherwise already-valid `sample_id` names are retained. Inspect the **Rename Columns** result before continuing. For the illustrated Raw/Sage project, the intended columns are `B73_C1`, `B73_C2`, `B73_C3`, `EA2024_C1`, `EA2024_C2`, and `EA2024_C3`. Unexpected duplicate or unmatched sample names should be fixed before correction because replicate grouping depends on stable identifiers.
-
-**3. Correct Noise.** Click **Correct Noise**. After a successful run, ProtVis switches to the **Correct Noise** result tab automatically. Compare the corrected table with the loaded expression matrix and verify that protein IDs, sample names, row count, zero values and newly introduced `NA` values are biologically and technically plausible.
-
-Long-running actions use duplicate-run guards. A second rapid click on Load, Rename, or Correct Noise while the same operation is already running is ignored rather than executing it twice.
+Duplicate-run guards prevent the same action from being launched repeatedly while it is already running.
 
 ## Outputs
 
-The corrected matrix is written back into a new traceable `ProtVis_dataset` analysis state. ProtVis records the `noise_correction` result and process entry with the method `replicate_correction`.
-
-For compatibility and recovery, the current implementation writes both:
+The result is appended as a schema-v4 preprocessing run and saved to the active dataset. Compatibility snapshots can include:
 
 ```text
 Step2_remove_unreliable_peptide.rda
 Step3_correct_noise.rda
 ```
 
-Step2 is refreshed as the cross-source handoff, while Step3 remains the downstream compatibility snapshot.
-
 Continue with [Data transformation](data_transformed.qmd).
-
-## Troubleshooting
-
-**“No completed input stage was found.”** Finish the previous input route first: run Sage Search for Raw data, MaxQuant Output Preparation for MaxQuant, or the appropriate parser/import for another source.
-
-**“The current ProtVis_dataset has no expression matrix.”** The object is most likely a Raw/Sage staging project. Complete Search so Sage LFQ can create the protein matrix.
-
-**The corrected table looks empty although the action succeeded.** Current ProtVis automatically selects the Correct Noise result tab after completion. If an older installation still behaves differently, reinstall the current `dev` version.
-
-**Working-directory errors after a restart.** The module resolves the project directory from the shared workdir, dataset metadata, checkpoint metadata, Raw input directory, and finally the current R working directory. Keeping the project directory intact makes recovery more reliable.

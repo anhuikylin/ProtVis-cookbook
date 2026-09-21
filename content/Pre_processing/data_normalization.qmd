@@ -1,43 +1,69 @@
 ---
 title: "Data normalization"
-description: "Apply sample-wise median subtraction and inspect normalization effects."
+description: "Run source-aware normalization, benchmark multiple methods, and document the selected matrix without forcing one method on every experiment."
 ---
 
-## Current normalization method
+## Normalization is now selectable
 
-The current ProtVis normalization module performs **median subtraction**. For each numeric sample column, ProtVis subtracts that column's median (ignoring `NA` values):
+ProtVis 0.9.1 no longer provides only fixed median subtraction. The interface supports **Auto (source recommended)** plus multiple explicit normalization families.
 
-$$x'_{ij} = x_{ij} - \operatorname{median}(x_{\cdot j})$$
+Current core methods include:
 
-After normalization, each sample is centered around a comparable median while relative within-sample differences are retained.
+- **Median**
+- **Quantile**
+- **VSN**
+- **Cyclic Loess**
+- **RLR**
+
+The proteiNorm-compatible extension adds:
+
+- Log2 baseline
+- Median
+- Mean
+- VSN
+- Quantile
+- Cyclic Loess
+- RLR
+- Global Intensity
+
+Availability can depend on optional packages such as `vsn` or `NormalyzerDE` and on whether the current scale is compatible with the method.
+
+## Source-aware Auto
+
+For MaxQuant, Auto reproduces the archived workflow: sample-wise median subtraction followed by the historical row-wise `+abs(min)+5` shift, with exact zeros mapped to 1. This is a compatibility preset, not a claim that the same procedure is universally appropriate.
+
+For other sources, Auto resolves to the source-specific default.
+
+## Input scale
+
+Choose **Auto from Transformation step**, Raw intensity, log2 or log10. VSN/proteiNorm methods require raw intensities or a safely reversible log2/log10 scale; incompatible transformations are reported as unavailable instead of being applied silently.
 
 ## GUI workflow
 
-The screenshot below shows the normalization page after the six-sample example has passed transformation and imputation.
+![Earlier normalization interface in ProtVis. Current 0.9.1 keeps load/run/diagnostic views but adds method and input-scale selectors plus a Compare all methods workspace.](../../images/screenshots/PixPin_2026-09-13_18-24-25.png){#fig-data-normalization-gui fig-alt="ProtVis normalization screenshot. Current interface adds source-aware method selection, input scale, method benchmarking and diagnostic metrics." width="100%" fig-align="center"}
 
-![Data Normalization in ProtVis. The numbered controls show the recommended order: 1 load the imputed data and 2 run median-subtraction normalization. The upper panels show original values and their boxplot; the lower panels show normalized values and the normalized boxplot.](../../images/screenshots/PixPin_2026-09-13_18-24-25.png){#fig-data-normalization-gui fig-alt="Screenshot of the ProtVis Data Normalization module. Marker 1 identifies Load data and marker 2 identifies Run normalization. Original Data and Original Data Visualization are displayed above Normalized Data and Normalized Data Visualization. The sidebar reports Median subtraction normalization completed and includes color and download controls." width="100%" fig-align="center"}
+1. Click **Load data** to load the Step5/active project state.
+2. Confirm the upstream transformation reported by the status panel.
+3. Select input scale and normalization method.
+4. Click **Run selected normalization**.
+5. Inspect the normalized matrix and distributions.
+6. Optionally click **Compare all methods** to benchmark candidate methods.
 
-Follow the two numbered controls. **1. Load data.** Click **Load data**. The module uses the current imputed `ProtVis_dataset` first and can recover `Step5_data_imputation.rda` for compatibility. Confirm that the interface reports **Data loaded**, then inspect the upper **Original Data** table and boxplot. Sample columns should still match the project sample information.
+## Method benchmarking
 
-**2. Run normalization.** Click **Run normalization**. ProtVis subtracts each sample column's median and reports **Median subtraction normalization completed** when the operation succeeds. Inspect the lower **Normalized Data** table and visualization immediately after completion.
+The comparison workspace reports diagnostic metrics such as sample-median dispersion, sample-IQR dispersion, pairwise correlation, within-group SD, and proteiNorm-style metrics (PCV, PMAD, PEV, intragroup correlation, total-intensity CV and log2-ratio IQR where calculable).
 
-Compare the upper and lower boxplots rather than relying on the status message alone. Median subtraction should center broad sample-level offsets while preserving within-sample rank differences. The plot-color controls and download dimensions are presentation settings only; they do not change the stored normalized matrix.
-
-## Interpretation
-
-Median subtraction is useful when broad sample-level offsets are considered technical rather than biological. It is not appropriate to assume this for every experimental design. If most proteins are expected to shift globally in one biological direction, inspect the distributions carefully before interpreting normalized fold changes.
-
-::: {.callout-tip}
-## Check the full preprocessing sequence
-The screenshot belongs at the end of the shared preprocessing route: **Correct Noise → Data Transformation → Data Imputation → Data Normalization**. Before moving to differential abundance analysis, confirm that sample names are unchanged, imputation did not create implausible distributions, and normalization improved technical comparability without erasing the expected group pattern.
+::: {.callout-warning}
+## Diagnostics are not an automatic winner
+Lower technical dispersion or higher correlation can be useful, but they do not prove that a normalization preserves the biological signal. Choose a method based on acquisition type, scale, design and expected global biology, then record the method explicitly.
 :::
 
 ## Output
 
-The normalized project state is written to the active `ProtVis_dataset` and persisted as:
+The selected normalized matrix becomes the active matrix, is stored as a schema-v4 preprocessing run, and is persisted for compatibility as:
 
 ```text
 Step6_data_normalization.rda
 ```
 
-This stage is the standard input for **Overview** and **DEP analysis**.
+Overview/QC can use Step6, while **Recommended DEP** intentionally goes back to the observed Step4 matrix for its default inferential model.

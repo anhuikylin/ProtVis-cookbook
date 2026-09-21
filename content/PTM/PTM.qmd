@@ -1,27 +1,46 @@
 ---
 title: "PTM analysis"
-description: "Explore post-translational modification evidence within the ProtVis workflow."
+description: "Explore modification-oriented summaries and validate a published phosphopeptide spectrum benchmark inside the PTM workspace."
 ---
 
-## Scope
+## Current PTM workspace
 
-The **PTM** section is intended for modification-centric proteomics workflows in which peptide/site-level evidence needs to be inspected separately from ordinary protein abundance analysis.
+The PTM page now contains two tabs:
 
-Because PTM search-engine exports differ substantially in site localization, peptide sequence, modification notation and protein mapping, always check that the selected source parser and input columns match the dataset that generated the evidence.
+- **PTM data overview** — upload a CSV/XLSX PTM table, choose peptide/modification settings and generate a summary plot;
+- **PTM spectrum** — use the validated Vac14/PXD001057 phosphopeptide spectrum workflow.
 
-## Recommended workflow
+## PTM data overview
 
-1. Complete the standard project setup and source selection.
-2. Open **PTM** and load the PTM-specific table expected by the module.
-3. Verify modified sequence/site notation and protein identifiers before filtering.
-4. Apply localization/evidence filters appropriate to the experiment.
-5. Inspect modification-level quantitative patterns separately from total protein abundance.
-6. Export the filtered evidence table used for every figure.
+Upload a PTM table (`.csv` or `.xlsx`), then configure:
+
+- optional ion additions/removals;
+- peptide selection;
+- modification type: **Phosphorylation, Ubiquitination, Acetylation, Methylation, Glycosylation**;
+- b/y ion presentation colors.
+
+Click **VISUALIZE PTM**. The current overview plot summarizes observed numeric/non-empty values by uploaded column and records the uploaded table plus plot configuration as a project run when an active `ProtVis_dataset` exists.
+
+Treat this view as a data overview rather than a site-localization statistical model.
+
+## PTM spectrum: Vac14 benchmark
+
+The built-in spectrum workflow validates a published Arabidopsis phosphopeptide from **PXD001057**:
+
+- protein `AT2G01690.1 (Vac14)`;
+- modified peptide `AT[pS]GVPFSQYK`;
+- phosphosite Ser3;
+- precursor charge 2+;
+- run `E1R2_SCX5_soluble`.
+
+ProtVis can obtain/cache the matching public mzIdentML + MGF evidence, calculate PTM-aware theoretical b/y fragments including relevant neutral losses, match observed peaks and render the evidence table/spectrum.
+
+For general uploaded PSM inspection, use the dedicated [PSM Explorer](PSM_Explorer.qmd).
 
 ## Biological interpretation
 
-A change at a phosphosite, acetylation site or other PTM can reflect altered modification occupancy, altered total protein abundance, or both. When possible, compare PTM abundance with the corresponding protein-level signal before assigning a regulatory interpretation.
+A PTM abundance change can reflect modification occupancy, total-protein abundance, or both. Compare site/peptide evidence with protein-level abundance when possible.
 
 ::: {.callout-warning}
-Do not interpret a modified peptide as a unique site when the search result does not localize the modification confidently. Preserve the original localization evidence in the exported record.
+Do not claim a unique modification site when the underlying search result does not localize the site confidently. Preserve the modified sequence, spectrum ID, precursor information and fragment evidence with the figure.
 :::

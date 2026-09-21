@@ -1,31 +1,36 @@
 ---
 title: "Downstream analysis"
-description: "Move from normalized quantitative proteomics data to QC, differential abundance and biological interpretation."
+description: "Move from project QC and observed transformed intensities to Recommended DEP, enrichment, GSEA and pathway interpretation."
 ---
 
-## Where downstream analysis starts
+## Current analysis logic
 
-The standard downstream workflow begins after **Data Normalization**. ProtVis then provides two complementary views of the data:
+ProtVis 0.9.1 separates **visual/QC matrices** from the **default inferential matrix**. Overview/QC can use normalized data, but **Recommended DEP** deliberately analyzes the observed transformed Step4 matrix before imputation.
 
-- **Overview** asks whether the dataset is technically and biologically coherent.
-- **DEP analysis** asks which proteins differ between defined groups.
+Recommended order:
 
-Functional modules such as enrichment, GSEA, Pathview and PPI should be interpreted in the context of those upstream checks.
+1. **Project Dashboard** — confirm current workflow/run validity and project-wide QC.
+2. **Overview & QC** — correlation, expression heatmap, archived UMAP reproduction, normalized intensity density and protein CV.
+3. **DEP analysis** — use Recommended DEP for new work; use Archived reproduction only for historical comparability.
+4. **Enrichment analysis** — standard GO/KEGG ORA or the directional KEGG reproduction workspace.
+5. **GSEA** — standard ranked-list GSEA or B73-Y12 figure reproduction from stored DEP results.
+6. **Pathview** — project pathway-level effects onto KEGG maps.
+7. Add **STRINGdb PPI, WGCNA, co-enrichment, metaproteomics** or other specialized modules when they answer the biological question.
 
-## Recommended order
+## Recommended DEP versus complete-matrix analyses
 
-1. **Overview & QC** — inspect correlations, distributions, missingness, PCA/CV and dimensionality-reduction structure.
-2. **DEP analysis** — run one or more explicit `Group1` versus `Group2` comparisons.
-3. **Enrichment analysis** — test significant protein IDs against GO/KEGG backgrounds.
-4. **GSEA** — use a ranked signal when a thresholded DEP list would discard useful pathway-level information.
-5. **Pathview** — project KO-level log fold changes onto a selected KEGG pathway.
-6. Add **STRINGdb PPI**, **WGCNA**, **co-enrichment** or other network/integration modules when relevant.
+Imputation and normalization remain valuable for visualization and methods that require a complete matrix. They are not automatically appropriate for hypothesis testing. Recommended DEP uses observed values, detection filtering and robust limma statistics so missing observations are not converted into artificial inferential evidence.
+
+Presence/absence candidates—proteins observed repeatedly in only one comparison group—are retained as a **parallel evidence stream** rather than being forced into ordinary fold-change statistics.
+
+## Reproduction modes
+
+Some modules now have explicit historical-reproduction modes. These are intended to match archived manuscript figures/settings and should not be confused with the recommended default for a new experiment.
 
 ::: {.callout-important}
-## Separate statistical evidence from visualization settings
-Changing colors, point sizes, heatmap labels or plot dimensions should not change the underlying statistical model. In contrast, changing a fold-change or p-value threshold changes which proteins are labeled significant and therefore affects heatmaps and downstream gene lists.
+Changing plot aesthetics does not change the model; changing the input matrix, detection filter, ranking metric, FDR/effect-size threshold or statistical engine does. Preserve these analysis settings in the schema-v4 run record and manuscript Methods.
 :::
 
-## Canonical data flow
+## Storage
 
-Current modules prefer the active `ProtVis_dataset`. Compatibility stage files remain readable when a project is reopened. Downstream results are stored in `analysis_results` and process history so the quantitative matrix and derived statistics stay connected.
+Downstream analyses append immutable runs to `ProtVis_dataset`. Tables, statistics, plot data/configuration, files and upstream dependencies are stored without overwriting previous executions. Re-running an upstream stage can invalidate downstream nodes while retaining their historical results.

@@ -1,23 +1,25 @@
 ---
 title: "Multi-omics"
-description: "Specialized modules for expression trends, networks, metaproteomics and cross-dataset integration."
+description: "Specialized expression, network, metaproteomics and cross-dataset integration modules that append results to the active project when available."
 ---
 
 ## Module map
 
-The **Multi-omics** menu groups analyses that extend beyond a single DEP table:
-
 | Module | Main question |
 |---|---|
-| Expression Profile | Which proteins share similar abundance trends? |
-| WGCNA | Which co-expression modules and hub proteins relate to traits? |
-| Metaproteomics | How do taxonomic and functional compositions change together? |
-| Nine Quadrant | How do two quantitative contrasts/datasets agree or disagree? |
-| Co-enrichment | Which functional signals are shared or distinct across result sets? |
-| Venn | Which identifiers overlap among multiple sets? |
+| **Expression Profile** | Which proteins share similar abundance trends? |
+| **WGCNA** | Which co-expression modules/hub proteins relate to traits? |
+| **Metaproteomics** | How do taxonomic and functional compositions change together? |
+| **Nine Quadrant** | How do two effect estimates agree, disagree or change in only one layer? |
+| **Co-enrichment** | Which enriched pathways are shared or layer-specific? |
+| **Venn / UpSet** | Which identifiers overlap across sets? |
 
-These modules do not all require the same input type. Follow the dedicated page for each analysis rather than assuming the normalized matrix alone is sufficient.
+These analyses do not require identical inputs. Expression/WGCNA-like analyses can use the active quantitative project, while cross-omics integration often needs external matched result tables.
 
-::: {.callout-tip}
-For manuscript figures, use an integration module only when the biological question is genuinely cross-layer or network-oriented. A more complex plot is not automatically more informative than a well-supported DEP or enrichment result.
-:::
+## Schema-v4 behavior
+
+Where a module is connected to the active `ProtVis_dataset`, a completed analysis is appended as a new run with parameters and result tables rather than overwriting previous output. This is especially important for Metaproteomics, which can load the active project and preserve taxonomy/function/peptide analysis in the same lineage.
+
+## Recommended practice
+
+Use a multi-omics module only when the biological question genuinely requires integration. Keep identifiers harmonized across layers, preserve each layer's original statistics, and do not interpret visual overlap as statistical evidence unless an explicit test supports it.

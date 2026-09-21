@@ -1,44 +1,41 @@
 ---
 title: "DEP analysis"
-description: "Run limma-based differential protein abundance analysis for one or more group comparisons."
+description: "Run Recommended DEP on observed pre-imputation data, preserve presence/absence evidence, reproduce archived results, or compare advanced proteomics engines."
 ---
 
-## Statistical model
+## Recommended DEP is the default
 
-The current DEP module uses **limma** (`lmFit`, contrasts, `eBayes`, `topTable`) on the normalized protein-abundance matrix. Each row of the comparison table defines a `Group1` versus `Group2` contrast.
+ProtVis 0.9.1 changed the default differential-protein workflow to reduce dependence on imputed values and historical matrix shifts.
 
-## DEP interface
+Current Recommended DEP defaults are:
 
-The full-resolution screenshot below shows the current DEP page with an active **B73 vs EA2024** comparison. It includes the data preview, comparison setup, DEP table, volcano plot, heatmap and DEP-count summary in one interface.
+| Setting | Default |
+|---|---|
+| Input matrix | observed `Step4_data_transformed` |
+| Sample adjustment | median-center samples |
+| Missing-value treatment | **no KNN imputation in the inferential matrix** |
+| Detection filter | detected in ≥2 replicates in both groups |
+| Statistical test | limma robust `eBayes`, `trend=TRUE`, `robust=TRUE` |
+| Effect-size label threshold | `|log2FC| ≥ 1` |
+| Significance criterion | `adj.P.Val` |
+| FDR cutoff | 0.05 |
+| Multiple testing | BH |
+| Volcano y axis | raw `P.Value` by default for display |
 
-![ProtVis differential protein abundance interface. The page shows Load Data, Sample Info and Normalized Data previews, a B73 versus EA2024 comparison, DEP table, volcano plot, heatmap, DEP-count bar chart, comparison controls and the Run DEP action.](../../images/screenshots/PixPin_2026-09-13_18-38-39.png){#fig-dep-gui fig-alt="Screenshot of the ProtVis DEP analysis page. The interface contains Load Data, Sample Info, Normalized Data, Group Comparison, a B73 versus EA2024 result table, volcano plot, heatmap, DEP count bar plot, CompareGroup controls and a Run DEP button." width="100%" fig-align="center"}
+`limma::treat()` is also available when the minimum effect size should be incorporated into the hypothesis test rather than applied only after testing.
 
-### Recommended operating order
+## Current versus archived mode
 
-**1. Load the normalized project data.** Open **Downstream analysis → DEP analysis** and click **LOAD DATA**. Confirm that the status reaches completion, then inspect **Sample Info** and **Normalized Data**. Do not start a contrast until sample identifiers, grouping metadata and the normalized matrix are aligned.
+The **DEP mode** selector provides:
 
-**2. Define the group comparison.** ProtVis accepts a comparison table with exactly two columns, `Group1` and `Group2`. You can use the built-in/demo comparison, edit or paste a comparison table, or upload a `.csv`/`.xlsx` file. In the screenshot, the active contrast is **B73 vs EA2024**. Group labels must exactly match the values used in the relevant `sample_info` grouping field.
+- **Recommended DEP** — use for new analyses;
+- **Archived reproduction** — uses the historical Step6 normalized matrix/settings for exact comparability with older figures.
 
-A minimal comparison file is:
+Archived reproduction can retain the historical matrix shift; do not use it merely because it produces more significant proteins.
 
-```text
-Group1,Group2
-B73,EA2024
-```
+## Comparison table
 
-Multiple rows can be supplied when several contrasts are required. ProtVis processes each valid row and creates a separate result view for each comparison.
-
-**3. Set the significance/display thresholds.** The current volcano controls start with `logFC threshold = 0.27`, corresponding to about a 1.21-fold change on a log2 scale, and `P-value threshold = 0.05`. These controls determine the displayed Upregulated, Downregulated and Not significant classes. Changing the thresholds updates the reactive plots; it does not recompute the underlying limma model.
-
-**4. Click RUN DEP.** Start the analysis only after the comparison table and thresholds are sensible. Follow the **DEP Analysis Progress** indicator until the run completes. Long-running actions are protected against rapid duplicate clicks in the current ProtVis interface.
-
-**5. Inspect the DEP table before the plots.** The result table contains `logFC`, average expression and limma significance statistics. Use the table as the quantitative record and export it with the available copy/CSV/Excel controls when needed.
-
-**6. Interpret the volcano, heatmap and DEP-count plot together.** The volcano plot summarizes effect size and significance, the heatmap shows the abundance pattern of the currently significant protein set, and the DEP-count plot summarizes the number of classified proteins. In the screenshot these views are synchronized for **B73 vs EA2024**.
-
-## Prepare comparisons
-
-ProtVis accepts a comparison table with exactly two columns:
+Comparisons are still defined by two columns:
 
 ```text
 Group1,Group2
@@ -46,38 +43,49 @@ Control,Treatment
 Root,Shoot
 ```
 
-The group labels must exactly match values in the relevant `sample_info` grouping column. A mismatch in spelling, capitalization, or whitespace can produce an invalid contrast even when the biological groups are conceptually the same.
+Multiple rows are allowed. Group labels must match `sample_info` values exactly. The built-in demo retains the archived B73/Y12 developmental comparisons.
 
-The interface also supports built-in/demo comparisons derived from available metadata as well as user-supplied CompareGroup files. Use the comparison source that corresponds to the actual experimental factor being tested.
+## Detection filter
 
-## Current significance controls
+Recommended choices include:
 
-The volcano panel currently starts with:
+- detected in ≥N replicates in **both** groups (default);
+- detected in ≥N replicates in **either** group;
+- any comparison sample (archived behavior);
+- all proteins.
 
-- `logFC threshold = 0.27` (approximately a 1.21-fold change on a log2 scale);
-- `P-value threshold = 0.05`.
+The default minimum detected replicates is 2.
 
-The displayed `regulation` classification uses `logFC` together with the raw limma `P.Value`. The limma result table also contains multiple-testing-adjusted statistics.
+## Parallel presence/absence evidence
+
+Proteins detected in at least the configured number of replicates in one group but zero times in the other are retained as a separate table/evidence stream. This is intentionally **not** converted into an arbitrary huge logFC by filling the missing group.
+
+DEP Summary can export both:
+
+- **quantitative DEP counts**;
+- **parallel evidence counts**.
+
+## Main result views
+
+![Earlier DEP interface screenshot. The current 0.9.1 layout adds Recommended DEP/Archived reproduction controls, detection filtering, FDR/multiple-testing choices and parallel evidence while retaining result tables, volcano/heatmap and summary views.](../../images/screenshots/PixPin_2026-09-13_18-38-39.png){#fig-dep-gui fig-alt="ProtVis DEP screenshot. Current interface now defaults to observed-data Recommended DEP with detection filtering, robust limma/BH FDR and separate presence-absence evidence." width="100%" fig-align="center"}
+
+Review results in this order: **full result table → statistical thresholds/method metadata → volcano → heatmap → summary/evidence tables**. Visual thresholds should never be the only stored definition of significance.
+
+## Additional statistical engines
+
+ProtVis also provides an independent statistical-engine workspace for:
+
+- **limma** — robust/trend empirical-Bayes protein-level model;
+- **DEqMS** — uses peptide/PSM evidence counts when available;
+- **proDA** — models dropout/missingness and is suited to pre-imputation abundance data;
+- **MSstats** — uses native feature-level long-format data when the project contains it.
+
+Availability is checked per engine. If required inputs/packages are missing, the run summary reports the engine as unavailable rather than silently substituting another method.
+
+## Output
+
+DEP results are appended to schema-v4 history and remain available to enrichment/GSEA loaders. Compatibility files include `Step7_differential_analysis.rda`; the advanced engine workspace can also write `Step7_DEP_engines.rda`.
 
 ::: {.callout-important}
-## Use adjusted p-values for publication-grade FDR control
-If the analysis plan requires FDR control, base final biological claims and downstream ID lists on the adjusted p-value column, such as `adj.P.Val`, rather than assuming the volcano panel's raw `P.Value` cutoff is an FDR threshold. Record both the effect-size and significance thresholds used in the manuscript Methods.
+For publication, define the final significance rule with the adjusted/FDR metric and effect-size criterion you actually used. The default volcano can display raw P on the y-axis while classification still uses adjusted P/FDR; these are different roles.
 :::
-
-## Dynamic plots
-
-Volcano thresholds are reactive: changing them reclassifies proteins and keeps the DEP heatmap synchronized with the currently significant set. Heatmaps sanitize non-finite values only for plotting; this does not rewrite the differential-statistics table.
-
-A useful review order is therefore **table → volcano → heatmap → DEP count**, because the table preserves the complete model output while the plots are filtered visual summaries.
-
-## Output and downstream handoff
-
-DEP results are attached to the active project object and are available to **Enrichment analysis**. The current enrichment loader checks the project object first and can also recover differential results from:
-
-```text
-Step7_differential_analysis.rda
-```
-
-with older filenames retained only as migration fallbacks.
-
-After validating the comparison and significant-protein list, continue to the functional-analysis modules such as [Enrichment analysis](Enrichment_analysis.qmd), [GSEA](GSEA.qmd), or [Pathview](Pathview.qmd).

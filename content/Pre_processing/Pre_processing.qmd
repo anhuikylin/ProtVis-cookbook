@@ -1,70 +1,64 @@
 ---
 title: "Pre-processing workflow"
-description: "Prepare quantitative proteomics data for QC and differential abundance analysis after any supported input route."
+description: "Use source-aware transformation, imputation and normalization while preserving an observed pre-imputation matrix for Recommended DEP."
 ---
 
-## Recommended order
+## Shared workflow
 
-Once an input route has produced a real protein-by-sample matrix, ProtVis uses four source-independent preprocessing modules:
+After Search/import has produced a real protein-by-sample matrix, the GUI presents:
 
 **Correct Noise → Data Transformation → Data Imputation → Data Normalization**
 
-Keeping these decisions separate makes it easier to inspect the effect of each operation and to record the selected method in project history.
+Schema v4 appends every successful stage as a new run. The active matrix advances through the workflow, while prior matrix states remain recoverable.
 
-For **Raw/mzML**, run **Search** first. A `Sage_staging` object deliberately has no expression matrix and cannot enter Correct Noise until Sage LFQ has been finalized.
+## Source-aware defaults
 
-For **MaxQuant**, complete the conditional **MaxQuant Output Preparation** step first. Other supported tabular sources enter preprocessing after their source-specific parser/import has produced the canonical matrix.
+ProtVis 0.9.1 can resolve **Auto (source recommended)** settings. For MaxQuant, the archived-compatible preset is:
 
-## 1. Correct noise
+**replicate correction → log2(intensity × 1e7) → kNN (seed 12345) → sample-median normalization + historical row shift**
 
-Correct Noise is the first shared preprocessing stage. It prefers the active `ProtVis_dataset`; if recovery from disk is needed, `Step2_remove_unreliable_peptide.rda` is the canonical cross-source handoff. Raw/Sage also retains `Step2_sage_database_search.rda` as a compatibility snapshot.
+For other sources, defaults are more conservative and can be changed explicitly in the module.
 
-The correction itself is replicate-aware. For sample groups whose names contain replicate suffixes such as `_1`, `_2`, and `_3`, zero/missing cells are corrected only when sufficient non-zero replicate evidence exists; otherwise the affected replicate group remains missing. Duplicate protein IDs are collapsed safely before reshaping.
+## 1. Correct Noise
+
+Correct Noise performs replicate-aware correction when `_1/_2/_3` sample suffixes are available, removes all-zero proteins in that replicate workflow, and safely collapses duplicated protein IDs before reshaping. If recognizable replicate suffixes are absent, the validated matrix is retained without forcing replicate correction.
 
 Read [Correct noise](correct_noise.qmd).
 
-## 2. Data transformation
+## 2. Data Transformation
 
-ProtVis currently exposes **None, log10, log2, Standardization, Z-Score, scale, center, and scale-center**. Original and transformed distributions can be compared before proceeding.
+The current menu includes **Auto (source recommended)**, **MaxQuant: log2(x × 1e7)**, **log2**, **None**, **log10**, plus advanced Z-score/scale/center options. The transformation method is stored with the project and later used to infer normalization input scale.
 
 Read [Data transformation](data_transformed.qmd).
 
-## 3. Data imputation
+## 3. Data Imputation
 
-Missing measurements are visualized before imputation. The current GUI offers **kNN, RF, Mean, Median, Zero, and Minimum**, with **kNN** selected by default. Legacy missing sentinels such as `0` and `-8` are kept as true `NA` until the user runs imputation.
+The current GUI offers **kNN**, **RF**, **Mean**, **Median**, and **Minimum**. It no longer exposes Zero or MinProb/q controls. A **Random seed** is explicit (default `12345`) so stochastic/reproducibility-sensitive methods can be repeated.
 
 Read [Data imputation](data_imputation.qmd).
 
-## 4. Data normalization
+## 4. Data Normalization
 
-The current normalization module performs **column-wise median subtraction**, centering each sample by its median. Original and normalized boxplots can be compared and downloaded.
+Normalization is no longer fixed to median subtraction. Current methods include **Median, Quantile, VSN, Cyclic Loess, RLR** and a proteiNorm-compatible family, plus a source-aware Auto preset. **Compare all methods** calculates diagnostic metrics rather than silently selecting a winner.
 
 Read [Data normalization](data_normalization.qmd).
 
-## Stage outputs
+## Important change for differential analysis
 
-The canonical result after every step is a new `ProtVis_dataset` state. Compatibility/recovery files used by the GUI include:
+::: {.callout-important}
+### Imputation is not the default inferential input
+**Recommended DEP** deliberately uses the observed **Step4 transformed matrix before imputation**, then applies its own sample-median centering and detection filter. Step5/Step6 remain important for complete-matrix visualization, QC and analyses that explicitly require imputed/normalized data, but they do not force imputed values into the default DEP model.
+:::
 
-| Stage | Compatibility file |
+## Compatibility snapshots
+
+| Stage | File |
 |---|---|
 | Input/search handoff | `Step2_remove_unreliable_peptide.rda` |
-| Sage search compatibility | `Step2_sage_database_search.rda` |
+| Sage compatibility | `Step2_sage_database_search.rda` |
 | Correct noise | `Step3_correct_noise.rda` |
 | Transformation | `Step4_data_transformed.rda` |
 | Imputation | `Step5_data_imputation.rda` |
 | Normalization | `Step6_data_normalization.rda` |
 
-Correct Noise also refreshes the canonical Step2 handoff after successful correction so older downstream paths remain interoperable.
-
-## Duplicate-run protection
-
-Current ProtVis protects important run buttons at two levels: the interface disables an active run button while Shiny is busy, and server-side guards reject the same operation if it is already executing. This is particularly important for Sage search and preprocessing steps, where an accidental double click could otherwise create duplicate work or competing output files.
-
-::: {.callout-warning}
-## Do not impute before inspecting missingness
-Missing values in proteomics are not always random. Use the missing-value visualization and the biological design to decide whether a global imputation strategy is appropriate for your experiment.
-:::
-
-## What to check before downstream analysis
-
-Before opening **Overview** or **DEP analysis**, verify that sample names match `sample_info`, no sample is unexpectedly all missing, transformed values are on the intended scale, imputation did not create implausible distributions, and normalization reduced unwanted sample-level shifts without erasing known biological differences.
+Before downstream analysis, inspect [Project Dashboard](../reproducibility/Project_Dashboard.qmd) and confirm the current/active run, sample mapping, missingness and workflow validity.

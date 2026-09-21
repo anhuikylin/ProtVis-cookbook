@@ -1,46 +1,40 @@
 ---
 title: "Checkpoints & recovery"
-description: "Save, inspect, restore and export recoverable ProtVis analysis states, including Raw/Sage projects."
+description: "Save, inspect, restore and resume schema-v4 ProtVis projects while preserving immutable run history and workflow dependencies."
 ---
 
-## Checkpoint model
+## Two complementary recovery layers
 
-ProtVis defines an ordered analysis progression from creation/import through preprocessing, dimensionality reduction, differential analysis, enrichment, and network analysis. Checkpoints capture a validated `ProtVis_dataset` at a named stage.
+ProtVis 0.9.1 uses both **schema-v4 run history** and serialized **checkpoints/stage files**. The active `ProtVis_dataset` is authoritative; checkpoints make that state recoverable, while the append-only run registry preserves earlier executions even when they are no longer current.
 
-![Checkpoint-aware analysis and recovery in ProtVis. Auto-saved validated stages support resuming interrupted analyses or restarting downstream analysis from a selected stage, while the interface design isolates node-level failures and preserves available checkpoints.](../../images/protvis-checkpoint-recovery.svg){#fig-protvis-checkpoint-recovery fig-alt="Three-panel checkpoint and recovery schematic. Panel A shows data input, noise correction, transformation, imputation, normalization, and DEP analysis writing validated checkpoints into ProtVis_dataset, with an interrupted analysis resuming from a checkpoint. Panel B shows resume and reanalysis paths from saved stages. Panel C contrasts a conventional interrupted reactive workflow with ProtVis node-level error handling and retained checkpoints." width="98%" fig-align="center"}
+![Checkpoint-aware analysis and recovery in ProtVis. Validated project states support resuming interrupted analyses and restarting from a selected stage.](../../images/protvis-checkpoint-recovery.svg){#fig-protvis-checkpoint-recovery fig-alt="Checkpoint-aware ProtVis workflow with saved project states, resume paths and node-level failure isolation." width="98%" fig-align="center"}
 
-The important principle is that the active `ProtVis_dataset` is authoritative. Checkpoints and stage `.rda` files make that object recoverable; they are not parallel, unrelated data models.
+## Canonical checkpoint stages
 
-## Save a checkpoint
+The current ordered checkpoint progression is:
+
+```text
+creation → import → noise_correction → transformation → imputation →
+normalization → dimensionality_reduction → differential_analysis →
+enrichment → network
+```
+
+## Save and list checkpoints
 
 ```r
-checkpoint <- save_protvis_checkpoint(
-  dataset = ds,
+path <- save_protvis_checkpoint(
+  dataset,
   directory = "checkpoints",
   stage = "normalization",
   keep = 20
 )
 
-checkpoint
-```
-
-Checkpoint files use names beginning with:
-
-```text
-protvis_checkpoint_<stage>_...rds
-```
-
-Saving is validated before a checkpoint is published, reducing the chance that a partial write replaces a usable analysis state.
-
-## List and restore checkpoints
-
-```r
 list_protvis_checkpoints("checkpoints")
 ```
 
-The returned table includes the file path, stage, creation time, size, MD5, and whether the checkpoint can be read.
+The listing reports path, stage, time, size, MD5 and readability. Checkpoints are written through a temporary file and validated before publication.
 
-Restore the newest checkpoint with:
+## Restore the newest valid state
 
 ```r
 restored <- restore_protvis_checkpoint(
@@ -49,7 +43,7 @@ restored <- restore_protvis_checkpoint(
 )
 ```
 
-Or request a stage:
+or request a stage:
 
 ```r
 restored <- restore_protvis_checkpoint(
@@ -58,45 +52,23 @@ restored <- restore_protvis_checkpoint(
 )
 ```
 
-If the exact requested stage is unavailable, ProtVis can select the newest readable checkpoint at or before that stage.
+If the exact stage is absent, ProtVis can select the newest readable checkpoint at or before the requested stage.
 
-## Automatic persistence
+## Workflow invalidation
 
-Many GUI stages persist the active object automatically. `protvis_auto_export_dataset()` writes a portable export bundle and records the latest output location in the dataset metadata.
+Schema v4 records dependency edges between runs. Re-running an upstream stage can invalidate its downstream dependants. Invalidated runs remain available in immutable history for auditability but should not be treated as current results.
 
-```r
-ds <- protvis_auto_export_dataset(
-  ds,
-  directory = getwd(),
-  include_raw = FALSE
-)
-```
+Inspect the active/invalidated state in [Project Dashboard](Project_Dashboard.qmd), which exposes the run registry, workflow nodes and workflow edges.
 
-The GUI also protects long-running actions against duplicate execution. Buttons marked as run actions are disabled while Shiny is busy, and key server modules independently reject the same action if it is already running. This prevents accidental double searches, imports, or preprocessing runs from creating competing checkpoints.
+## Resume from the GUI
 
-## Source-independent Step2
+Use **Project Dashboard → Resume workflow** after reopening a project. Resume is state-aware: a Raw project that has not completed search is routed back to Search rather than being allowed to enter quantitative preprocessing.
 
-The current preprocessing handoff uses:
+## Search recovery
 
-```text
-Step2_remove_unreliable_peptide.rda
-```
+### Sage
 
-as the canonical **Step2 file across data sources**. The historical filename remains for compatibility, but the contents are a `ProtVis_dataset` and can originate from MaxQuant, Sage, or another supported input route.
-
-For Raw/Sage, a successful search also writes:
-
-```text
-Step2_sage_database_search.rda
-```
-
-The Sage-specific file is retained as a compatibility/recovery snapshot. **Correct Noise prefers the active object and then the canonical Step2 file.**
-
-## Sage search recovery
-
-Raw/Sage projects have an additional recovery path. If the Shiny session restarts after Sage completed, ProtVis can reconstruct the search bundle from the existing `Sage_search` directory when the LFQ result and input context are still resolvable.
-
-The expected Sage files are:
+A completed Sage project can be reconstructed from the project `Sage_search` context when `lfq.tsv`, configuration, FASTA and mzML inputs remain resolvable. Keep the whole directory together:
 
 ```text
 Sage_search/
@@ -106,28 +78,40 @@ Sage_search/
 └── results.json
 ```
 
-`lfq.tsv` is required for recovery of the quantitative protein matrix. The stored configuration is used to recover FASTA and mzML context when possible.
+### FragPipe
 
-This means a completed database search does not need to be rerun merely because the application session closed.
+FragPipe runs preserve the prepared workflow, manifest, runtime information, log and parsed result files under the project. The search run is also indexed by schema v4; keep the official workflow/runtime context with the project when reproducibility is required.
 
 ## Compatibility stage files
 
-Common stage files currently include:
+Legacy/current GUI compatibility files can include:
 
 ```text
 Step1_project_init.rda
 Step2_remove_unreliable_peptide.rda
-Step2_sage_database_search.rda   # Raw/Sage compatibility snapshot
+Step2_sage_database_search.rda
 Step3_correct_noise.rda
 Step4_data_transformed.rda
 Step5_data_imputation.rda
 Step6_data_normalization.rda
 Step7_differential_analysis.rda
+Step7_DEP_engines.rda
 ```
 
-Current snapshots are written with exactly one `ProtVis_dataset` object. Older workspaces that stored expression and sample objects separately can still be migrated by the internal loading layer where supported.
+These files are recovery/compatibility snapshots; the schema-v4 result registry is the richer analytical history.
+
+## Portable export
+
+```r
+export_dir <- export_protvis_dataset(
+  dataset,
+  directory = "ProtVis_release",
+  include_raw = FALSE
+)
+```
+
+A modern portable export can include the serialized dataset, matrices/metadata, annotations, process history, provenance, workflow status, result registry and per-run results/artifacts.
 
 ::: {.callout-tip}
-## Recovery strategy
-Keep the complete working directory together with the latest portable export, checkpoint directory, and—when using Raw/Sage—the `Sage_search` directory. This preserves the serialized project, human-readable exports, search evidence, and stage-aware recovery options in one place.
+Keep the project directory, latest portable export, checkpoints and search directories together. This preserves both restartability and the evidence needed to explain exactly which run produced a final figure.
 :::

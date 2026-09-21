@@ -1,54 +1,53 @@
 ---
 title: "Data transformation"
-description: "Transform quantitative intensities while comparing original and transformed distributions."
+description: "Apply source-aware intensity transformations while preserving the observed Step4 matrix used by Recommended DEP."
 ---
 
-## Available methods
+## Current methods
 
-The current transformation menu provides:
+The current transformation selector is grouped into:
 
+**Recommended**
+
+- **Auto (source recommended)**
+- **MaxQuant: log2(x × 1e7)**
+- **log2**
 - **None**
 - **log10**
-- **log2**
-- **Standardization**
-- **Z-Score**
-- **scale**
-- **center**
-- **scale-center**
 
-Choose a method that matches the scale and distribution of the imported quantitative data. Do not log-transform values that are already on a logarithmic scale.
+**Advanced**
+
+- **Z-Score**
+- **Scale only**
+- **Center only**
+- **Scale + center**
+
+For MaxQuant, Auto reproduces the archived preprocessing transform `log2(intensity × 1e7)` and requires positive observed intensities. For other sources, Auto resolves to the source-specific preset.
 
 ## GUI workflow
 
-The full-resolution screenshot below shows the transformation page after the six-sample PXD065315 example has been loaded and transformed with `log10`.
+![Data Transformation in ProtVis. The page compares the input matrix/distribution with the transformed matrix/distribution.](../../images/screenshots/PixPin_2026-09-13_18-20-14.png){#fig-data-transformation-gui fig-alt="ProtVis Data Transformation page with Load data, transformation selection, Run transformation, input/output tables and boxplots." width="100%" fig-align="center"}
 
-![Data Transformation in ProtVis. The left panel is used to load the corrected matrix, choose a transformation method, and run the transformation. The upper cards display the original protein table and sample boxplot; the lower cards display the transformed table and transformed boxplot. The screenshot uses log10 as an example.](../../images/screenshots/PixPin_2026-09-13_18-20-14.png){#fig-data-transformation-gui fig-alt="Screenshot of the ProtVis Data Transformation module. The sidebar contains Load data, a Transformation Method selector set to log10, the Run transformation control, status text, plot colors, and download settings. The main panel compares Original Data and Transformed Data tables with their boxplots." width="100%" fig-align="center"}
+1. Click **Load data** and verify the protein/sample matrix.
+2. Select **Auto** or an explicit method.
+3. Click **Run transformation**.
+4. Compare original and transformed distributions.
+5. Export the diagnostic PDFs when they are part of the analysis record.
 
-Follow the interface in this order. **1. Load data.** Click **Load data**. ProtVis uses the active `ProtVis_dataset` first and can recover `Step3_correct_noise.rda` for legacy projects. Confirm that the load status changes to **Data loaded** and that the upper **Original Data** table contains the expected protein IDs and sample columns.
+The screenshot predates the newer source-aware Auto/MaxQuant choices, so use the **current control labels in the running app** rather than copying the screenshot's selected method.
 
-**2. Choose the Transformation Method.** Select the intended method in the sidebar. The screenshot uses **log10** only as a worked example; it is not a universal recommendation. Check the original boxplot before transforming so you know whether the values are strongly right-skewed, already logarithmic, standardized, or centered.
+## Choosing the scale
 
-**3. Run the transformation.** Click **Run transformation**. After completion, the status panel reports the current method and the lower **Transformed Data** table and visualization are refreshed. Compare the upper and lower panels rather than judging only from the numeric table: the transformed distributions should reflect the mathematical operation you selected without changing sample identity or protein order unexpectedly.
+Do not apply log2/log10 to values that are already logarithmic. Advanced scaling methods are useful for pattern visualization but change the quantitative interpretation and may be inappropriate before abundance-based differential models.
 
-The color selectors and plot width/height controls affect presentation and downloaded plots only; they do not alter the quantitative matrix. Download the original and transformed PDF plots when they are part of the analysis record.
+## Output and downstream role
 
-## Interpreting the worked `log10` example
-
-Current ProtVis applies `log10(x + 1e-8)` for the `log10` option and `log2(x + 1e-8)` for `log2`. Consequently, an exact zero can appear close to **-8.00** after `log10`, as visible in the screenshot. In the following imputation stage, ProtVis treats legacy not-observed sentinels such as `0` and `-8` as missing rather than as biological abundance.
-
-For many positive intensity-based proteomics datasets, a logarithmic transform can reduce right-skew and compress large abundance differences. Standardization or Z-score transformations are more appropriate for some pattern-oriented analyses but change the interpretation of absolute values. The intended downstream model should therefore guide the choice.
-
-::: {.callout-warning}
-## Check the input scale first
-Do not apply an additional log transformation to data that are already logarithmic. Also inspect zero and missing-value behavior before moving to imputation; a displayed `-8` in the current `log10` workflow can represent a transformed zero rather than a genuine measured abundance.
-:::
-
-## Output
-
-The transformed state is written to the active `ProtVis_dataset`, recorded in process history with the selected method, and persisted in the compatibility file:
+The transformed state is recorded in schema v4 and written to the compatibility snapshot:
 
 ```text
 Step4_data_transformed.rda
 ```
 
-Continue with [Data imputation](data_imputation.qmd).
+Step4 is especially important because **Recommended DEP uses the observed transformed matrix before imputation**. Preserve missing values here rather than replacing them merely to make the matrix visually complete.
+
+Continue with [Data imputation](data_imputation.qmd) for analyses requiring a complete matrix, or later use Step4 directly through Recommended DEP.

@@ -1,15 +1,21 @@
 ---
 title: "Release data"
-description: "Package analysis outputs for sharing, archiving and manuscript preparation."
+description: "Export working-stage tables from the GUI and create a complete schema-v4 portable project bundle programmatically."
 ---
 
-## What should be released?
+## Two export levels
 
-A reproducible ProtVis project should preserve more than final figures. At minimum, archive the quantitative matrix used for statistics, sample metadata, relevant protein annotations, differential/enrichment tables, parameter choices, process history, and a serialized `ProtVis_dataset`.
+ProtVis currently provides two complementary export mechanisms.
 
-## Portable export
+### Release data GUI
 
-Programmatically, a complete project can be exported with:
+The **Release data** page scans the current working directory for `.rda` stage files. Select one or more files, choose **xlsx** or **csv**, and click **Export**. ProtVis creates a folder per selected stage and exports data-frame-like objects; when a legacy/ProtVis project object is recognized it exports the expression matrix and aligned metadata.
+
+This is convenient for quickly obtaining human-readable stage tables.
+
+### Complete portable project export
+
+For a reproducible schema-v4 release, use:
 
 ```r
 export_dir <- export_protvis_dataset(
@@ -19,25 +25,26 @@ export_dir <- export_protvis_dataset(
 )
 ```
 
-The export contains `ProtVis_dataset.rds`, expression/sample/protein tables, annotation files, process history, stored analysis results, metadata JSON, and an HTML report. Set `include_raw = TRUE` when attached input files should also be copied and licensing/privacy rules permit it.
+This preserves much more than the GUI stage-table export. Depending on project content, the portable bundle can include:
 
-## Manuscript-ready package
+- `ProtVis_dataset.rds`;
+- active expression/sample/variable tables;
+- annotations;
+- process history;
+- structured provenance;
+- workflow status;
+- result registry and immutable run records;
+- generated artifacts/files;
+- report/metadata outputs.
 
-For a publication, keep a simple hierarchy such as:
+Set `include_raw = TRUE` only when copying source files is appropriate and licensing/privacy/storage constraints permit it.
 
-```text
-ProtVis_release/
-  data/
-  metadata/
-  statistics/
-  enrichment/
-  figures/
-  methods/
-  ProtVis_dataset.rds
-```
+## What to archive for a manuscript
 
-Do not use screenshots as the only copy of a quantitative result. Export the table behind every key figure.
+Keep the exact quantitative input used for inference, sample metadata, statistical tables, enrichment backgrounds/results, figure source tables, search configuration/workflow, software/runtime versions, run registry/workflow status and the serialized project.
+
+Do not use screenshots as the only copy of a scientific result.
 
 ::: {.callout-tip}
-Record the ProtVis package version and the date of the final analysis. For actively developed software, a commit SHA or tagged release improves reproducibility further.
+Record both **ProtVis 0.9.1** and the exact git commit used for the final analysis, because the `dev` branch is actively changing.
 :::
