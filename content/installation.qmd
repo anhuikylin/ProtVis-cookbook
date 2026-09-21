@@ -1,95 +1,116 @@
 ---
 title: "Installation"
-description: "Install the current ProtVis development release and launch the application."
+description: "Install ProtVis 0.9.1 from the active development repository and verify Sage, FragPipe and optional analysis components."
 ---
 
-## Requirements
+## Recommended environment
 
-ProtVis is an R package with a Shiny interface. Use a recent R installation and a writable R library. On Windows, installing packages from source may also require the matching Rtools release when a binary is unavailable.
+ProtVis is an R package with a Shiny interface and headless backend. Use a recent R installation and a writable package library. On Windows, Rtools may be required when a dependency must be compiled from source.
 
 ::: {.callout-note}
-This cookbook currently follows **ProtVis 0.7.9 on the `dev` branch**. The installation commands below therefore install `@dev` explicitly.
+This cookbook follows **ProtVis 0.9.1** from **`anhuikylin/ProtVis@dev`**. The `dev` branch changes continuously, so record the installed package version and preferably the commit used for a final analysis.
 :::
 
-## Recommended installation
-
-Install `pak` once, then install ProtVis from GitHub:
+## Clean installation
 
 ```r
-options(repos = c(
-  CRAN = "https://mirrors.tuna.tsinghua.edu.cn/CRAN/"
-))
-
+options(repos = c(CRAN = "https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
 install.packages("pak")
-pak::pak("xuebinzhang-lab/ProtVis@dev")
+
+pak::pak("anhuikylin/ProtVis@dev")
 ```
 
-Verify the installed version:
+Verify:
 
 ```r
 packageVersion("ProtVis")
-# 0.7.9 for the cookbook baseline
+# 0.9.1 for the current cookbook baseline
 ```
 
-Because `dev` changes continuously, a later installation may report a newer version. In that case, prefer the current ProtVis source and Help page when a control or default differs from this cookbook.
+## Updating an existing installation
 
-## Clean update
-
-When an old installation is stale, locked, or its lazy-load database is corrupted, use the clean installer supplied by ProtVis:
+When an installation is stale, interrupted, or its lazy-load database is corrupted, start a fresh R session and use the repository's clean installer:
 
 ```r
 source(
-  "https://raw.githubusercontent.com/xuebinzhang-lab/ProtVis/dev/install_ProtVis.R"
+  "https://raw.githubusercontent.com/anhuikylin/ProtVis/dev/install_ProtVis.R"
 )
 ```
 
-Close other R sessions that are currently using ProtVis before running a clean reinstall.
+Close other R sessions that are currently using ProtVis before reinstalling.
 
-## Sage availability
+## Sage is bundled on all supported desktop/server platforms
 
-Raw/mzML projects can run a Sage database search from the conditional **Search** tab.
+ProtVis now includes platform-specific Sage executables:
 
-On Windows, ProtVis first looks for its bundled executable at `inst/extdata/sage/windows/sage.exe`. On Linux or macOS, install Sage separately and make the `sage` executable available on `PATH`. You can verify discovery from R with:
+| Platform | Bundled location |
+|---|---|
+| Windows | `inst/extdata/sage/windows/sage.exe` |
+| Linux | `inst/extdata/sage/Linux/sage` |
+| macOS Apple Silicon | `inst/extdata/sage/macOS/ARM64/sage` |
+| macOS Intel | `inst/extdata/sage/macOS/Intel/sage` |
+
+ProtVis selects the bundled executable for the current operating system/architecture, restores executable permission on Unix-like systems when necessary, and falls back to `sage` on `PATH` if needed.
+
+Check from R:
 
 ```r
 ProtVis::protvis_sage_executable()
 ```
 
-A valid path means the search engine is available. `NULL` means ProtVis could not locate Sage.
+A valid path means Sage is ready.
+
+## FragPipe availability
+
+FragPipe is integrated as a second **Search** backend, but the complete FragPipe runtime and separately licensed companion tools are **not bundled** in the ProtVis package.
+
+From the GUI, open **Search → FragPipe** and use runtime detection, **Install FragPipe**, or provide a manual installation path. The runtime table checks FragPipe, workflows, tools folder, MSFragger, IonQuant, diaTracer, DIA-NN, Java and Python.
+
+Programmatic checks:
+
+```r
+ProtVis::protvis_fragpipe_status()
+ProtVis::protvis_fragpipe_workflow_presets()
+```
+
+On macOS, the current integration treats official FragPipe support as Docker/headless.
 
 ## Optional WGCNA helper
 
-Some WGCNA workflows may use the optional helper package documented by ProtVis:
+The core package imports `WGCNA`. Some helper workflows may additionally use `ShinyWGCNA`, which remains optional:
 
 ```r
 install.packages("remotes")
 remotes::install_github("ShawnWx2019/WGCNAShinyFun", ref = "master")
 ```
 
-You do not need this optional dependency to launch the core application.
-
-## Launch ProtVis
+## Launch the GUI
 
 ```r
 library(ProtVis)
 run_ProtVis()
 ```
 
-or directly:
+or:
 
 ```r
 ProtVis::run_ProtVis()
 ```
 
-## First launch checklist
+After launch, confirm that the navbar includes **Homepage**, **Project init**, **Search**, **Project Dashboard**, **Pre-processing**, **Downstream analysis**, **Multi-omics**, **PTM**, **PSM Explorer**, **Release data**, **Toolkits**, and **Help**. Search is shown only for Raw projects.
 
-After the application opens, confirm that you can see **Homepage**, **Project init**, **Pre-processing**, **Downstream analysis**, **Multi-omics**, **PTM**, **Release data**, **Toolkits**, and **Help**.
+## Headless check
 
-Two navigation items are intentionally conditional:
+```r
+ProtVis::protvis_cli_help()
+```
 
-- **Search** is shown when **Raw** is selected in Project init.
-- **Pre-processing → MaxQuant Output Preparation** is shown only when **MaxQuant** is selected.
+If this prints the CLI help, the headless entry point is available. See [Headless / CLI](reproducibility/cli.qmd).
 
-The source-independent preprocessing items, including **Correct Noise**, remain available for all supported data sources.
+## Troubleshooting
 
-If the app opens but an optional module reports a missing dependency, install that dependency and restart the R session. If the package itself fails to load after an update, prefer the clean installer above rather than repeatedly installing over a corrupted package directory.
+**App loads but Search engine is unavailable.** For Sage, run `protvis_sage_executable()`. For FragPipe, inspect `protvis_fragpipe_status()` and the GUI runtime table.
+
+**Package update fails while ProtVis is loaded.** Restart R, close other sessions and use the clean installer.
+
+**An optional analysis fails due to a missing dependency.** Install the dependency named in the error and restart the session; avoid repeatedly reinstalling the whole package unless the core package itself is corrupted.
