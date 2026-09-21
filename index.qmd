@@ -6,77 +6,56 @@ description: "A practical, reproducible user guide for ProtVis proteomics analys
 ::: {.hero}
 ## From raw mass spectra and quantitative proteomes to biological insight
 
-**ProtVis** combines raw-data database search, heterogeneous quantitative proteomics import, preprocessing, data summary, statistical analysis, functional interpretation, multi-omics integration, PTM analysis, and publication-ready visualization in one interactive workflow. This cookbook follows the application in the same order that a real project is analyzed.
+**ProtVis** is an R/Shiny proteomics platform that connects raw-data search, multi-source quantitative import, preprocessing, project QC, differential protein analysis, functional interpretation, multi-omics, PTM evidence and publication-ready visualization in one traceable workflow.
 
-[Start with installation](content/installation.qmd) · [Prepare RAW → mzML](content/data_import/msconvert_raw_to_mzml.qmd) · [Run Raw/mzML + Sage](content/data_import/raw_sage_search.qmd) · [Understand `ProtVis_dataset`](content/reproducibility/ProtVis_dataset.qmd)
+[Install ProtVis](content/installation.qmd) · [Start a project](content/Project_init/Project_init.qmd) · [Run Sage](content/data_import/raw_sage_search.qmd) · [Run FragPipe](content/data_import/fragpipe_search.qmd) · [Understand schema v4](content/reproducibility/ProtVis_dataset.qmd)
 :::
 
 ::: {.callout-note}
 ## Documentation version
-This edition is aligned to **ProtVis 0.7.9 on the `dev` branch**. ProtVis is under active development; the cookbook emphasizes stable concepts and explicitly identifies compatibility behavior where relevant.
+This edition is aligned to **ProtVis 0.9.1 on the `anhuikylin/ProtVis` `dev` branch**, reviewed on **2026-09-21**. ProtVis is under active development; this cookbook follows the current source and marks archived reproduction modes explicitly.
 :::
 
 ## ProtVis at a glance
 
-The updated overview shows the two principal data-entry routes supported by ProtVis. **Raw `.mzML` files plus FASTA** enter through **Sage search**, while **mainstream proteomics software outputs** and a **user-defined quantitative matrix** enter through their corresponding import routes. Both routes converge on the same `ProtVis_dataset`, which then connects preprocessing, data summary, downstream analysis, multi-omics/WGCNA, and key-protein characterization.
+The current workflow has two principal entry routes. **Raw LC-MS data + FASTA** enter through **Search**, where ProtVis provides **Sage** and **FragPipe** backends. Quantitative outputs from mainstream proteomics software or a user-defined matrix enter through source-specific import/parsing. Both routes converge on the same `ProtVis_dataset` schema v4.
 
-![Overview workflow in ProtVis. Raw mzML and FASTA data enter through Sage search, while mainstream proteomics software outputs and user-defined matrices enter through quantitative import routes. The resulting data are organized in `ProtVis_dataset` and proceed through preprocessing, data summary, downstream analysis, multi-omics/WGCNA, and key-protein characterization.](images/screenshots/Figure1-3.jpg){#fig-protvis-overview-workflow fig-alt="Overview workflow in ProtVis. The Data input stage contains a raw mzML plus FASTA route through Sage search and a quantitative route for mainstream proteomics software outputs and user-defined matrices. Both feed ProtVis_dataset. Data pre-processing includes noise correction, data transformation, missing-value imputation, and normalization. Data summary includes sample correlation, expression heatmap, and dimensionality reduction before and after normalization. Downstream data analysis includes differential abundance analysis, functional enrichment, GSEA, and pathway analysis. Multi-omics analysis includes K-means clustering, nine-quadrant analysis, co-enrichment, and WGCNA. Key-protein characterization covers sequence-based functional analyses, protein structure and interactions, and modifications including phosphorylation, acetylation, methylation, and glycosylation." width="100%" fig-align="center"}
+![Overview workflow in ProtVis. Raw LC-MS data and FASTA enter through database search, while mainstream proteomics software outputs and user-defined matrices enter through quantitative import. Both converge on ProtVis_dataset and continue through preprocessing, data summary, downstream analysis, multi-omics/WGCNA and key-protein characterization.](images/screenshots/Figure1-3.jpg){#fig-protvis-overview-workflow fig-alt="Overview workflow in ProtVis. Data input supports raw LC-MS plus FASTA through Sage search and quantitative outputs from mainstream proteomics software or a user-defined matrix. ProtVis_dataset connects preprocessing, data summary, differential abundance and functional analysis, multi-omics/WGCNA, and key-protein characterization." width="100%" fig-align="center"}
 
 <div class="feature-grid">
-<div class="feature-card">
-<strong>Raw mzML + FASTA</strong>
-<p>Convert vendor RAW files to mzML when needed, register sample metadata and FASTA, then run Sage search to generate peptide/protein evidence and a quantitative matrix.</p>
-</div>
-<div class="feature-card">
-<strong>Mainstream software outputs</strong>
-<p>Import quantitative results from MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, OpenMS, Mascot, or a user-defined matrix.</p>
-</div>
-<div class="feature-card">
-<strong>Unified ProtVis_dataset</strong>
-<p>Both input routes converge on <code>ProtVis_dataset</code>, which keeps quantitative data, metadata, annotations, analysis results, source files, parameters, and process history together.</p>
-</div>
-<div class="feature-card">
-<strong>Data pre-processing</strong>
-<p>Correct replicate-level noise, transform intensities, inspect and impute missing values, and normalize the quantitative matrix before downstream analysis.</p>
-</div>
-<div class="feature-card">
-<strong>Data summary</strong>
-<p>Assess sample correlation, expression patterns, and dimensionality reduction before and after normalization to evaluate data structure and preprocessing effects.</p>
-</div>
-<div class="feature-card">
-<strong>Downstream data analysis</strong>
-<p>Perform differential abundance analysis and continue into functional enrichment, GSEA, and pathway analysis for biological interpretation.</p>
-</div>
-<div class="feature-card">
-<strong>Multi-omics and WGCNA</strong>
-<p>Use K-means expression profiling, nine-quadrant integration, co-enrichment, WGCNA, and related modules to connect multiple molecular layers and identify coordinated modules.</p>
-</div>
-<div class="feature-card">
-<strong>Key-protein characterization</strong>
-<p>Move from selected proteins to sequence-based functional analysis, subcellular localization, secondary/tertiary structure, protein-protein interactions, and PTM-oriented characterization.</p>
-</div>
+<div class="feature-card"><strong>Dual Search backends</strong><p>Use bundled Sage for lightweight FASTA + mzML search or integrated FragPipe headless workflows for broader DDA/DIA/PTM searches.</p></div>
+<div class="feature-card"><strong>Multi-source import</strong><p>MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS and user-defined quantitative matrices converge on one data model.</p></div>
+<div class="feature-card"><strong>ProtVis_dataset schema v4</strong><p>Append-only run history, result registry, workflow graph, artifact index, assay registry, aligned metadata and structured provenance preserve the full analysis lineage.</p></div>
+<div class="feature-card"><strong>Project Dashboard</strong><p>Audit proteins/samples, completeness, CV, missingness, workflow state, input-file fingerprints and Sage/FragPipe search QC; resume from the latest valid node.</p></div>
+<div class="feature-card"><strong>Recommended DEP</strong><p>Analyze observed pre-imputation log2 intensities with detection filtering, median centering, robust limma/BH FDR, plus a separate presence/absence evidence stream.</p></div>
+<div class="feature-card"><strong>Biological interpretation</strong><p>Continue into GO/KEGG enrichment, directional KEGG, GSEA, Pathview, PPI, WGCNA, co-enrichment, metaproteomics and expression profiling.</p></div>
+<div class="feature-card"><strong>PSM-level evidence</strong><p>Use PSM Explorer to inspect Protein → Peptide → PSM → MS/MS evidence with PTM-aware theoretical fragments and annotated spectra.</p></div>
+<div class="feature-card"><strong>GUI + CLI</strong><p>The Shiny interface and `run_protvis_cli()` share the same project, search, checkpoint, provenance and export backend.</p></div>
 </div>
 
 ## Recommended analysis paths
 
-For **vendor RAW data**, first convert the files to mzML using the platform-specific RAW → mzML tutorial, then use:
+For **vendor RAW data**:
 
-**RAW → mzML → Project init → Search (Sage) → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP → Interpretation**
+**RAW → mzML when required → Project init → Search (Sage or FragPipe) → Project Dashboard → Pre-processing → Overview/QC → Recommended DEP → Interpretation**
 
-For **already-converted mzML + FASTA**, start directly from:
+For **already converted mzML + FASTA**:
 
-**Project init → Search (Sage) → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP → Interpretation**
+**Project init → Search → Project Dashboard → Pre-processing → Overview/QC → Recommended DEP → Interpretation**
 
-For **MaxQuant**, use:
+For **MaxQuant**:
 
-**Project init → MaxQuant Output Preparation → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP → Interpretation**
+**Project init → MaxQuant Output Preparation → Project Dashboard → Pre-processing → Overview/QC → Recommended DEP → Interpretation**
 
-For **other supported tabular outputs**, import or parse the source-specific quantitative table and continue into the shared preprocessing workflow.
+For **other tabular outputs**, use the matching source parser and then enter the shared workflow.
 
-The Raw route is intentionally different: Project init can create a sample-only Sage staging `ProtVis_dataset` without inventing an expression matrix. The protein-by-sample matrix is created only after the Sage LFQ search succeeds. In contrast, software-derived quantitative tables enter with an expression matrix already available and then converge on the same preprocessing and downstream architecture.
+::: {.callout-important}
+## Recommended DEP does not depend on imputed values
+The current Recommended DEP workflow intentionally uses the observed Step4 log2 matrix before KNN/RF imputation, applies optional sample median centering and detection filtering, and keeps presence/absence candidates as a separate evidence stream. Imputation remains useful for visualization and analyses that explicitly require a complete matrix.
+:::
 
-## Two ways to learn ProtVis
+## Reproducibility by design
 
-**GUI-first users** can follow the chapter order in the sidebar. Each page explains prerequisites, the controls to use, expected outputs, and common failure points.
+Schema v4 keeps analysis executions as immutable runs. Core preprocessing runs preserve complete matrix snapshots; ordinary analyses preserve result tables, statistics, plot data/configuration, parameters, files and dependencies. Re-running an upstream step can invalidate dependent downstream nodes without deleting their historical runs.
 
-**Reproducible-workflow users** should also read [`ProtVis_dataset`](content/reproducibility/ProtVis_dataset.qmd) and [Checkpoints & recovery](content/reproducibility/checkpoints.qmd). These chapters explain how ProtVis preserves analysis provenance and how projects can be resumed without rebuilding every previous step.
+Use [Project Dashboard](content/reproducibility/Project_Dashboard.qmd) to inspect the active state, [Checkpoints & recovery](content/reproducibility/checkpoints.qmd) to resume safely, and [Headless / CLI](content/reproducibility/cli.qmd) for automated production workflows.
