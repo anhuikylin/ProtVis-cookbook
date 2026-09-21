@@ -18,7 +18,7 @@ website:
     collapse-level: 1
     tools:
       - icon: github
-        href: https://github.com/xuebinzhang-lab/ProtVis
+        href: https://github.com/anhuikylin/ProtVis
         text: "ProtVis source"
     contents:
       - href: index.qmd
@@ -43,14 +43,22 @@ website:
                 text: Linux · RAW → mzML
               - href: content/data_import/raw_to_mzml_macos.qmd
                 text: macOS · RAW → mzML
-          - href: content/data_import/raw_sage_search.qmd
-            text: Raw/mzML + Sage
+          - section: "Search"
+            contents:
+              - href: content/data_import/raw_sage_search.qmd
+                text: Sage
+              - href: content/data_import/fragpipe_search.qmd
+                text: FragPipe
+          - href: content/reproducibility/Project_Dashboard.qmd
+            text: Project Dashboard
       - section: "Reproducible workflow"
         contents:
           - href: content/reproducibility/ProtVis_dataset.qmd
-            text: ProtVis_dataset
+            text: ProtVis_dataset schema v4
           - href: content/reproducibility/checkpoints.qmd
             text: Checkpoints & recovery
+          - href: content/reproducibility/cli.qmd
+            text: Headless / CLI
       - section: "Pre-processing"
         contents:
           - href: content/Pre_processing/Pre_processing.qmd
@@ -97,8 +105,8 @@ website:
         contents:
           - href: content/PTM/PTM.qmd
             text: PTM analysis
-          - href: content/PTM/PD_Strict_Spectrum.qmd
-            text: PD strict spectrum
+          - href: content/PTM/PSM_Explorer.qmd
+            text: PSM Explorer
       - href: content/Release_data.qmd
         text: Release data
       - section: "Toolkits"
@@ -107,20 +115,22 @@ website:
             text: Toolkit overview
           - href: content/Toolkits/Protein_Extract.qmd
             text: Protein extract
+          - href: content/Toolkits/Plant_mPLoc.qmd
+            text: Plant-mPLoc
           - href: content/Toolkits/Background_Make.qmd
             text: Background make
           - href: content/Toolkits/Protein_Links.qmd
             text: Protein links
           - href: content/Toolkits/Protein_Structure.qmd
             text: Protein structure
-          - href: content/Toolkits/SwissModel.qmd
-            text: SwissModel
-          - href: content/Toolkits/Stacked_Column.qmd
-            text: Stacked Column Diagram
-          - href: content/Toolkits/STRINGdb_PPI.qmd
-            text: STRINGdb PPI
           - href: content/Toolkits/Boxplot.qmd
             text: Boxplot
+          - href: content/Toolkits/SwissModel.qmd
+            text: SwissModel
+          - href: content/Toolkits/STRINGdb_PPI.qmd
+            text: STRINGdb PPI
+          - href: content/Toolkits/Stacked_Column.qmd
+            text: Stacked Column Diagram
           - href: content/Toolkits/Correlation_Chord.qmd
             text: Correlation chord
           - href: content/Toolkits/DEG_Analyse.qmd
