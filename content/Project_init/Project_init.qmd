@@ -1,129 +1,102 @@
 ---
 title: "Project init"
-description: "Create the canonical ProtVis project object and choose either a tabular-input or Raw/mzML + Sage route."
+description: "Create the canonical ProtVis project and register either quantitative tables or Raw/LC-MS inputs for Sage/FragPipe search."
 ---
 
 ## Purpose
 
-**Project init** establishes the analysis context shared by all later modules. It defines the writable project directory, sample metadata, data source, and—when already available—the quantitative expression matrix. It then creates the first validated `ProtVis_dataset` and saves the initial project stage.
+**Project init** defines the working directory, sample metadata, data source and input files that every later module uses. It creates the first validated `ProtVis_dataset`, writes the initial checkpoint and records the input/provenance context.
 
-The current interface supports two distinct starting patterns:
+The current application supports two starting patterns:
 
-- **Tabular quantitative data:** sample metadata + an expression matrix or a built-in source example.
-- **Raw/mzML + Sage:** sample metadata + mzML directory + protein FASTA. In this route, Project init can create a valid Sage staging object before an expression matrix exists.
+- **Quantitative table route:** sample metadata plus a protein-by-sample matrix or a built-in parser example.
+- **Raw / LC-MS route:** sample metadata plus LC-MS files and protein FASTA. The project can enter a staging state before a quantitative protein matrix exists.
 
-## Common inputs
+## Sample information
 
-Sample information can be uploaded as `.csv`, `.xlsx`, or `.xls`. A practical table contains a unique sample identifier and the grouping variables required later in the analysis.
+A practical sample table contains:
 
-| Column | Purpose |
+| Column | Role |
 |---|---|
-| `sample_id` | Unique sample name used by downstream matrices and plots |
-| `maxquant_id` | Original source/export name used when sample columns must be mapped or renamed |
-| `group` | Experimental group used for comparisons |
-| `tissue` | Optional biological tissue; used by several demo and dimensionality-reduction workflows |
-| `species` or `organism` | Optional biological source metadata |
-| `batch` | Optional batch grouping |
-| `condition` | Optional condition grouping |
-| `mzml_file` | Required for the Raw/Sage route; exact mzML filename corresponding to the sample |
+| `sample_id` | unique sample identifier used downstream |
+| `group` | primary comparison group |
+| `condition`, `tissue`, `batch`, etc. | optional experimental metadata |
+| `maxquant_id` | source/export sample name when mapping tabular software output |
+| `mzml_file`, `raw_file`, `file`, or `filename` | LC-MS filename for the Raw/Search route |
 
-For an ordinary tabular project, the expression matrix should contain a protein identifier plus numeric sample columns. Sample columns must be unambiguously alignable to `sample_info`.
+Sample IDs and file names must be non-empty and unique.
 
-## Supported source selections
+## Supported data sources
 
-The Project init source menu currently includes **Raw, MaxQuant, ProteomeDiscoverer / Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix**. **Raw** is the current default selection.
+The current selector includes **Raw, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, and User-defined matrix**.
 
-Navigation is source-aware. The top-level **Search** tab is shown only for **Raw**. **Pre-processing → MaxQuant Output Preparation** is shown only for **MaxQuant**. The remaining preprocessing modules stay available across sources.
+Selecting **Raw** exposes the top-level **Search** page, which now contains **Sage** and **FragPipe** tabs. Selecting **MaxQuant** exposes the MaxQuant-specific Output Preparation step.
 
-## Standard tabular workflow
+## Standard quantitative route
 
-1. Click **Set working directory** and choose a writable project directory.
-2. Upload **Sample Information**.
-3. Upload the **Expression Matrix**, or choose a **Built-in example** and click **Load selected built-in example**.
-4. Select the matching **Data source**.
-5. Confirm the Sample Info and Expression Matrix previews.
+1. Set a writable working directory.
+2. Upload sample information.
+3. Upload an expression matrix, or load a bundled source example.
+4. Select the matching data source.
+5. Check the Sample Info and Expression Matrix previews.
 6. Click **Project init**.
 
-ProtVis validates sample/matrix alignment, creates `ProtVis_dataset`, performs an automatic portable export, and saves `Step1_project_init.rda`.
+Parser-backed imports are standardized into the common ProtVis matrix/sample schema and can continue into the shared workflow.
 
-## Raw/mzML + Sage workflow
+## Raw / LC-MS route
 
-Choose this route when the starting material is converted mass-spectrometry data in mzML format and you want ProtVis to run the Sage database search. The full-resolution screenshot below is the original PNG uploaded from the running application; the red labels show the required operating order.
+The Raw panel is now labeled **Raw / LC-MS input** because the two Search engines have different input capabilities. Sage uses mzML, while FragPipe can use compatible mzML/mzXML, vendor RAW, MGF or `.d` inputs when supported by the official runtime.
 
-![Raw/mzML Project init workflow in ProtVis. The red labels indicate the recommended order: 1 set working directory, 2 upload sample information, 3 upload protein FASTA, 4 select the mzML input directory, 5 check mzML files, 6 select Raw as the data source, and 7 run Project init. The right panel shows the six PXD065315 control samples after successful initialization.](../../images/screenshots/PixPin_2026-09-13_17-47-41.png){#fig-project-init-raw-sage fig-alt="Screenshot of ProtVis Project init with seven red numbered markers. Marker 1 is Set working directory; marker 2 is sample-information upload; marker 3 is protein FASTA upload; marker 4 is Select mzML input directory; marker 5 is Check mzML files; marker 6 is data source Raw; marker 7 is Project init. The preview table contains B73_C1, B73_C2, B73_C3, EA2024_C1, EA2024_C2, and EA2024_C3." width="100%" fig-align="center"}
+![Raw/mzML Project init example in ProtVis. The numbered workflow registers a project directory, sample information, FASTA, LC-MS directory, validates files, selects Raw and initializes the project.](../../images/screenshots/PixPin_2026-09-13_17-47-41.png){#fig-project-init-raw fig-alt="ProtVis Project init screenshot for the PXD065315 Raw example. The workflow sets a working directory, sample information, FASTA and mzML directory, checks files, selects Raw, and runs Project init." width="100%" fig-align="center"}
 
-### Follow the numbered order in the figure
+### Recommended order
 
-**1. Set the working directory.** Click **Set working directory** and choose a local directory in which ProtVis can create stage files, portable exports, the `Sage_search` directory and later analysis outputs. The illustrated project uses `E:/count/p_raw`. The directory must exist and be writable. Keeping one analysis inside a stable project directory makes checkpoint and Sage-result recovery much more reliable.
+**1. Set working directory.** Use a stable, writable project folder. Search outputs, checkpoints and portable exports will be written relative to this project.
 
-**2. Load the sample information.** Upload a `.csv`, `.xlsx`, or `.xls` table with at least `sample_id` and `mzml_file`, or click **Use built-in PXD065315 sample information** for the six-sample maize control example. Wait for **Upload complete**, then inspect the **Sample Info** preview. For the built-in example, the six rows are `B73_C1`, `B73_C2`, `B73_C3`, `EA2024_C1`, `EA2024_C2`, and `EA2024_C3`; the `mzml_file` field must point to the corresponding `.mzML` names.
+**2. Load sample information.** Upload a table or use the built-in PXD065315 sample template. For Raw/Search projects, include `sample_id` and the LC-MS filename field.
 
-**3. Upload the protein FASTA.** Under **Raw/mzML input**, upload the protein database used for Sage. Accepted inputs include `.fa`, `.fasta`, `.faa`, and supported compressed FASTA forms. Use a FASTA that matches the organism and protein identifiers expected for the experiment. In the illustrated maize example, `UP000007305_4577.fasta` is registered. Do not continue until the interface reports **FASTA ready**.
+**3. Upload protein FASTA.** Accepted FASTA extensions include `.fa`, `.fasta`, `.faa` and supported compressed forms.
 
-**4. Select the mzML input directory.** Click **Select mzML input directory** and choose the folder containing the converted mzML files. The folder may also contain the original vendor `.raw` files, but the check is performed against the `.mzML` filenames registered in `sample_info`. For PXD065315, the expected converted files are `B73_C1.mzML`, `B73_C2.mzML`, `B73_C3.mzML`, `EA2024_C1.mzML`, `EA2024_C2.mzML`, and `EA2024_C3.mzML`.
+**4. Select the LC-MS directory.** The files listed in the sample table must exist in this directory.
 
-**5. Check the mzML files.** Click **Check mzML files**. ProtVis verifies that filenames are unique, have the `.mzML` extension and exist in the selected directory. Resolve every Missing or Invalid extension row before initializing the project. If a check fails, compare the physical filename with `sample_info$mzml_file` character by character.
+**5. Click Check LC-MS files.** ProtVis accepts file extensions needed by the Search backends: `.mzML`, `.mzXML`, vendor `.raw`, `.mgf`, and `.d` directories/files where applicable. The built-in PXD065315 Sage example uses `.mzML`.
 
-**6. Select `Raw` as the data source.** In **Select data source**, choose **Raw**. This activates the Raw/Sage route and exposes the top-level **Search** tab. Do not upload a fabricated expression matrix merely to satisfy Project init; the expression layer is deliberately absent until Sage produces LFQ results.
+**6. Select Raw.** This enables the top-level Search page.
 
-**7. Run Project init.** Click the large **Project init** button. A successful Raw initialization reports **“PROJECT INIT completed — Sage ProtVis_dataset is ready.”** Inspect the preview tabs after completion. **Sample Info** should contain the expected rows, **Raw/mzML Files** should reflect the registered files, and **Expression Matrix** can remain empty at this stage. The next step is **Search**, not Correct Noise.
-
-When an uploaded sample table contains an mzML filename column (`mzml_file`, `mzml`, `raw_file`, `file`, or `filename`), ProtVis automatically registers it for the Sage workflow.
+**7. Click Project init.** A Raw project can be initialized without fabricating protein abundances. The next step is Search.
 
 ::: {.callout-important}
-## Do not create a fake expression matrix
-A Raw/Sage project does not need a protein expression matrix before Search. Project init creates a `Sage_staging` project object and fills the expression layer only after LFQ results are available. After Step 7 succeeds, continue directly to [Raw/mzML + Sage search](../data_import/raw_sage_search.qmd).
+## Do not fabricate an expression matrix for a Raw project
+A Raw project is allowed to exist before the protein matrix is created. For the Sage route, this is the `Sage_staging` state. Database search must succeed before quantitative preprocessing begins.
 :::
 
-### The Sage staging object
+## Built-in PXD065315 template
 
-If no expression matrix exists yet, Project init creates a staging `ProtVis_dataset` with sample metadata and registered input paths. Its workflow stage is `Sage_staging`, with an object name such as:
+The bundled template uses six maize control samples: `B73_C1`–`B73_C3` and `EA2024_C1`–`EA2024_C3`, with local filenames such as `B73_C1.mzML`.
 
-```text
-ProtVis_dataset__project_init__Sage_staging__v1
-```
-
-This is intentional. ProtVis does not fabricate protein abundances before the database search. The staging object is valid even though its expression layer is temporarily empty. `Step1_project_init.rda` and the portable export are still written, so the project has a recoverable starting state.
-
-## Built-in PXD065315 sample information
-
-The current built-in Raw example contains six maize control samples: three B73 replicates (`B73_C1`, `B73_C2`, `B73_C3`) and three EA2024 replicates (`EA2024_C1`, `EA2024_C2`, `EA2024_C3`). Its columns include `sample_id`, `mzml_file`, genotype, treatment, group, condition, replicate, batch, tissue, organism, accession, and the PRIDE source URL.
-
-Public source data:
-
-- [PXD065315 on PRIDE](https://www.ebi.ac.uk/pride/archive/projects/PXD065315)
-- [PXD065315 on ProteomeXchange](https://proteomecentral.proteomexchange.org/?pxid=PXD065315)
-- [Direct links for the six control RAW files and their expected mzML filenames](../data_import/raw_sage_search.qmd#example-dataset-pxd065315)
-
-The built-in `mzml_file` values refer to locally converted files such as `B73_C1.mzML` and `EA2024_C3.mzML`. PRIDE provides the corresponding vendor `.raw` files; convert them to mzML before selecting the Raw/mzML directory in ProtVis.
+The original vendor files are available from [PXD065315 on PRIDE](https://www.ebi.ac.uk/pride/archive/projects/PXD065315). For the Sage route, convert them to mzML first. For FragPipe, use an input format supported by the selected official workflow/runtime.
 
 ## Outputs
 
-For a standard quantitative project, the primary output is a validated `ProtVis_dataset` with a traceable name such as:
-
-```text
-ProtVis_dataset__project_init__maxquant__v1
-```
-
-For either starting route, ProtVis writes:
+Project init writes:
 
 ```text
 Step1_project_init.rda
 ```
 
-The stage file contains one `ProtVis_dataset`, rather than separate unrelated workspace variables.
+and maintains the active `ProtVis_dataset`. Schema v4 also initializes the run registry, workflow graph, artifact index and provenance structures.
 
-::: {.callout-tip}
-## Verify the route before clicking Project init
-For Raw/Sage, check mzML files and FASTA registration first. For a tabular project, inspect the sample and expression previews. This catches filename, sample-order and working-directory problems before downstream steps begin.
-:::
+After initialization:
 
-## Common validation problems
+- Raw project → open **Search → Sage** or **Search → FragPipe**;
+- quantitative project → inspect **Project Dashboard**, then continue with the source-specific preparation/shared preprocessing path.
 
-**Raw project creates no expression preview.** This is expected before Sage Search. The staging object intentionally has no protein abundance matrix.
+## Common problems
 
-**mzML check reports Missing.** The `mzml_file` values must match the files in the selected directory. The check is case-aware at the filesystem level and also rejects non-mzML extensions or duplicate names.
+**LC-MS check reports Missing.** The filename in sample metadata must match the physical file exactly.
 
-**Sample names do not match a tabular matrix.** Check `sample_id`, `maxquant_id`, and expression-matrix column names. Do not silently reorder samples outside ProtVis without recording the change.
+**Invalid extension.** Use a Search-supported LC-MS format; Sage specifically requires mzML.
 
-**Working directory cannot be selected.** Choose a local directory you can write to. ProtVis normalizes selected paths and rejects inaccessible locations instead of continuing with an invalid project directory.
+**Search is hidden.** Select **Raw** in Project init.
+
+**Quantitative matrix does not align with sample metadata.** Check sample IDs/source names before initialization rather than silently reordering outside ProtVis.
