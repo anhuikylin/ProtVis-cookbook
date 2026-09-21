@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="What ProtVis does and how its current source-aware workflow is organized.">
+<meta name="description" content="How the current ProtVis 0.9.1 workflow is organized around search/import, schema-v4 provenance and reproducible downstream analysis.">
 
 <title>Overview – ProtVis Cookbook</title>
 <style>
@@ -26,6 +26,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -612,7 +647,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/Toolkits/Plant_mPLoc.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../content/Toolkits/Plant_mPLoc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Plant-mPLoc</span></a>
   </div>
 </li>
@@ -683,12 +718,17 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#what-is-protvis" id="toc-what-is-protvis" class="nav-link active" data-scroll-target="#what-is-protvis">What is ProtVis?</a></li>
-  <li><a href="#protvis-interface" id="toc-protvis-interface" class="nav-link" data-scroll-target="#protvis-interface">ProtVis interface</a></li>
-  <li><a href="#current-analytical-scope" id="toc-current-analytical-scope" class="nav-link" data-scroll-target="#current-analytical-scope">Current analytical scope</a></li>
-  <li><a href="#source-aware-navigation" id="toc-source-aware-navigation" class="nav-link" data-scroll-target="#source-aware-navigation">Source-aware navigation</a></li>
-  <li><a href="#the-key-architecture-protvis_dataset" id="toc-the-key-architecture-protvis_dataset" class="nav-link" data-scroll-target="#the-key-architecture-protvis_dataset">The key architecture: <code>ProtVis_dataset</code></a></li>
-  <li><a href="#recommended-routes" id="toc-recommended-routes" class="nav-link" data-scroll-target="#recommended-routes">Recommended routes</a></li>
-  <li><a href="#what-is-reproducible-and-what-is-interactive" id="toc-what-is-reproducible-and-what-is-interactive" class="nav-link" data-scroll-target="#what-is-reproducible-and-what-is-interactive">What is reproducible and what is interactive?</a></li>
+  <li><a href="#current-navigation" id="toc-current-navigation" class="nav-link" data-scroll-target="#current-navigation">Current navigation</a></li>
+  <li><a href="#two-input-architectures" id="toc-two-input-architectures" class="nav-link" data-scroll-target="#two-input-architectures">Two input architectures</a>
+  <ul class="collapse">
+  <li><a href="#raw-lc-ms-fasta" id="toc-raw-lc-ms-fasta" class="nav-link" data-scroll-target="#raw-lc-ms-fasta">Raw / LC-MS + FASTA</a></li>
+  <li><a href="#quantitative-software-output" id="toc-quantitative-software-output" class="nav-link" data-scroll-target="#quantitative-software-output">Quantitative software output</a></li>
+  </ul></li>
+  <li><a href="#protvis_dataset-schema-v4" id="toc-protvis_dataset-schema-v4" class="nav-link" data-scroll-target="#protvis_dataset-schema-v4">ProtVis_dataset schema v4</a></li>
+  <li><a href="#recommended-dep-is-now-the-default" id="toc-recommended-dep-is-now-the-default" class="nav-link" data-scroll-target="#recommended-dep-is-now-the-default">Recommended DEP is now the default</a></li>
+  <li><a href="#reproduction-modes" id="toc-reproduction-modes" class="nav-link" data-scroll-target="#reproduction-modes">Reproduction modes</a></li>
+  <li><a href="#project-wide-qc-and-recovery" id="toc-project-wide-qc-and-recovery" class="nav-link" data-scroll-target="#project-wide-qc-and-recovery">Project-wide QC and recovery</a></li>
+  <li><a href="#scripted-analysis" id="toc-scripted-analysis" class="nav-link" data-scroll-target="#scripted-analysis">Scripted analysis</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/introduce.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/introduce.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -703,7 +743,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    What ProtVis does and how its current source-aware workflow is organized.
+    How the current ProtVis 0.9.1 workflow is organized around search/import, schema-v4 provenance and reproducible downstream analysis.
   </div>
 </div>
 
@@ -722,38 +762,12 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="what-is-protvis" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-protvis">What is ProtVis?</h2>
-<p><strong>ProtVis</strong> is an interactive R/Shiny platform for proteomics and metaproteomics processing, statistical analysis, biological interpretation, and scientific visualization. The current application is organized around a reproducible project object, <code>ProtVis_dataset</code>, so quantitative data, metadata, annotations, analysis results, imported/search files, and processing history remain connected throughout the workflow.</p>
-<p>ProtVis is designed for researchers who want a GUI without giving up traceability. Most analysis modules can be used interactively, while the underlying package also exposes functions for importing data, validating projects, running Sage searches and processing pipelines, saving checkpoints, and exporting complete analysis bundles.</p>
+<p><strong>ProtVis</strong> is an interactive R/Shiny platform for proteomics and metaproteomics processing, statistical analysis, biological interpretation and scientific visualization. The current application uses <code>ProtVis_dataset</code> schema v4 as its canonical project state, so quantitative data, sample/protein metadata, annotations, search evidence, analysis runs, artifacts and provenance remain connected.</p>
+<p>ProtVis supports both GUI-driven exploration and scripted/headless execution. The Shiny app and CLI share the same import, search, processing, checkpoint, provenance and export backends.</p>
 </section>
-<section id="protvis-interface" class="level2">
-<h2 class="anchored" data-anchor-id="protvis-interface">ProtVis interface</h2>
-<div id="fig-protvis-homepage" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of the ProtVis Homepage. A top navigation bar contains Homepage, Project init, Search, Pre-processing, Downstream analysis, Multi-omics, PTM, Release data, Toolkits, and Help. The main panel presents the ProtVis_dataset architecture linking expression matrix, sample metadata, variable metadata, analysis results, functional annotation, and process history." data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-protvis-homepage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../images/screenshots/PixPin_2026-09-13_19-47-12.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of the ProtVis Homepage. A top navigation bar contains Homepage, Project init, Search, Pre-processing, Downstream analysis, Multi-omics, PTM, Release data, Toolkits, and Help. The main panel presents the ProtVis_dataset architecture linking expression matrix, sample metadata, variable metadata, analysis results, functional annotation, and process history.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protvis-homepage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: ProtVis Homepage after launch. The top navigation provides direct access to Project init, Search, Pre-processing, Downstream analysis, Multi-omics, PTM, Release data, Toolkits, and Help. The Homepage summarizes the central ProtVis_dataset architecture and the major workflow components.
-</figcaption>
-</figure>
-</div>
-<p>After <code>ProtVis::run_ProtVis()</code> opens the application, use the navigation bar from left to right as the analysis progresses. <strong>Homepage</strong> gives the workflow overview; <strong>Project init</strong> creates or restores the project context; <strong>Search</strong> is the Raw/mzML database-search route; <strong>Pre-processing</strong> contains the shared quantitative preprocessing stages; <strong>Downstream analysis</strong> contains QC, differential abundance and functional interpretation; <strong>Multi-omics</strong> and <strong>PTM</strong> contain specialized analyses; <strong>Release data</strong> exports results; <strong>Toolkits</strong> provides independent utilities; and <strong>Help</strong> provides in-app guidance.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The navigation is source-aware. <strong>Search</strong> is used for the Raw/mzML route, while source-specific items such as <strong>MaxQuant Output Preparation</strong> appear only when their corresponding input source is selected. The shared preprocessing and downstream modules remain available after the project has produced a valid quantitative matrix.</p>
-</div>
-</div>
-</section>
-<section id="current-analytical-scope" class="level2">
-<h2 class="anchored" data-anchor-id="current-analytical-scope">Current analytical scope</h2>
+<section id="current-navigation" class="level2">
+<h2 class="anchored" data-anchor-id="current-navigation">Current navigation</h2>
+<p>The top-level application now contains:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -761,92 +775,110 @@ Note
 </colgroup>
 <thead>
 <tr class="header">
-<th>Stage</th>
-<th>Main capabilities</th>
+<th>Area</th>
+<th>Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Project setup</td>
-<td>Working directory, sample information, optional expression matrix, Raw/mzML registration, FASTA registration, built-in examples, source selection</td>
+<td><strong>Project init</strong></td>
+<td>register working directory, metadata, quantitative input or Raw/LC-MS + FASTA context</td>
 </tr>
 <tr class="even">
-<td>Database search / data input</td>
-<td>Raw/mzML + Sage, MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS, user-defined matrices</td>
+<td><strong>Search</strong></td>
+<td>Raw-project database search with <strong>Sage</strong> or <strong>FragPipe</strong></td>
 </tr>
 <tr class="odd">
-<td>Pre-processing</td>
-<td>Replicate-aware noise correction, transformation, missing-value inspection and imputation, median-centering normalization</td>
+<td><strong>Project Dashboard</strong></td>
+<td>project QC, workflow state, provenance, run registry and resume</td>
 </tr>
 <tr class="even">
-<td>Overview/QC</td>
-<td>Correlation, expression-pattern heatmap, PCA, PCoA, t-SNE, UMAP, NMDS, total intensity, missingness, distributions, CV</td>
+<td><strong>Pre-processing</strong></td>
+<td>MaxQuant preparation when applicable, noise correction, transformation, imputation and normalization</td>
 </tr>
 <tr class="odd">
-<td>Differential abundance</td>
-<td>Multiple <code>Group1</code>/<code>Group2</code> comparisons, limma modeling, tables, volcano plots, heatmaps and DEP summaries</td>
+<td><strong>Downstream analysis</strong></td>
+<td>Overview/QC, DEP, enrichment, GSEA and Pathview</td>
 </tr>
 <tr class="even">
-<td>Functional interpretation</td>
-<td>GO/KEGG enrichment, GSEA, Pathview, STRINGdb PPI</td>
+<td><strong>Multi-omics</strong></td>
+<td>expression profile, WGCNA, metaproteomics, nine quadrant, co-enrichment and Venn</td>
 </tr>
 <tr class="odd">
-<td>Multi-omics</td>
-<td>Expression profile, WGCNA, metaproteomics, nine quadrant, co-enrichment, Venn</td>
+<td><strong>PTM</strong></td>
+<td>modification-centric analysis</td>
 </tr>
 <tr class="even">
-<td>PTM and evidence</td>
-<td>PTM analysis and Proteome Discoverer strict-spectrum inspection</td>
+<td><strong>PSM Explorer</strong></td>
+<td>Protein → Peptide → PSM → MS/MS evidence inspection</td>
 </tr>
 <tr class="odd">
-<td>Toolkits</td>
-<td>Protein extraction, background construction, external protein links, protein structure, SwissModel, boxplots, correlation chord and other utilities</td>
+<td><strong>Release data</strong></td>
+<td>convert working-stage <code>.rda</code> content to shareable tables</td>
+</tr>
+<tr class="even">
+<td><strong>Toolkits</strong></td>
+<td>protein extraction, Plant-mPLoc, background construction, structure/network/plot utilities and DEG analysis</td>
 </tr>
 </tbody>
 </table>
+<p>Search remains source-aware: it is shown for the <strong>Raw</strong> route. MaxQuant Output Preparation remains MaxQuant-specific.</p>
 </section>
-<section id="source-aware-navigation" class="level2">
-<h2 class="anchored" data-anchor-id="source-aware-navigation">Source-aware navigation</h2>
-<p>The selected source controls only the route-specific entry step; shared preprocessing remains available afterward.</p>
+<section id="two-input-architectures" class="level2">
+<h2 class="anchored" data-anchor-id="two-input-architectures">Two input architectures</h2>
+<section id="raw-lc-ms-fasta" class="level3">
+<h3 class="anchored" data-anchor-id="raw-lc-ms-fasta">Raw / LC-MS + FASTA</h3>
+<p>Project init registers sample metadata, FASTA and LC-MS files. <strong>Sage</strong> is the lightweight bundled search backend and is provided for Windows, Linux, Apple Silicon macOS and Intel macOS. <strong>FragPipe</strong> uses an official external runtime through a headless integration and supports broader workflow presets.</p>
+<p>A Raw project can start as a staging object without an expression matrix. Quantitative protein data are created only after search succeeds.</p>
+</section>
+<section id="quantitative-software-output" class="level3">
+<h3 class="anchored" data-anchor-id="quantitative-software-output">Quantitative software output</h3>
+<p>MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS and user-defined matrices are parsed into the same protein-by-sample structure. MaxQuant has a dedicated Output Preparation step; other formats use source-specific parsers.</p>
+</section>
+</section>
+<section id="protvis_dataset-schema-v4" class="level2">
+<h2 class="anchored" data-anchor-id="protvis_dataset-schema-v4">ProtVis_dataset schema v4</h2>
+<p>Schema v4 keeps the physical S4 object compatible while adding a project-wide append-only run system:</p>
 <ul>
-<li><strong>Raw</strong> shows the top-level <strong>Search</strong> tab and uses Sage to create the protein LFQ matrix.</li>
-<li><strong>MaxQuant</strong> shows <strong>Pre-processing → MaxQuant Output Preparation</strong>.</li>
-<li>Other tabular sources use their parser/import route and then enter shared preprocessing.</li>
+<li><code>analysis_results$v4$runs</code> stores immutable analysis executions;</li>
+<li><code>metadata$result_registry</code> indexes runs;</li>
+<li><code>metadata$workflow</code> stores dependency-aware workflow nodes/edges;</li>
+<li><code>metadata$artifacts</code> indexes generated files;</li>
+<li>PSM/peptide assays are registered separately from the active protein matrix;</li>
+<li><code>expression_data</code> always points to the currently activated matrix.</li>
 </ul>
-<p>This keeps MaxQuant-only filtering out of Raw, DIA-NN, Spectronaut and other workflows while still converging on the same <code>ProtVis_dataset</code> model.</p>
+<p>Core preprocessing runs keep complete matrix snapshots. Ordinary analyses keep result tables, statistics, plot data/configuration, parameters, files and upstream dependencies without needlessly duplicating the active matrix.</p>
+<p>Useful APIs include:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">protvis_result_registry</span>(dataset)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">protvis_latest_result</span>(dataset, <span class="st">"normalization"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">protvis_result_history</span>(dataset, <span class="st">"normalization"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">protvis_result</span>(dataset, run_id)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">protvis_activate_result</span>(dataset, run_id)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Optional <code>as_QFeatures()</code> / <code>from_QFeatures()</code> helpers connect ProtVis with the Bioconductor QFeatures ecosystem.</p>
 </section>
-<section id="the-key-architecture-protvis_dataset" class="level2">
-<h2 class="anchored" data-anchor-id="the-key-architecture-protvis_dataset">The key architecture: <code>ProtVis_dataset</code></h2>
-<p>Earlier ProtVis workflows were described primarily as a chain of <code>.rda</code> files. Current ProtVis keeps those stage files for compatibility and recovery, but the canonical representation is now a validated <code>ProtVis_dataset</code> object.</p>
-<p>A project object keeps the protein-by-sample expression matrix aligned with sample and protein metadata, stores fixed annotation layers (<code>eggnog_output</code>, <code>GO_annotation</code>, and <code>KEGG_annotation</code>), records analysis/search results, and captures process history and checkpoint information. See <a href="../content/reproducibility/ProtVis_dataset.html"><code>ProtVis_dataset</code></a> for the full model.</p>
-<p>Raw/Sage adds one deliberate staging state: Project init may create a <code>Sage_staging</code> object before the expression matrix exists. After Sage LFQ completes, the same project is finalized into the normal protein-by-sample structure.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Why this matters
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A result should not be separated from the data and parameters that produced it. ProtVis therefore creates traceable object states as analysis proceeds instead of treating each plot or search output as an isolated end product.</p>
-</div>
-</div>
+<section id="recommended-dep-is-now-the-default" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-dep-is-now-the-default">Recommended DEP is now the default</h2>
+<p>The current DEP module no longer treats an imputed normalized matrix as the default inferential input. <strong>Recommended DEP</strong> uses the observed Step4 log2 matrix, optional sample median centering, a detection filter, robust trend limma statistics and BH FDR control. It also preserves proteins detected only in one group as a separate presence/absence candidate stream.</p>
+<p>An <strong>Archived reproduction</strong> mode remains available when historical figures/settings must be reproduced exactly. Additional comparison engines include DEqMS, proDA and MSstats when their required inputs are available.</p>
 </section>
-<section id="recommended-routes" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-routes">Recommended routes</h2>
-<p>For Raw/mzML:</p>
-<p><strong>Project init → Search → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP analysis → Enrichment/GSEA/Pathview</strong></p>
-<p>For MaxQuant:</p>
-<p><strong>Project init → MaxQuant Output Preparation → Correct Noise → Data Transformation → Data Imputation → Data Normalization → Overview → DEP analysis → Enrichment/GSEA/Pathview</strong></p>
-<p>For the other supported quantitative tables, use the corresponding parser/import path and then join the shared preprocessing sequence at <strong>Correct Noise</strong>.</p>
-<p>Then add WGCNA, PPI, co-enrichment, metaproteomics, PTM, or other specialized modules when they address the biological question.</p>
+<section id="reproduction-modes" class="level2">
+<h2 class="anchored" data-anchor-id="reproduction-modes">Reproduction modes</h2>
+<p>Several current modules intentionally distinguish normal analysis from archived figure reproduction. In particular:</p>
+<ul>
+<li><strong>Enrichment analysis</strong> contains the directional KEGG/Figure 3 reproduction workflow with configurable blue-gradient presentation;</li>
+<li><strong>GSEA</strong> contains <strong>Standard GSEA</strong> plus a <strong>B73-Y12 Figure reproduction</strong> mode that can load multiple previous DEP comparisons, focus on <code>Root_VE</code>, and either use the frozen historical target or recalculate from loaded DEP results;</li>
+<li><strong>Overview</strong> contains an archived Figure 3 UMAP reproduction route.</li>
+</ul>
+<p>Use archived modes only when you need historical comparability; use the recommended/default analytical route for new projects.</p>
 </section>
-<section id="what-is-reproducible-and-what-is-interactive" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-reproducible-and-what-is-interactive">What is reproducible and what is interactive?</h2>
-<p>The GUI is intended for interactive exploration, parameter selection, and figure export. Reproducibility is supported by the persisted <code>ProtVis_dataset</code>, stage snapshots, process history, checkpoints, portable exports, Sage configuration/result retention, and duplicate-run guards for important execution buttons.</p>
-<p>For scripted automation, use package-level functions such as <code>load_protvis_builtin_data()</code>, <code>create_protvis_dataset()</code>, <code>run_sage_search()</code>, <code>run_protvis_pipeline()</code>, <code>save_protvis_checkpoint()</code>, and <code>export_protvis_dataset()</code>.</p>
+<section id="project-wide-qc-and-recovery" class="level2">
+<h2 class="anchored" data-anchor-id="project-wide-qc-and-recovery">Project-wide QC and recovery</h2>
+<p><strong>Project Dashboard</strong> summarizes proteins, samples, completeness, median protein CV, missingness, workflow state, input fingerprints and search QC. Its <strong>Resume workflow</strong> action continues from the newest valid checkpoint/node. Re-running an upstream node can invalidate dependent downstream nodes while preserving their historical runs.</p>
+</section>
+<section id="scripted-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="scripted-analysis">Scripted analysis</h2>
+<p>Use <code>ProtVis::run_protvis_cli()</code> or the installed <code>exec/protvis</code> script for headless workflows. Raw projects can select Sage or FragPipe; table projects can specify a supported source parser; existing projects can be resumed from disk.</p>
+<p>Continue with <a href="../content/installation.html">Installation</a>, <a href="../content/Project_init/Project_init.html">Project init</a>, or the <a href="../content/reproducibility/ProtVis_dataset.html">ProtVis_dataset schema v4</a> chapter.</p>
 
 
 </section>

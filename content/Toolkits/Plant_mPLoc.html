@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Extract target protein sequences from a reference FASTA with exact, normalized and controlled fuzzy ID matching.">
+<meta name="description" content="Submit a complete plant protein sequence to the public Plant-mPLoc service and record single- or multi-location predictions.">
 
-<title>Protein extract – ProtVis Cookbook</title>
+<title>Plant-mPLoc – ProtVis Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -27,6 +27,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -36,8 +71,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/Toolkits/Plant_mPLoc.html" rel="next">
-<link href="../../content/Toolkits/Toolkits.html" rel="prev">
+<link href="../../content/Toolkits/Background_Make.html" rel="next">
+<link href="../../content/Toolkits/Protein_Extract.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -256,7 +291,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/Protein_Extract.html">Protein extract</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/Plant_mPLoc.html">Plant-mPLoc</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -606,13 +641,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/Toolkits/Protein_Extract.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../content/Toolkits/Protein_Extract.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Protein extract</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/Toolkits/Plant_mPLoc.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Plant_mPLoc.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Plant-mPLoc</span></a>
   </div>
 </li>
@@ -683,24 +718,26 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#protein-extraction-interface" id="toc-protein-extraction-interface" class="nav-link" data-scroll-target="#protein-extraction-interface">Protein Extraction interface</a></li>
-  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
-  <li><a href="#how-id-matching-works" id="toc-how-id-matching-works" class="nav-link" data-scroll-target="#how-id-matching-works">How ID matching works</a></li>
+  <li><a href="#input" id="toc-input" class="nav-link" data-scroll-target="#input">Input</a></li>
+  <li><a href="#advanced-settings" id="toc-advanced-settings" class="nav-link" data-scroll-target="#advanced-settings">Advanced settings</a></li>
+  <li><a href="#run-the-prediction" id="toc-run-the-prediction" class="nav-link" data-scroll-target="#run-the-prediction">Run the prediction</a></li>
+  <li><a href="#external-service-limitation" id="toc-external-service-limitation" class="nav-link" data-scroll-target="#external-service-limitation">External-service limitation</a></li>
+  <li><a href="#programmatic-use" id="toc-programmatic-use" class="nav-link" data-scroll-target="#programmatic-use">Programmatic use</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Protein_Extract.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Protein_Extract.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Plant_mPLoc.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Plant_mPLoc.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/Protein_Extract.html">Protein extract</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/Plant_mPLoc.html">Plant-mPLoc</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Protein extract</h1>
+<h1 class="title">Plant-mPLoc</h1>
 </div>
 
 <div>
   <div class="description">
-    Extract target protein sequences from a reference FASTA with exact, normalized and controlled fuzzy ID matching.
+    Submit a complete plant protein sequence to the public Plant-mPLoc service and record single- or multi-location predictions.
   </div>
 </div>
 
@@ -719,65 +756,51 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>Use <strong>Toolkits → Protein extract</strong> when you have a reference protein FASTA and a list of candidate gene/protein IDs and need the corresponding sequences for structure prediction, primer/tag design, domain analysis or other downstream work.</p>
-<p>The current ProtVis matcher is not limited to literal header equality. It first attempts an exact header-token match, then a normalized stable-ID match, and finally allows a unique one-character fuzzy match under restricted conditions. This makes the module useful for FASTA files whose headers contain transcript/protein isoform suffixes.</p>
+<p><strong>Toolkits → Plant-mPLoc</strong> predicts plant-protein subcellular localization from an amino-acid sequence. ProtVis submits the sequence to the public Plant-mPLoc academic server and parses one or more predicted cellular locations.</p>
+<p>The current integration recognizes 12 location classes, including chloroplast, cytoplasm, nucleus, mitochondrion, cell membrane, cell wall, endoplasmic reticulum, Golgi apparatus, extracellular space, peroxisome, plastid and vacuole.</p>
 </section>
-<section id="protein-extraction-interface" class="level2">
-<h2 class="anchored" data-anchor-id="protein-extraction-interface">Protein Extraction interface</h2>
-<p>The screenshot below shows a maize reference FASTA with four queried stable IDs. The example FASTA contains 72,539 entries, and one stable query can match multiple FASTA isoforms, which is why the displayed number of matched FASTA sequences can be larger than the number of queried IDs.</p>
-<div id="fig-protein-extract-interface" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of ProtVis Toolkits Protein Extraction. A Zea mays FASTA is loaded, four maize stable IDs are entered manually, the result status is Completed, and the main panel contains Total FASTA Entries, Queried IDs, Matched IDs plus Matched Summary, Sequence Table, FASTA Viewer and Unmatched IDs tabs.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-protein-extract-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/screenshots/PixPin_2026-09-13_23-10-48.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Toolkits Protein Extraction. A Zea mays FASTA is loaded, four maize stable IDs are entered manually, the result status is Completed, and the main panel contains Total FASTA Entries, Queried IDs, Matched IDs plus Matched Summary, Sequence Table, FASTA Viewer and Unmatched IDs tabs.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protein-extract-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: ProtVis Protein Extraction interface showing FASTA upload, manual protein-ID input, extraction summary metrics and matched FASTA sequences.
-</figcaption>
-</figure>
-</div>
+<section id="input" class="level2">
+<h2 class="anchored" data-anchor-id="input">Input</h2>
+<p>Enter a <strong>Protein ID</strong> and a complete protein sequence using the 20 standard one-letter amino-acid codes. Whitespace is removed automatically and non-standard characters are rejected.</p>
+<p>Click <strong>LOAD DEMO SEQUENCE</strong> to test the module with the bundled plant-protein sequence.</p>
 </section>
-<section id="recommended-operating-order" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h2>
-<p><strong>1. Upload the reference protein FASTA.</strong> Supported inputs include <code>.fa</code>, <code>.faa</code>, <code>.fasta</code>, and their gzip-compressed forms such as <code>.fa.gz</code>, <code>.faa.gz</code>, and <code>.fasta.gz</code>.</p>
-<p><strong>2. Choose the Protein ID Input Method.</strong> Select <strong>Manual Input</strong> to paste one ID per line, or <strong>File Upload</strong> to provide a <code>.txt</code>, <code>.csv</code>, or <code>.tsv</code> ID list. For CSV/TSV inputs, ProtVis reads all non-empty values as candidate identifiers, so keep unrelated metadata out of the file.</p>
-<p><strong>3. Review the query IDs.</strong> Remove accidental duplicates and blank lines. Stable gene IDs are often preferable when the goal is to retrieve all corresponding protein/transcript isoforms; isoform-specific IDs are appropriate when only one record is intended.</p>
-<p><strong>4. Click Run Extraction.</strong> ProtVis parses the FASTA headers, matches the requested IDs and enables <strong>Download Results</strong> when at least one FASTA sequence has been recovered.</p>
-<p><strong>5. Check the three summary metrics.</strong> <strong>Total FASTA Entries</strong> is the number of sequences in the reference FASTA. <strong>Queried IDs</strong> is the number of unique input IDs. The current UI label <strong>Matched IDs</strong> counts matched FASTA sequence entries, not necessarily unique input IDs; therefore it can exceed Queried IDs when one stable query maps to several isoforms.</p>
-<p><strong>6. Review Matched Summary.</strong> Use this tab to confirm which input IDs were found and how they were matched. Do not assume that every returned isoform is biologically equivalent; the FASTA annotation determines which protein records are associated with a stable gene/transcript identifier.</p>
-<p><strong>7. Inspect Sequence Table and FASTA Viewer.</strong> <strong>Sequence Table</strong> provides structured sequence information, while <strong>FASTA Viewer</strong> shows the matched records in FASTA format. In the screenshot, several records from the same maize stable ID are visible because the reference contains multiple protein/transcript isoforms.</p>
-<p><strong>8. Check Unmatched IDs.</strong> This tab should always be reviewed before downstream analysis. An unmatched candidate may indicate a database-version mismatch, an unexpected header convention, a genuinely absent sequence, or a query too different to satisfy the controlled fuzzy-matching rule.</p>
-<p><strong>9. Download the result package.</strong> <strong>Download Results</strong> generates <code>protein_extract_results_YYYY-MM-DD.zip</code>. The ZIP contains <code>matched_sequences.fasta</code>, <code>summary.txt</code>, and <code>unmatched_ids.txt</code>.</p>
-</section>
-<section id="how-id-matching-works" class="level2">
-<h2 class="anchored" data-anchor-id="how-id-matching-works">How ID matching works</h2>
-<p>ProtVis searches FASTA header tokens using three stages. First, it tries an exact case-insensitive token match. If that fails, it compares normalized stable IDs. Normalization removes common <code>gene:</code>, <code>transcript:</code>, or <code>protein:</code> prefixes, leading <code>&gt;</code>, trailing descriptive text, common protein/transcript/isoform suffixes such as <code>_P001</code>, <code>_T002</code>, <code>-isoform1</code>, and terminal numeric version suffixes.</p>
-<p>If neither exact nor normalized matching succeeds, ProtVis can use a <strong>one-character fuzzy match</strong> only when the canonical query is at least eight characters long and the approximate comparison identifies a single stable ID. This last restriction reduces the risk of silently selecting one of several equally plausible near matches.</p>
+<section id="advanced-settings" class="level2">
+<h2 class="anchored" data-anchor-id="advanced-settings">Advanced settings</h2>
+<p>The module exposes <strong>Timeout (seconds)</strong>, default 90, and <strong>Allow the legacy server certificate</strong>, enabled by default.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Inspect multi-isoform matches
+Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A stable gene ID can legitimately return multiple FASTA entries. The summary metric therefore reflects matched sequence records rather than a strict one-query/one-sequence relationship. Use the Sequence Table and FASTA headers to decide which isoform is appropriate for downstream work.</p>
+<p>Disabling certificate verification reduces transport security. Use it only for this legacy academic endpoint when normal validation fails, and do not submit confidential sequences to a service you do not trust.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Keep the <code>unmatched_ids.txt</code> file even when only a few queries fail. It is a useful record for diagnosing reference-version and identifier-conversion problems later.</p>
-</div>
-</div>
+</section>
+<section id="run-the-prediction" class="level2">
+<h2 class="anchored" data-anchor-id="run-the-prediction">Run the prediction</h2>
+<p>Click <strong>PREDICT LOCALIZATION</strong>. The result area reports status, protein ID/sequence length, number of predicted locations, prediction badges, result table, raw server response and method/publication information.</p>
+<p>Use <strong>DOWNLOAD RESULT</strong> to save the parsed prediction as CSV.</p>
+</section>
+<section id="external-service-limitation" class="level2">
+<h2 class="anchored" data-anchor-id="external-service-limitation">External-service limitation</h2>
+<p>Plant-mPLoc is not executed locally. Internet access and the availability/layout of the external server are required. If the server changes its HTML form or result page, ProtVis may receive a page but fail to identify the prediction. The <strong>Raw response</strong> tab is useful for troubleshooting.</p>
+</section>
+<section id="programmatic-use" class="level2">
+<h2 class="anchored" data-anchor-id="programmatic-use">Programmatic use</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> ProtVis<span class="sc">::</span><span class="fu">predict_plant_mploc</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sequence =</span> my_sequence,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="st">"ZmProtein"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">timeout =</span> <span class="dv">90</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ignore_ssl =</span> <span class="cn">TRUE</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>res<span class="sc">$</span>prediction</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>When an active <code>ProtVis_dataset</code> exists, the GUI records the prediction as a schema-v4 analysis run with the protein ID, settings and result table.</p>
 
 
 </section>
@@ -1203,13 +1226,13 @@ Tip
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/Toolkits/Toolkits.html" class="pagination-link" aria-label="Toolkit overview">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Toolkit overview</span>
+      <a href="../../content/Toolkits/Protein_Extract.html" class="pagination-link" aria-label="Protein extract">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Protein extract</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/Toolkits/Plant_mPLoc.html" class="pagination-link" aria-label="Plant-mPLoc">
-        <span class="nav-page-text">Plant-mPLoc</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/Toolkits/Background_Make.html" class="pagination-link" aria-label="Background make">
+        <span class="nav-page-text">Background make</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1221,7 +1244,7 @@ Tip
 </div>   
     <div class="nav-footer-center">
 <p>ProtVis Cookbook · Documentation for reproducible proteomics workflows</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Protein_Extract.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Protein_Extract.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Plant_mPLoc.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Plant_mPLoc.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org/">Quarto</a></p>
 </div>
