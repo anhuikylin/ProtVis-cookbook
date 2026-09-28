@@ -756,6 +756,7 @@
     "section": "",
     "text": "ProtVis currently provides two complementary export mechanisms.\n\n\nThe Release data page scans the current working directory for .rda stage files. Select one or more files, choose xlsx or csv, and click Export. ProtVis creates a folder per selected stage and exports data-frame-like objects; when a legacy/ProtVis project object is recognized it exports the expression matrix and aligned metadata.\nThis is convenient for quickly obtaining human-readable stage tables.\n\n\n\nFor a reproducible schema-v4 release, use:\nexport_dir &lt;- export_protvis_dataset(\n  dataset,\n  directory = \"ProtVis_release\",\n  include_raw = FALSE\n)\nThis preserves much more than the GUI stage-table export. Depending on project content, the portable bundle can include:\n\nProtVis_dataset.rds;\nactive expression/sample/variable tables;\nannotations;\nprocess history;\nstructured provenance;\nworkflow status;\nresult registry and immutable run records;\ngenerated artifacts/files;\nreport/metadata outputs.\n\nSet include_raw = TRUE only when copying source files is appropriate and licensing/privacy/storage constraints permit it.",
     "crumbs": [
+      "Toolkits",
       "Release data"
     ]
   },
@@ -766,6 +767,7 @@
     "section": "",
     "text": "ProtVis currently provides two complementary export mechanisms.\n\n\nThe Release data page scans the current working directory for .rda stage files. Select one or more files, choose xlsx or csv, and click Export. ProtVis creates a folder per selected stage and exports data-frame-like objects; when a legacy/ProtVis project object is recognized it exports the expression matrix and aligned metadata.\nThis is convenient for quickly obtaining human-readable stage tables.\n\n\n\nFor a reproducible schema-v4 release, use:\nexport_dir &lt;- export_protvis_dataset(\n  dataset,\n  directory = \"ProtVis_release\",\n  include_raw = FALSE\n)\nThis preserves much more than the GUI stage-table export. Depending on project content, the portable bundle can include:\n\nProtVis_dataset.rds;\nactive expression/sample/variable tables;\nannotations;\nprocess history;\nstructured provenance;\nworkflow status;\nresult registry and immutable run records;\ngenerated artifacts/files;\nreport/metadata outputs.\n\nSet include_raw = TRUE only when copying source files is appropriate and licensing/privacy/storage constraints permit it.",
     "crumbs": [
+      "Toolkits",
       "Release data"
     ]
   },
@@ -776,6 +778,7 @@
     "section": "What to archive for a manuscript",
     "text": "What to archive for a manuscript\nKeep the exact quantitative input used for inference, sample metadata, statistical tables, enrichment backgrounds/results, figure source tables, search configuration/workflow, software/runtime versions, run registry/workflow status and the serialized project.\nDo not use screenshots as the only copy of a scientific result.\n\n\n\n\n\n\nTip\n\n\n\nRecord both ProtVis 0.9.1 and the exact git commit used for the final analysis, because the dev branch is actively changing.",
     "crumbs": [
+      "Toolkits",
       "Release data"
     ]
   },
