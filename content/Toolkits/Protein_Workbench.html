@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Compare directional quantitative changes between two omics layers with a configurable nine-quadrant plot.">
+<meta name="description" content="Resolve a protein once and inspect UniProt/MaizeGDB annotation, sequence properties, PTM sites, domains, AlphaFold structure, localization, interactions, evolution and binding pockets in one workspace.">
 
-<title>Nine quadrant – ProtVis Cookbook</title>
+<title>Protein Workbench – ProtVis Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/Multi_omics_data/Co_enrichment.html" rel="next">
-<link href="../../content/Multi_omics_data/Metaproteomics.html" rel="prev">
+<link href="../../content/Toolkits/Protein_Workbench_Context.html" rel="next">
+<link href="../../content/Toolkits/Toolkits.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -256,7 +256,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Multi_omics_data/Multi_omics_data.html">Multi-omics</a></li><li class="breadcrumb-item"><a href="../../content/Multi_omics_data/Nine_Quadrant.html">Nine quadrant</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/Protein_Workbench.html">Protein Workbench</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/Protein_Workbench.html">Overview</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -509,13 +509,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
  <span class="menu-text">Multi-omics</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Multi_omics_data/Multi_omics_data.html" class="sidebar-item-text sidebar-link">
@@ -542,7 +542,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/Multi_omics_data/Nine_Quadrant.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../content/Multi_omics_data/Nine_Quadrant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Nine quadrant</span></a>
   </div>
 </li>
@@ -591,13 +591,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
  <span class="menu-text">Toolkits</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Toolkits/Toolkits.html" class="sidebar-item-text sidebar-link">
@@ -606,16 +606,16 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
  <span class="menu-text">Protein Workbench</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/Toolkits/Protein_Workbench.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Protein_Workbench.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
@@ -718,26 +718,33 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#nine-quadrant-interface" id="toc-nine-quadrant-interface" class="nav-link" data-scroll-target="#nine-quadrant-interface">Nine-quadrant interface</a></li>
-  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
-  <li><a href="#input-format" id="toc-input-format" class="nav-link" data-scroll-target="#input-format">Input format</a></li>
-  <li><a href="#color-settings" id="toc-color-settings" class="nav-link" data-scroll-target="#color-settings">Color settings</a></li>
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#start-with-an-identifier-or-sequence" id="toc-start-with-an-identifier-or-sequence" class="nav-link" data-scroll-target="#start-with-an-identifier-or-sequence">Start with an identifier or sequence</a>
+  <ul class="collapse">
+  <li><a href="#maize-ids" id="toc-maize-ids" class="nav-link" data-scroll-target="#maize-ids">Maize IDs</a></li>
+  </ul></li>
+  <li><a href="#protein-centric-tabs" id="toc-protein-centric-tabs" class="nav-link" data-scroll-target="#protein-centric-tabs">Protein-centric tabs</a></li>
+  <li><a href="#sequence-properties" id="toc-sequence-properties" class="nav-link" data-scroll-target="#sequence-properties">Sequence properties</a></li>
+  <li><a href="#ptm-and-annotation-evidence" id="toc-ptm-and-annotation-evidence" class="nav-link" data-scroll-target="#ptm-and-annotation-evidence">PTM and annotation evidence</a></li>
+  <li><a href="#domains" id="toc-domains" class="nav-link" data-scroll-target="#domains">Domains</a></li>
+  <li><a href="#structure" id="toc-structure" class="nav-link" data-scroll-target="#structure">Structure</a></li>
+  <li><a href="#batch-sequence-retrieval" id="toc-batch-sequence-retrieval" class="nav-link" data-scroll-target="#batch-sequence-retrieval">Batch sequence retrieval</a></li>
+  <li><a href="#reproducibility-and-project-history" id="toc-reproducibility-and-project-history" class="nav-link" data-scroll-target="#reproducibility-and-project-history">Reproducibility and project history</a></li>
+  <li><a href="#external-service-requirements" id="toc-external-service-requirements" class="nav-link" data-scroll-target="#external-service-requirements">External-service requirements</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Multi_omics_data/Nine_Quadrant.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Multi_omics_data/Nine_Quadrant.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Protein_Workbench.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Protein_Workbench.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Multi_omics_data/Multi_omics_data.html">Multi-omics</a></li><li class="breadcrumb-item"><a href="../../content/Multi_omics_data/Nine_Quadrant.html">Nine quadrant</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/Protein_Workbench.html">Protein Workbench</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/Protein_Workbench.html">Overview</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Nine quadrant</h1>
+<h1 class="title">Protein Workbench</h1>
 </div>
 
 <div>
   <div class="description">
-    Compare directional quantitative changes between two omics layers with a configurable nine-quadrant plot.
+    Resolve a protein once and inspect UniProt/MaizeGDB annotation, sequence properties, PTM sites, domains, AlphaFold structure, localization, interactions, evolution and binding pockets in one workspace.
   </div>
 </div>
 
@@ -756,64 +763,103 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>Use <strong>Multi-omics → Nine quadrant</strong> to compare two quantitative effect estimates, most commonly matched <code>log2FC</code> values from two omics layers or two related contrasts. ProtVis divides the x- and y-axes with the same absolute fold-change cutoff and assigns every row to one of nine directional classes: <strong>Up/Up, Up/NS, Up/Down, NS/Up, NS/NS, NS/Down, Down/Up, Down/NS, and Down/Down</strong>.</p>
-<p>This view is useful for separating concordant changes, discordant changes, and changes detected mainly in one omics layer.</p>
-</section>
-<section id="nine-quadrant-interface" class="level2">
-<h2 class="anchored" data-anchor-id="nine-quadrant-interface">Nine-quadrant interface</h2>
-<p>The full-resolution screenshot below shows the current module with the bundled demonstration data. The built-in example contains <strong>2,800 rows × 4 columns</strong>: <code>Omic1_ID</code>, <code>Log2FC_Omic1</code>, <code>Omic2_ID</code>, and <code>Log2FC_Omic2</code>. The quadrant counts visible in this run are example-specific and will change with another dataset or cutoff.</p>
-<div id="fig-nine-quadrant-interface" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of ProtVis Multi-omics Nine quadrant. The built-in example is loaded with 2800 rows and four columns. Numeric columns can be selected for the Omic1 X-axis and Omic2 Y-axis, a Log2FC cutoff defines the nine regions, and quadrant counts and result tables are available after running the plot.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-nine-quadrant-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/screenshots/PixPin_2026-09-13_20-47-41.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Multi-omics Nine quadrant. The built-in example is loaded with 2800 rows and four columns. Numeric columns can be selected for the Omic1 X-axis and Omic2 Y-axis, a Log2FC cutoff defines the nine regions, and quadrant counts and result tables are available after running the plot.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nine-quadrant-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: ProtVis Nine-quadrant interface using the built-in two-omics demonstration dataset. The left sidebar contains Data Input, Plot Settings, Color Settings and Download Settings. The center card previews the input table and the right card displays the nine-quadrant plot and quadrant-specific result panels.
-</figcaption>
-</figure>
-</div>
-</section>
-<section id="recommended-operating-order" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h2>
-<p><strong>1. Load the data.</strong> Open <strong>Data Input</strong> and either upload a <code>.csv</code>/<code>.xlsx</code> file or click <strong>LOAD DEMO DATA</strong>. The demonstration dataset is not loaded automatically. Use <strong>Download example CSV</strong> when you want a template for preparing your own file.</p>
-<p><strong>2. Check the preview.</strong> The <strong>Uploaded Data Preview</strong> card should show the expected row and column counts. ProtVis requires at least two numeric columns for the plot.</p>
-<p><strong>3. Select the x- and y-axis variables.</strong> Choose the numeric field for <strong>Select Omic1 (X-axis)</strong> and the numeric field for <strong>Select Omic2 (Y-axis)</strong>. In the built-in example these are <code>Log2FC_Omic1</code> and <code>Log2FC_Omic2</code>.</p>
-<p><strong>4. Set the fold-change cutoff.</strong> Open <strong>Plot Settings</strong> and set <strong>Log2FC Cutoff</strong>. The current default is <code>1</code>. ProtVis uses <code>+cutoff</code> and <code>-cutoff</code> on both axes: values above <code>+cutoff</code> are <strong>Up</strong>, values below <code>-cutoff</code> are <strong>Down</strong>, and values between the thresholds are <strong>NS</strong>.</p>
-<p><strong>5. Control quadrant labels.</strong> Keep <strong>Show Quadrant Counts</strong> selected if you want the number of rows in each of the nine regions to be displayed on the figure.</p>
-<p><strong>6. Run the plot.</strong> Click <strong>Run plot</strong>. The status badge changes to <strong>Ready</strong> when the classification and plot have been generated.</p>
-<p><strong>7. Inspect the biological direction classes.</strong> <code>Up/Up</code> and <code>Down/Down</code> represent concordant responses, whereas <code>Up/Down</code> and <code>Down/Up</code> represent opposite responses. <code>Up/NS</code>, <code>Down/NS</code>, <code>NS/Up</code>, and <code>NS/Down</code> indicate that only one selected layer crosses the fold-change threshold. <code>NS/NS</code> contains rows within the cutoff on both axes.</p>
-<p><strong>8. Inspect and export the quadrant tables.</strong> Below the plot, ProtVis creates expandable panels for all nine classes. Each panel contains the corresponding rows and provides an individual CSV download button, which is useful for taking a selected directional class into enrichment or network analysis.</p>
-<p><strong>9. Export the figure.</strong> Under <strong>Download Settings</strong>, set the PDF width and height and click <strong>Download PDF</strong>. The current defaults are 8 × 6 inches.</p>
-</section>
-<section id="input-format" class="level2">
-<h2 class="anchored" data-anchor-id="input-format">Input format</h2>
-<p>A minimal file can contain separate identifiers for the two layers and one numeric effect column for each layer:</p>
-<pre class="text"><code>Omic1_ID,Log2FC_Omic1,Omic2_ID,Log2FC_Omic2
-Gene_001,1.52,Protein_001,1.18
-Gene_002,-2.10,Protein_002,-1.43
-Gene_003,0.35,Protein_003,1.76</code></pre>
-<p>The selected x- and y-axis columns must be numeric. Other columns can remain in the input and will be retained in the preview and exported quadrant tables.</p>
-</section>
-<section id="color-settings" class="level2">
-<h2 class="anchored" data-anchor-id="color-settings">Color settings</h2>
-<p>Open <strong>Color Settings</strong> to customize all nine classes independently: <code>Up_Up</code>, <code>Down_Down</code>, <code>Up_Down</code>, <code>Down_Up</code>, <code>Up_NS</code>, <code>Down_NS</code>, <code>NS_Up</code>, <code>NS_Down</code>, and <code>NS_NS</code>. Color changes affect presentation only; they do not change class membership.</p>
-</section>
-<section id="interpretation" class="level2">
-<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
-<p>The nine-quadrant module performs directional classification from the selected numeric values and cutoff. It is not a substitute for formal differential statistics. When available, perform the appropriate DEP/DEG analysis first and retain adjusted p-values or significance labels alongside the fold changes.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
+<p><strong>Toolkits → Protein Workbench</strong> is the integrated single-protein workspace in ProtVis. It does not replace the focused standalone tools; instead, it brings the most common protein-centric questions into one continuous workflow so the same resolved protein/sequence can be reused across annotation, structure and functional-context analyses.</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Keep contrast direction consistent
+<span class="screen-reader-only">Note</span>Current implementation
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If one layer uses <code>Treatment - Control</code> while the other uses <code>Control - Treatment</code>, biologically concordant responses will appear discordant. Verify contrast direction before interpreting the quadrant pattern.</p>
+<p>This chapter is aligned to <strong>ProtVis 0.9.16</strong> on <code>anhuikylin/ProtVis@dev</code>, including the current P2Rank-first binding-pocket workflow.</p>
 </div>
 </div>
+</section>
+<section id="start-with-an-identifier-or-sequence" class="level2">
+<h2 class="anchored" data-anchor-id="start-with-an-identifier-or-sequence">Start with an identifier or sequence</h2>
+<p>The left panel accepts four entry routes:</p>
+<ul>
+<li><strong>Protein / gene / UniProt ID</strong> — for example <code>P68871</code>, <code>HBB</code>, or a maize <code>Zm...</code> identifier;</li>
+<li>optional <strong>Organism taxon ID</strong> — for example <code>9606</code> or <code>4577</code>, useful for disambiguating gene symbols;</li>
+<li>pasted <strong>protein sequence</strong> for local sequence analysis;</li>
+<li>uploaded protein FASTA (<code>.fa</code>, <code>.faa</code>, <code>.fasta</code>, <code>.fas</code>).</li>
+</ul>
+<p>Click <strong>RUN / RESOLVE</strong>. For identifier-based input, ProtVis queries UniProtKB, returns up to 25 candidate records, fills <strong>Resolved UniProt entry</strong>, and automatically loads the selected record. <strong>EXAMPLE</strong> uses human hemoglobin subunit beta (<code>P68871</code>); <strong>CLEAR</strong> resets the complete workbench state.</p>
+<section id="maize-ids" class="level3">
+<h3 class="anchored" data-anchor-id="maize-ids">Maize IDs</h3>
+<p>For IDs beginning with <code>Zm</code>, ProtVis also attempts live <strong>MaizeGDB / MaizeMine</strong> annotation. When available, the Annotations view can show gene model, symbol/name, chromosome coordinates, gene length, GO terms and pathway annotations, with a direct <strong>Open MaizeGDB</strong> link.</p>
+</section>
+</section>
+<section id="protein-centric-tabs" class="level2">
+<h2 class="anchored" data-anchor-id="protein-centric-tabs">Protein-centric tabs</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tab</th>
+<th>What it provides</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Overview</strong></td>
+<td>UniProt summary plus functional/comment annotation</td>
+</tr>
+<tr class="even">
+<td><strong>Sequence</strong></td>
+<td>sequence properties, amino-acid sequence, residue composition and Kyte–Doolittle hydropathy</td>
+</tr>
+<tr class="odd">
+<td><strong>Batch sequences</strong></td>
+<td>table for multi-ID UniProt sequence retrieval</td>
+</tr>
+<tr class="even">
+<td><strong>Annotations</strong></td>
+<td>UniProt sequence features plus live MaizeGDB annotation for maize IDs</td>
+</tr>
+<tr class="odd">
+<td><strong>PTM &amp; sites</strong></td>
+<td>modification/site-related UniProt features</td>
+</tr>
+<tr class="even">
+<td><strong>Domains</strong></td>
+<td>InterPro domains/signatures, positional domain plot and fallback cross-references</td>
+</tr>
+<tr class="odd">
+<td><strong>Structure</strong></td>
+<td>PDB/AlphaFold/SMR resources, interactive AlphaFold 3D model and PDB download</td>
+</tr>
+<tr class="even">
+<td><strong>Cross-references</strong></td>
+<td>UniProt database cross-references</td>
+</tr>
+<tr class="odd">
+<td><strong>Resources</strong></td>
+<td>direct links to UniProt, InterPro, AlphaFold DB, SWISS-MODEL Repository, STRING, PDBe-KB, Ensembl, NCBI Gene, KEGG Genes, Plant Reactome and MaizeGDB when relevant</td>
+</tr>
+</tbody>
+</table>
+<p>Additional cards below the core workspace provide <a href="../../content/Toolkits/Protein_Workbench_Context.html">Localization &amp; interaction</a>, <a href="../../content/Toolkits/Protein_Workbench_Evolution.html">Evolutionary analysis</a>, and <a href="../../content/Toolkits/Protein_Workbench_Pockets.html">Binding-pocket prediction</a>.</p>
+</section>
+<section id="sequence-properties" class="level2">
+<h2 class="anchored" data-anchor-id="sequence-properties">Sequence properties</h2>
+<p>Local sequence calculations include:</p>
+<ul>
+<li>length;</li>
+<li>approximate molecular weight;</li>
+<li>estimated pI;</li>
+<li>GRAVY;</li>
+<li>aromaticity;</li>
+<li>residue composition;</li>
+<li>Kyte–Doolittle hydropathy with an adjustable odd-numbered window (3–31; default 9).</li>
+</ul>
+<p>Residue-composition and hydropathy plots can be exported as <strong>PNG, SVG or PDF</strong>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -824,7 +870,70 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The built-in 2,800-row dataset is a demonstration dataset intended to show the interface and output structure. The quadrant counts in the screenshot are not expected values for real experiments.</p>
+<p>Approximate molecular weight and pI are calculated from the supplied amino-acid sequence and standard residue/ionization constants. They are useful descriptive properties, not substitutes for experimentally measured intact-protein mass or pI.</p>
+</div>
+</div>
+</section>
+<section id="ptm-and-annotation-evidence" class="level2">
+<h2 class="anchored" data-anchor-id="ptm-and-annotation-evidence">PTM and annotation evidence</h2>
+<p>The <strong>Annotations</strong> tab exposes UniProt sequence features such as regions, active/binding sites, variants and processing features. <strong>PTM &amp; sites</strong> filters PTM-related/site-level annotations, including phospho-, acetyl-, methyl-, ubiquitin-, glyco-, lipid- and related records when those features are present in UniProt.</p>
+<p>Absence of a PTM annotation in UniProt does not demonstrate absence of the modification experimentally. Use <a href="../../content/PTM/PTM.html">PTM analysis</a> and <a href="../../content/PTM/PSM_Explorer.html">PSM Explorer</a> when spectrum-level evidence is required.</p>
+</section>
+<section id="domains" class="level2">
+<h2 class="anchored" data-anchor-id="domains">Domains</h2>
+<p>With a resolved UniProt accession, ProtVis queries the <strong>InterPro REST API</strong> and builds a positional domain/signature table. If positional InterPro data are unavailable, UniProt domain-related cross-references remain available as fallback evidence.</p>
+<p>The domain plot adapts its height to the number of domains and assigns distinct colors to domain labels. Export is available in <strong>PNG, SVG and PDF</strong>.</p>
+</section>
+<section id="structure" class="level2">
+<h2 class="anchored" data-anchor-id="structure">Structure</h2>
+<p>The Structure tab combines UniProt structural cross-references with the <strong>AlphaFold DB API</strong>. When an AlphaFold PDB is available, ProtVis:</p>
+<ul>
+<li>renders it interactively with <code>r3dmol</code>;</li>
+<li>exposes the AlphaFold metadata table;</li>
+<li>enables <strong>DOWNLOAD PDB</strong>;</li>
+<li>keeps PDB, AlphaFoldDB and SWISS-MODEL Repository references together.</li>
+</ul>
+<p>Use <a href="../../content/Toolkits/Protein_Structure.html">Protein Structure</a> for the separate bio3d/NMA workflow and <a href="../../content/Toolkits/SwissModel.html">SwissModel</a> for the dedicated SWISS-MODEL interface.</p>
+</section>
+<section id="batch-sequence-retrieval" class="level2">
+<h2 class="anchored" data-anchor-id="batch-sequence-retrieval">Batch sequence retrieval</h2>
+<p>The same Workbench can retrieve up to <strong>1,000</strong> gene IDs or UniProt accessions at one time. Choose a common species or override the NCBI taxon ID, paste IDs separated by whitespace/commas/semicolons, then click <strong>RETRIEVE SEQUENCES</strong>.</p>
+<p>Common plant and model-organism presets are available. For maize (<code>taxon 4577</code>), the UI includes reference-version choices:</p>
+<ul>
+<li>B73 RefGen_v5 / NAM v5 (<code>Zm00001eb...</code>);</li>
+<li>B73 RefGen_v4 (<code>Zm00001d...</code>);</li>
+<li>B73 RefGen_v3 (<code>GRMZM2G...</code>);</li>
+<li>PH207 v1;</li>
+<li>W22 v2;</li>
+<li>Mo17 v1;</li>
+<li>Auto-detect or Other maize version.</li>
+</ul>
+<p>ProtVis first attempts exact accession/gene retrieval from UniProt, then uses a controlled fallback mapping for unresolved identifiers. Result status is reported as <strong>Retrieved</strong> or <strong>Not found</strong>, and unmatched maize identifiers retain direct MaizeGDB/Phytozome links where possible.</p>
+<p>Download outputs:</p>
+<ul>
+<li><strong>batch FASTA</strong>;</li>
+<li>full <strong>result table CSV</strong>.</li>
+</ul>
+</section>
+<section id="reproducibility-and-project-history" class="level2">
+<h2 class="anchored" data-anchor-id="reproducibility-and-project-history">Reproducibility and project history</h2>
+<p>When Protein Workbench is opened inside an active <code>ProtVis_dataset</code>, completed queries and analyses are recorded as schema-v4 toolkit runs. Depending on the action, records can include search/summary tables, sequence statistics, maize annotation, InterPro results, evolutionary candidates, localization/interaction results and binding-pocket tables.</p>
+<p>Keep downloaded tables/FASTA/PDB files with the project when a protein-level interpretation enters a manuscript figure or mechanistic conclusion.</p>
+</section>
+<section id="external-service-requirements" class="level2">
+<h2 class="anchored" data-anchor-id="external-service-requirements">External-service requirements</h2>
+<p>Several panels depend on public online services: UniProt, InterPro, AlphaFold DB, MaizeGDB/MaizeMine, STRING and Plant-mPLoc. Network outages, rate limiting or API/service changes can therefore affect individual panels without invalidating the local sequence functions.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For a typical maize candidate protein, a practical route is <strong>Zm gene ID → RUN / RESOLVE → Overview/Annotations → Domains → Structure → Localization/Interaction → Evolutionary analysis → Binding pockets</strong>. Use the standalone tools only when their focused interface is more convenient.</p>
 </div>
 </div>
 
@@ -1252,13 +1361,13 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/Multi_omics_data/Metaproteomics.html" class="pagination-link" aria-label="Metaproteomics">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Metaproteomics</span>
+      <a href="../../content/Toolkits/Toolkits.html" class="pagination-link" aria-label="Toolkit overview">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Toolkit overview</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/Multi_omics_data/Co_enrichment.html" class="pagination-link" aria-label="Co-enrichment">
-        <span class="nav-page-text">Co-enrichment</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/Toolkits/Protein_Workbench_Context.html" class="pagination-link" aria-label="Localization &amp; interaction">
+        <span class="nav-page-text">Localization &amp; interaction</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1270,7 +1379,7 @@ Note
 </div>   
     <div class="nav-footer-center">
 <p>ProtVis Cookbook · Documentation for reproducible proteomics workflows</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Multi_omics_data/Nine_Quadrant.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Multi_omics_data/Nine_Quadrant.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Protein_Workbench.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Protein_Workbench.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org/">Quarto</a></p>
 </div>

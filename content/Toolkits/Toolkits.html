@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Focused utilities for identifier preparation, plant localization, structures/networks, transcriptome analysis, reusable plots and auxiliary analyses.">
+<meta name="description" content="Protein Workbench plus focused utilities for identifiers, localization, structure, networks, visualization and transcriptome analysis.">
 
 <title>Toolkits – ProtVis Cookbook</title>
 <style>
@@ -36,7 +36,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/Toolkits/Protein_Extract.html" rel="next">
+<link href="../../content/Toolkits/Protein_Workbench.html" rel="next">
 <link href="../../content/Release_data.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -49,9 +49,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-df7a43018c35dff19afed53ceee5d113.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-836e5481862417ab1f6277cb06ce5da8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-df7a43018c35dff19afed53ceee5d113.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-cc05b6a869363dad826afc9f23926cbd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-6bdfe572b21c3865e1482d08ceff1e36.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-cc05b6a869363dad826afc9f23926cbd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -604,6 +604,41 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Toolkit overview</span></a>
   </div>
 </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Protein Workbench</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/Toolkits/Protein_Workbench.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/Toolkits/Protein_Workbench_Context.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Localization &amp; interaction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/Toolkits/Protein_Workbench_Evolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Evolutionary analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/Toolkits/Protein_Workbench_Pockets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Binding pockets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Toolkits/Protein_Extract.html" class="sidebar-item-text sidebar-link">
@@ -682,8 +717,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#current-toolkit-map" id="toc-current-toolkit-map" class="nav-link active" data-scroll-target="#current-toolkit-map">Current toolkit map</a></li>
-  <li><a href="#how-to-use-toolkits" id="toc-how-to-use-toolkits" class="nav-link" data-scroll-target="#how-to-use-toolkits">How to use toolkits</a></li>
+  <li><a href="#protein-workbench-is-the-integrated-protein-centric-entry-point" id="toc-protein-workbench-is-the-integrated-protein-centric-entry-point" class="nav-link active" data-scroll-target="#protein-workbench-is-the-integrated-protein-centric-entry-point">Protein Workbench is the integrated protein-centric entry point</a></li>
+  <li><a href="#current-toolkit-map" id="toc-current-toolkit-map" class="nav-link" data-scroll-target="#current-toolkit-map">Current toolkit map</a></li>
+  <li><a href="#integrated-versus-standalone-tools" id="toc-integrated-versus-standalone-tools" class="nav-link" data-scroll-target="#integrated-versus-standalone-tools">Integrated versus standalone tools</a></li>
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility">Reproducibility</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Toolkits.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Toolkits.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -698,7 +735,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Focused utilities for identifier preparation, plant localization, structures/networks, transcriptome analysis, reusable plots and auxiliary analyses.
+    Protein Workbench plus focused utilities for identifiers, localization, structure, networks, visualization and transcriptome analysis.
   </div>
 </div>
 
@@ -715,17 +752,94 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="protein-workbench-is-the-integrated-protein-centric-entry-point" class="level2">
+<h2 class="anchored" data-anchor-id="protein-workbench-is-the-integrated-protein-centric-entry-point">Protein Workbench is the integrated protein-centric entry point</h2>
+<p>In the current <strong>ProtVis 0.9.16</strong> Toolkits menu, <strong>Protein Workbench</strong> is the first item. It resolves a single protein/gene/UniProt identifier or amino-acid sequence once, then reuses that context across annotation, PTM sites, domains, AlphaFold structure, localization, STRING interactions, plant evolutionary analysis and binding-pocket prediction.</p>
+<p>Use the expandable <a href="../../content/Toolkits/Protein_Workbench.html">Protein Workbench</a> documentation for the complete workflow:</p>
+<p><strong>ID / sequence → UniProt/MaizeGDB → sequence/PTM/domains/structure → localization &amp; interaction → evolution → binding pockets</strong></p>
+</section>
 <section id="current-toolkit-map" class="level2">
 <h2 class="anchored" data-anchor-id="current-toolkit-map">Current toolkit map</h2>
-<p>The current Toolkits menu contains <strong>Protein Extract, Plant-mPLoc, Background Make, Protein Links, Protein Structure, Boxplot, SwissModel, STRINGdb PPI, Stacked Column Diagram, Correlation chord, and Transcriptome Analysis</strong>.</p>
-<p><a href="../../content/Toolkits/Plant_mPLoc.html">Plant-mPLoc</a> submits a complete plant protein sequence to the public Plant-mPLoc service and records parsed single/multiple subcellular-localization predictions when an active schema-v4 project is available.</p>
-<p><a href="../../content/Toolkits/DEG_Analyse.html">Transcriptome Analysis</a> is the RNA-seq/count-oriented utility. It combines DESeq2 differential expression, PCA, volcano/statistics output and the current maize KEGG GSEA reproduction workflow. It is separate from the main proteomics <strong>DEP analysis</strong>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Toolkit</th>
+<th>Main purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Protein Workbench</strong></td>
+<td>integrated protein-centric analysis hub</td>
+</tr>
+<tr class="even">
+<td><strong>Protein Extract</strong></td>
+<td>extract protein sequences from FASTA by identifiers</td>
+</tr>
+<tr class="odd">
+<td><strong>Plant-mPLoc</strong></td>
+<td>plant subcellular-localization prediction</td>
+</tr>
+<tr class="even">
+<td><strong>Background Make</strong></td>
+<td>build GO/KEGG background workbooks</td>
+</tr>
+<tr class="odd">
+<td><strong>Protein Links</strong></td>
+<td>UniProt/InterPro/SWISS-MODEL-oriented protein links and sequence search</td>
+</tr>
+<tr class="even">
+<td><strong>Protein Structure</strong></td>
+<td>bio3d-based structure/NMA inspection</td>
+</tr>
+<tr class="odd">
+<td><strong>Boxplot</strong></td>
+<td>grouped quantitative boxplots and statistical comparison</td>
+</tr>
+<tr class="even">
+<td><strong>SwissModel</strong></td>
+<td>dedicated SWISS-MODEL workflow</td>
+</tr>
+<tr class="odd">
+<td><strong>STRINGdb PPI</strong></td>
+<td>dedicated STRINGdb network workflow</td>
+</tr>
+<tr class="even">
+<td><strong>Stacked Column Diagram</strong></td>
+<td>stacked/grouped/100% stacked categorical abundance plots</td>
+</tr>
+<tr class="odd">
+<td><strong>Correlation chord</strong></td>
+<td>correlation matrix and chord/network representation</td>
+</tr>
+<tr class="even">
+<td><strong>Transcriptome Analysis</strong></td>
+<td>DESeq2 + PCA/volcano + maize KEGG GSEA workflow</td>
+</tr>
+<tr class="odd">
+<td><strong>Release data</strong></td>
+<td>export stage/project data from the running app</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="how-to-use-toolkits" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-use-toolkits">How to use toolkits</h2>
-<p>Toolkits are intentionally smaller than the main quantitative proteomics pipeline. They prepare identifiers/backgrounds, inspect selected proteins, connect external services, generate focused figures, or provide a specialized analysis outside the core proteomics model.</p>
-<p>Keep the input table/sequence together with exported results, use stable identifiers, record taxonomy/database/service settings, and treat structure/network/localization predictions as supporting evidence rather than automatic mechanism.</p>
-<p>Where a toolkit supports an active <code>ProtVis_dataset</code>, prefer that project-linked route so the result is recorded with parameters and provenance instead of becoming a disconnected manual artifact.</p>
+<section id="integrated-versus-standalone-tools" class="level2">
+<h2 class="anchored" data-anchor-id="integrated-versus-standalone-tools">Integrated versus standalone tools</h2>
+<p>Protein Workbench intentionally overlaps several focused utilities without removing them. For example, it can call Plant-mPLoc for the current protein, query STRING partners, display AlphaFold structure and link to SWISS-MODEL; the standalone pages remain available when you want a dedicated interface or batch/independent workflow.</p>
+<p>Recommended use:</p>
+<ul>
+<li>choose <strong>Protein Workbench</strong> when one candidate protein needs multi-angle interpretation;</li>
+<li>choose a <strong>standalone toolkit</strong> when the task is focused, independent of a resolved protein, or uses a specialized input/output workflow.</li>
+</ul>
+</section>
+<section id="reproducibility" class="level2">
+<h2 class="anchored" data-anchor-id="reproducibility">Reproducibility</h2>
+<p>Toolkits that receive the shared active <code>ProtVis_dataset</code> append their completed analyses as schema-v4 toolkit runs where implemented. Keep exported FASTA/PDB/tables/figures and external-database settings together with the project when toolkit evidence contributes to a final biological conclusion.</p>
+<p>External-resource modules depend on the availability and current APIs of services such as UniProt, InterPro, AlphaFold DB, MaizeGDB/MaizeMine, STRING and Plant-mPLoc. A network-service failure should be reported separately from local sequence/structure analysis.</p>
 
 
 </section>
@@ -1156,8 +1270,8 @@ ul.task-list li input[type="checkbox"] {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/Toolkits/Protein_Extract.html" class="pagination-link" aria-label="Protein extract">
-        <span class="nav-page-text">Protein extract</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/Toolkits/Protein_Workbench.html" class="pagination-link" aria-label="Overview">
+        <span class="nav-page-text">Overview</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

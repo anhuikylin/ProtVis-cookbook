@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Compare directional quantitative changes between two omics layers with a configurable nine-quadrant plot.">
+<meta name="description" content="Predict and visualize protein binding pockets with P2Rank by default or fpocket as an optional advanced backend.">
 
-<title>Nine quadrant – ProtVis Cookbook</title>
+<title>Binding pockets – ProtVis Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/Multi_omics_data/Co_enrichment.html" rel="next">
-<link href="../../content/Multi_omics_data/Metaproteomics.html" rel="prev">
+<link href="../../content/Toolkits/Protein_Extract.html" rel="next">
+<link href="../../content/Toolkits/Protein_Workbench_Evolution.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -256,7 +256,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Multi_omics_data/Multi_omics_data.html">Multi-omics</a></li><li class="breadcrumb-item"><a href="../../content/Multi_omics_data/Nine_Quadrant.html">Nine quadrant</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/Protein_Workbench.html">Protein Workbench</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/Protein_Workbench_Pockets.html">Binding pockets</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -509,13 +509,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
  <span class="menu-text">Multi-omics</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Multi_omics_data/Multi_omics_data.html" class="sidebar-item-text sidebar-link">
@@ -542,7 +542,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/Multi_omics_data/Nine_Quadrant.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../content/Multi_omics_data/Nine_Quadrant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Nine quadrant</span></a>
   </div>
 </li>
@@ -591,13 +591,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
  <span class="menu-text">Toolkits</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Toolkits/Toolkits.html" class="sidebar-item-text sidebar-link">
@@ -606,13 +606,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
  <span class="menu-text">Protein Workbench</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Toolkits/Protein_Workbench.html" class="sidebar-item-text sidebar-link">
@@ -633,7 +633,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/Toolkits/Protein_Workbench_Pockets.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/Toolkits/Protein_Workbench_Pockets.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Binding pockets</span></a>
   </div>
 </li>
@@ -717,27 +717,32 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#nine-quadrant-interface" id="toc-nine-quadrant-interface" class="nav-link" data-scroll-target="#nine-quadrant-interface">Nine-quadrant interface</a></li>
-  <li><a href="#recommended-operating-order" id="toc-recommended-operating-order" class="nav-link" data-scroll-target="#recommended-operating-order">Recommended operating order</a></li>
-  <li><a href="#input-format" id="toc-input-format" class="nav-link" data-scroll-target="#input-format">Input format</a></li>
-  <li><a href="#color-settings" id="toc-color-settings" class="nav-link" data-scroll-target="#color-settings">Color settings</a></li>
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#current-design" id="toc-current-design" class="nav-link active" data-scroll-target="#current-design">Current design</a></li>
+  <li><a href="#built-in-1hel-demo" id="toc-built-in-1hel-demo" class="nav-link" data-scroll-target="#built-in-1hel-demo">Built-in 1HEL demo</a></li>
+  <li><a href="#p2rank-recommended-backend" id="toc-p2rank-recommended-backend" class="nav-link" data-scroll-target="#p2rank-recommended-backend">P2Rank — recommended backend</a>
+  <ul class="collapse">
+  <li><a href="#configure-p2rank" id="toc-configure-p2rank" class="nav-link" data-scroll-target="#configure-p2rank">Configure P2Rank</a></li>
+  </ul></li>
+  <li><a href="#what-p2rank-returns" id="toc-what-p2rank-returns" class="nav-link" data-scroll-target="#what-p2rank-returns">What P2Rank returns</a></li>
+  <li><a href="#downloads" id="toc-downloads" class="nav-link" data-scroll-target="#downloads">Downloads</a></li>
+  <li><a href="#fpocket-optional-advanced-backend" id="toc-fpocket-optional-advanced-backend" class="nav-link" data-scroll-target="#fpocket-optional-advanced-backend">fpocket — optional advanced backend</a></li>
+  <li><a href="#choosing-a-structure" id="toc-choosing-a-structure" class="nav-link" data-scroll-target="#choosing-a-structure">Choosing a structure</a></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Multi_omics_data/Nine_Quadrant.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Multi_omics_data/Nine_Quadrant.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Protein_Workbench_Pockets.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Protein_Workbench_Pockets.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Multi_omics_data/Multi_omics_data.html">Multi-omics</a></li><li class="breadcrumb-item"><a href="../../content/Multi_omics_data/Nine_Quadrant.html">Nine quadrant</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Toolkits/Toolkits.html">Toolkits</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/Protein_Workbench.html">Protein Workbench</a></li><li class="breadcrumb-item"><a href="../../content/Toolkits/Protein_Workbench_Pockets.html">Binding pockets</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Nine quadrant</h1>
+<h1 class="title">Binding pockets</h1>
 </div>
 
 <div>
   <div class="description">
-    Compare directional quantitative changes between two omics layers with a configurable nine-quadrant plot.
+    Predict and visualize protein binding pockets with P2Rank by default or fpocket as an optional advanced backend.
   </div>
 </div>
 
@@ -754,79 +759,100 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="purpose" class="level2">
-<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>Use <strong>Multi-omics → Nine quadrant</strong> to compare two quantitative effect estimates, most commonly matched <code>log2FC</code> values from two omics layers or two related contrasts. ProtVis divides the x- and y-axes with the same absolute fold-change cutoff and assigns every row to one of nine directional classes: <strong>Up/Up, Up/NS, Up/Down, NS/Up, NS/NS, NS/Down, Down/Up, Down/NS, and Down/Down</strong>.</p>
-<p>This view is useful for separating concordant changes, discordant changes, and changes detected mainly in one omics layer.</p>
+<section id="current-design" class="level2">
+<h2 class="anchored" data-anchor-id="current-design">Current design</h2>
+<p>Protein Workbench now contains a dedicated <strong>Binding pocket prediction</strong> card. The current default backend is <strong>P2Rank</strong>; <strong>fpocket</strong> remains available as an optional advanced backend.</p>
+<p>Three structure sources are supported:</p>
+<ul>
+<li><strong>Current AlphaFold structure</strong> from the resolved Workbench protein;</li>
+<li><strong>Built-in demo · 1HEL lysozyme</strong>;</li>
+<li><strong>Upload PDB</strong>.</li>
+</ul>
 </section>
-<section id="nine-quadrant-interface" class="level2">
-<h2 class="anchored" data-anchor-id="nine-quadrant-interface">Nine-quadrant interface</h2>
-<p>The full-resolution screenshot below shows the current module with the bundled demonstration data. The built-in example contains <strong>2,800 rows × 4 columns</strong>: <code>Omic1_ID</code>, <code>Log2FC_Omic1</code>, <code>Omic2_ID</code>, and <code>Log2FC_Omic2</code>. The quadrant counts visible in this run are example-specific and will change with another dataset or cutoff.</p>
-<div id="fig-nine-quadrant-interface" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Screenshot of ProtVis Multi-omics Nine quadrant. The built-in example is loaded with 2800 rows and four columns. Numeric columns can be selected for the Omic1 X-axis and Omic2 Y-axis, a Log2FC cutoff defines the nine regions, and quadrant counts and result tables are available after running the plot.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-nine-quadrant-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/screenshots/PixPin_2026-09-13_20-47-41.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="Screenshot of ProtVis Multi-omics Nine quadrant. The built-in example is loaded with 2800 rows and four columns. Numeric columns can be selected for the Omic1 X-axis and Omic2 Y-axis, a Log2FC cutoff defines the nine regions, and quadrant counts and result tables are available after running the plot.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nine-quadrant-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: ProtVis Nine-quadrant interface using the built-in two-omics demonstration dataset. The left sidebar contains Data Input, Plot Settings, Color Settings and Download Settings. The center card previews the input table and the right card displays the nine-quadrant plot and quadrant-specific result panels.
-</figcaption>
-</figure>
-</div>
+<section id="built-in-1hel-demo" class="level2">
+<h2 class="anchored" data-anchor-id="built-in-1hel-demo">Built-in 1HEL demo</h2>
+<p>The demo uses <strong>PDB 1HEL</strong>, hen egg-white lysozyme, X-ray structure at <strong>1.70 Å</strong>. Click <strong>USE BUILT-IN DEMO</strong> to load the structure and launch the default P2Rank workflow.</p>
+<p>The current implementation renders the 1HEL structure in the 3D panel before the synchronous P2Rank run begins, so the user receives immediate visual feedback while prediction is running.</p>
+<p>You can also download the bundled demo PDB.</p>
 </section>
-<section id="recommended-operating-order" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-operating-order">Recommended operating order</h2>
-<p><strong>1. Load the data.</strong> Open <strong>Data Input</strong> and either upload a <code>.csv</code>/<code>.xlsx</code> file or click <strong>LOAD DEMO DATA</strong>. The demonstration dataset is not loaded automatically. Use <strong>Download example CSV</strong> when you want a template for preparing your own file.</p>
-<p><strong>2. Check the preview.</strong> The <strong>Uploaded Data Preview</strong> card should show the expected row and column counts. ProtVis requires at least two numeric columns for the plot.</p>
-<p><strong>3. Select the x- and y-axis variables.</strong> Choose the numeric field for <strong>Select Omic1 (X-axis)</strong> and the numeric field for <strong>Select Omic2 (Y-axis)</strong>. In the built-in example these are <code>Log2FC_Omic1</code> and <code>Log2FC_Omic2</code>.</p>
-<p><strong>4. Set the fold-change cutoff.</strong> Open <strong>Plot Settings</strong> and set <strong>Log2FC Cutoff</strong>. The current default is <code>1</code>. ProtVis uses <code>+cutoff</code> and <code>-cutoff</code> on both axes: values above <code>+cutoff</code> are <strong>Up</strong>, values below <code>-cutoff</code> are <strong>Down</strong>, and values between the thresholds are <strong>NS</strong>.</p>
-<p><strong>5. Control quadrant labels.</strong> Keep <strong>Show Quadrant Counts</strong> selected if you want the number of rows in each of the nine regions to be displayed on the figure.</p>
-<p><strong>6. Run the plot.</strong> Click <strong>Run plot</strong>. The status badge changes to <strong>Ready</strong> when the classification and plot have been generated.</p>
-<p><strong>7. Inspect the biological direction classes.</strong> <code>Up/Up</code> and <code>Down/Down</code> represent concordant responses, whereas <code>Up/Down</code> and <code>Down/Up</code> represent opposite responses. <code>Up/NS</code>, <code>Down/NS</code>, <code>NS/Up</code>, and <code>NS/Down</code> indicate that only one selected layer crosses the fold-change threshold. <code>NS/NS</code> contains rows within the cutoff on both axes.</p>
-<p><strong>8. Inspect and export the quadrant tables.</strong> Below the plot, ProtVis creates expandable panels for all nine classes. Each panel contains the corresponding rows and provides an individual CSV download button, which is useful for taking a selected directional class into enrichment or network analysis.</p>
-<p><strong>9. Export the figure.</strong> Under <strong>Download Settings</strong>, set the PDF width and height and click <strong>Download PDF</strong>. The current defaults are 8 × 6 inches.</p>
+<section id="p2rank-recommended-backend" class="level2">
+<h2 class="anchored" data-anchor-id="p2rank-recommended-backend">P2Rank — recommended backend</h2>
+<p>P2Rank is cross-platform but is an external application. Download it from:</p>
+<p><a href="https://github.com/rdk/p2rank/releases">P2Rank releases</a></p>
+<p>Unzip the release; a separate installer is not required. <strong>Java 17 or later is required.</strong></p>
+<section id="configure-p2rank" class="level3">
+<h3 class="anchored" data-anchor-id="configure-p2rank">Configure P2Rank</h3>
+<p>Set <strong>P2Rank folder or executable</strong> to either:</p>
+<ul>
+<li>the extracted P2Rank directory containing <code>prank.bat</code>/<code>prank</code>; or</li>
+<li>the launcher itself.</li>
+</ul>
+<p>ProtVis also attempts automatic detection. The status panel reports whether the path/folder and Java runtime are ready. Windows path handling accepts pasted/quoted directory paths and normalizes them before detection.</p>
+<p>Choose a profile:</p>
+<ul>
+<li><strong>Default · experimental PDB structures</strong>;</li>
+<li><strong>AlphaFold / predicted structures</strong>.</li>
+</ul>
+<p>When <strong>Current AlphaFold structure</strong> is selected as the source, ProtVis automatically runs the AlphaFold P2Rank profile. Threads are configurable (default 2).</p>
 </section>
-<section id="input-format" class="level2">
-<h2 class="anchored" data-anchor-id="input-format">Input format</h2>
-<p>A minimal file can contain separate identifiers for the two layers and one numeric effect column for each layer:</p>
-<pre class="text"><code>Omic1_ID,Log2FC_Omic1,Omic2_ID,Log2FC_Omic2
-Gene_001,1.52,Protein_001,1.18
-Gene_002,-2.10,Protein_002,-1.43
-Gene_003,0.35,Protein_003,1.76</code></pre>
-<p>The selected x- and y-axis columns must be numeric. Other columns can remain in the input and will be retained in the preview and exported quadrant tables.</p>
 </section>
-<section id="color-settings" class="level2">
-<h2 class="anchored" data-anchor-id="color-settings">Color settings</h2>
-<p>Open <strong>Color Settings</strong> to customize all nine classes independently: <code>Up_Up</code>, <code>Down_Down</code>, <code>Up_Down</code>, <code>Down_Up</code>, <code>Up_NS</code>, <code>Down_NS</code>, <code>NS_Up</code>, <code>NS_Down</code>, and <code>NS_NS</code>. Color changes affect presentation only; they do not change class membership.</p>
+<section id="what-p2rank-returns" class="level2">
+<h2 class="anchored" data-anchor-id="what-p2rank-returns">What P2Rank returns</h2>
+<p>ProtVis normalizes the P2Rank prediction CSV into a pocket table containing fields such as:</p>
+<ul>
+<li>pocket rank/name;</li>
+<li>score and probability;</li>
+<li>pocket center coordinates;</li>
+<li>SAS points / surface atoms;</li>
+<li>residue IDs and residue count;</li>
+<li>generated pocket-residue PDB file.</li>
+</ul>
+<p>Selecting <strong>Displayed pocket</strong> updates the 3D view so predicted pocket residues can be inspected in structural context.</p>
 </section>
-<section id="interpretation" class="level2">
-<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
-<p>The nine-quadrant module performs directional classification from the selected numeric values and cutoff. It is not a substitute for formal differential statistics. When available, perform the appropriate DEP/DEG analysis first and retain adjusted p-values or significance labels alongside the fold changes.</p>
+<section id="downloads" class="level2">
+<h2 class="anchored" data-anchor-id="downloads">Downloads</h2>
+<p>The panel provides:</p>
+<ul>
+<li><strong>Pocket table</strong> CSV;</li>
+<li>selected <strong>Pocket PDB</strong>;</li>
+<li><strong>Full pocket results</strong> ZIP;</li>
+<li>built-in 1HEL demo PDB.</li>
+</ul>
+<p>The schema-v4 run stores the structure source, backend, backend label, P2Rank profile and binding-pocket table together with generated result files.</p>
+</section>
+<section id="fpocket-optional-advanced-backend" class="level2">
+<h2 class="anchored" data-anchor-id="fpocket-optional-advanced-backend">fpocket — optional advanced backend</h2>
+<p>fpocket can be selected from <strong>Prediction backend</strong>. ProtVis supports:</p>
+<ul>
+<li>a native <code>fpocket</code> executable on <code>PATH</code> or supplied manually;</li>
+<li>Docker fallback using the image <code>fpocket/fpocket:latest</code>.</li>
+</ul>
+<p>When Docker is used, the UI can check/pull the image and distinguishes a missing Docker CLI, a stopped Docker engine and an unavailable registry/image. On Windows, Docker Desktop is the practical fallback when a native fpocket executable is not available.</p>
+<p>fpocket outputs are parsed into the same Workbench pocket table/3D-view concept, while its native descriptors (including druggability-related fields where available) are retained.</p>
+</section>
+<section id="choosing-a-structure" class="level2">
+<h2 class="anchored" data-anchor-id="choosing-a-structure">Choosing a structure</h2>
+<p>Use the AlphaFold route when the resolved UniProt protein has a suitable predicted structure and no experimental PDB is preferred. Upload an experimental/curated PDB when exact chain/residue numbering or experimental conformation matters.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Keep contrast direction consistent
+Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If one layer uses <code>Treatment - Control</code> while the other uses <code>Control - Treatment</code>, biologically concordant responses will appear discordant. Verify contrast direction before interpreting the quadrant pattern.</p>
+<p>Pocket prediction identifies geometrically/chemically plausible sites; it does not prove ligand binding, enzymatic activity or druggability. Compare predicted pockets with conserved residues, known domains/PTMs, experimental structures and biochemical evidence.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The built-in 2,800-row dataset is a demonstration dataset intended to show the interface and output structure. The quadrant counts in the screenshot are not expected values for real experiments.</p>
-</div>
-</div>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
+<p><strong>P2Rank not found.</strong> Point the field to the extracted P2Rank folder or <code>prank.bat</code>/<code>prank</code> launcher.</p>
+<p><strong>Java warning.</strong> Install/activate Java 17+ and restart the R session so <code>java</code> is visible on <code>PATH</code>.</p>
+<p><strong>No AlphaFold PDB.</strong> Use the 1HEL demo to validate the local P2Rank installation or upload a <code>.pdb</code> file.</p>
+<p><strong>fpocket Docker fails.</strong> Confirm Docker Desktop/daemon is running, then use <strong>PULL / CHECK FPOCKET IMAGE</strong> before prediction.</p>
 
 
 </section>
@@ -1252,13 +1278,13 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/Multi_omics_data/Metaproteomics.html" class="pagination-link" aria-label="Metaproteomics">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Metaproteomics</span>
+      <a href="../../content/Toolkits/Protein_Workbench_Evolution.html" class="pagination-link" aria-label="Evolutionary analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Evolutionary analysis</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/Multi_omics_data/Co_enrichment.html" class="pagination-link" aria-label="Co-enrichment">
-        <span class="nav-page-text">Co-enrichment</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/Toolkits/Protein_Extract.html" class="pagination-link" aria-label="Protein extract">
+        <span class="nav-page-text">Protein extract</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1270,7 +1296,7 @@ Note
 </div>   
     <div class="nav-footer-center">
 <p>ProtVis Cookbook · Documentation for reproducible proteomics workflows</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Multi_omics_data/Nine_Quadrant.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Multi_omics_data/Nine_Quadrant.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Toolkits/Protein_Workbench_Pockets.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Toolkits/Protein_Workbench_Pockets.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org/">Quarto</a></p>
 </div>
