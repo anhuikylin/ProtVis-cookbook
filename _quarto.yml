@@ -113,6 +113,16 @@ website:
         contents:
           - href: content/Toolkits/Toolkits.qmd
             text: Toolkit overview
+          - section: "Protein Workbench"
+            contents:
+              - href: content/Toolkits/Protein_Workbench.qmd
+                text: Overview
+              - href: content/Toolkits/Protein_Workbench_Context.qmd
+                text: Localization & interaction
+              - href: content/Toolkits/Protein_Workbench_Evolution.qmd
+                text: Evolutionary analysis
+              - href: content/Toolkits/Protein_Workbench_Pockets.qmd
+                text: Binding pockets
           - href: content/Toolkits/Protein_Extract.qmd
             text: Protein extract
           - href: content/Toolkits/Plant_mPLoc.qmd

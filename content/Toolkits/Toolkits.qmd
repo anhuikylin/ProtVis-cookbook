@@ -1,20 +1,45 @@
 ---
 title: "Toolkits"
-description: "Focused utilities for identifier preparation, plant localization, structures/networks, transcriptome analysis, reusable plots and auxiliary analyses."
+description: "Protein Workbench plus focused utilities for identifiers, localization, structure, networks, visualization and transcriptome analysis."
 ---
+
+## Protein Workbench is the integrated protein-centric entry point
+
+In the current **ProtVis 0.9.16** Toolkits menu, **Protein Workbench** is the first item. It resolves a single protein/gene/UniProt identifier or amino-acid sequence once, then reuses that context across annotation, PTM sites, domains, AlphaFold structure, localization, STRING interactions, plant evolutionary analysis and binding-pocket prediction.
+
+Use the expandable [Protein Workbench](Protein_Workbench.qmd) documentation for the complete workflow:
+
+**ID / sequence → UniProt/MaizeGDB → sequence/PTM/domains/structure → localization & interaction → evolution → binding pockets**
 
 ## Current toolkit map
 
-The current Toolkits menu contains **Protein Extract, Plant-mPLoc, Background Make, Protein Links, Protein Structure, Boxplot, SwissModel, STRINGdb PPI, Stacked Column Diagram, Correlation chord, and Transcriptome Analysis**.
+| Toolkit | Main purpose |
+|---|---|
+| **Protein Workbench** | integrated protein-centric analysis hub |
+| **Protein Extract** | extract protein sequences from FASTA by identifiers |
+| **Plant-mPLoc** | plant subcellular-localization prediction |
+| **Background Make** | build GO/KEGG background workbooks |
+| **Protein Links** | UniProt/InterPro/SWISS-MODEL-oriented protein links and sequence search |
+| **Protein Structure** | bio3d-based structure/NMA inspection |
+| **Boxplot** | grouped quantitative boxplots and statistical comparison |
+| **SwissModel** | dedicated SWISS-MODEL workflow |
+| **STRINGdb PPI** | dedicated STRINGdb network workflow |
+| **Stacked Column Diagram** | stacked/grouped/100% stacked categorical abundance plots |
+| **Correlation chord** | correlation matrix and chord/network representation |
+| **Transcriptome Analysis** | DESeq2 + PCA/volcano + maize KEGG GSEA workflow |
+| **Release data** | export stage/project data from the running app |
 
-[Plant-mPLoc](Plant_mPLoc.qmd) submits a complete plant protein sequence to the public Plant-mPLoc service and records parsed single/multiple subcellular-localization predictions when an active schema-v4 project is available.
+## Integrated versus standalone tools
 
-[Transcriptome Analysis](DEG_Analyse.qmd) is the RNA-seq/count-oriented utility. It combines DESeq2 differential expression, PCA, volcano/statistics output and the current maize KEGG GSEA reproduction workflow. It is separate from the main proteomics **DEP analysis**.
+Protein Workbench intentionally overlaps several focused utilities without removing them. For example, it can call Plant-mPLoc for the current protein, query STRING partners, display AlphaFold structure and link to SWISS-MODEL; the standalone pages remain available when you want a dedicated interface or batch/independent workflow.
 
-## How to use toolkits
+Recommended use:
 
-Toolkits are intentionally smaller than the main quantitative proteomics pipeline. They prepare identifiers/backgrounds, inspect selected proteins, connect external services, generate focused figures, or provide a specialized analysis outside the core proteomics model.
+- choose **Protein Workbench** when one candidate protein needs multi-angle interpretation;
+- choose a **standalone toolkit** when the task is focused, independent of a resolved protein, or uses a specialized input/output workflow.
 
-Keep the input table/sequence together with exported results, use stable identifiers, record taxonomy/database/service settings, and treat structure/network/localization predictions as supporting evidence rather than automatic mechanism.
+## Reproducibility
 
-Where a toolkit supports an active `ProtVis_dataset`, prefer that project-linked route so the result is recorded with parameters and provenance instead of becoming a disconnected manual artifact.
+Toolkits that receive the shared active `ProtVis_dataset` append their completed analyses as schema-v4 toolkit runs where implemented. Keep exported FASTA/PDB/tables/figures and external-database settings together with the project when toolkit evidence contributes to a final biological conclusion.
+
+External-resource modules depend on the availability and current APIs of services such as UniProt, InterPro, AlphaFold DB, MaizeGDB/MaizeMine, STRING and Plant-mPLoc. A network-service failure should be reported separately from local sequence/structure analysis.

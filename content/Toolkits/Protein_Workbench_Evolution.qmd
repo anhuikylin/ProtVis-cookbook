@@ -1,0 +1,83 @@
+---
+title: "Evolutionary analysis"
+description: "Retrieve plant homolog candidates from UniProt, align them with DECIPHER and build NJ, ME or ML phylogenetic trees inside Protein Workbench."
+---
+
+## Purpose
+
+The **Evolutionary analysis** card extends Protein Workbench from one resolved protein to a plant-focused comparative sequence view.
+
+The workflow is:
+
+**resolved UniProt protein → plant homolog candidates → multiple-sequence alignment → phylogenetic tree**
+
+## Supported plant presets
+
+Current common-species choices include maize, rice, sorghum, foxtail millet, wheat, barley, *Brachypodium*, *Arabidopsis*, *Brassica napus*, soybean, *Medicago*, tomato, potato and cotton.
+
+The default selection contains seven representative species: maize, rice, sorghum, foxtail millet, *Arabidopsis*, soybean and tomato.
+
+Select at least two plant species, then choose:
+
+- **Neighbor joining (NJ)** — fast default;
+- **Minimum evolution (ME)**;
+- **Maximum likelihood (ML)**;
+- number of processors (1–16).
+
+Click **RUN EVOLUTIONARY ANALYSIS**.
+
+## How homolog candidates are retrieved
+
+For each selected species, ProtVis queries UniProt using the current protein's annotation. It tries the primary gene name first and then the protein name when needed. Up to five candidate records are considered per taxon.
+
+When several candidates are available, the current selection rule favors:
+
+1. a sequence length closest to the query protein;
+2. a reviewed/Swiss-Prot record when otherwise comparable.
+
+The query protein itself is retained as the reference when its species is among the selected taxa; it is also inserted if necessary so the tree has a stable query label.
+
+::: {.callout-warning}
+This is an annotation/sequence-based candidate-retrieval workflow, not a formal orthology inference pipeline. A selected candidate should be described as a homolog candidate unless orthology is supported by additional evidence.
+:::
+
+## Multiple-sequence alignment
+
+Only rows with status **Query** or **Retrieved** and a valid protein sequence are aligned. At least **three usable sequences** are required to construct a phylogenetic tree.
+
+ProtVis uses:
+
+```text
+DECIPHER::AlignSeqs()
+```
+
+with amino-acid sequences represented as a `Biostrings::AAStringSet`.
+
+## Tree reconstruction
+
+The aligned sequences are passed to:
+
+```text
+DECIPHER::Treeline()
+```
+
+using the selected `NJ`, `ME` or `ML` method, then converted to an `ape::phylo` object for plotting/export.
+
+Tip labels contain the gene/accession and species name; the current Workbench query is marked with a `QUERY_` prefix.
+
+## Outputs
+
+The panel provides:
+
+- retrieved homolog-candidate table;
+- aligned FASTA;
+- Newick tree;
+- phylogenetic tree figure as **PNG, SVG or PDF**.
+
+When an active project exists, the run is appended under the schema-v4 toolkit history with selected taxa, phylogenetic method, processors, homolog table, aligned-sequence count and tree-tip count.
+
+## Interpretation
+
+A short protein tree generated from automatically selected candidates is most useful for exploratory context: conservation, unusually divergent homologs, and choosing candidates for deeper comparative analysis.
+
+For publication-grade evolutionary inference, consider a dedicated orthology search, sequence-quality checks, alignment trimming/model selection and branch-support analysis appropriate to the scientific question.
