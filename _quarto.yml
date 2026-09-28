@@ -107,8 +107,6 @@ website:
             text: PTM analysis
           - href: content/PTM/PSM_Explorer.qmd
             text: PSM Explorer
-      - href: content/Release_data.qmd
-        text: Release data
       - section: "Toolkits"
         contents:
           - href: content/Toolkits/Toolkits.qmd
@@ -145,6 +143,8 @@ website:
             text: Correlation chord
           - href: content/Toolkits/DEG_Analyse.qmd
             text: Transcriptome Analysis
+          - href: content/Release_data.qmd
+            text: Release data
 
 format:
   html:
