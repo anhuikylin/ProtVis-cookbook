@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Use source-aware transformation, imputation and normalization while preserving an observed pre-imputation matrix for Recommended DEP.">
+<meta name="description" content="Use source-aware transformation, imputation and normalization with explicit method choices and before/after processing reports.">
 
 <title>Pre-processing workflow – ProtVis Cookbook</title>
 <style>
@@ -44,9 +44,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-85a3acc908edc3a11a86c47ee3a95dc2.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-108f4c036bbe54ef5b303d34b4966bbc.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8069832d7252697a21ef2cc2f9ae0abe.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-108f4c036bbe54ef5b303d34b4966bbc.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-cc05b6a869363dad826afc9f23926cbd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -437,7 +437,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Pre_processing/correct_noise.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Correct noise</span></a>
+ <span class="menu-text">Within-group Processing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -719,12 +719,13 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#shared-workflow" id="toc-shared-workflow" class="nav-link active" data-scroll-target="#shared-workflow">Shared workflow</a></li>
   <li><a href="#source-aware-defaults" id="toc-source-aware-defaults" class="nav-link" data-scroll-target="#source-aware-defaults">Source-aware defaults</a></li>
-  <li><a href="#correct-noise" id="toc-correct-noise" class="nav-link" data-scroll-target="#correct-noise">1. Correct Noise</a></li>
+  <li><a href="#within-group-processing" id="toc-within-group-processing" class="nav-link" data-scroll-target="#within-group-processing">1. Within-group Processing</a></li>
   <li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation">2. Data Transformation</a></li>
   <li><a href="#data-imputation" id="toc-data-imputation" class="nav-link" data-scroll-target="#data-imputation">3. Data Imputation</a></li>
   <li><a href="#data-normalization" id="toc-data-normalization" class="nav-link" data-scroll-target="#data-normalization">4. Data Normalization</a></li>
   <li><a href="#important-change-for-differential-analysis" id="toc-important-change-for-differential-analysis" class="nav-link" data-scroll-target="#important-change-for-differential-analysis">Important change for differential analysis</a></li>
   <li><a href="#compatibility-snapshots" id="toc-compatibility-snapshots" class="nav-link" data-scroll-target="#compatibility-snapshots">Compatibility snapshots</a></li>
+  <li><a href="#reporting-each-stage" id="toc-reporting-each-stage" class="nav-link" data-scroll-target="#reporting-each-stage">Reporting each stage</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Pre_processing/Pre_processing.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Pre_processing/Pre_processing.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -739,7 +740,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Use source-aware transformation, imputation and normalization while preserving an observed pre-imputation matrix for Recommended DEP.
+    Use source-aware transformation, imputation and normalization with explicit method choices and before/after processing reports.
   </div>
 </div>
 
@@ -759,23 +760,24 @@ ul.task-list li input[type="checkbox"] {
 <section id="shared-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="shared-workflow">Shared workflow</h2>
 <p>After Search/import has produced a real protein-by-sample matrix, the GUI presents:</p>
-<p><strong>Correct Noise → Data Transformation → Data Imputation → Data Normalization</strong></p>
+<p><strong>Within-group Processing → Data Transformation → Data Imputation → Data Normalization</strong></p>
 <p>Schema v4 appends every successful stage as a new run. The active matrix advances through the workflow, while prior matrix states remain recoverable.</p>
 </section>
 <section id="source-aware-defaults" class="level2">
 <h2 class="anchored" data-anchor-id="source-aware-defaults">Source-aware defaults</h2>
 <p>ProtVis 0.9.1 can resolve <strong>Auto (source recommended)</strong> settings. For MaxQuant, the archived-compatible preset is:</p>
-<p><strong>replicate correction → log2(intensity × 1e7) → kNN (seed 12345) → sample-median normalization + historical row shift</strong></p>
+<p><strong>replicate correction → log2(intensity × 1e7) → kNN (GUI seed 12345; engine defaults also apply) → sample-median normalization + historical row shift</strong></p>
 <p>For other sources, defaults are more conservative and can be changed explicitly in the module.</p>
 </section>
-<section id="correct-noise" class="level2">
-<h2 class="anchored" data-anchor-id="correct-noise">1. Correct Noise</h2>
-<p>Correct Noise performs replicate-aware correction when <code>_1/_2/_3</code> sample suffixes are available, removes all-zero proteins in that replicate workflow, and safely collapses duplicated protein IDs before reshaping. If recognizable replicate suffixes are absent, the validated matrix is retained without forcing replicate correction.</p>
-<p>Read <a href="../../content/Pre_processing/correct_noise.html">Correct noise</a>.</p>
+<section id="within-group-processing" class="level2">
+<h2 class="anchored" data-anchor-id="within-group-processing">1. Within-group Processing</h2>
+<p>Within-group Processing performs replicate-aware correction when <code>_1/_2/_3</code> sample suffixes are available, removes all-zero proteins in that replicate workflow, and safely collapses duplicated protein IDs before reshaping. If recognizable replicate suffixes are absent, the validated matrix is retained without forcing replicate correction.</p>
+<p>The dropdown also offers <strong>Replicate filtering (at least two detected)</strong> with optional group mean filling, unchecked by default.</p>
+<p>Read <a href="../../content/Pre_processing/correct_noise.html">Within-group Processing</a>.</p>
 </section>
 <section id="data-transformation" class="level2">
 <h2 class="anchored" data-anchor-id="data-transformation">2. Data Transformation</h2>
-<p>The current menu includes <strong>Auto (source recommended)</strong>, <strong>MaxQuant: log2(x × 1e7)</strong>, <strong>log2</strong>, <strong>None</strong>, <strong>log10</strong>, plus advanced Z-score/scale/center options. The transformation method is stored with the project and later used to infer normalization input scale.</p>
+<p>The current menu includes <strong>Auto (source recommended)</strong>, <strong>MaxQuant: log2(x × 1e7)</strong>, <strong>log2</strong>, <strong>None</strong>, <strong>log10</strong>, plus advanced Z-score/scale/center options. The transformation method is stored with the project. Establish the matrix scale before choosing normalization.</p>
 <p>Read <a href="../../content/Pre_processing/data_transformed.html">Data transformation</a>.</p>
 </section>
 <section id="data-imputation" class="level2">
@@ -785,7 +787,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="data-normalization" class="level2">
 <h2 class="anchored" data-anchor-id="data-normalization">4. Data Normalization</h2>
-<p>Normalization is no longer fixed to median subtraction. Current methods include <strong>Median, Quantile, VSN, Cyclic Loess, RLR</strong> and a proteiNorm-compatible family, plus a source-aware Auto preset. <strong>Compare all methods</strong> calculates diagnostic metrics rather than silently selecting a winner.</p>
+<p>The verified GUI supports sample median subtraction and a source-aware archived positive-shift preset. See the method-specific chapter for formulas, assumptions and reporting.</p>
 <p>Read <a href="../../content/Pre_processing/data_normalization.html">Data normalization</a>.</p>
 </section>
 <section id="important-change-for-differential-analysis" class="level2">
@@ -800,7 +802,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Recommended DEP</strong> deliberately uses the observed <strong>Step4 transformed matrix before imputation</strong>, then applies its own sample-median centering and detection filter. Step5/Step6 remain important for complete-matrix visualization, QC and analyses that explicitly require imputed/normalized data, but they do not force imputed values into the default DEP model.</p>
+<p><strong>Recommended DEP</strong> deliberately uses <strong>Step4 transformed data before the dedicated Imputation module</strong>, which may already contain filling from Within-group Processing, then applies its own sample-median centering and detection filter. Step5/Step6 remain important for complete-matrix visualization, QC and analyses that explicitly require imputed/normalized data, but they do not force imputed values into the default DEP model.</p>
 </div>
 </div>
 </section>
@@ -823,7 +825,7 @@ ul.task-list li input[type="checkbox"] {
 <td><code>Step2_sage_database_search.rda</code></td>
 </tr>
 <tr class="odd">
-<td>Correct noise</td>
+<td>Within-group Processing</td>
 <td><code>Step3_correct_noise.rda</code></td>
 </tr>
 <tr class="even">
@@ -841,6 +843,10 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <p>Before downstream analysis, inspect <a href="../../content/reproducibility/Project_Dashboard.html">Project Dashboard</a> and confirm the current/active run, sample mapping, missingness and workflow validity.</p>
+</section>
+<section id="reporting-each-stage" class="level2">
+<h2 class="anchored" data-anchor-id="reporting-each-stage">Reporting each stage</h2>
+<p>Open <strong>Processing report</strong> after completing a saved run. The chapters explain which counts reflect filling, masking, removal or a scale change. Record the resolved method and input/output scale; changes in missing percentage or distribution alone do not prove improved biological validity.</p>
 
 
 </section>
@@ -1271,8 +1277,8 @@ ul.task-list li input[type="checkbox"] {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/Pre_processing/correct_noise.html" class="pagination-link" aria-label="Correct noise">
-        <span class="nav-page-text">Correct noise</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/Pre_processing/correct_noise.html" class="pagination-link" aria-label="Within-group Processing">
+        <span class="nav-page-text">Within-group Processing</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -2310,11 +2310,33 @@
     ]
   },
   {
+    "objectID": "content/Pre_processing/data_transformed.html#exact-transformations-and-use-cases",
+    "href": "content/Pre_processing/data_transformed.html#exact-transformations-and-use-cases",
+    "title": "Data transformation",
+    "section": "Exact transformations and use cases",
+    "text": "Exact transformations and use cases\nThe current GUI uses log2 transformation for its source-aware auto choice. For MaxQuant this resolves to log2(x × 10^7); for other sources it resolves to direct log2. Check the resolved method rather than assuming Auto means the same formula for every data source.\n\n\n\n\n\n\n\n\n\nChoice\nActual operation\nSuitable use\nInterpretation\n\n\n\n\nScaled log2 / MaxQuant preset\nlog2(x × 10^7) on positive observed values\nArchived MaxQuant reproduction\nAdds approximately 23.2535 to direct log2; it is not sample normalization\n\n\nDirect log2\nlog2(x + 10^-8)\nPositive intensities with a wide dynamic range\nA difference of 1 corresponds approximately to a twofold ratio\n\n\nlog10\nlog10(x + 10^-8)\nDisplay on a decimal logarithmic scale\nDifference of 1 corresponds approximately to tenfold intensity\n\n\nNone\nPreserve values\nAlready transformed input or an intentionally raw workflow\nDownstream analysis must accept this scale\n\n\nZ-score / Scale + center\nR scale(x, center=TRUE, scale=TRUE)\nPattern comparison or exploratory displays\nCenters and scales each sample column, not each protein row\n\n\nScale only\nR scale(x, center=FALSE, scale=TRUE)\nExplicit uncentered column scaling\nR uses an uncentered root-mean-square divisor, not simply the column SD\n\n\nCenter only\nR scale(x, center=TRUE, scale=FALSE)\nExploratory column mean centering\nSubtracts each sample column mean\n\n\n\nNever log an already log-transformed matrix. Z-score/centering outputs can contain negative values; do not subsequently treat those as raw undetected intensities. Constant or sparsely observed columns can yield non-finite scaled values. Review the report and resolve those columns before downstream analysis.",
+    "crumbs": [
+      "Pre-processing",
+      "Data transformation"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_transformed.html#worked-example-and-reporting",
+    "href": "content/Pre_processing/data_transformed.html#worked-example-and-reporting",
+    "title": "Data transformation",
+    "section": "Worked example and reporting",
+    "text": "Worked example and reporting\nFor raw values 100 and 200, direct log2 produces approximately 6.644 and 7.644. The scaled MaxQuant formula produces approximately 29.897 and 30.897. Both preserve the one-unit difference in this example, but their absolute scales differ.\nAfter Run transformation, open Processing report. It contains matrix dimensions, finite-value count, missing/non-finite percentage, median and range, plus sample-level changes. A transformation normally changes observed values rather than filling missing entries. New non-finite values require investigation; a compressed range is an expected scale effect, not evidence that biological variability improved.\nDescribe results using the actual numbers, for example: “After direct log2 transformation, the matrix contained X proteins and Y samples; missingness was Z%, and finite values ranged from A to B with median M.” Record the resolved method, input scale and relevant multiplier/pseudocount.\nImplementation.",
+    "crumbs": [
+      "Pre-processing",
+      "Data transformation"
+    ]
+  },
+  {
     "objectID": "content/Pre_processing/Pre_processing.html",
     "href": "content/Pre_processing/Pre_processing.html",
     "title": "Pre-processing workflow",
     "section": "",
-    "text": "After Search/import has produced a real protein-by-sample matrix, the GUI presents:\nCorrect Noise → Data Transformation → Data Imputation → Data Normalization\nSchema v4 appends every successful stage as a new run. The active matrix advances through the workflow, while prior matrix states remain recoverable.",
+    "text": "After Search/import has produced a real protein-by-sample matrix, the GUI presents:\nWithin-group Processing → Data Transformation → Data Imputation → Data Normalization\nSchema v4 appends every successful stage as a new run. The active matrix advances through the workflow, while prior matrix states remain recoverable.",
     "crumbs": [
       "Pre-processing",
       "Workflow overview"
@@ -2325,7 +2347,7 @@
     "href": "content/Pre_processing/Pre_processing.html#shared-workflow",
     "title": "Pre-processing workflow",
     "section": "",
-    "text": "After Search/import has produced a real protein-by-sample matrix, the GUI presents:\nCorrect Noise → Data Transformation → Data Imputation → Data Normalization\nSchema v4 appends every successful stage as a new run. The active matrix advances through the workflow, while prior matrix states remain recoverable.",
+    "text": "After Search/import has produced a real protein-by-sample matrix, the GUI presents:\nWithin-group Processing → Data Transformation → Data Imputation → Data Normalization\nSchema v4 appends every successful stage as a new run. The active matrix advances through the workflow, while prior matrix states remain recoverable.",
     "crumbs": [
       "Pre-processing",
       "Workflow overview"
@@ -2336,18 +2358,18 @@
     "href": "content/Pre_processing/Pre_processing.html#source-aware-defaults",
     "title": "Pre-processing workflow",
     "section": "Source-aware defaults",
-    "text": "Source-aware defaults\nProtVis 0.9.1 can resolve Auto (source recommended) settings. For MaxQuant, the archived-compatible preset is:\nreplicate correction → log2(intensity × 1e7) → kNN (seed 12345) → sample-median normalization + historical row shift\nFor other sources, defaults are more conservative and can be changed explicitly in the module.",
+    "text": "Source-aware defaults\nProtVis 0.9.1 can resolve Auto (source recommended) settings. For MaxQuant, the archived-compatible preset is:\nreplicate correction → log2(intensity × 1e7) → kNN (GUI seed 12345; engine defaults also apply) → sample-median normalization + historical row shift\nFor other sources, defaults are more conservative and can be changed explicitly in the module.",
     "crumbs": [
       "Pre-processing",
       "Workflow overview"
     ]
   },
   {
-    "objectID": "content/Pre_processing/Pre_processing.html#correct-noise",
-    "href": "content/Pre_processing/Pre_processing.html#correct-noise",
+    "objectID": "content/Pre_processing/Pre_processing.html#within-group-processing",
+    "href": "content/Pre_processing/Pre_processing.html#within-group-processing",
     "title": "Pre-processing workflow",
-    "section": "1. Correct Noise",
-    "text": "1. Correct Noise\nCorrect Noise performs replicate-aware correction when _1/_2/_3 sample suffixes are available, removes all-zero proteins in that replicate workflow, and safely collapses duplicated protein IDs before reshaping. If recognizable replicate suffixes are absent, the validated matrix is retained without forcing replicate correction.\nRead Correct noise.",
+    "section": "1. Within-group Processing",
+    "text": "1. Within-group Processing\nWithin-group Processing performs replicate-aware correction when _1/_2/_3 sample suffixes are available, removes all-zero proteins in that replicate workflow, and safely collapses duplicated protein IDs before reshaping. If recognizable replicate suffixes are absent, the validated matrix is retained without forcing replicate correction.\nThe dropdown also offers Replicate filtering (at least two detected) with optional group mean filling, unchecked by default.\nRead Within-group Processing.",
     "crumbs": [
       "Pre-processing",
       "Workflow overview"
@@ -2358,7 +2380,7 @@
     "href": "content/Pre_processing/Pre_processing.html#data-transformation",
     "title": "Pre-processing workflow",
     "section": "2. Data Transformation",
-    "text": "2. Data Transformation\nThe current menu includes Auto (source recommended), MaxQuant: log2(x × 1e7), log2, None, log10, plus advanced Z-score/scale/center options. The transformation method is stored with the project and later used to infer normalization input scale.\nRead Data transformation.",
+    "text": "2. Data Transformation\nThe current menu includes Auto (source recommended), MaxQuant: log2(x × 1e7), log2, None, log10, plus advanced Z-score/scale/center options. The transformation method is stored with the project. Establish the matrix scale before choosing normalization.\nRead Data transformation.",
     "crumbs": [
       "Pre-processing",
       "Workflow overview"
@@ -2380,7 +2402,7 @@
     "href": "content/Pre_processing/Pre_processing.html#data-normalization",
     "title": "Pre-processing workflow",
     "section": "4. Data Normalization",
-    "text": "4. Data Normalization\nNormalization is no longer fixed to median subtraction. Current methods include Median, Quantile, VSN, Cyclic Loess, RLR and a proteiNorm-compatible family, plus a source-aware Auto preset. Compare all methods calculates diagnostic metrics rather than silently selecting a winner.\nRead Data normalization.",
+    "text": "4. Data Normalization\nThe verified GUI supports sample median subtraction and a source-aware archived positive-shift preset. See the method-specific chapter for formulas, assumptions and reporting.\nRead Data normalization.",
     "crumbs": [
       "Pre-processing",
       "Workflow overview"
@@ -2391,7 +2413,7 @@
     "href": "content/Pre_processing/Pre_processing.html#important-change-for-differential-analysis",
     "title": "Pre-processing workflow",
     "section": "Important change for differential analysis",
-    "text": "Important change for differential analysis\n\n\n\n\n\n\nImportantImputation is not the default inferential input\n\n\n\nRecommended DEP deliberately uses the observed Step4 transformed matrix before imputation, then applies its own sample-median centering and detection filter. Step5/Step6 remain important for complete-matrix visualization, QC and analyses that explicitly require imputed/normalized data, but they do not force imputed values into the default DEP model.",
+    "text": "Important change for differential analysis\n\n\n\n\n\n\nImportantImputation is not the default inferential input\n\n\n\nRecommended DEP deliberately uses Step4 transformed data before the dedicated Imputation module, which may already contain filling from Within-group Processing, then applies its own sample-median centering and detection filter. Step5/Step6 remain important for complete-matrix visualization, QC and analyses that explicitly require imputed/normalized data, but they do not force imputed values into the default DEP model.",
     "crumbs": [
       "Pre-processing",
       "Workflow overview"
@@ -2402,7 +2424,18 @@
     "href": "content/Pre_processing/Pre_processing.html#compatibility-snapshots",
     "title": "Pre-processing workflow",
     "section": "Compatibility snapshots",
-    "text": "Compatibility snapshots\n\n\n\nStage\nFile\n\n\n\n\nInput/search handoff\nStep2_remove_unreliable_peptide.rda\n\n\nSage compatibility\nStep2_sage_database_search.rda\n\n\nCorrect noise\nStep3_correct_noise.rda\n\n\nTransformation\nStep4_data_transformed.rda\n\n\nImputation\nStep5_data_imputation.rda\n\n\nNormalization\nStep6_data_normalization.rda\n\n\n\nBefore downstream analysis, inspect Project Dashboard and confirm the current/active run, sample mapping, missingness and workflow validity.",
+    "text": "Compatibility snapshots\n\n\n\nStage\nFile\n\n\n\n\nInput/search handoff\nStep2_remove_unreliable_peptide.rda\n\n\nSage compatibility\nStep2_sage_database_search.rda\n\n\nWithin-group Processing\nStep3_correct_noise.rda\n\n\nTransformation\nStep4_data_transformed.rda\n\n\nImputation\nStep5_data_imputation.rda\n\n\nNormalization\nStep6_data_normalization.rda\n\n\n\nBefore downstream analysis, inspect Project Dashboard and confirm the current/active run, sample mapping, missingness and workflow validity.",
+    "crumbs": [
+      "Pre-processing",
+      "Workflow overview"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/Pre_processing.html#reporting-each-stage",
+    "href": "content/Pre_processing/Pre_processing.html#reporting-each-stage",
+    "title": "Pre-processing workflow",
+    "section": "Reporting each stage",
+    "text": "Reporting each stage\nOpen Processing report after completing a saved run. The chapters explain which counts reflect filling, masking, removal or a scale change. Record the resolved method and input/output scale; changes in missing percentage or distribution alone do not prove improved biological validity.",
     "crumbs": [
       "Pre-processing",
       "Workflow overview"
@@ -2470,7 +2503,7 @@
     "href": "content/Pre_processing/data_imputation.html",
     "title": "Data imputation",
     "section": "",
-    "text": "Proteomics missingness may reflect abundance limits, identification uncertainty, stochastic sampling or technical failure. ProtVis keeps not-observed values as NA until this dedicated stage.\nAt load time the module converts non-finite values to missing and treats 0/-8 sentinels as not observed in the compatibility workflow. Rows/columns that are entirely missing are removed from the matrix passed to the imputation engine.",
+    "text": "Proteomics missingness may reflect abundance limits, identification uncertainty, stochastic sampling or technical failure. Missing values can remain NA until this stage when upstream group-mean filling is disabled; the Existing method can already fill some entries.\nAt load time the module converts non-finite values to missing and treats 0/-8 sentinels as not observed in the compatibility workflow. Rows/columns that are entirely missing are removed from the matrix passed to the imputation engine.",
     "crumbs": [
       "Pre-processing",
       "Data imputation"
@@ -2481,7 +2514,7 @@
     "href": "content/Pre_processing/data_imputation.html#why-imputation-is-explicit",
     "title": "Data imputation",
     "section": "",
-    "text": "Proteomics missingness may reflect abundance limits, identification uncertainty, stochastic sampling or technical failure. ProtVis keeps not-observed values as NA until this dedicated stage.\nAt load time the module converts non-finite values to missing and treats 0/-8 sentinels as not observed in the compatibility workflow. Rows/columns that are entirely missing are removed from the matrix passed to the imputation engine.",
+    "text": "Proteomics missingness may reflect abundance limits, identification uncertainty, stochastic sampling or technical failure. Missing values can remain NA until this stage when upstream group-mean filling is disabled; the Existing method can already fill some entries.\nAt load time the module converts non-finite values to missing and treats 0/-8 sentinels as not observed in the compatibility workflow. Rows/columns that are entirely missing are removed from the matrix passed to the imputation engine.",
     "crumbs": [
       "Pre-processing",
       "Data imputation"
@@ -2514,7 +2547,7 @@
     "href": "content/Pre_processing/data_imputation.html#gui-workflow",
     "title": "Data imputation",
     "section": "GUI workflow",
-    "text": "GUI workflow\n\n\n\n\n\n\nFigure 1: Earlier Data Imputation interface in ProtVis. The current 0.9.1 app keeps the same load/visualize/run workflow but replaces the old q/MinProb area with an explicit Random seed and removes Zero from the method list.\n\n\n\n\nLoad data from the active Step4/project state.\nVisualize missing values before filling anything.\nSelect the method and confirm the random seed.\nClick Run imputation.\nCompare original versus imputed tables/visualizations.\n\nProtVis warns when rows contain more than 50% missing values because similarity-based kNN estimates can become unstable.\n\n\n\n\n\n\nImportantRecommended DEP does not use Step5 imputed values\n\n\n\nImputation is still useful for heatmaps, complete-matrix QC, normalization benchmarking and other methods that require complete data. The default Recommended DEP inferential workflow instead uses observed Step4 intensities and a detection filter to avoid turning imputed values into artificial statistical evidence.",
+    "text": "GUI workflow\n\n\n\n\n\n\nFigure 1: Earlier Data Imputation interface in ProtVis. The current 0.9.1 app keeps the same load/visualize/run workflow but replaces the old q/MinProb area with an explicit Random seed and removes Zero from the method list.\n\n\n\n\nLoad data from the active Step4/project state.\nVisualize missing values before filling anything.\nSelect the method and confirm the random seed.\nClick Run imputation.\nCompare original versus imputed tables/visualizations.\n\nProtVis warns when rows contain more than 50% missing values because similarity-based kNN estimates can become unstable.\n\n\n\n\n\n\nImportantRecommended DEP does not use Step5 imputed values\n\n\n\nImputation is still useful for heatmaps, complete-matrix QC, normalization and other methods that require complete data. The default Recommended DEP inferential workflow instead uses Step4 intensities and a detection filter (Step4 can include earlier within-group filling) to avoid turning imputed values into artificial statistical evidence.",
     "crumbs": [
       "Pre-processing",
       "Data imputation"
@@ -2532,77 +2565,99 @@
     ]
   },
   {
+    "objectID": "content/Pre_processing/data_imputation.html#method-selection-in-practice",
+    "href": "content/Pre_processing/data_imputation.html#method-selection-in-practice",
+    "title": "Data imputation",
+    "section": "Method selection in practice",
+    "text": "Method selection in practice\n\n\n\n\n\n\n\n\n\nGUI method\nActual implementation\nAppropriate exploratory scenario\nImportant limitation\n\n\n\n\nkNN\nimpute::impute.knn on proteins × samples\nScattered missing values with informative neighboring protein profiles\nNot a group-aware or low-abundance censoring model\n\n\nRF\nmissForest::missForest on the protein-row/sample-column table\nNonlinear relationships among samples, enough observed data\nMore computation; does not explicitly use group labels\n\n\nMean\nReplace NA with the mean of the same sample column\nSimple baseline comparison\nDifferent from within-group protein mean; compresses variation\n\n\nMedian\nReplace NA with the median of the same sample column\nRobust simple baseline\nCreates repeated values and can distort distributions\n\n\nMinimum\nReplace NA with the minimum of the same sample column\nExploratory low-value sensitivity comparison\nA single observed minimum is not a fitted detection-limit model\n\n\n\nMean/Median/Minimum pool proteins within a sample column. They do not estimate each protein’s missing value from its biological replicates. The separate Within-group Processing checkbox does that instead.\nMissingness scattered across samples and consistent with a MAR mechanism can motivate neighborhood-based methods. Systematic absence of low-abundance proteins may be MNAR; simple mean filling can overestimate such intensities. A pattern alone does not prove the mechanism. ProtVis does not currently expose QRILC or MinProb in this GUI; these are external alternatives discussed in the DEP missing-value guidance, not implemented selector options.",
+    "crumbs": [
+      "Pre-processing",
+      "Data imputation"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_imputation.html#step-by-step-use",
+    "href": "content/Pre_processing/data_imputation.html#step-by-step-use",
+    "title": "Data imputation",
+    "section": "Step-by-step use",
+    "text": "Step-by-step use\n\nLoad data after transformation and confirm the incoming scale and sample IDs.\nVisualize missing values; distinguish scattered missingness from entire missing groups or poor samples.\nSelect a method. The GUI starts with kNN; this is an interface default, not a universal recommendation.\nSet Random seed (default 12345), then Run imputation.\nCompare original and imputed matrices/distributions; inspect whether observed values stayed unchanged.\nUse the module’s export/save action to commit the result to ProtVis_dataset and create Step5. Processing report is generated for that saved run.\nInspect missing values remaining, filled counts per sample and shifts in sample medians before continuing.\n\nThe engine input removes entirely missing rows/columns, so a filled matrix need not have the same dimensions as the original input. This removal should not be mistaken for successful recovery of entirely absent proteins. High missingness can trigger a kNN warning.\nThe GUI calls kNN without overriding its engine arguments. The impute manual documents defaults including k=10, rowmax=0.5, colmax=0.8 and an internal rng.seed. Thus recording the GUI seed alone does not imply that all kNN random behavior uses that seed; record the package version and call as well.",
+    "crumbs": [
+      "Pre-processing",
+      "Data imputation"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/data_imputation.html#downstream-decisions",
+    "href": "content/Pre_processing/data_imputation.html#downstream-decisions",
+    "title": "Data imputation",
+    "section": "Downstream decisions",
+    "text": "Downstream decisions\nUse imputed matrices for methods explicitly requiring complete inputs, such as selected visualizations. For differential inference, confirm the actual DEP input and preserve observed/detection evidence. Do not use “missingness became zero” as the sole quality criterion. Compare key findings under reasonable alternate methods and report method-sensitive proteins separately.\nImplementation.",
+    "crumbs": [
+      "Pre-processing",
+      "Data imputation"
+    ]
+  },
+  {
     "objectID": "content/Pre_processing/data_normalization.html",
     "href": "content/Pre_processing/data_normalization.html",
     "title": "Data normalization",
     "section": "",
-    "text": "ProtVis 0.9.1 no longer provides only fixed median subtraction. The interface supports Auto (source recommended) plus multiple explicit normalization families.\nCurrent core methods include:\n\nMedian\nQuantile\nVSN\nCyclic Loess\nRLR\n\nThe proteiNorm-compatible extension adds:\n\nLog2 baseline\nMedian\nMean\nVSN\nQuantile\nCyclic Loess\nRLR\nGlobal Intensity\n\nAvailability can depend on optional packages such as vsn or NormalyzerDE and on whether the current scale is compatible with the method.",
+    "text": "This chapter describes the dev code checked on 11 October 2026. The current selector contains Median centering, Median centering + positive-value shift, and Median subtraction. Earlier documentation listed Quantile, VSN, Cyclic Loess, RLR and Compare all methods; those controls are not present in the checked module and should not be treated as available GUI features.\nLoad the Step5/active quantitative matrix. Establish its scale first: subtracting medians on raw and logarithmic intensities has different interpretations. For a typical intensity workflow, use an appropriate logarithmic transform before imputation and normalization.",
     "crumbs": [
       "Pre-processing",
       "Data normalization"
     ]
   },
   {
-    "objectID": "content/Pre_processing/data_normalization.html#normalization-is-now-selectable",
-    "href": "content/Pre_processing/data_normalization.html#normalization-is-now-selectable",
+    "objectID": "content/Pre_processing/data_normalization.html#verified-interface-and-input",
+    "href": "content/Pre_processing/data_normalization.html#verified-interface-and-input",
     "title": "Data normalization",
     "section": "",
-    "text": "ProtVis 0.9.1 no longer provides only fixed median subtraction. The interface supports Auto (source recommended) plus multiple explicit normalization families.\nCurrent core methods include:\n\nMedian\nQuantile\nVSN\nCyclic Loess\nRLR\n\nThe proteiNorm-compatible extension adds:\n\nLog2 baseline\nMedian\nMean\nVSN\nQuantile\nCyclic Loess\nRLR\nGlobal Intensity\n\nAvailability can depend on optional packages such as vsn or NormalyzerDE and on whether the current scale is compatible with the method.",
+    "text": "This chapter describes the dev code checked on 11 October 2026. The current selector contains Median centering, Median centering + positive-value shift, and Median subtraction. Earlier documentation listed Quantile, VSN, Cyclic Loess, RLR and Compare all methods; those controls are not present in the checked module and should not be treated as available GUI features.\nLoad the Step5/active quantitative matrix. Establish its scale first: subtracting medians on raw and logarithmic intensities has different interpretations. For a typical intensity workflow, use an appropriate logarithmic transform before imputation and normalization.",
     "crumbs": [
       "Pre-processing",
       "Data normalization"
     ]
   },
   {
-    "objectID": "content/Pre_processing/data_normalization.html#source-aware-auto",
-    "href": "content/Pre_processing/data_normalization.html#source-aware-auto",
+    "objectID": "content/Pre_processing/data_normalization.html#methods-and-scenarios",
+    "href": "content/Pre_processing/data_normalization.html#methods-and-scenarios",
     "title": "Data normalization",
-    "section": "Source-aware Auto",
-    "text": "Source-aware Auto\nFor MaxQuant, Auto reproduces the archived workflow: sample-wise median subtraction followed by the historical row-wise +abs(min)+5 shift, with exact zeros mapped to 1. This is a compatibility preset, not a claim that the same procedure is universally appropriate.\nFor other sources, Auto resolves to the source-specific default.",
+    "section": "Methods and scenarios",
+    "text": "Methods and scenarios\n\n\n\n\n\n\n\n\nGUI choice\nImplementation\nWhen to use\n\n\n\n\nMedian centering\nSource-aware Auto: MaxQuant selects the archived positive-shift preset; other sources select median centering\nSource-specific reproduction after checking the resolved method\n\n\nMedian subtraction\ny_ij = x_ij - median_i(x_ij) for each sample j\nExplicit median centering on an established scale\n\n\nMedian centering + positive-value shift\nSample median subtraction followed by the historical row shift\nReproducing the archived MaxQuant workflow\n\n\n\n\nMedian subtraction\nEach sample column has its median subtracted, ignoring NA. For columns [1,2,3] and [3,4,5], results are [-1,0,1] in both columns. On a log2 scale, subtracting a sample offset corresponds to multiplicative adjustment on the intensity scale. Negative centered values are valid and must not be reclassified as undetected raw values.\nThis can address overall sample offsets when the distributional assumption is reasonable. It may remove a real global biological shift if most proteins change together; use acquisition information, controls and experimental expectations to assess that assumption. Similar boxplots after centering are partly guaranteed by the calculation and are not independent validation.\n\n\nArchived positive-value shift\nThe preset requires a fully finite, imputed matrix. First compute sample-centered values c_ij. For each protein row i:\n\nCompute offset_i = abs(min_j(c_ij)) + 5.\nFor an exactly zero centered entry, output 1.\nFor other entries, output c_ij + offset_i.\n\nFor a centered protein profile [-2,0,3], the offset is 7 and the output is [5,1,10]. The special zero mapping means this is not simply adding the same constant to all entries. It changes ordering and differences in some rows; it is a compatibility rule, not a general statistical normalization standard. Do not interpret its output as original intensities or directly back-transform it as ordinary log2 abundance.",
     "crumbs": [
       "Pre-processing",
       "Data normalization"
     ]
   },
   {
-    "objectID": "content/Pre_processing/data_normalization.html#input-scale",
-    "href": "content/Pre_processing/data_normalization.html#input-scale",
+    "objectID": "content/Pre_processing/data_normalization.html#gui-steps",
+    "href": "content/Pre_processing/data_normalization.html#gui-steps",
     "title": "Data normalization",
-    "section": "Input scale",
-    "text": "Input scale\nChoose Auto from Transformation step, Raw intensity, log2 or log10. VSN/proteiNorm methods require raw intensities or a safely reversible log2/log10 scale; incompatible transformations are reported as unavailable instead of being applied silently.",
+    "section": "GUI steps",
+    "text": "GUI steps\n\nClick Load data and confirm sample mapping and upstream processing.\nSelect Median subtraction for an explicit centering operation, or choose the source-aware/archived preset when reproducing that workflow.\nClick the run-normalization button.\nReview original/normalized tables and distributions; download diagnostic PDFs when needed.\nOpen Processing report to inspect dimensions, finite/missing counts, median, minimum, maximum and changes by sample.\nConfirm the resolved method, save the project and check which matrix each downstream module consumes.",
     "crumbs": [
       "Pre-processing",
       "Data normalization"
     ]
   },
   {
-    "objectID": "content/Pre_processing/data_normalization.html#gui-workflow",
-    "href": "content/Pre_processing/data_normalization.html#gui-workflow",
+    "objectID": "content/Pre_processing/data_normalization.html#interpreting-the-report",
+    "href": "content/Pre_processing/data_normalization.html#interpreting-the-report",
     "title": "Data normalization",
-    "section": "GUI workflow",
-    "text": "GUI workflow\n\n\n\n\n\n\nFigure 1: Earlier normalization interface in ProtVis. Current 0.9.1 keeps load/run/diagnostic views but adds method and input-scale selectors plus a Compare all methods workspace.\n\n\n\n\nClick Load data to load the Step5/active project state.\nConfirm the upstream transformation reported by the status panel.\nSelect input scale and normalization method.\nClick Run selected normalization.\nInspect the normalized matrix and distributions.\nOptionally click Compare all methods to benchmark candidate methods.",
+    "section": "Interpreting the report",
+    "text": "Interpreting the report\nMedian subtraction generally changes observed values without filling missing ones. Sample medians should be approximately zero where a finite median can be calculated. The positive-shift preset changes the scale again, so final medians need not be zero. Missingness should remain stable for ordinary centering; newly non-finite values warrant inspection of entirely missing columns or input problems.\nThe report counts finite values, including zero/negative values. It is deliberately different from raw positive-detection counts in Within-group Processing. State the method and input scale when describing the resulting range.",
     "crumbs": [
       "Pre-processing",
       "Data normalization"
     ]
   },
   {
-    "objectID": "content/Pre_processing/data_normalization.html#method-benchmarking",
-    "href": "content/Pre_processing/data_normalization.html#method-benchmarking",
+    "objectID": "content/Pre_processing/data_normalization.html#output-and-differential-analysis",
+    "href": "content/Pre_processing/data_normalization.html#output-and-differential-analysis",
     "title": "Data normalization",
-    "section": "Method benchmarking",
-    "text": "Method benchmarking\nThe comparison workspace reports diagnostic metrics such as sample-median dispersion, sample-IQR dispersion, pairwise correlation, within-group SD, and proteiNorm-style metrics (PCV, PMAD, PEV, intragroup correlation, total-intensity CV and log2-ratio IQR where calculable).\n\n\n\n\n\n\nWarningDiagnostics are not an automatic winner\n\n\n\nLower technical dispersion or higher correlation can be useful, but they do not prove that a normalization preserves the biological signal. Choose a method based on acquisition type, scale, design and expected global biology, then record the method explicitly.",
-    "crumbs": [
-      "Pre-processing",
-      "Data normalization"
-    ]
-  },
-  {
-    "objectID": "content/Pre_processing/data_normalization.html#output",
-    "href": "content/Pre_processing/data_normalization.html#output",
-    "title": "Data normalization",
-    "section": "Output",
-    "text": "Output\nThe selected normalized matrix becomes the active matrix, is stored as a schema-v4 preprocessing run, and is persisted for compatibility as:\nStep6_data_normalization.rda\nOverview/QC can use Step6, while Recommended DEP intentionally goes back to the observed Step4 matrix for its default inferential model.",
+    "section": "Output and differential analysis",
+    "text": "Output and differential analysis\nThe completed matrix/report is saved in ProtVis_dataset; report history is appended. The compatibility snapshot is Step6_data_normalization.rda.\nThe cookbook’s Recommended DEP workflow uses observed Step4 data rather than automatically substituting Step6. Check the running DEP module and saved provenance. Step4 is pre-imputation-module data, but may contain earlier filling if the Within-group Processing method performed it. Preserve the original matrix for presence/absence evidence and analyses requiring strictly observed measurements.\nNormalization module · Archived preset implementation.",
     "crumbs": [
       "Pre-processing",
       "Data normalization"
@@ -2611,56 +2666,78 @@
   {
     "objectID": "content/Pre_processing/correct_noise.html",
     "href": "content/Pre_processing/correct_noise.html",
-    "title": "Correct noise",
+    "title": "Within-group Processing",
     "section": "",
-    "text": "Correct Noise is the first shared quantitative preprocessing module after a source-specific import or Raw database search has created a real protein-by-sample matrix. It prefers the active ProtVis_dataset and falls back to compatible stage files when recovering an older project.\nRaw projects can arrive here from either Sage or FragPipe. A search-staging project without a protein matrix must finish Search first.",
+    "text": "Within-group Processing replaces the former Correct Noise interface name. It processes a protein-by-sample intensity matrix after import, MaxQuant preparation, Sage or FragPipe search. It does not subtract spectral background or estimate instrument noise. Load a completed quantitative matrix; an unfinished search-staging project is insufficient.\nThis chapter describes the ProtVis dev implementation checked on 11 October 2026. Method names in older screenshots may differ.\n\nOpen Within-group Processing and click Load data.\nInspect Sample info and Expression Matrix. Confirm that each column is the intended sample.\nUse Rename Columns to map source names to sample IDs when required.\nSelect Processing method, then click Run Processing.\nInspect the processed matrix and Processing report before proceeding.",
     "crumbs": [
       "Pre-processing",
-      "Correct noise"
+      "Within-group Processing"
     ]
   },
   {
-    "objectID": "content/Pre_processing/correct_noise.html#role-in-the-current-workflow",
-    "href": "content/Pre_processing/correct_noise.html#role-in-the-current-workflow",
-    "title": "Correct noise",
+    "objectID": "content/Pre_processing/correct_noise.html#purpose-and-prerequisites",
+    "href": "content/Pre_processing/correct_noise.html#purpose-and-prerequisites",
+    "title": "Within-group Processing",
     "section": "",
-    "text": "Correct Noise is the first shared quantitative preprocessing module after a source-specific import or Raw database search has created a real protein-by-sample matrix. It prefers the active ProtVis_dataset and falls back to compatible stage files when recovering an older project.\nRaw projects can arrive here from either Sage or FragPipe. A search-staging project without a protein matrix must finish Search first.",
+    "text": "Within-group Processing replaces the former Correct Noise interface name. It processes a protein-by-sample intensity matrix after import, MaxQuant preparation, Sage or FragPipe search. It does not subtract spectral background or estimate instrument noise. Load a completed quantitative matrix; an unfinished search-staging project is insufficient.\nThis chapter describes the ProtVis dev implementation checked on 11 October 2026. Method names in older screenshots may differ.\n\nOpen Within-group Processing and click Load data.\nInspect Sample info and Expression Matrix. Confirm that each column is the intended sample.\nUse Rename Columns to map source names to sample IDs when required.\nSelect Processing method, then click Run Processing.\nInspect the processed matrix and Processing report before proceeding.",
     "crumbs": [
       "Pre-processing",
-      "Correct noise"
+      "Within-group Processing"
     ]
   },
   {
-    "objectID": "content/Pre_processing/correct_noise.html#replicate-aware-rule",
-    "href": "content/Pre_processing/correct_noise.html#replicate-aware-rule",
-    "title": "Correct noise",
-    "section": "Replicate-aware rule",
-    "text": "Replicate-aware rule\nFor sample names with _1, _2, _3 replicate suffixes, ProtVis groups corresponding replicates per protein:\n\nif at least two replicates are non-zero, missing/zero cells are replaced by half the sum of non-zero replicate values;\nif fewer than two replicates are observed, that replicate group becomes missing;\nproteins with no positive signal in any replicate are removed in this archived-compatible correction;\nduplicated protein IDs are collapsed first, retaining the largest finite intensity per sample;\nif no recognizable replicate suffix exists, the validated matrix is returned without forcing this replicate rule.\n\n\n\n\n\n\n\nNote\n\n\n\nThis is a specific replicate-correction rule, not generic missing-value imputation. The later Imputation module remains a separate operation.",
+    "objectID": "content/Pre_processing/correct_noise.html#existing-method-the-default-compatibility-workflow",
+    "href": "content/Pre_processing/correct_noise.html#existing-method-the-default-compatibility-workflow",
+    "title": "Within-group Processing",
+    "section": "Existing method: the default compatibility workflow",
+    "text": "Existing method: the default compatibility workflow\nThe default preserves the original analysis behavior. It recognizes the historical replicate naming convention for repeats 1–3, handles duplicate IDs by taking the largest finite intensity per sample, and removes rows with no positive intensity anywhere. If no replicate names are recognized, no replicate-level correction is performed.\nFor each recognized group and protein:\n\nAt least two positive measurements: retain observed positive values; replace zero/missing values with the sum of positive measurements divided by two.\nFewer than two positive measurements: set the whole group to missing, including an isolated positive measurement.\nRemaining zeros become NA.\n\n\n\n\nThree-replicate input\nOutput\nInterpretation\n\n\n\n\n100, 120, 0\n100, 120, 110\nTwo detections; replace the zero\n\n\n100, 0, 0\nNA, NA, NA\nInsufficient replicate support\n\n\n100, 120, 140\n100, 120, 140\nAll observed values retained\n\n\n\nUse this preset when reproducing an analysis that explicitly used the archived rule. The replacement equals an arithmetic mean only when there are exactly two positive measurements. Do not generalize this fixed denominator to arbitrary replicate counts.",
     "crumbs": [
       "Pre-processing",
-      "Correct noise"
+      "Within-group Processing"
     ]
   },
   {
-    "objectID": "content/Pre_processing/correct_noise.html#gui-workflow",
-    "href": "content/Pre_processing/correct_noise.html#gui-workflow",
-    "title": "Correct noise",
-    "section": "GUI workflow",
-    "text": "GUI workflow\n\n\n\n\n\n\nFigure 1: Correct Noise in ProtVis. Load the completed input/search result, validate/rename sample columns, then apply replicate-aware correction.\n\n\n\n\nLoad data and inspect Sample info + Expression Matrix.\nRename Columns when source identifiers need mapping to canonical sample IDs.\nCorrect Noise and inspect the resulting NA/row pattern.\n\nDuplicate-run guards prevent the same action from being launched repeatedly while it is already running.",
+    "objectID": "content/Pre_processing/correct_noise.html#replicate-filtering-optional-without-imputation-by-default",
+    "href": "content/Pre_processing/correct_noise.html#replicate-filtering-optional-without-imputation-by-default",
+    "title": "Within-group Processing",
+    "section": "Replicate filtering: optional, without imputation by default",
+    "text": "Replicate filtering: optional, without imputation by default\nSelect Replicate filtering (at least two detected). The checkbox Impute missing values using the group mean starts unchecked.\nThe optional method requires unique protein IDs and sample names ending in _1, _2, …; the common prefix defines the group. For example, CK_1, CK_2, CK_3 form one group and Salt_1, Salt_2, Salt_3 another. Every group needs at least two sample columns. Replicate numbers can extend beyond three. Unsupported names and duplicate IDs produce an error instead of silently guessing groups.\nDetection means a finite positive raw intensity. Zero, negative and non-finite values become missing. Groups with fewer than two detections are masked entirely. A protein is removed only when every group has no retained measurement after filtering. This is not a requirement for detection in every experimental group.\n\n\n\nInput\nFiltering only\nFiltering + mean\n\n\n\n\n100, 120, 0\n100, 120, NA\n100, 120, 110\n\n\n100, 0, 0\nNA, NA, NA\nNA, NA, NA\n\n\n100, 120, 0, 140\n100, 120, NA, 140\n100, 120, 120, 140\n\n\n\nWith the checkbox selected, only eligible groups are filled, using the actual number of observed positive repeats. Failed groups stay missing. Use this on raw positive intensities, before logarithmic transformation; negative log values are not evidence of an undetected protein.",
     "crumbs": [
       "Pre-processing",
-      "Correct noise"
+      "Within-group Processing"
     ]
   },
   {
-    "objectID": "content/Pre_processing/correct_noise.html#outputs",
-    "href": "content/Pre_processing/correct_noise.html#outputs",
-    "title": "Correct noise",
-    "section": "Outputs",
-    "text": "Outputs\nThe result is appended as a schema-v4 preprocessing run and saved to the active dataset. Compatibility snapshots can include:\nStep2_remove_unreliable_peptide.rda\nStep3_correct_noise.rda\nContinue with Data transformation.",
+    "objectID": "content/Pre_processing/correct_noise.html#choosing-a-workflow",
+    "href": "content/Pre_processing/correct_noise.html#choosing-a-workflow",
+    "title": "Within-group Processing",
+    "section": "Choosing a workflow",
+    "text": "Choosing a workflow\n\n\n\n\n\n\n\n\nGoal\nChoice\nReason\n\n\n\n\nReproduce the archived study\nExisting method\nPreserve its exact rules\n\n\nFilter insufficiently supported groups while preserving missingness\nReplicate filtering, checkbox off\nSeparate filtering from filling\n\n\nExplore a complete group with one sporadic missing repeat\nReplicate filtering, checkbox on\nExplicit local mean replacement\n\n\nInvestigate group-specific presence/absence\nPreserve the original matrix and detection evidence\nMasking and filling change detection patterns\n\n\n\nGroup-mean filling assumes the missing value resembles observed repeats. It can reduce apparent within-group variability and is not a model of low-abundance censoring. Two detections is a configurable workflow choice here, not proof of reliability for every experiment or replicate design. For differential inference, check which saved matrix the DEP module uses; a Step4 matrix may already contain values filled by this earlier step.",
     "crumbs": [
       "Pre-processing",
-      "Correct noise"
+      "Within-group Processing"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/correct_noise.html#processing-report-and-saved-output",
+    "href": "content/Pre_processing/correct_noise.html#processing-report-and-saved-output",
+    "title": "Within-group Processing",
+    "section": "Processing report and saved output",
+    "text": "Processing report and saved output\nThe report lists protein rows, unique IDs, samples, positive detected values, missing/non-positive values and their percentage before/after processing. Per-sample counts distinguish Filled, Masked, Changed observed, and values Removed with rows. Cell transitions are calculated for retained unique IDs; duplicate input IDs prevent unambiguous transition counts.\nA lower missing percentage can arise from imputation or removal of incomplete proteins. It alone does not establish improved data quality. The report records the method and appends a report history to the dataset.\nCompatibility filenames remain Step2_remove_unreliable_peptide.rda and Step3_correct_noise.rda; the interface rename does not invalidate older projects. Continue with Data transformation.",
+    "crumbs": [
+      "Pre-processing",
+      "Within-group Processing"
+    ]
+  },
+  {
+    "objectID": "content/Pre_processing/correct_noise.html#implementation-reference",
+    "href": "content/Pre_processing/correct_noise.html#implementation-reference",
+    "title": "Within-group Processing",
+    "section": "Implementation reference",
+    "text": "Implementation reference\nProtVis within-group module.",
+    "crumbs": [
+      "Pre-processing",
+      "Within-group Processing"
     ]
   },
   {

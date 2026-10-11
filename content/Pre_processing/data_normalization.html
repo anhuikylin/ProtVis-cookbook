@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Run source-aware normalization, benchmark multiple methods, and document the selected matrix without forcing one method on every experiment.">
+<meta name="description" content="Choose sample median centering or the archived positive-shift preset and interpret before/after reports.">
 
 <title>Data normalization – ProtVis Cookbook</title>
 <style>
@@ -44,9 +44,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-85a3acc908edc3a11a86c47ee3a95dc2.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-108f4c036bbe54ef5b303d34b4966bbc.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8069832d7252697a21ef2cc2f9ae0abe.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-108f4c036bbe54ef5b303d34b4966bbc.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-cc05b6a869363dad826afc9f23926cbd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -437,7 +437,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Pre_processing/correct_noise.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Correct noise</span></a>
+ <span class="menu-text">Within-group Processing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -717,12 +717,15 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#normalization-is-now-selectable" id="toc-normalization-is-now-selectable" class="nav-link active" data-scroll-target="#normalization-is-now-selectable">Normalization is now selectable</a></li>
-  <li><a href="#source-aware-auto" id="toc-source-aware-auto" class="nav-link" data-scroll-target="#source-aware-auto">Source-aware Auto</a></li>
-  <li><a href="#input-scale" id="toc-input-scale" class="nav-link" data-scroll-target="#input-scale">Input scale</a></li>
-  <li><a href="#gui-workflow" id="toc-gui-workflow" class="nav-link" data-scroll-target="#gui-workflow">GUI workflow</a></li>
-  <li><a href="#method-benchmarking" id="toc-method-benchmarking" class="nav-link" data-scroll-target="#method-benchmarking">Method benchmarking</a></li>
-  <li><a href="#output" id="toc-output" class="nav-link" data-scroll-target="#output">Output</a></li>
+  <li><a href="#verified-interface-and-input" id="toc-verified-interface-and-input" class="nav-link active" data-scroll-target="#verified-interface-and-input">Verified interface and input</a></li>
+  <li><a href="#methods-and-scenarios" id="toc-methods-and-scenarios" class="nav-link" data-scroll-target="#methods-and-scenarios">Methods and scenarios</a>
+  <ul class="collapse">
+  <li><a href="#median-subtraction" id="toc-median-subtraction" class="nav-link" data-scroll-target="#median-subtraction">Median subtraction</a></li>
+  <li><a href="#archived-positive-value-shift" id="toc-archived-positive-value-shift" class="nav-link" data-scroll-target="#archived-positive-value-shift">Archived positive-value shift</a></li>
+  </ul></li>
+  <li><a href="#gui-steps" id="toc-gui-steps" class="nav-link" data-scroll-target="#gui-steps">GUI steps</a></li>
+  <li><a href="#interpreting-the-report" id="toc-interpreting-the-report" class="nav-link" data-scroll-target="#interpreting-the-report">Interpreting the report</a></li>
+  <li><a href="#output-and-differential-analysis" id="toc-output-and-differential-analysis" class="nav-link" data-scroll-target="#output-and-differential-analysis">Output and differential analysis</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Pre_processing/data_normalization.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Pre_processing/data_normalization.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -737,7 +740,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Run source-aware normalization, benchmark multiple methods, and document the selected matrix without forcing one method on every experiment.
+    Choose sample median centering or the archived positive-shift preset and interpret before/after reports.
   </div>
 </div>
 
@@ -754,82 +757,81 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="normalization-is-now-selectable" class="level2">
-<h2 class="anchored" data-anchor-id="normalization-is-now-selectable">Normalization is now selectable</h2>
-<p>ProtVis 0.9.1 no longer provides only fixed median subtraction. The interface supports <strong>Auto (source recommended)</strong> plus multiple explicit normalization families.</p>
-<p>Current core methods include:</p>
-<ul>
-<li><strong>Median</strong></li>
-<li><strong>Quantile</strong></li>
-<li><strong>VSN</strong></li>
-<li><strong>Cyclic Loess</strong></li>
-<li><strong>RLR</strong></li>
-</ul>
-<p>The proteiNorm-compatible extension adds:</p>
-<ul>
-<li>Log2 baseline</li>
-<li>Median</li>
-<li>Mean</li>
-<li>VSN</li>
-<li>Quantile</li>
-<li>Cyclic Loess</li>
-<li>RLR</li>
-<li>Global Intensity</li>
-</ul>
-<p>Availability can depend on optional packages such as <code>vsn</code> or <code>NormalyzerDE</code> and on whether the current scale is compatible with the method.</p>
+<section id="verified-interface-and-input" class="level2">
+<h2 class="anchored" data-anchor-id="verified-interface-and-input">Verified interface and input</h2>
+<p>This chapter describes the <code>dev</code> code checked on 11 October 2026. The current selector contains <strong>Median centering</strong>, <strong>Median centering + positive-value shift</strong>, and <strong>Median subtraction</strong>. Earlier documentation listed Quantile, VSN, Cyclic Loess, RLR and Compare all methods; those controls are not present in the checked module and should not be treated as available GUI features.</p>
+<p>Load the Step5/active quantitative matrix. Establish its scale first: subtracting medians on raw and logarithmic intensities has different interpretations. For a typical intensity workflow, use an appropriate logarithmic transform before imputation and normalization.</p>
 </section>
-<section id="source-aware-auto" class="level2">
-<h2 class="anchored" data-anchor-id="source-aware-auto">Source-aware Auto</h2>
-<p>For MaxQuant, Auto reproduces the archived workflow: sample-wise median subtraction followed by the historical row-wise <code>+abs(min)+5</code> shift, with exact zeros mapped to 1. This is a compatibility preset, not a claim that the same procedure is universally appropriate.</p>
-<p>For other sources, Auto resolves to the source-specific default.</p>
+<section id="methods-and-scenarios" class="level2">
+<h2 class="anchored" data-anchor-id="methods-and-scenarios">Methods and scenarios</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>GUI choice</th>
+<th>Implementation</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Median centering</td>
+<td>Source-aware Auto: MaxQuant selects the archived positive-shift preset; other sources select median centering</td>
+<td>Source-specific reproduction after checking the resolved method</td>
+</tr>
+<tr class="even">
+<td>Median subtraction</td>
+<td><code>y_ij = x_ij - median_i(x_ij)</code> for each sample j</td>
+<td>Explicit median centering on an established scale</td>
+</tr>
+<tr class="odd">
+<td>Median centering + positive-value shift</td>
+<td>Sample median subtraction followed by the historical row shift</td>
+<td>Reproducing the archived MaxQuant workflow</td>
+</tr>
+</tbody>
+</table>
+<section id="median-subtraction" class="level3">
+<h3 class="anchored" data-anchor-id="median-subtraction">Median subtraction</h3>
+<p>Each sample column has its median subtracted, ignoring NA. For columns <code>[1,2,3]</code> and <code>[3,4,5]</code>, results are <code>[-1,0,1]</code> in both columns. On a log2 scale, subtracting a sample offset corresponds to multiplicative adjustment on the intensity scale. Negative centered values are valid and must not be reclassified as undetected raw values.</p>
+<p>This can address overall sample offsets when the distributional assumption is reasonable. It may remove a real global biological shift if most proteins change together; use acquisition information, controls and experimental expectations to assess that assumption. Similar boxplots after centering are partly guaranteed by the calculation and are not independent validation.</p>
 </section>
-<section id="input-scale" class="level2">
-<h2 class="anchored" data-anchor-id="input-scale">Input scale</h2>
-<p>Choose <strong>Auto from Transformation step</strong>, Raw intensity, log2 or log10. VSN/proteiNorm methods require raw intensities or a safely reversible log2/log10 scale; incompatible transformations are reported as unavailable instead of being applied silently.</p>
-</section>
-<section id="gui-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="gui-workflow">GUI workflow</h2>
-<div id="fig-data-normalization-gui" class="quarto-float quarto-figure quarto-figure-center anchored" alt="ProtVis normalization screenshot. Current interface adds source-aware method selection, input scale, method benchmarking and diagnostic metrics." data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-data-normalization-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/screenshots/PixPin_2026-09-13_18-24-25.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="ProtVis normalization screenshot. Current interface adds source-aware method selection, input scale, method benchmarking and diagnostic metrics.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-data-normalization-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Earlier normalization interface in ProtVis. Current 0.9.1 keeps load/run/diagnostic views but adds method and input-scale selectors plus a Compare all methods workspace.
-</figcaption>
-</figure>
-</div>
+<section id="archived-positive-value-shift" class="level3">
+<h3 class="anchored" data-anchor-id="archived-positive-value-shift">Archived positive-value shift</h3>
+<p>The preset requires a fully finite, imputed matrix. First compute sample-centered values <code>c_ij</code>. For each protein row i:</p>
 <ol type="1">
-<li>Click <strong>Load data</strong> to load the Step5/active project state.</li>
-<li>Confirm the upstream transformation reported by the status panel.</li>
-<li>Select input scale and normalization method.</li>
-<li>Click <strong>Run selected normalization</strong>.</li>
-<li>Inspect the normalized matrix and distributions.</li>
-<li>Optionally click <strong>Compare all methods</strong> to benchmark candidate methods.</li>
+<li>Compute <code>offset_i = abs(min_j(c_ij)) + 5</code>.</li>
+<li>For an exactly zero centered entry, output <strong>1</strong>.</li>
+<li>For other entries, output <code>c_ij + offset_i</code>.</li>
+</ol>
+<p>For a centered protein profile <code>[-2,0,3]</code>, the offset is 7 and the output is <code>[5,1,10]</code>. The special zero mapping means this is <strong>not</strong> simply adding the same constant to all entries. It changes ordering and differences in some rows; it is a compatibility rule, not a general statistical normalization standard. Do not interpret its output as original intensities or directly back-transform it as ordinary log2 abundance.</p>
+</section>
+</section>
+<section id="gui-steps" class="level2">
+<h2 class="anchored" data-anchor-id="gui-steps">GUI steps</h2>
+<ol type="1">
+<li>Click <strong>Load data</strong> and confirm sample mapping and upstream processing.</li>
+<li>Select <strong>Median subtraction</strong> for an explicit centering operation, or choose the source-aware/archived preset when reproducing that workflow.</li>
+<li>Click the run-normalization button.</li>
+<li>Review original/normalized tables and distributions; download diagnostic PDFs when needed.</li>
+<li>Open <strong>Processing report</strong> to inspect dimensions, finite/missing counts, median, minimum, maximum and changes by sample.</li>
+<li>Confirm the resolved method, save the project and check which matrix each downstream module consumes.</li>
 </ol>
 </section>
-<section id="method-benchmarking" class="level2">
-<h2 class="anchored" data-anchor-id="method-benchmarking">Method benchmarking</h2>
-<p>The comparison workspace reports diagnostic metrics such as sample-median dispersion, sample-IQR dispersion, pairwise correlation, within-group SD, and proteiNorm-style metrics (PCV, PMAD, PEV, intragroup correlation, total-intensity CV and log2-ratio IQR where calculable).</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Diagnostics are not an automatic winner
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Lower technical dispersion or higher correlation can be useful, but they do not prove that a normalization preserves the biological signal. Choose a method based on acquisition type, scale, design and expected global biology, then record the method explicitly.</p>
-</div>
-</div>
+<section id="interpreting-the-report" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-the-report">Interpreting the report</h2>
+<p>Median subtraction generally changes observed values without filling missing ones. Sample medians should be approximately zero where a finite median can be calculated. The positive-shift preset changes the scale again, so final medians need not be zero. Missingness should remain stable for ordinary centering; newly non-finite values warrant inspection of entirely missing columns or input problems.</p>
+<p>The report counts finite values, including zero/negative values. It is deliberately different from raw positive-detection counts in Within-group Processing. State the method and input scale when describing the resulting range.</p>
 </section>
-<section id="output" class="level2">
-<h2 class="anchored" data-anchor-id="output">Output</h2>
-<p>The selected normalized matrix becomes the active matrix, is stored as a schema-v4 preprocessing run, and is persisted for compatibility as:</p>
-<pre class="text"><code>Step6_data_normalization.rda</code></pre>
-<p>Overview/QC can use Step6, while <strong>Recommended DEP</strong> intentionally goes back to the observed Step4 matrix for its default inferential model.</p>
+<section id="output-and-differential-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="output-and-differential-analysis">Output and differential analysis</h2>
+<p>The completed matrix/report is saved in <code>ProtVis_dataset</code>; report history is appended. The compatibility snapshot is <code>Step6_data_normalization.rda</code>.</p>
+<p>The cookbook’s Recommended DEP workflow uses observed Step4 data rather than automatically substituting Step6. Check the running DEP module and saved provenance. Step4 is pre-imputation-module data, but may contain earlier filling if the Within-group Processing method performed it. Preserve the original matrix for presence/absence evidence and analyses requiring strictly observed measurements.</p>
+<p><a href="https://github.com/anhuikylin/ProtVis/blob/dev/R/data_normalization.R">Normalization module</a> · <a href="https://github.com/anhuikylin/ProtVis/blob/dev/R/maxquant_preprocessing_defaults.R">Archived preset implementation</a>.</p>
 
 
 </section>

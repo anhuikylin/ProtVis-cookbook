@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Load the completed input/search matrix, harmonize sample names and apply replicate-aware correction without conflating it with imputation.">
+<meta name="description" content="Select the original replicate rule or detection filtering with optional within-group mean imputation.">
 
-<title>Correct noise – ProtVis Cookbook</title>
+<title>Within-group Processing – ProtVis Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -44,9 +44,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-85a3acc908edc3a11a86c47ee3a95dc2.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-54ab4118b304813d167fa7d1486c56f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-108f4c036bbe54ef5b303d34b4966bbc.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8069832d7252697a21ef2cc2f9ae0abe.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-108f4c036bbe54ef5b303d34b4966bbc.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-cc05b6a869363dad826afc9f23926cbd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -256,7 +256,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Pre_processing/Pre_processing.html">Pre-processing</a></li><li class="breadcrumb-item"><a href="../../content/Pre_processing/correct_noise.html">Correct noise</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Pre_processing/Pre_processing.html">Pre-processing</a></li><li class="breadcrumb-item"><a href="../../content/Pre_processing/correct_noise.html">Within-group Processing</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -437,7 +437,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/Pre_processing/correct_noise.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Correct noise</span></a>
+ <span class="menu-text">Within-group Processing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -717,10 +717,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#role-in-the-current-workflow" id="toc-role-in-the-current-workflow" class="nav-link active" data-scroll-target="#role-in-the-current-workflow">Role in the current workflow</a></li>
-  <li><a href="#replicate-aware-rule" id="toc-replicate-aware-rule" class="nav-link" data-scroll-target="#replicate-aware-rule">Replicate-aware rule</a></li>
-  <li><a href="#gui-workflow" id="toc-gui-workflow" class="nav-link" data-scroll-target="#gui-workflow">GUI workflow</a></li>
-  <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
+  <li><a href="#purpose-and-prerequisites" id="toc-purpose-and-prerequisites" class="nav-link active" data-scroll-target="#purpose-and-prerequisites">Purpose and prerequisites</a></li>
+  <li><a href="#existing-method-the-default-compatibility-workflow" id="toc-existing-method-the-default-compatibility-workflow" class="nav-link" data-scroll-target="#existing-method-the-default-compatibility-workflow">Existing method: the default compatibility workflow</a></li>
+  <li><a href="#replicate-filtering-optional-without-imputation-by-default" id="toc-replicate-filtering-optional-without-imputation-by-default" class="nav-link" data-scroll-target="#replicate-filtering-optional-without-imputation-by-default">Replicate filtering: optional, without imputation by default</a></li>
+  <li><a href="#choosing-a-workflow" id="toc-choosing-a-workflow" class="nav-link" data-scroll-target="#choosing-a-workflow">Choosing a workflow</a></li>
+  <li><a href="#processing-report-and-saved-output" id="toc-processing-report-and-saved-output" class="nav-link" data-scroll-target="#processing-report-and-saved-output">Processing report and saved output</a></li>
+  <li><a href="#implementation-reference" id="toc-implementation-reference" class="nav-link" data-scroll-target="#implementation-reference">Implementation reference</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/edit/main/content/Pre_processing/correct_noise.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/blob/main/content/Pre_processing/correct_noise.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/anhuikylin/ProtVis-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -728,14 +730,14 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Pre_processing/Pre_processing.html">Pre-processing</a></li><li class="breadcrumb-item"><a href="../../content/Pre_processing/correct_noise.html">Correct noise</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/Pre_processing/Pre_processing.html">Pre-processing</a></li><li class="breadcrumb-item"><a href="../../content/Pre_processing/correct_noise.html">Within-group Processing</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Correct noise</h1>
+<h1 class="title">Within-group Processing</h1>
 </div>
 
 <div>
   <div class="description">
-    Load the completed input/search matrix, harmonize sample names and apply replicate-aware correction without conflating it with imputation.
+    Select the original replicate rule or detection filtering with optional within-group mean imputation.
   </div>
 </div>
 
@@ -752,60 +754,137 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="role-in-the-current-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="role-in-the-current-workflow">Role in the current workflow</h2>
-<p><strong>Correct Noise</strong> is the first shared quantitative preprocessing module after a source-specific import or Raw database search has created a real protein-by-sample matrix. It prefers the active <code>ProtVis_dataset</code> and falls back to compatible stage files when recovering an older project.</p>
-<p>Raw projects can arrive here from either <strong>Sage</strong> or <strong>FragPipe</strong>. A search-staging project without a protein matrix must finish Search first.</p>
-</section>
-<section id="replicate-aware-rule" class="level2">
-<h2 class="anchored" data-anchor-id="replicate-aware-rule">Replicate-aware rule</h2>
-<p>For sample names with <code>_1</code>, <code>_2</code>, <code>_3</code> replicate suffixes, ProtVis groups corresponding replicates per protein:</p>
-<ul>
-<li>if at least two replicates are non-zero, missing/zero cells are replaced by half the sum of non-zero replicate values;</li>
-<li>if fewer than two replicates are observed, that replicate group becomes missing;</li>
-<li>proteins with no positive signal in any replicate are removed in this archived-compatible correction;</li>
-<li>duplicated protein IDs are collapsed first, retaining the largest finite intensity per sample;</li>
-<li>if no recognizable replicate suffix exists, the validated matrix is returned without forcing this replicate rule.</li>
-</ul>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This is a specific replicate-correction rule, not generic missing-value imputation. The later Imputation module remains a separate operation.</p>
-</div>
-</div>
-</section>
-<section id="gui-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="gui-workflow">GUI workflow</h2>
-<div id="fig-correct-noise-gui" class="quarto-float quarto-figure quarto-figure-center anchored" alt="ProtVis Correct Noise module with Load data, Rename Columns, Correct Noise, and input/output tables." data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-correct-noise-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../images/screenshots/PixPin_2026-09-13_18-15-07.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="ProtVis Correct Noise module with Load data, Rename Columns, Correct Noise, and input/output tables.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-correct-noise-gui-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Correct Noise in ProtVis. Load the completed input/search result, validate/rename sample columns, then apply replicate-aware correction.
-</figcaption>
-</figure>
-</div>
+<section id="purpose-and-prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="purpose-and-prerequisites">Purpose and prerequisites</h2>
+<p><strong>Within-group Processing</strong> replaces the former <strong>Correct Noise</strong> interface name. It processes a protein-by-sample intensity matrix after import, MaxQuant preparation, Sage or FragPipe search. It does not subtract spectral background or estimate instrument noise. Load a completed quantitative matrix; an unfinished search-staging project is insufficient.</p>
+<p>This chapter describes the ProtVis <code>dev</code> implementation checked on 11 October 2026. Method names in older screenshots may differ.</p>
 <ol type="1">
-<li><strong>Load data</strong> and inspect Sample info + Expression Matrix.</li>
-<li><strong>Rename Columns</strong> when source identifiers need mapping to canonical sample IDs.</li>
-<li><strong>Correct Noise</strong> and inspect the resulting <code>NA</code>/row pattern.</li>
+<li>Open <strong>Within-group Processing</strong> and click <strong>Load data</strong>.</li>
+<li>Inspect <strong>Sample info</strong> and <strong>Expression Matrix</strong>. Confirm that each column is the intended sample.</li>
+<li>Use <strong>Rename Columns</strong> to map source names to sample IDs when required.</li>
+<li>Select <strong>Processing method</strong>, then click <strong>Run Processing</strong>.</li>
+<li>Inspect the processed matrix and <strong>Processing report</strong> before proceeding.</li>
 </ol>
-<p>Duplicate-run guards prevent the same action from being launched repeatedly while it is already running.</p>
 </section>
-<section id="outputs" class="level2">
-<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
-<p>The result is appended as a schema-v4 preprocessing run and saved to the active dataset. Compatibility snapshots can include:</p>
-<pre class="text"><code>Step2_remove_unreliable_peptide.rda
-Step3_correct_noise.rda</code></pre>
-<p>Continue with <a href="../../content/Pre_processing/data_transformed.html">Data transformation</a>.</p>
+<section id="existing-method-the-default-compatibility-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="existing-method-the-default-compatibility-workflow">Existing method: the default compatibility workflow</h2>
+<p>The default preserves the original analysis behavior. It recognizes the historical replicate naming convention for repeats 1–3, handles duplicate IDs by taking the largest finite intensity per sample, and removes rows with no positive intensity anywhere. If no replicate names are recognized, no replicate-level correction is performed.</p>
+<p>For each recognized group and protein:</p>
+<ul>
+<li>At least two positive measurements: retain observed positive values; replace zero/missing values with the <strong>sum of positive measurements divided by two</strong>.</li>
+<li>Fewer than two positive measurements: set the whole group to missing, including an isolated positive measurement.</li>
+<li>Remaining zeros become <code>NA</code>.</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Three-replicate input</th>
+<th>Output</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>100, 120, 0</td>
+<td>100, 120, 110</td>
+<td>Two detections; replace the zero</td>
+</tr>
+<tr class="even">
+<td>100, 0, 0</td>
+<td>NA, NA, NA</td>
+<td>Insufficient replicate support</td>
+</tr>
+<tr class="odd">
+<td>100, 120, 140</td>
+<td>100, 120, 140</td>
+<td>All observed values retained</td>
+</tr>
+</tbody>
+</table>
+<p>Use this preset when reproducing an analysis that explicitly used the archived rule. The replacement equals an arithmetic mean only when there are exactly two positive measurements. Do not generalize this fixed denominator to arbitrary replicate counts.</p>
+</section>
+<section id="replicate-filtering-optional-without-imputation-by-default" class="level2">
+<h2 class="anchored" data-anchor-id="replicate-filtering-optional-without-imputation-by-default">Replicate filtering: optional, without imputation by default</h2>
+<p>Select <strong>Replicate filtering (at least two detected)</strong>. The checkbox <strong>Impute missing values using the group mean</strong> starts unchecked.</p>
+<p>The optional method requires unique protein IDs and sample names ending in <code>_1</code>, <code>_2</code>, …; the common prefix defines the group. For example, <code>CK_1</code>, <code>CK_2</code>, <code>CK_3</code> form one group and <code>Salt_1</code>, <code>Salt_2</code>, <code>Salt_3</code> another. Every group needs at least two sample columns. Replicate numbers can extend beyond three. Unsupported names and duplicate IDs produce an error instead of silently guessing groups.</p>
+<p>Detection means a finite positive raw intensity. Zero, negative and non-finite values become missing. Groups with fewer than two detections are masked entirely. A protein is removed only when <strong>every group</strong> has no retained measurement after filtering. This is not a requirement for detection in every experimental group.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Input</th>
+<th>Filtering only</th>
+<th>Filtering + mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>100, 120, 0</td>
+<td>100, 120, NA</td>
+<td>100, 120, 110</td>
+</tr>
+<tr class="even">
+<td>100, 0, 0</td>
+<td>NA, NA, NA</td>
+<td>NA, NA, NA</td>
+</tr>
+<tr class="odd">
+<td>100, 120, 0, 140</td>
+<td>100, 120, NA, 140</td>
+<td>100, 120, 120, 140</td>
+</tr>
+</tbody>
+</table>
+<p>With the checkbox selected, only eligible groups are filled, using the actual number of observed positive repeats. Failed groups stay missing. Use this on raw positive intensities, before logarithmic transformation; negative log values are not evidence of an undetected protein.</p>
+</section>
+<section id="choosing-a-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="choosing-a-workflow">Choosing a workflow</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Goal</th>
+<th>Choice</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Reproduce the archived study</td>
+<td>Existing method</td>
+<td>Preserve its exact rules</td>
+</tr>
+<tr class="even">
+<td>Filter insufficiently supported groups while preserving missingness</td>
+<td>Replicate filtering, checkbox off</td>
+<td>Separate filtering from filling</td>
+</tr>
+<tr class="odd">
+<td>Explore a complete group with one sporadic missing repeat</td>
+<td>Replicate filtering, checkbox on</td>
+<td>Explicit local mean replacement</td>
+</tr>
+<tr class="even">
+<td>Investigate group-specific presence/absence</td>
+<td>Preserve the original matrix and detection evidence</td>
+<td>Masking and filling change detection patterns</td>
+</tr>
+</tbody>
+</table>
+<p>Group-mean filling assumes the missing value resembles observed repeats. It can reduce apparent within-group variability and is not a model of low-abundance censoring. Two detections is a configurable workflow choice here, not proof of reliability for every experiment or replicate design. For differential inference, check which saved matrix the DEP module uses; a Step4 matrix may already contain values filled by this earlier step.</p>
+</section>
+<section id="processing-report-and-saved-output" class="level2">
+<h2 class="anchored" data-anchor-id="processing-report-and-saved-output">Processing report and saved output</h2>
+<p>The report lists protein rows, unique IDs, samples, positive detected values, missing/non-positive values and their percentage before/after processing. Per-sample counts distinguish <strong>Filled</strong>, <strong>Masked</strong>, <strong>Changed observed</strong>, and values <strong>Removed with rows</strong>. Cell transitions are calculated for retained unique IDs; duplicate input IDs prevent unambiguous transition counts.</p>
+<p>A lower missing percentage can arise from imputation or removal of incomplete proteins. It alone does not establish improved data quality. The report records the method and appends a report history to the dataset.</p>
+<p>Compatibility filenames remain <code>Step2_remove_unreliable_peptide.rda</code> and <code>Step3_correct_noise.rda</code>; the interface rename does not invalidate older projects. Continue with <a href="../../content/Pre_processing/data_transformed.html">Data transformation</a>.</p>
+</section>
+<section id="implementation-reference" class="level2">
+<h2 class="anchored" data-anchor-id="implementation-reference">Implementation reference</h2>
+<p><a href="https://github.com/anhuikylin/ProtVis/blob/dev/R/correct_noise.R">ProtVis within-group module</a>.</p>
 
 
 </section>
