@@ -1,69 +1,57 @@
 ---
 title: "Data normalization"
-description: "Run source-aware normalization, benchmark multiple methods, and document the selected matrix without forcing one method on every experiment."
+description: "Choose sample median centering or the archived positive-shift preset and interpret before/after reports."
 ---
 
-## Normalization is now selectable
+## Verified interface and input
 
-ProtVis 0.9.1 no longer provides only fixed median subtraction. The interface supports **Auto (source recommended)** plus multiple explicit normalization families.
+This chapter describes the `dev` code checked on 11 October 2026. The current selector contains **Median centering**, **Median centering + positive-value shift**, and **Median subtraction**. Earlier documentation listed Quantile, VSN, Cyclic Loess, RLR and Compare all methods; those controls are not present in the checked module and should not be treated as available GUI features.
 
-Current core methods include:
+Load the Step5/active quantitative matrix. Establish its scale first: subtracting medians on raw and logarithmic intensities has different interpretations. For a typical intensity workflow, use an appropriate logarithmic transform before imputation and normalization.
 
-- **Median**
-- **Quantile**
-- **VSN**
-- **Cyclic Loess**
-- **RLR**
+## Methods and scenarios
 
-The proteiNorm-compatible extension adds:
+| GUI choice | Implementation | When to use |
+|---|---|---|
+| Median centering | Source-aware Auto: MaxQuant selects the archived positive-shift preset; other sources select median centering | Source-specific reproduction after checking the resolved method |
+| Median subtraction | `y_ij = x_ij - median_i(x_ij)` for each sample j | Explicit median centering on an established scale |
+| Median centering + positive-value shift | Sample median subtraction followed by the historical row shift | Reproducing the archived MaxQuant workflow |
 
-- Log2 baseline
-- Median
-- Mean
-- VSN
-- Quantile
-- Cyclic Loess
-- RLR
-- Global Intensity
+### Median subtraction
 
-Availability can depend on optional packages such as `vsn` or `NormalyzerDE` and on whether the current scale is compatible with the method.
+Each sample column has its median subtracted, ignoring NA. For columns `[1,2,3]` and `[3,4,5]`, results are `[-1,0,1]` in both columns. On a log2 scale, subtracting a sample offset corresponds to multiplicative adjustment on the intensity scale. Negative centered values are valid and must not be reclassified as undetected raw values.
 
-## Source-aware Auto
+This can address overall sample offsets when the distributional assumption is reasonable. It may remove a real global biological shift if most proteins change together; use acquisition information, controls and experimental expectations to assess that assumption. Similar boxplots after centering are partly guaranteed by the calculation and are not independent validation.
 
-For MaxQuant, Auto reproduces the archived workflow: sample-wise median subtraction followed by the historical row-wise `+abs(min)+5` shift, with exact zeros mapped to 1. This is a compatibility preset, not a claim that the same procedure is universally appropriate.
+### Archived positive-value shift
 
-For other sources, Auto resolves to the source-specific default.
+The preset requires a fully finite, imputed matrix. First compute sample-centered values `c_ij`. For each protein row i:
 
-## Input scale
+1. Compute `offset_i = abs(min_j(c_ij)) + 5`.
+2. For an exactly zero centered entry, output **1**.
+3. For other entries, output `c_ij + offset_i`.
 
-Choose **Auto from Transformation step**, Raw intensity, log2 or log10. VSN/proteiNorm methods require raw intensities or a safely reversible log2/log10 scale; incompatible transformations are reported as unavailable instead of being applied silently.
+For a centered protein profile `[-2,0,3]`, the offset is 7 and the output is `[5,1,10]`. The special zero mapping means this is **not** simply adding the same constant to all entries. It changes ordering and differences in some rows; it is a compatibility rule, not a general statistical normalization standard. Do not interpret its output as original intensities or directly back-transform it as ordinary log2 abundance.
 
-## GUI workflow
+## GUI steps
 
-![Earlier normalization interface in ProtVis. Current 0.9.1 keeps load/run/diagnostic views but adds method and input-scale selectors plus a Compare all methods workspace.](../../images/screenshots/PixPin_2026-09-13_18-24-25.png){#fig-data-normalization-gui fig-alt="ProtVis normalization screenshot. Current interface adds source-aware method selection, input scale, method benchmarking and diagnostic metrics." width="100%" fig-align="center"}
+1. Click **Load data** and confirm sample mapping and upstream processing.
+2. Select **Median subtraction** for an explicit centering operation, or choose the source-aware/archived preset when reproducing that workflow.
+3. Click the run-normalization button.
+4. Review original/normalized tables and distributions; download diagnostic PDFs when needed.
+5. Open **Processing report** to inspect dimensions, finite/missing counts, median, minimum, maximum and changes by sample.
+6. Confirm the resolved method, save the project and check which matrix each downstream module consumes.
 
-1. Click **Load data** to load the Step5/active project state.
-2. Confirm the upstream transformation reported by the status panel.
-3. Select input scale and normalization method.
-4. Click **Run selected normalization**.
-5. Inspect the normalized matrix and distributions.
-6. Optionally click **Compare all methods** to benchmark candidate methods.
+## Interpreting the report
 
-## Method benchmarking
+Median subtraction generally changes observed values without filling missing ones. Sample medians should be approximately zero where a finite median can be calculated. The positive-shift preset changes the scale again, so final medians need not be zero. Missingness should remain stable for ordinary centering; newly non-finite values warrant inspection of entirely missing columns or input problems.
 
-The comparison workspace reports diagnostic metrics such as sample-median dispersion, sample-IQR dispersion, pairwise correlation, within-group SD, and proteiNorm-style metrics (PCV, PMAD, PEV, intragroup correlation, total-intensity CV and log2-ratio IQR where calculable).
+The report counts finite values, including zero/negative values. It is deliberately different from raw positive-detection counts in Within-group Processing. State the method and input scale when describing the resulting range.
 
-::: {.callout-warning}
-## Diagnostics are not an automatic winner
-Lower technical dispersion or higher correlation can be useful, but they do not prove that a normalization preserves the biological signal. Choose a method based on acquisition type, scale, design and expected global biology, then record the method explicitly.
-:::
+## Output and differential analysis
 
-## Output
+The completed matrix/report is saved in `ProtVis_dataset`; report history is appended. The compatibility snapshot is `Step6_data_normalization.rda`.
 
-The selected normalized matrix becomes the active matrix, is stored as a schema-v4 preprocessing run, and is persisted for compatibility as:
+The cookbook's Recommended DEP workflow uses observed Step4 data rather than automatically substituting Step6. Check the running DEP module and saved provenance. Step4 is pre-imputation-module data, but may contain earlier filling if the Within-group Processing method performed it. Preserve the original matrix for presence/absence evidence and analyses requiring strictly observed measurements.
 
-```text
-Step6_data_normalization.rda
-```
-
-Overview/QC can use Step6, while **Recommended DEP** intentionally goes back to the observed Step4 matrix for its default inferential model.
+[Normalization module](https://github.com/anhuikylin/ProtVis/blob/dev/R/data_normalization.R) · [Archived preset implementation](https://github.com/anhuikylin/ProtVis/blob/dev/R/maxquant_preprocessing_defaults.R).

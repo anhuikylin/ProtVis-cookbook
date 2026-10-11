@@ -64,7 +64,7 @@ website:
           - href: content/Pre_processing/Pre_processing.qmd
             text: Workflow overview
           - href: content/Pre_processing/correct_noise.qmd
-            text: Correct noise
+            text: Within-group Processing
           - href: content/Pre_processing/data_transformed.qmd
             text: Data transformation
           - href: content/Pre_processing/data_imputation.qmd
