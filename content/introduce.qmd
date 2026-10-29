@@ -40,6 +40,12 @@ A Raw project can start as a staging object without an expression matrix. Quanti
 
 MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS and user-defined matrices are parsed into the same protein-by-sample structure. MaxQuant has a dedicated Output Preparation step; other formats use source-specific parsers.
 
+## Unified input and data management
+
+The Raw/LC-MS route and quantitative-table route follow different source-specific steps, then converge on a unified project. Raw spectra are searched against a FASTA database; outputs from supported proteomics software or a user-defined matrix are imported and harmonized. ProtVis keeps search-level results—including PSMs, precursors, peptides and protein groups—alongside the protein matrix and sample information in the project workflow. This makes the relationship between source files, quality checks, harmonized data and downstream analyses easier to follow than workflows that rely on manual reformatting and separate records.
+
+![ProtVis integrates raw LC-MS and FASTA database search with quantitative outputs from proteomics software or user-defined matrices. Search results and sample information are organized with the harmonized protein matrix in ProtVis_dataset; the lower panel contrasts this process with manual reformatting, separate files and manual record keeping.](../images/screenshots/Figure%202.jpg){#fig-unified-input-data-management fig-cap="Unified database search and data management in ProtVis." fig-alt="Inputs include vendor raw files converted to mzML plus FASTA, or outputs from MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline and OpenMS. Search and import produce PSM, precursor, peptide and protein-group results that feed an integrated ProtVis_dataset workflow with validation, quality control and harmonization. A lower panel contrasts traditional manual reformatting, separate files and manual record keeping." width="100%" fig-align="center"}
+
 ## ProtVis_dataset schema v4
 
 Schema v4 keeps the physical S4 object compatible while adding a project-wide append-only run system:
