@@ -888,6 +888,17 @@ Figure&nbsp;1: ProtVis integrates raw LC-MS and FASTA database search with quant
 </section>
 <section id="protvis_dataset-schema-v4" class="level2">
 <h2 class="anchored" data-anchor-id="protvis_dataset-schema-v4">ProtVis_dataset schema v4</h2>
+<p>The integrated project links sample and variable metadata with the expression matrix, annotations, processing history, provenance and extra files. This shared state supports the progression from data creation and import through cleaning, transformation and normalization to downstream analyses such as dimensionality reduction, differential analysis, enrichment and network analysis.</p>
+<div id="fig-protvis-integrated-workflow" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-cap="Integrated project data organization and analysis workflow in ProtVis." alt="Sample information, variable information, expression_data, annotation, pipeline, provenance and extra files are connected in the ProtVis project. Processing includes creation, import and validation, data cleaning and transformation, and normalization. Downstream outputs include dimensionality reduction, differential analysis, enrichment and network analysis." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-protvis-integrated-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/screenshots/Figure S1.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-fig-cap="Integrated project data organization and analysis workflow in ProtVis." alt="Sample information, variable information, expression_data, annotation, pipeline, provenance and extra files are connected in the ProtVis project. Processing includes creation, import and validation, data cleaning and transformation, and normalization. Downstream outputs include dimensionality reduction, differential analysis, enrichment and network analysis.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protvis-integrated-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: ProtVis project data and analysis workflow. Sample information, variable information and the expression matrix are connected with annotations, the processing pipeline, provenance and extra files in one project; processing proceeds through creation, import and validation, data cleaning and transformation, and normalization before producing downstream analysis results.
+</figcaption>
+</figure>
+</div>
 <p>Schema v4 keeps the physical S4 object compatible while adding a project-wide append-only run system:</p>
 <ul>
 <li><code>analysis_results$v4$runs</code> stores immutable analysis executions;</li>
