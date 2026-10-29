@@ -9,6 +9,11 @@ ProtVis 0.9.1 uses both **schema-v4 run history** and serialized **checkpoints/s
 
 ![Checkpoint-aware analysis and recovery in ProtVis. Validated project states support resuming interrupted analyses and restarting from a selected stage.](../../images/protvis-checkpoint-recovery.svg){#fig-protvis-checkpoint-recovery fig-alt="Checkpoint-aware ProtVis workflow with saved project states, resume paths and node-level failure isolation." width="98%" fig-align="center"}
 
+The project keeps sample information, variable information, the expression matrix, annotations, analysis results and provenance together in `ProtVis_dataset`. From saved states, recovery can resume from the latest completed point, restore a chosen checkpoint and rerun later stages, or revise parameters at a stage and rerun the affected workflow.
+
+![ProtVis_dataset organizes sample and variable information, the expression matrix, annotations, analysis results and provenance as one integrated, standardized project. Saved states and checkpoints support resuming an interrupted analysis, restoring a checkpoint, or changing parameters and rerunning affected stages.](../../images/screenshots/Figure%203.jpg){#fig-protvis-dataset-recovery fig-cap="Project data organization and workflow recovery in ProtVis." fig-alt="Panel A shows sample information, variable information, the expression matrix, annotation, analysis results and provenance organized in ProtVis_dataset. Panel B shows recovery options after interruption: resume from the latest saved state, restore checkpoint 3 and rerun steps 4 to 6, or modify parameters at step 4 and rerun steps 4 to 6." width="100%" fig-align="center"}
+
+
 ## Canonical checkpoint stages
 
 The current ordered checkpoint progression is:
