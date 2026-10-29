@@ -48,6 +48,11 @@ The Raw/LC-MS route and quantitative-table route follow different source-specifi
 
 ## ProtVis_dataset schema v4
 
+The integrated project links sample and variable metadata with the expression matrix, annotations, processing history, provenance and extra files. This shared state supports the progression from data creation and import through cleaning, transformation and normalization to downstream analyses such as dimensionality reduction, differential analysis, enrichment and network analysis.
+
+![ProtVis project data and analysis workflow. Sample information, variable information and the expression matrix are connected with annotations, the processing pipeline, provenance and extra files in one project; processing proceeds through creation, import and validation, data cleaning and transformation, and normalization before producing downstream analysis results.](../images/screenshots/Figure%20S1.jpg){#fig-protvis-integrated-workflow fig-cap="Integrated project data organization and analysis workflow in ProtVis." fig-alt="Sample information, variable information, expression_data, annotation, pipeline, provenance and extra files are connected in the ProtVis project. Processing includes creation, import and validation, data cleaning and transformation, and normalization. Downstream outputs include dimensionality reduction, differential analysis, enrichment and network analysis." width="100%" fig-align="center"}
+
+
 Schema v4 keeps the physical S4 object compatible while adding a project-wide append-only run system:
 
 - `analysis_results$v4$runs` stores immutable analysis executions;
