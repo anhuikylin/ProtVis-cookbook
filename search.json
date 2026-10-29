@@ -3807,6 +3807,17 @@
     ]
   },
   {
+    "objectID": "content/introduce.html#unified-input-and-data-management",
+    "href": "content/introduce.html#unified-input-and-data-management",
+    "title": "Overview",
+    "section": "Unified input and data management",
+    "text": "Unified input and data management\nThe Raw/LC-MS route and quantitative-table route follow different source-specific steps, then converge on a unified project. Raw spectra are searched against a FASTA database; outputs from supported proteomics software or a user-defined matrix are imported and harmonized. ProtVis keeps search-level results—including PSMs, precursors, peptides and protein groups—alongside the protein matrix and sample information in the project workflow. This makes the relationship between source files, quality checks, harmonized data and downstream analyses easier to follow than workflows that rely on manual reformatting and separate records.\n\n\n\n\n\n\nFigure 1: ProtVis integrates raw LC-MS and FASTA database search with quantitative outputs from proteomics software or user-defined matrices. Search results and sample information are organized with the harmonized protein matrix in ProtVis_dataset; the lower panel contrasts this process with manual reformatting, separate files and manual record keeping.",
+    "crumbs": [
+      "Getting started",
+      "Overview"
+    ]
+  },
+  {
     "objectID": "content/introduce.html#protvis_dataset-schema-v4",
     "href": "content/introduce.html#protvis_dataset-schema-v4",
     "title": "Overview",

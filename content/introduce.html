@@ -759,6 +759,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#raw-lc-ms-fasta" id="toc-raw-lc-ms-fasta" class="nav-link" data-scroll-target="#raw-lc-ms-fasta">Raw / LC-MS + FASTA</a></li>
   <li><a href="#quantitative-software-output" id="toc-quantitative-software-output" class="nav-link" data-scroll-target="#quantitative-software-output">Quantitative software output</a></li>
   </ul></li>
+  <li><a href="#unified-input-and-data-management" id="toc-unified-input-and-data-management" class="nav-link" data-scroll-target="#unified-input-and-data-management">Unified input and data management</a></li>
   <li><a href="#protvis_dataset-schema-v4" id="toc-protvis_dataset-schema-v4" class="nav-link" data-scroll-target="#protvis_dataset-schema-v4">ProtVis_dataset schema v4</a></li>
   <li><a href="#recommended-dep-is-now-the-default" id="toc-recommended-dep-is-now-the-default" class="nav-link" data-scroll-target="#recommended-dep-is-now-the-default">Recommended DEP is now the default</a></li>
   <li><a href="#reproduction-modes" id="toc-reproduction-modes" class="nav-link" data-scroll-target="#reproduction-modes">Reproduction modes</a></li>
@@ -870,6 +871,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="quantitative-software-output">Quantitative software output</h3>
 <p>MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS and user-defined matrices are parsed into the same protein-by-sample structure. MaxQuant has a dedicated Output Preparation step; other formats use source-specific parsers.</p>
 </section>
+</section>
+<section id="unified-input-and-data-management" class="level2">
+<h2 class="anchored" data-anchor-id="unified-input-and-data-management">Unified input and data management</h2>
+<p>The Raw/LC-MS route and quantitative-table route follow different source-specific steps, then converge on a unified project. Raw spectra are searched against a FASTA database; outputs from supported proteomics software or a user-defined matrix are imported and harmonized. ProtVis keeps search-level results—including PSMs, precursors, peptides and protein groups—alongside the protein matrix and sample information in the project workflow. This makes the relationship between source files, quality checks, harmonized data and downstream analyses easier to follow than workflows that rely on manual reformatting and separate records.</p>
+<div id="fig-unified-input-data-management" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-cap="Unified database search and data management in ProtVis." alt="Inputs include vendor raw files converted to mzML plus FASTA, or outputs from MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline and OpenMS. Search and import produce PSM, precursor, peptide and protein-group results that feed an integrated ProtVis_dataset workflow with validation, quality control and harmonization. A lower panel contrasts traditional manual reformatting, separate files and manual record keeping.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-unified-input-data-management-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/screenshots/Figure 2.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-fig-cap="Unified database search and data management in ProtVis." alt="Inputs include vendor raw files converted to mzML plus FASTA, or outputs from MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline and OpenMS. Search and import produce PSM, precursor, peptide and protein-group results that feed an integrated ProtVis_dataset workflow with validation, quality control and harmonization. A lower panel contrasts traditional manual reformatting, separate files and manual record keeping.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-unified-input-data-management-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: ProtVis integrates raw LC-MS and FASTA database search with quantitative outputs from proteomics software or user-defined matrices. Search results and sample information are organized with the harmonized protein matrix in ProtVis_dataset; the lower panel contrasts this process with manual reformatting, separate files and manual record keeping.
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="protvis_dataset-schema-v4" class="level2">
 <h2 class="anchored" data-anchor-id="protvis_dataset-schema-v4">ProtVis_dataset schema v4</h2>
