@@ -1,0 +1,99 @@
+---
+title: "Binding pockets"
+description: "Predict and visualize protein binding pockets with P2Rank by default or fpocket as an optional advanced backend."
+---
+
+## Current design
+
+Protein Workbench now contains a dedicated **Binding pocket prediction** card. The current default backend is **P2Rank**; **fpocket** remains available as an optional advanced backend.
+
+Three structure sources are supported:
+
+- **Current AlphaFold structure** from the resolved Workbench protein;
+- **Built-in demo · 1HEL lysozyme**;
+- **Upload PDB**.
+
+## Built-in 1HEL demo
+
+The demo uses **PDB 1HEL**, hen egg-white lysozyme, X-ray structure at **1.70 Å**. Click **USE BUILT-IN DEMO** to load the structure and launch the default P2Rank workflow.
+
+The current implementation renders the 1HEL structure in the 3D panel before the synchronous P2Rank run begins, so the user receives immediate visual feedback while prediction is running.
+
+You can also download the bundled demo PDB.
+
+## P2Rank — recommended backend
+
+P2Rank is cross-platform but is an external application. Download it from:
+
+[P2Rank releases](https://github.com/rdk/p2rank/releases)
+
+Unzip the release; a separate installer is not required. **Java 17 or later is required.**
+
+### Configure P2Rank
+
+Set **P2Rank folder or executable** to either:
+
+- the extracted P2Rank directory containing `prank.bat`/`prank`; or
+- the launcher itself.
+
+ProtVis also attempts automatic detection. The status panel reports whether the path/folder and Java runtime are ready. Windows path handling accepts pasted/quoted directory paths and normalizes them before detection.
+
+Choose a profile:
+
+- **Default · experimental PDB structures**;
+- **AlphaFold / predicted structures**.
+
+When **Current AlphaFold structure** is selected as the source, ProtVis automatically runs the AlphaFold P2Rank profile. Threads are configurable (default 2).
+
+## What P2Rank returns
+
+ProtVis normalizes the P2Rank prediction CSV into a pocket table containing fields such as:
+
+- pocket rank/name;
+- score and probability;
+- pocket center coordinates;
+- SAS points / surface atoms;
+- residue IDs and residue count;
+- generated pocket-residue PDB file.
+
+Selecting **Displayed pocket** updates the 3D view so predicted pocket residues can be inspected in structural context.
+
+## Downloads
+
+The panel provides:
+
+- **Pocket table** CSV;
+- selected **Pocket PDB**;
+- **Full pocket results** ZIP;
+- built-in 1HEL demo PDB.
+
+The schema-v4 run stores the structure source, backend, backend label, P2Rank profile and binding-pocket table together with generated result files.
+
+## fpocket — optional advanced backend
+
+fpocket can be selected from **Prediction backend**. ProtVis supports:
+
+- a native `fpocket` executable on `PATH` or supplied manually;
+- Docker fallback using the image `fpocket/fpocket:latest`.
+
+When Docker is used, the UI can check/pull the image and distinguishes a missing Docker CLI, a stopped Docker engine and an unavailable registry/image. On Windows, Docker Desktop is the practical fallback when a native fpocket executable is not available.
+
+fpocket outputs are parsed into the same Workbench pocket table/3D-view concept, while its native descriptors (including druggability-related fields where available) are retained.
+
+## Choosing a structure
+
+Use the AlphaFold route when the resolved UniProt protein has a suitable predicted structure and no experimental PDB is preferred. Upload an experimental/curated PDB when exact chain/residue numbering or experimental conformation matters.
+
+::: {.callout-warning}
+Pocket prediction identifies geometrically/chemically plausible sites; it does not prove ligand binding, enzymatic activity or druggability. Compare predicted pockets with conserved residues, known domains/PTMs, experimental structures and biochemical evidence.
+:::
+
+## Troubleshooting
+
+**P2Rank not found.** Point the field to the extracted P2Rank folder or `prank.bat`/`prank` launcher.
+
+**Java warning.** Install/activate Java 17+ and restart the R session so `java` is visible on `PATH`.
+
+**No AlphaFold PDB.** Use the 1HEL demo to validate the local P2Rank installation or upload a `.pdb` file.
+
+**fpocket Docker fails.** Confirm Docker Desktop/daemon is running, then use **PULL / CHECK FPOCKET IMAGE** before prediction.

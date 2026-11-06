@@ -1,0 +1,91 @@
+---
+title: "DEP analysis"
+description: "Run Recommended DEP on observed pre-imputation data, preserve presence/absence evidence, reproduce archived results, or compare advanced proteomics engines."
+---
+
+## Recommended DEP is the default
+
+ProtVis 0.9.1 changed the default differential-protein workflow to reduce dependence on imputed values and historical matrix shifts.
+
+Current Recommended DEP defaults are:
+
+| Setting | Default |
+|---|---|
+| Input matrix | observed `Step4_data_transformed` |
+| Sample adjustment | median-center samples |
+| Missing-value treatment | **no KNN imputation in the inferential matrix** |
+| Detection filter | detected in ≥2 replicates in both groups |
+| Statistical test | limma robust `eBayes`, `trend=TRUE`, `robust=TRUE` |
+| Effect-size label threshold | `|log2FC| ≥ 1` |
+| Significance criterion | `adj.P.Val` |
+| FDR cutoff | 0.05 |
+| Multiple testing | BH |
+| Volcano y axis | raw `P.Value` by default for display |
+
+`limma::treat()` is also available when the minimum effect size should be incorporated into the hypothesis test rather than applied only after testing.
+
+## Current versus archived mode
+
+The **DEP mode** selector provides:
+
+- **Recommended DEP** — use for new analyses;
+- **Archived reproduction** — uses the historical Step6 normalized matrix/settings for exact comparability with older figures.
+
+Archived reproduction can retain the historical matrix shift; do not use it merely because it produces more significant proteins.
+
+## Comparison table
+
+Comparisons are still defined by two columns:
+
+```text
+Group1,Group2
+Control,Treatment
+Root,Shoot
+```
+
+Multiple rows are allowed. Group labels must match `sample_info` values exactly. The built-in demo retains the archived B73/Y12 developmental comparisons.
+
+## Detection filter
+
+Recommended choices include:
+
+- detected in ≥N replicates in **both** groups (default);
+- detected in ≥N replicates in **either** group;
+- any comparison sample (archived behavior);
+- all proteins.
+
+The default minimum detected replicates is 2.
+
+## Parallel presence/absence evidence
+
+Proteins detected in at least the configured number of replicates in one group but zero times in the other are retained as a separate table/evidence stream. This is intentionally **not** converted into an arbitrary huge logFC by filling the missing group.
+
+DEP Summary can export both:
+
+- **quantitative DEP counts**;
+- **parallel evidence counts**.
+
+## Main result views
+
+![Earlier DEP interface screenshot. The current 0.9.1 layout adds Recommended DEP/Archived reproduction controls, detection filtering, FDR/multiple-testing choices and parallel evidence while retaining result tables, volcano/heatmap and summary views.](../../images/screenshots/PixPin_2026-09-13_18-38-39.png){#fig-dep-gui fig-alt="ProtVis DEP screenshot. Current interface now defaults to observed-data Recommended DEP with detection filtering, robust limma/BH FDR and separate presence-absence evidence." width="100%" fig-align="center"}
+
+Review results in this order: **full result table → statistical thresholds/method metadata → volcano → heatmap → summary/evidence tables**. Visual thresholds should never be the only stored definition of significance.
+
+## Additional statistical engines
+
+ProtVis also provides an independent statistical-engine workspace for:
+
+- **limma** — robust/trend empirical-Bayes protein-level model;
+- **DEqMS** — uses peptide/PSM evidence counts when available;
+- **proDA** — models dropout/missingness and is suited to pre-imputation abundance data;
+- **MSstats** — uses native feature-level long-format data when the project contains it.
+
+Availability is checked per engine. If required inputs/packages are missing, the run summary reports the engine as unavailable rather than silently substituting another method.
+
+## Output
+
+DEP results are appended to schema-v4 history and remain available to enrichment/GSEA loaders. Compatibility files include `Step7_differential_analysis.rda`; the advanced engine workspace can also write `Step7_DEP_engines.rda`.
+
+::: {.callout-important}
+For publication, define the final significance rule with the adjusted/FDR metric and effect-size criterion you actually used. The default volcano can display raw P on the y-axis while classification still uses adjusted P/FDR; these are different roles.
+:::

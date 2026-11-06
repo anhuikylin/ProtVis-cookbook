@@ -1,0 +1,103 @@
+---
+title: "Overview"
+description: "How the current ProtVis 0.9.1 workflow is organized around search/import, schema-v4 provenance and reproducible downstream analysis."
+---
+
+## What is ProtVis?
+
+**ProtVis** is an interactive R/Shiny platform for proteomics and metaproteomics processing, statistical analysis, biological interpretation and scientific visualization. The current application uses `ProtVis_dataset` schema v4 as its canonical project state, so quantitative data, sample/protein metadata, annotations, search evidence, analysis runs, artifacts and provenance remain connected.
+
+ProtVis supports both GUI-driven exploration and scripted/headless execution. The Shiny app and CLI share the same import, search, processing, checkpoint, provenance and export backends.
+
+## Current navigation
+
+The top-level application now contains:
+
+| Area | Purpose |
+|---|---|
+| **Project init** | register working directory, metadata, quantitative input or Raw/LC-MS + FASTA context |
+| **Search** | Raw-project database search with **Sage** or **FragPipe** |
+| **Project Dashboard** | project QC, workflow state, provenance, run registry and resume |
+| **Pre-processing** | MaxQuant preparation when applicable, noise correction, transformation, imputation and normalization |
+| **Downstream analysis** | Overview/QC, DEP, enrichment, GSEA and Pathview |
+| **Multi-omics** | expression profile, WGCNA, metaproteomics, nine quadrant, co-enrichment and Venn |
+| **PTM** | modification-centric analysis |
+| **PSM Explorer** | Protein → Peptide → PSM → MS/MS evidence inspection |
+| **Release data** | convert working-stage `.rda` content to shareable tables |
+| **Toolkits** | protein extraction, Plant-mPLoc, background construction, structure/network/plot utilities and DEG analysis |
+
+Search remains source-aware: it is shown for the **Raw** route. MaxQuant Output Preparation remains MaxQuant-specific.
+
+## Two input architectures
+
+### Raw / LC-MS + FASTA
+
+Project init registers sample metadata, FASTA and LC-MS files. **Sage** is the lightweight bundled search backend and is provided for Windows, Linux, Apple Silicon macOS and Intel macOS. **FragPipe** uses an official external runtime through a headless integration and supports broader workflow presets.
+
+A Raw project can start as a staging object without an expression matrix. Quantitative protein data are created only after search succeeds.
+
+### Quantitative software output
+
+MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot, OpenMS and user-defined matrices are parsed into the same protein-by-sample structure. MaxQuant has a dedicated Output Preparation step; other formats use source-specific parsers.
+
+## Unified input and data management
+
+The Raw/LC-MS route and quantitative-table route follow different source-specific steps, then converge on a unified project. Raw spectra are searched against a FASTA database; outputs from supported proteomics software or a user-defined matrix are imported and harmonized. ProtVis keeps search-level results—including PSMs, precursors, peptides and protein groups—alongside the protein matrix and sample information in the project workflow. This makes the relationship between source files, quality checks, harmonized data and downstream analyses easier to follow than workflows that rely on manual reformatting and separate records.
+
+![ProtVis integrates raw LC-MS and FASTA database search with quantitative outputs from proteomics software or user-defined matrices. Search results and sample information are organized with the harmonized protein matrix in ProtVis_dataset; the lower panel contrasts this process with manual reformatting, separate files and manual record keeping.](../images/screenshots/Figure%202.jpg){#fig-unified-input-data-management fig-cap="Unified database search and data management in ProtVis." fig-alt="Inputs include vendor raw files converted to mzML plus FASTA, or outputs from MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline and OpenMS. Search and import produce PSM, precursor, peptide and protein-group results that feed an integrated ProtVis_dataset workflow with validation, quality control and harmonization. A lower panel contrasts traditional manual reformatting, separate files and manual record keeping." width="100%" fig-align="center"}
+
+## ProtVis_dataset schema v4
+
+Figure S1 provides a schematic, visual representation of `ProtVis_dataset`. The object brings sample information, variable information, the expression matrix, annotations, analysis results and provenance together as one project state. The processing pipeline and downstream analysis modules operate on this connected data, while extra files and provenance preserve the associated context.
+
+![Schematic representation of ProtVis_dataset and its connected analysis context.](../images/screenshots/Figure%20S1.jpg){#fig-protvis-dataset-schematic fig-cap="Schematic representation of ProtVis_dataset." fig-alt="ProtVis_dataset is depicted as an integrated project object connecting sample information, variable information, the expression matrix, annotation, analysis results and provenance. Processing steps include creation, import and validation, data cleaning and transformation, and normalization; connected analysis outputs include dimensionality reduction, differential analysis, enrichment and network analysis. Extra files and provenance are tracked with the project." width="100%" fig-align="center"}
+
+
+Schema v4 keeps the physical S4 object compatible while adding a project-wide append-only run system:
+
+- `analysis_results$v4$runs` stores immutable analysis executions;
+- `metadata$result_registry` indexes runs;
+- `metadata$workflow` stores dependency-aware workflow nodes/edges;
+- `metadata$artifacts` indexes generated files;
+- PSM/peptide assays are registered separately from the active protein matrix;
+- `expression_data` always points to the currently activated matrix.
+
+Core preprocessing runs keep complete matrix snapshots. Ordinary analyses keep result tables, statistics, plot data/configuration, parameters, files and upstream dependencies without needlessly duplicating the active matrix.
+
+Useful APIs include:
+
+```r
+protvis_result_registry(dataset)
+protvis_latest_result(dataset, "normalization")
+protvis_result_history(dataset, "normalization")
+protvis_result(dataset, run_id)
+dataset <- protvis_activate_result(dataset, run_id)
+```
+
+Optional `as_QFeatures()` / `from_QFeatures()` helpers connect ProtVis with the Bioconductor QFeatures ecosystem.
+
+## Recommended DEP is now the default
+
+The current DEP module no longer treats an imputed normalized matrix as the default inferential input. **Recommended DEP** uses the observed Step4 log2 matrix, optional sample median centering, a detection filter, robust trend limma statistics and BH FDR control. It also preserves proteins detected only in one group as a separate presence/absence candidate stream.
+
+An **Archived reproduction** mode remains available when historical figures/settings must be reproduced exactly. Additional comparison engines include DEqMS, proDA and MSstats when their required inputs are available.
+
+## Reproduction modes
+
+Several current modules intentionally distinguish normal analysis from archived figure reproduction. In particular:
+
+- **Enrichment analysis** contains the directional KEGG/Figure 3 reproduction workflow with configurable blue-gradient presentation;
+- **GSEA** contains **Standard GSEA** plus a **B73-Y12 Figure reproduction** mode that can load multiple previous DEP comparisons, focus on `Root_VE`, and either use the frozen historical target or recalculate from loaded DEP results;
+- **Overview** contains an archived Figure 3 UMAP reproduction route.
+
+Use archived modes only when you need historical comparability; use the recommended/default analytical route for new projects.
+
+## Project-wide QC and recovery
+
+**Project Dashboard** summarizes proteins, samples, completeness, median protein CV, missingness, workflow state, input fingerprints and search QC. Its **Resume workflow** action continues from the newest valid checkpoint/node. Re-running an upstream node can invalidate dependent downstream nodes while preserving their historical runs.
+
+## Scripted analysis
+
+Use `ProtVis::run_protvis_cli()` or the installed `exec/protvis` script for headless workflows. Raw projects can select Sage or FragPipe; table projects can specify a supported source parser; existing projects can be resumed from disk.
+
+Continue with [Installation](installation.qmd), [Project init](Project_init/Project_init.qmd), or the [ProtVis_dataset schema v4](reproducibility/ProtVis_dataset.qmd) chapter.

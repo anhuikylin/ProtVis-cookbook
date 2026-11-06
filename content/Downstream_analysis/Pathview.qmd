@@ -1,0 +1,49 @@
+---
+title: "Pathview"
+description: "Enrich KO identifiers and map quantitative log fold changes onto native KEGG pathway diagrams."
+---
+
+## Required files
+
+The current Pathview module uses two CSV files.
+
+### `pathview.csv`
+
+Two columns:
+
+```text
+KO,logFC
+K00844,1.25
+K01810,-0.83
+```
+
+KO identifiers are normalized to the `Kxxxxx` format.
+
+### `pathway_file.csv`
+
+Three columns:
+
+```text
+pathway,ko,Description
+map00010,K00844,Glycolysis / Gluconeogenesis
+```
+
+## GUI workflow
+
+1. Upload the KO/logFC file.
+2. Upload the pathway-to-KO annotation file.
+3. Choose **Plant, Animals, Bacteria, Fungi, Eukaryotes, or Hsa**.
+4. Click **Run KEGG Enrichment**.
+5. Select an enriched pathway.
+6. Click **Draw Selected Pathway**.
+
+ProtVis filters to valid KO identifiers, performs enrichment, then calls `pathview` with `species = "ko"` and native KEGG output. Multiple KO values mapping to the same node are summarized by the mean.
+
+## Output
+
+The native KEGG pathway is written as a PNG in the current working directory and shown in the interface together with a KO/logFC preview.
+
+::: {.callout-note}
+## Internet access may be required
+Pathview can require access to KEGG resources while generating the native pathway map. If enrichment succeeds but no PNG is generated, verify the KO IDs, selected pathway and network access.
+:::

@@ -1,0 +1,57 @@
+---
+title: "Data normalization"
+description: "Choose sample median centering or the archived positive-shift preset and interpret before/after reports."
+---
+
+## Verified interface and input
+
+This chapter describes the `dev` code checked on 11 October 2026. The current selector contains **Median centering**, **Median centering + positive-value shift**, and **Median subtraction**. Earlier documentation listed Quantile, VSN, Cyclic Loess, RLR and Compare all methods; those controls are not present in the checked module and should not be treated as available GUI features.
+
+Load the Step5/active quantitative matrix. Establish its scale first: subtracting medians on raw and logarithmic intensities has different interpretations. For a typical intensity workflow, use an appropriate logarithmic transform before imputation and normalization.
+
+## Methods and scenarios
+
+| GUI choice | Implementation | When to use |
+|---|---|---|
+| Median centering | Source-aware Auto: MaxQuant selects the archived positive-shift preset; other sources select median centering | Source-specific reproduction after checking the resolved method |
+| Median subtraction | `y_ij = x_ij - median_i(x_ij)` for each sample j | Explicit median centering on an established scale |
+| Median centering + positive-value shift | Sample median subtraction followed by the historical row shift | Reproducing the archived MaxQuant workflow |
+
+### Median subtraction
+
+Each sample column has its median subtracted, ignoring NA. For columns `[1,2,3]` and `[3,4,5]`, results are `[-1,0,1]` in both columns. On a log2 scale, subtracting a sample offset corresponds to multiplicative adjustment on the intensity scale. Negative centered values are valid and must not be reclassified as undetected raw values.
+
+This can address overall sample offsets when the distributional assumption is reasonable. It may remove a real global biological shift if most proteins change together; use acquisition information, controls and experimental expectations to assess that assumption. Similar boxplots after centering are partly guaranteed by the calculation and are not independent validation.
+
+### Archived positive-value shift
+
+The preset requires a fully finite, imputed matrix. First compute sample-centered values `c_ij`. For each protein row i:
+
+1. Compute `offset_i = abs(min_j(c_ij)) + 5`.
+2. For an exactly zero centered entry, output **1**.
+3. For other entries, output `c_ij + offset_i`.
+
+For a centered protein profile `[-2,0,3]`, the offset is 7 and the output is `[5,1,10]`. The special zero mapping means this is **not** simply adding the same constant to all entries. It changes ordering and differences in some rows; it is a compatibility rule, not a general statistical normalization standard. Do not interpret its output as original intensities or directly back-transform it as ordinary log2 abundance.
+
+## GUI steps
+
+1. Click **Load data** and confirm sample mapping and upstream processing.
+2. Select **Median subtraction** for an explicit centering operation, or choose the source-aware/archived preset when reproducing that workflow.
+3. Click the run-normalization button.
+4. Review original/normalized tables and distributions; download diagnostic PDFs when needed.
+5. Open **Processing report** to inspect dimensions, finite/missing counts, median, minimum, maximum and changes by sample.
+6. Confirm the resolved method, save the project and check which matrix each downstream module consumes.
+
+## Interpreting the report
+
+Median subtraction generally changes observed values without filling missing ones. Sample medians should be approximately zero where a finite median can be calculated. The positive-shift preset changes the scale again, so final medians need not be zero. Missingness should remain stable for ordinary centering; newly non-finite values warrant inspection of entirely missing columns or input problems.
+
+The report counts finite values, including zero/negative values. It is deliberately different from raw positive-detection counts in Within-group Processing. State the method and input scale when describing the resulting range.
+
+## Output and differential analysis
+
+The completed matrix/report is saved in `ProtVis_dataset`; report history is appended. The compatibility snapshot is `Step6_data_normalization.rda`.
+
+The cookbook's Recommended DEP workflow uses observed Step4 data rather than automatically substituting Step6. Check the running DEP module and saved provenance. Step4 is pre-imputation-module data, but may contain earlier filling if the Within-group Processing method performed it. Preserve the original matrix for presence/absence evidence and analyses requiring strictly observed measurements.
+
+[Normalization module](https://github.com/anhuikylin/ProtVis/blob/dev/R/data_normalization.R) · [Archived preset implementation](https://github.com/anhuikylin/ProtVis/blob/dev/R/maxquant_preprocessing_defaults.R).

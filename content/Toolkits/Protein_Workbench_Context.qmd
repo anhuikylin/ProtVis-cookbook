@@ -1,0 +1,81 @@
+---
+title: "Localization & interaction"
+description: "Use the resolved Protein Workbench entry for curated localization, optional Plant-mPLoc prediction and STRING functional-association partners with mapping diagnostics."
+---
+
+## Protein context
+
+After a UniProt entry or protein sequence is resolved in [Protein Workbench](Protein_Workbench.qmd), the **Protein context** card adds two related views: **Localization** and **Interaction**.
+
+## Localization
+
+The Localization view combines complementary evidence rather than treating a single predictor as definitive.
+
+### Curated UniProt localization
+
+ProtVis parses UniProt **SUBCELLULAR LOCATION** comments and displays the location, topology/orientation and evidence fields when available.
+
+### Localization-related sequence features
+
+Relevant UniProt sequence features are separated into a second table, including signal peptide, transit peptide, transmembrane, topological-domain, intramembrane, lipidation and propeptide annotations.
+
+### Optional Plant-mPLoc
+
+For a plant protein, click **RUN PLANT-mPLoc** to submit the current protein sequence to the external Plant-mPLoc service. The prediction is kept as a separate evidence source and does not overwrite curated UniProt annotation.
+
+If the resolved UniProt lineage is not recognized as a green plant, ProtVis warns that Plant-mPLoc may be biologically inappropriate.
+
+::: {.callout-note}
+Plant-mPLoc is an external web service. Internet access and service availability are required. The standalone [Plant-mPLoc](Plant_mPLoc.qmd) toolkit remains available when you want to run localization independently of Protein Workbench.
+:::
+
+## STRING interaction analysis
+
+The Interaction view queries functional-association partners from the **STRING REST API**.
+
+Current defaults:
+
+| Setting | Default |
+|---|---:|
+| Minimum STRING confidence | 400 / 1000 |
+| Top partners | 20 |
+| Network type | functional association |
+
+Click **LOAD STRING PARTNERS** after resolving a UniProt protein.
+
+## How STRING mapping is resolved
+
+Protein names and accessions can map differently across databases, so the current implementation performs an explicit resolution step:
+
+1. use an existing UniProt **STRING cross-reference** when available;
+2. otherwise try the UniProt accession, entry name, primary gene name and gene synonyms;
+3. query with the organism NCBI taxonomy ID from the resolved UniProt record;
+4. report the final STRING ID and identifiers tried.
+
+The **STRING mapping diagnostics** card is designed to distinguish two common cases:
+
+- mapping failed, so no valid STRING entity was resolved;
+- mapping succeeded, but no partners passed the current confidence threshold.
+
+These are biologically and technically different outcomes.
+
+## Interaction outputs
+
+The Workbench provides:
+
+- interaction-database cross-references (STRING, IntAct, BioGRID, DIP, MINT, ComplexPortal/CORUM when present in UniProt);
+- STRING mapping diagnostics;
+- mapped query STRING ID and preferred name;
+- ranked partner table with total score and component scores;
+- a compact query–partner network plot;
+- **PDF** download for the interaction-network figure.
+
+Partner-table columns can include neighborhood, fusion, phylogenetic-profile, coexpression, experimental, database and text-mining evidence scores when returned by STRING.
+
+::: {.callout-warning}
+STRING reports functional associations, not only direct physical binding. Interpret an edge according to its evidence channels and score; use experimental interaction evidence when a physical mechanism is being claimed.
+:::
+
+## When to use the standalone STRINGdb PPI page
+
+[STRINGdb PPI](STRINGdb_PPI.qmd) remains useful for a dedicated PPI workflow. Protein Workbench is preferable when interaction evidence must be interpreted together with the same protein's UniProt annotation, localization, domains and structure.

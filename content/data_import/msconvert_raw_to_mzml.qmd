@@ -1,0 +1,105 @@
+---
+title: "RAW → mzML conversion"
+description: "Choose the appropriate Windows, Linux, or macOS route for converting vendor mass-spectrometry RAW files to mzML before ProtVis/Sage."
+---
+
+## Why conversion is required
+
+The ProtVis Raw workflow starts from **`.mzML` + FASTA**, while mass spectrometers commonly produce vendor-specific files. Convert the vendor data to open **mzML** before **Project init → Raw** and **Search → Sage**.
+
+The cross-platform route is:
+
+**Vendor RAW → platform-appropriate converter → mzML → ProtVis Project init → Sage Search → ProtVis_dataset**
+
+## Choose your operating system
+
+| Platform | Recommended converter for Thermo `.raw` | Complete tutorial |
+|---|---|---|
+| **Windows** | ProteoWizard **MSConvert / MSConvertGUI** | [RAW → mzML on Windows](raw_to_mzml_windows.qmd) |
+| **Linux** | **ThermoRawFileParser** | [RAW → mzML on Linux](raw_to_mzml_linux.qmd) |
+| **macOS** | **ThermoRawFileParser** | [RAW → mzML on macOS](raw_to_mzml_macos.qmd) |
+
+::: {.callout-important}
+## The converter depends on both operating system and instrument vendor
+MSConvert is the preferred direct vendor-RAW route on Windows because many proprietary readers depend on Windows vendor libraries. For Thermo RAW on Linux/macOS, ThermoRawFileParser provides a practical cross-platform route. ThermoRawFileParser is Thermo-specific; data from Bruker, SCIEX, Waters, Agilent, Shimadzu, or another vendor may require a different converter.
+:::
+
+## Windows
+
+Use **ProteoWizard/MSConvert** when converting supported vendor RAW files on Windows. The Windows tutorial includes:
+
+- official ProteoWizard download and installation;
+- MSConvertGUI workflow;
+- the annotated ProtVis example screenshot;
+- output directory and mzML settings;
+- zlib compression;
+- Peak Picking / centroiding guidance;
+- `msconvert.exe` batch commands;
+- output verification and ProtVis handoff.
+
+Continue to [RAW → mzML on Windows](raw_to_mzml_windows.qmd).
+
+## Linux
+
+For Thermo RAW on Linux, use **ThermoRawFileParser**. The Linux tutorial covers:
+
+- self-contained Linux release installation;
+- framework-based execution with .NET 8;
+- Docker/BioContainers;
+- single-file and directory conversion;
+- indexed mzML output;
+- native peak picking and zlib defaults;
+- output verification;
+- direct handoff to ProtVis/Sage on a Linux workstation or server.
+
+Continue to [RAW → mzML on Linux](raw_to_mzml_linux.qmd).
+
+## macOS
+
+For Thermo RAW on macOS, use **ThermoRawFileParser**. The macOS tutorial covers:
+
+- self-contained macOS release installation;
+- .NET 8 framework-based execution;
+- Docker option;
+- macOS executable/security considerations;
+- single-file and batch conversion;
+- peak picking and compression;
+- transfer to another ProtVis/Sage server when needed.
+
+Continue to [RAW → mzML on macOS](raw_to_mzml_macos.qmd).
+
+## Common output requirements for ProtVis
+
+Whichever platform is used, the final directory should contain ordinary `.mzML` files whose names match `sample_info$mzml_file` exactly. For the six-sample PXD065315 control example:
+
+```text
+mzML/
+├── B73_C1.mzML
+├── B73_C2.mzML
+├── B73_C3.mzML
+├── EA2024_C1.mzML
+├── EA2024_C2.mzML
+└── EA2024_C3.mzML
+```
+
+Before ProtVis, confirm that every expected file exists, is non-empty, contains the expected MS levels, and was converted with the same settings.
+
+Then continue to [Raw/mzML + Sage search](raw_sage_search.qmd).
+
+## Reproducibility information to record
+
+Regardless of platform, record:
+
+```text
+Operating system:
+Converter and version:
+Original vendor format:
+Output format:
+Centroiding / peak picking:
+Compression:
+MS-level filtering:
+Additional filters/options:
+Conversion date:
+```
+
+Keeping conversion provenance together with the RAW files, mzML files, FASTA, Sage configuration, and ProtVis project makes the complete workflow reproducible.

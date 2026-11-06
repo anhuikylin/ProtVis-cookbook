@@ -1,0 +1,79 @@
+---
+title: "FragPipe search"
+description: "Run FragPipe as the comprehensive raw-data search backend and harmonize its PSM, peptide and protein outputs into ProtVis_dataset."
+---
+
+## When to use FragPipe
+
+Open **Search → FragPipe** when a Raw project needs a more comprehensive search workflow than the lightweight Sage route. ProtVis uses the official FragPipe runtime and its headless interface; it does **not** redistribute separately licensed FragPipe companion binaries inside the R package.
+
+The Raw route is:
+
+**Project init → Search → FragPipe → Project Dashboard → Pre-processing**
+
+FragPipe can work with compatible LC-MS inputs registered in Project init, including mzML/mzXML and, when the official runtime supports them, vendor RAW, MGF or `.d` inputs.
+
+## Prerequisites
+
+Before opening Search:
+
+1. Set a writable project directory.
+2. Upload sample information with `sample_id` plus a file column such as `mzml_file`, `raw_file` or `filename`.
+3. Upload the protein FASTA.
+4. Select the LC-MS input directory and click **Check LC-MS files**.
+5. Select **Raw** and run **Project init**.
+
+Unlike Sage, FragPipe is not bundled into ProtVis because the complete FragPipe ecosystem contains components with separate licenses. ProtVis instead detects an existing official runtime or helps obtain the official platform release at runtime.
+
+## Runtime detection and installation
+
+The FragPipe panel reports the status of FragPipe/version, workflows, tools folder, MSFragger, IonQuant, diaTracer, DIA-NN, Java and Python. Use **Refresh** after changing a path. If FragPipe is not detected, use **Install FragPipe** or provide the installation path manually.
+
+::: {.callout-note}
+On macOS, the current integration reports official FragPipe support as Docker/headless. Configure a compatible Docker/headless wrapper rather than assuming a native desktop installation is available.
+:::
+
+## Workflow presets
+
+ProtVis exposes official presets including **LFQ + MBR**, **Basic search**, **LFQ phosphoproteomics**, **Open search**, **Quick open search**, **TMT10 phosphoproteomics**, **DIA spectral library + quantification**, and **DIA phosphoproteomics**. A custom `.workflow` file can also be supplied.
+
+Choose the preset that matches the acquisition design. Workflow selection is part of the search model and should be recorded.
+
+## What ProtVis prepares
+
+Before launching headless FragPipe, ProtVis resolves the runtime, prepares the workflow, writes the project FASTA into the workflow configuration, writes a no-header manifest from registered LC-MS files/sample metadata, creates `FragPipe_search`, and records runtime versions, parameters and file fingerprints.
+
+## Run FragPipe
+
+Review workflow, data type, threads, RAM and optional runtime paths. Advanced workflows can also require Python or DIA-NN. Use **FragPipe dry run** when you want to validate the generated command/workflow without completing the search.
+
+Click **Run FragPipe Search** once. The result area provides **QC Summary**, **PSMs**, **Peptides**, **Proteins**, **Files**, the FragPipe log and the runtime-component table. The status panel reports parsed PSM, peptide and protein row counts.
+
+## Handoff to ProtVis_dataset
+
+ProtVis stores the search bundle in the active project and registers PSM/peptide assays in schema v4. A compatible protein report is harmonized into the canonical protein-by-sample matrix so later modules use the same `ProtVis_dataset` interface as Sage or tabular imports.
+
+Search provenance includes workflow, manifest, runtime versions, input/output fingerprints, parameters and log. Re-running a search creates a new recorded run instead of silently replacing previous analytical history.
+
+After a successful search, inspect **Project Dashboard** before continuing.
+
+## Script entry points
+
+```r
+ProtVis::protvis_fragpipe_status()
+ProtVis::protvis_install_fragpipe()
+ProtVis::protvis_fragpipe_workflow_presets()
+
+result <- ProtVis::run_fragpipe_search(
+  fasta = "proteins.fasta",
+  spectra_paths = list.files("spectra", full.names = TRUE),
+  output_directory = "FragPipe_search",
+  workflow = "LFQ + MBR"
+)
+```
+
+The same backend is available from the [Headless / CLI](../reproducibility/cli.qmd) workflow.
+
+::: {.callout-warning}
+Preserve the exact workflow file, manifest, FASTA and runtime version used for the final result.
+:::

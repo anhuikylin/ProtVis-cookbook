@@ -1,0 +1,49 @@
+---
+title: "Plant-mPLoc"
+description: "Submit a complete plant protein sequence to the public Plant-mPLoc service and record single- or multi-location predictions."
+---
+
+## Purpose
+
+**Toolkits → Plant-mPLoc** predicts plant-protein subcellular localization from an amino-acid sequence. ProtVis submits the sequence to the public Plant-mPLoc academic server and parses one or more predicted cellular locations.
+
+The current integration recognizes 12 location classes, including chloroplast, cytoplasm, nucleus, mitochondrion, cell membrane, cell wall, endoplasmic reticulum, Golgi apparatus, extracellular space, peroxisome, plastid and vacuole.
+
+## Input
+
+Enter a **Protein ID** and a complete protein sequence using the 20 standard one-letter amino-acid codes. Whitespace is removed automatically and non-standard characters are rejected.
+
+Click **LOAD DEMO SEQUENCE** to test the module with the bundled plant-protein sequence.
+
+## Advanced settings
+
+The module exposes **Timeout (seconds)**, default 90, and **Allow the legacy server certificate**, enabled by default.
+
+::: {.callout-warning}
+Disabling certificate verification reduces transport security. Use it only for this legacy academic endpoint when normal validation fails, and do not submit confidential sequences to a service you do not trust.
+:::
+
+## Run the prediction
+
+Click **PREDICT LOCALIZATION**. The result area reports status, protein ID/sequence length, number of predicted locations, prediction badges, result table, raw server response and method/publication information.
+
+Use **DOWNLOAD RESULT** to save the parsed prediction as CSV.
+
+## External-service limitation
+
+Plant-mPLoc is not executed locally. Internet access and the availability/layout of the external server are required. If the server changes its HTML form or result page, ProtVis may receive a page but fail to identify the prediction. The **Raw response** tab is useful for troubleshooting.
+
+## Programmatic use
+
+```r
+res <- ProtVis::predict_plant_mploc(
+  sequence = my_sequence,
+  id = "ZmProtein",
+  timeout = 90,
+  ignore_ssl = TRUE
+)
+
+res$prediction
+```
+
+When an active `ProtVis_dataset` exists, the GUI records the prediction as a schema-v4 analysis run with the protein ID, settings and result table.

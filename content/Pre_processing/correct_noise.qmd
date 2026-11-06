@@ -1,0 +1,73 @@
+---
+title: "Within-group Processing"
+description: "Select the original replicate rule or detection filtering with optional within-group mean imputation."
+---
+
+## Purpose and prerequisites
+
+**Within-group Processing** replaces the former **Correct Noise** interface name. It processes a protein-by-sample intensity matrix after import, MaxQuant preparation, Sage or FragPipe search. It does not subtract spectral background or estimate instrument noise. Load a completed quantitative matrix; an unfinished search-staging project is insufficient.
+
+This chapter describes the ProtVis `dev` implementation checked on 11 October 2026. Method names in older screenshots may differ.
+
+1. Open **Within-group Processing** and click **Load data**.
+2. Inspect **Sample info** and **Expression Matrix**. Confirm that each column is the intended sample.
+3. Use **Rename Columns** to map source names to sample IDs when required.
+4. Select **Processing method**, then click **Run Processing**.
+5. Inspect the processed matrix and **Processing report** before proceeding.
+
+## Existing method: the default compatibility workflow
+
+The default preserves the original analysis behavior. It recognizes the historical replicate naming convention for repeats 1–3, handles duplicate IDs by taking the largest finite intensity per sample, and removes rows with no positive intensity anywhere. If no replicate names are recognized, no replicate-level correction is performed.
+
+For each recognized group and protein:
+
+- At least two positive measurements: retain observed positive values; replace zero/missing values with the **sum of positive measurements divided by two**.
+- Fewer than two positive measurements: set the whole group to missing, including an isolated positive measurement.
+- Remaining zeros become `NA`.
+
+| Three-replicate input | Output | Interpretation |
+|---|---|---|
+| 100, 120, 0 | 100, 120, 110 | Two detections; replace the zero |
+| 100, 0, 0 | NA, NA, NA | Insufficient replicate support |
+| 100, 120, 140 | 100, 120, 140 | All observed values retained |
+
+Use this preset when reproducing an analysis that explicitly used the archived rule. The replacement equals an arithmetic mean only when there are exactly two positive measurements. Do not generalize this fixed denominator to arbitrary replicate counts.
+
+## Replicate filtering: optional, without imputation by default
+
+Select **Replicate filtering (at least two detected)**. The checkbox **Impute missing values using the group mean** starts unchecked.
+
+The optional method requires unique protein IDs and sample names ending in `_1`, `_2`, …; the common prefix defines the group. For example, `CK_1`, `CK_2`, `CK_3` form one group and `Salt_1`, `Salt_2`, `Salt_3` another. Every group needs at least two sample columns. Replicate numbers can extend beyond three. Unsupported names and duplicate IDs produce an error instead of silently guessing groups.
+
+Detection means a finite positive raw intensity. Zero, negative and non-finite values become missing. Groups with fewer than two detections are masked entirely. A protein is removed only when **every group** has no retained measurement after filtering. This is not a requirement for detection in every experimental group.
+
+| Input | Filtering only | Filtering + mean |
+|---|---|---|
+| 100, 120, 0 | 100, 120, NA | 100, 120, 110 |
+| 100, 0, 0 | NA, NA, NA | NA, NA, NA |
+| 100, 120, 0, 140 | 100, 120, NA, 140 | 100, 120, 120, 140 |
+
+With the checkbox selected, only eligible groups are filled, using the actual number of observed positive repeats. Failed groups stay missing. Use this on raw positive intensities, before logarithmic transformation; negative log values are not evidence of an undetected protein.
+
+## Choosing a workflow
+
+| Goal | Choice | Reason |
+|---|---|---|
+| Reproduce the archived study | Existing method | Preserve its exact rules |
+| Filter insufficiently supported groups while preserving missingness | Replicate filtering, checkbox off | Separate filtering from filling |
+| Explore a complete group with one sporadic missing repeat | Replicate filtering, checkbox on | Explicit local mean replacement |
+| Investigate group-specific presence/absence | Preserve the original matrix and detection evidence | Masking and filling change detection patterns |
+
+Group-mean filling assumes the missing value resembles observed repeats. It can reduce apparent within-group variability and is not a model of low-abundance censoring. Two detections is a configurable workflow choice here, not proof of reliability for every experiment or replicate design. For differential inference, check which saved matrix the DEP module uses; a Step4 matrix may already contain values filled by this earlier step.
+
+## Processing report and saved output
+
+The report lists protein rows, unique IDs, samples, positive detected values, missing/non-positive values and their percentage before/after processing. Per-sample counts distinguish **Filled**, **Masked**, **Changed observed**, and values **Removed with rows**. Cell transitions are calculated for retained unique IDs; duplicate input IDs prevent unambiguous transition counts.
+
+A lower missing percentage can arise from imputation or removal of incomplete proteins. It alone does not establish improved data quality. The report records the method and appends a report history to the dataset.
+
+Compatibility filenames remain `Step2_remove_unreliable_peptide.rda` and `Step3_correct_noise.rda`; the interface rename does not invalidate older projects. Continue with [Data transformation](data_transformed.qmd).
+
+## Implementation reference
+
+[ProtVis within-group module](https://github.com/anhuikylin/ProtVis/blob/dev/R/correct_noise.R).

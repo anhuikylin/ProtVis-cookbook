@@ -1,0 +1,116 @@
+---
+title: "Installation"
+description: "Install ProtVis 0.9.1 from the active development repository and verify Sage, FragPipe and optional analysis components."
+---
+
+## Recommended environment
+
+ProtVis is an R package with a Shiny interface and headless backend. Use a recent R installation and a writable package library. On Windows, Rtools may be required when a dependency must be compiled from source.
+
+::: {.callout-note}
+This cookbook follows **ProtVis 0.9.1** from **`anhuikylin/ProtVis@dev`**. The `dev` branch changes continuously, so record the installed package version and preferably the commit used for a final analysis.
+:::
+
+## Clean installation
+
+```r
+options(repos = c(CRAN = "https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
+install.packages("pak")
+
+pak::pak("anhuikylin/ProtVis@dev")
+```
+
+Verify:
+
+```r
+packageVersion("ProtVis")
+# 0.9.1 for the current cookbook baseline
+```
+
+## Updating an existing installation
+
+When an installation is stale, interrupted, or its lazy-load database is corrupted, start a fresh R session and use the repository's clean installer:
+
+```r
+source(
+  "https://raw.githubusercontent.com/anhuikylin/ProtVis/dev/install_ProtVis.R"
+)
+```
+
+Close other R sessions that are currently using ProtVis before reinstalling.
+
+## Sage is bundled on all supported desktop/server platforms
+
+ProtVis now includes platform-specific Sage executables:
+
+| Platform | Bundled location |
+|---|---|
+| Windows | `inst/extdata/sage/windows/sage.exe` |
+| Linux | `inst/extdata/sage/Linux/sage` |
+| macOS Apple Silicon | `inst/extdata/sage/macOS/ARM64/sage` |
+| macOS Intel | `inst/extdata/sage/macOS/Intel/sage` |
+
+ProtVis selects the bundled executable for the current operating system/architecture, restores executable permission on Unix-like systems when necessary, and falls back to `sage` on `PATH` if needed.
+
+Check from R:
+
+```r
+ProtVis::protvis_sage_executable()
+```
+
+A valid path means Sage is ready.
+
+## FragPipe availability
+
+FragPipe is integrated as a second **Search** backend, but the complete FragPipe runtime and separately licensed companion tools are **not bundled** in the ProtVis package.
+
+From the GUI, open **Search → FragPipe** and use runtime detection, **Install FragPipe**, or provide a manual installation path. The runtime table checks FragPipe, workflows, tools folder, MSFragger, IonQuant, diaTracer, DIA-NN, Java and Python.
+
+Programmatic checks:
+
+```r
+ProtVis::protvis_fragpipe_status()
+ProtVis::protvis_fragpipe_workflow_presets()
+```
+
+On macOS, the current integration treats official FragPipe support as Docker/headless.
+
+## Optional WGCNA helper
+
+The core package imports `WGCNA`. Some helper workflows may additionally use `ShinyWGCNA`, which remains optional:
+
+```r
+install.packages("remotes")
+remotes::install_github("ShawnWx2019/WGCNAShinyFun", ref = "master")
+```
+
+## Launch the GUI
+
+```r
+library(ProtVis)
+run_ProtVis()
+```
+
+or:
+
+```r
+ProtVis::run_ProtVis()
+```
+
+After launch, confirm that the navbar includes **Homepage**, **Project init**, **Search**, **Project Dashboard**, **Pre-processing**, **Downstream analysis**, **Multi-omics**, **PTM**, **PSM Explorer**, **Release data**, **Toolkits**, and **Help**. Search is shown only for Raw projects.
+
+## Headless check
+
+```r
+ProtVis::protvis_cli_help()
+```
+
+If this prints the CLI help, the headless entry point is available. See [Headless / CLI](reproducibility/cli.qmd).
+
+## Troubleshooting
+
+**App loads but Search engine is unavailable.** For Sage, run `protvis_sage_executable()`. For FragPipe, inspect `protvis_fragpipe_status()` and the GUI runtime table.
+
+**Package update fails while ProtVis is loaded.** Restart R, close other sessions and use the clean installer.
+
+**An optional analysis fails due to a missing dependency.** Install the dependency named in the error and restart the session; avoid repeatedly reinstalling the whole package unless the core package itself is corrupted.

@@ -1,0 +1,45 @@
+---
+title: "Toolkits"
+description: "Protein Workbench plus focused utilities for identifiers, localization, structure, networks, visualization and transcriptome analysis."
+---
+
+## Protein Workbench is the integrated protein-centric entry point
+
+In the current **ProtVis 0.9.16** Toolkits menu, **Protein Workbench** is the first item. It resolves a single protein/gene/UniProt identifier or amino-acid sequence once, then reuses that context across annotation, PTM sites, domains, AlphaFold structure, localization, STRING interactions, plant evolutionary analysis and binding-pocket prediction.
+
+Use the expandable [Protein Workbench](Protein_Workbench.qmd) documentation for the complete workflow:
+
+**ID / sequence → UniProt/MaizeGDB → sequence/PTM/domains/structure → localization & interaction → evolution → binding pockets**
+
+## Current toolkit map
+
+| Toolkit | Main purpose |
+|---|---|
+| **Protein Workbench** | integrated protein-centric analysis hub |
+| **Protein Extract** | extract protein sequences from FASTA by identifiers |
+| **Plant-mPLoc** | plant subcellular-localization prediction |
+| **Background Make** | build GO/KEGG background workbooks |
+| **Protein Links** | UniProt/InterPro/SWISS-MODEL-oriented protein links and sequence search |
+| **Protein Structure** | bio3d-based structure/NMA inspection |
+| **Boxplot** | grouped quantitative boxplots and statistical comparison |
+| **SwissModel** | dedicated SWISS-MODEL workflow |
+| **STRINGdb PPI** | dedicated STRINGdb network workflow |
+| **Stacked Column Diagram** | stacked/grouped/100% stacked categorical abundance plots |
+| **Correlation chord** | correlation matrix and chord/network representation |
+| **Transcriptome Analysis** | DESeq2 + PCA/volcano + maize KEGG GSEA workflow |
+| **Release data** | export stage/project data from the running app |
+
+## Integrated versus standalone tools
+
+Protein Workbench intentionally overlaps several focused utilities without removing them. For example, it can call Plant-mPLoc for the current protein, query STRING partners, display AlphaFold structure and link to SWISS-MODEL; the standalone pages remain available when you want a dedicated interface or batch/independent workflow.
+
+Recommended use:
+
+- choose **Protein Workbench** when one candidate protein needs multi-angle interpretation;
+- choose a **standalone toolkit** when the task is focused, independent of a resolved protein, or uses a specialized input/output workflow.
+
+## Reproducibility
+
+Toolkits that receive the shared active `ProtVis_dataset` append their completed analyses as schema-v4 toolkit runs where implemented. Keep exported FASTA/PDB/tables/figures and external-database settings together with the project when toolkit evidence contributes to a final biological conclusion.
+
+External-resource modules depend on the availability and current APIs of services such as UniProt, InterPro, AlphaFold DB, MaizeGDB/MaizeMine, STRING and Plant-mPLoc. A network-service failure should be reported separately from local sequence/structure analysis.

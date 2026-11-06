@@ -1,0 +1,63 @@
+---
+title: "Metaproteomics"
+description: "Combine protein abundance, taxonomy, function and optional peptide-centric evidence, and append each analysis as a schema-v4 run."
+---
+
+## Input routes
+
+The current module can either:
+
+- **Use Active ProtVis_dataset**; or
+- upload dedicated metaproteomics CSV tables.
+
+Uploaded tables are:
+
+| Input | Requirement |
+|---|---|
+| Protein abundance | `ProteinID` plus sample columns |
+| Sample metadata | optional; sample/group fields |
+| Taxonomy annotation | `ProteinID` plus taxonomic ranks |
+| Function annotation | `ProteinID` plus function fields such as KO/Pathway/COG/CAZy |
+| Peptide-centric table | optional peptide-to-protein/function evidence and sample intensities |
+
+A built-in demonstration includes abundance, sample metadata, taxonomy, function and peptide tables.
+
+## Analysis settings
+
+Taxonomic levels and functional levels are detected from the loaded annotation tables rather than being hard-coded to one fixed set. When available, ProtVis prefers **Genus** for taxonomy and **Pathway** for function in the initial demo view.
+
+Choose:
+
+- taxonomic level;
+- functional level;
+- **Use relative abundance** (default on);
+- **Top categories** (default 10).
+
+Click **Run Metaproteomics Analysis**. When an active dataset exists, the completed run is appended to that project's schema-v4 history; otherwise ProtVis can create a project state from the abundance table.
+
+## Current result panels
+
+The header cards summarize **Proteins, Taxa, Functions, Peptides**. Result tabs include:
+
+- **Merged table**;
+- **Taxonomy composition**;
+- **Taxonomy rank**;
+- **Function composition**;
+- **Differential categories** for taxonomy/function;
+- **Taxon × Function** Sankey and heatmap;
+- **Peptide-centric** heatmap/table;
+- **Result tables** for stored outputs.
+
+Use **Merged Protein Table** to export the merged table and **Current Run RDS** to preserve the complete metaproteomics run.
+
+## Peptide-centric evidence
+
+When a peptide is associated with multiple functional assignments, the current peptide-centric workflow splits its intensity equally across those assignments before sample-level aggregation. This rule is explicit because shared peptides can otherwise inflate functional totals.
+
+::: {.callout-warning}
+Protein groups and shared peptides create genuine ambiguity in metaproteomics. Taxonomic/function composition is only as specific as the upstream protein/peptide assignment. Preserve annotation and peptide mapping tables with the result.
+:::
+
+## Active-project integration
+
+Loading the active `ProtVis_dataset` allows metaproteomics outputs to remain linked to the protein matrix, sample metadata and earlier provenance. This is preferred over manually copying selected values into a disconnected table.

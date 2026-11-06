@@ -1,0 +1,120 @@
+---
+title: "Protein Workbench"
+description: "Resolve a protein once and inspect UniProt/MaizeGDB annotation, sequence properties, PTM sites, domains, AlphaFold structure, localization, interactions, evolution and binding pockets in one workspace."
+---
+
+## Purpose
+
+**Toolkits → Protein Workbench** is the integrated single-protein workspace in ProtVis. It does not replace the focused standalone tools; instead, it brings the most common protein-centric questions into one continuous workflow so the same resolved protein/sequence can be reused across annotation, structure and functional-context analyses.
+
+::: {.callout-note}
+## Current implementation
+This chapter is aligned to **ProtVis 0.9.16** on `anhuikylin/ProtVis@dev`, including the current P2Rank-first binding-pocket workflow.
+:::
+
+## Start with an identifier or sequence
+
+The left panel accepts four entry routes:
+
+- **Protein / gene / UniProt ID** — for example `P68871`, `HBB`, or a maize `Zm...` identifier;
+- optional **Organism taxon ID** — for example `9606` or `4577`, useful for disambiguating gene symbols;
+- pasted **protein sequence** for local sequence analysis;
+- uploaded protein FASTA (`.fa`, `.faa`, `.fasta`, `.fas`).
+
+Click **RUN / RESOLVE**. For identifier-based input, ProtVis queries UniProtKB, returns up to 25 candidate records, fills **Resolved UniProt entry**, and automatically loads the selected record. **EXAMPLE** uses human hemoglobin subunit beta (`P68871`); **CLEAR** resets the complete workbench state.
+
+### Maize IDs
+
+For IDs beginning with `Zm`, ProtVis also attempts live **MaizeGDB / MaizeMine** annotation. When available, the Annotations view can show gene model, symbol/name, chromosome coordinates, gene length, GO terms and pathway annotations, with a direct **Open MaizeGDB** link.
+
+## Protein-centric tabs
+
+| Tab | What it provides |
+|---|---|
+| **Overview** | UniProt summary plus functional/comment annotation |
+| **Sequence** | sequence properties, amino-acid sequence, residue composition and Kyte–Doolittle hydropathy |
+| **Batch sequences** | table for multi-ID UniProt sequence retrieval |
+| **Annotations** | UniProt sequence features plus live MaizeGDB annotation for maize IDs |
+| **PTM & sites** | modification/site-related UniProt features |
+| **Domains** | InterPro domains/signatures, positional domain plot and fallback cross-references |
+| **Structure** | PDB/AlphaFold/SMR resources, interactive AlphaFold 3D model and PDB download |
+| **Cross-references** | UniProt database cross-references |
+| **Resources** | direct links to UniProt, InterPro, AlphaFold DB, SWISS-MODEL Repository, STRING, PDBe-KB, Ensembl, NCBI Gene, KEGG Genes, Plant Reactome and MaizeGDB when relevant |
+
+Additional cards below the core workspace provide [Localization & interaction](Protein_Workbench_Context.qmd), [Evolutionary analysis](Protein_Workbench_Evolution.qmd), and [Binding-pocket prediction](Protein_Workbench_Pockets.qmd).
+
+## Sequence properties
+
+Local sequence calculations include:
+
+- length;
+- approximate molecular weight;
+- estimated pI;
+- GRAVY;
+- aromaticity;
+- residue composition;
+- Kyte–Doolittle hydropathy with an adjustable odd-numbered window (3–31; default 9).
+
+Residue-composition and hydropathy plots can be exported as **PNG, SVG or PDF**.
+
+::: {.callout-note}
+Approximate molecular weight and pI are calculated from the supplied amino-acid sequence and standard residue/ionization constants. They are useful descriptive properties, not substitutes for experimentally measured intact-protein mass or pI.
+:::
+
+## PTM and annotation evidence
+
+The **Annotations** tab exposes UniProt sequence features such as regions, active/binding sites, variants and processing features. **PTM & sites** filters PTM-related/site-level annotations, including phospho-, acetyl-, methyl-, ubiquitin-, glyco-, lipid- and related records when those features are present in UniProt.
+
+Absence of a PTM annotation in UniProt does not demonstrate absence of the modification experimentally. Use [PTM analysis](../PTM/PTM.qmd) and [PSM Explorer](../PTM/PSM_Explorer.qmd) when spectrum-level evidence is required.
+
+## Domains
+
+With a resolved UniProt accession, ProtVis queries the **InterPro REST API** and builds a positional domain/signature table. If positional InterPro data are unavailable, UniProt domain-related cross-references remain available as fallback evidence.
+
+The domain plot adapts its height to the number of domains and assigns distinct colors to domain labels. Export is available in **PNG, SVG and PDF**.
+
+## Structure
+
+The Structure tab combines UniProt structural cross-references with the **AlphaFold DB API**. When an AlphaFold PDB is available, ProtVis:
+
+- renders it interactively with `r3dmol`;
+- exposes the AlphaFold metadata table;
+- enables **DOWNLOAD PDB**;
+- keeps PDB, AlphaFoldDB and SWISS-MODEL Repository references together.
+
+Use [Protein Structure](Protein_Structure.qmd) for the separate bio3d/NMA workflow and [SwissModel](SwissModel.qmd) for the dedicated SWISS-MODEL interface.
+
+## Batch sequence retrieval
+
+The same Workbench can retrieve up to **1,000** gene IDs or UniProt accessions at one time. Choose a common species or override the NCBI taxon ID, paste IDs separated by whitespace/commas/semicolons, then click **RETRIEVE SEQUENCES**.
+
+Common plant and model-organism presets are available. For maize (`taxon 4577`), the UI includes reference-version choices:
+
+- B73 RefGen_v5 / NAM v5 (`Zm00001eb...`);
+- B73 RefGen_v4 (`Zm00001d...`);
+- B73 RefGen_v3 (`GRMZM2G...`);
+- PH207 v1;
+- W22 v2;
+- Mo17 v1;
+- Auto-detect or Other maize version.
+
+ProtVis first attempts exact accession/gene retrieval from UniProt, then uses a controlled fallback mapping for unresolved identifiers. Result status is reported as **Retrieved** or **Not found**, and unmatched maize identifiers retain direct MaizeGDB/Phytozome links where possible.
+
+Download outputs:
+
+- **batch FASTA**;
+- full **result table CSV**.
+
+## Reproducibility and project history
+
+When Protein Workbench is opened inside an active `ProtVis_dataset`, completed queries and analyses are recorded as schema-v4 toolkit runs. Depending on the action, records can include search/summary tables, sequence statistics, maize annotation, InterPro results, evolutionary candidates, localization/interaction results and binding-pocket tables.
+
+Keep downloaded tables/FASTA/PDB files with the project when a protein-level interpretation enters a manuscript figure or mechanistic conclusion.
+
+## External-service requirements
+
+Several panels depend on public online services: UniProt, InterPro, AlphaFold DB, MaizeGDB/MaizeMine, STRING and Plant-mPLoc. Network outages, rate limiting or API/service changes can therefore affect individual panels without invalidating the local sequence functions.
+
+::: {.callout-tip}
+For a typical maize candidate protein, a practical route is **Zm gene ID → RUN / RESOLVE → Overview/Annotations → Domains → Structure → Localization/Interaction → Evolutionary analysis → Binding pockets**. Use the standalone tools only when their focused interface is more convenient.
+:::

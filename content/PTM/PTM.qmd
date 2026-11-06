@@ -1,0 +1,46 @@
+---
+title: "PTM analysis"
+description: "Explore modification-oriented summaries and validate a published phosphopeptide spectrum benchmark inside the PTM workspace."
+---
+
+## Current PTM workspace
+
+The PTM page now contains two tabs:
+
+- **PTM data overview** — upload a CSV/XLSX PTM table, choose peptide/modification settings and generate a summary plot;
+- **PTM spectrum** — use the validated Vac14/PXD001057 phosphopeptide spectrum workflow.
+
+## PTM data overview
+
+Upload a PTM table (`.csv` or `.xlsx`), then configure:
+
+- optional ion additions/removals;
+- peptide selection;
+- modification type: **Phosphorylation, Ubiquitination, Acetylation, Methylation, Glycosylation**;
+- b/y ion presentation colors.
+
+Click **VISUALIZE PTM**. The current overview plot summarizes observed numeric/non-empty values by uploaded column and records the uploaded table plus plot configuration as a project run when an active `ProtVis_dataset` exists.
+
+Treat this view as a data overview rather than a site-localization statistical model.
+
+## PTM spectrum: Vac14 benchmark
+
+The built-in spectrum workflow validates a published Arabidopsis phosphopeptide from **PXD001057**:
+
+- protein `AT2G01690.1 (Vac14)`;
+- modified peptide `AT[pS]GVPFSQYK`;
+- phosphosite Ser3;
+- precursor charge 2+;
+- run `E1R2_SCX5_soluble`.
+
+ProtVis can obtain/cache the matching public mzIdentML + MGF evidence, calculate PTM-aware theoretical b/y fragments including relevant neutral losses, match observed peaks and render the evidence table/spectrum.
+
+For general uploaded PSM inspection, use the dedicated [PSM Explorer](PSM_Explorer.qmd).
+
+## Biological interpretation
+
+A PTM abundance change can reflect modification occupancy, total-protein abundance, or both. Compare site/peptide evidence with protein-level abundance when possible.
+
+::: {.callout-warning}
+Do not claim a unique modification site when the underlying search result does not localize the site confidently. Preserve the modified sequence, spectrum ID, precursor information and fragment evidence with the figure.
+:::

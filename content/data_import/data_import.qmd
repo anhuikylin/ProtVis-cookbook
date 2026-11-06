@@ -1,0 +1,67 @@
+---
+title: "Data input"
+description: "Choose the source-specific route that creates or restores the validated protein-by-sample matrix used by the shared ProtVis workflow."
+---
+
+## Source-aware input
+
+ProtVis 0.9.1 does not force every proteomics source through one parser. **Project init** records the source and then routes the project through the appropriate input/search step before all workflows converge on `ProtVis_dataset` schema v4.
+
+| Route | Source-specific step | Canonical outcome |
+|---|---|---|
+| Raw / LC-MS | **Search → Sage** or **Search → FragPipe** | searched PSM/peptide/protein evidence + active protein matrix |
+| MaxQuant | **MaxQuant Output Preparation** | filtered/harmonized protein matrix |
+| Proteome Discoverer, DIA-NN, Spectronaut, FragPipe report, Skyline, Mascot, OpenMS | source parser | harmonized protein matrix |
+| User-defined matrix | direct matrix validation | harmonized protein matrix |
+
+## Raw / LC-MS route
+
+Register sample metadata, FASTA and LC-MS files in Project init. Do not create a dummy expression matrix. Then choose a Search backend:
+
+- [Sage](raw_sage_search.qmd): bundled lightweight search engine; uses mzML.
+- [FragPipe](fragpipe_search.qmd): official external headless runtime with DDA/DIA/PTM workflow presets.
+
+If starting from vendor RAW and using Sage, convert to mzML first via the platform-specific [RAW → mzML overview](msconvert_raw_to_mzml.qmd). FragPipe can use additional LC-MS formats when supported by its workflow/runtime.
+
+## MaxQuant
+
+Selecting MaxQuant exposes **Pre-processing → MaxQuant Output Preparation**. MaxQuant-specific unreliable-evidence handling belongs in this step rather than being applied to every source.
+
+At import, MaxQuant missing sentinels such as `0` and `-8` are converted to missing values so they are not treated as biological abundance.
+
+## Parser-backed sources
+
+ProtVis currently supports parsers for **Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline, Mascot and OpenMS** in addition to MaxQuant.
+
+Examples of recognized structures include:
+
+- Proteome Discoverer accession plus Abundance/Area columns;
+- Skyline long `ProteinName`/file/Area reports or wide protein tables;
+- Mascot protein accession plus numeric quantitation such as intensity/emPAI;
+- OpenMS protein accession plus intensity/abundance/area columns;
+- DIA-NN/Spectronaut/FragPipe source-specific report layouts.
+
+Parser-backed imports are standardized into a common expression matrix and sample metadata representation while preserving source identity in provenance.
+
+## Built-in examples
+
+`protvis_builtin_datasets()` lists bundled examples and their source metadata. The current package includes examples for MaxQuant, Proteome Discoverer, DIA-NN, Spectronaut, FragPipe, Skyline and OpenMS, including an mzTab fixture.
+
+```r
+library(ProtVis)
+
+protvis_builtin_datasets()
+
+demo <- load_protvis_builtin_data(
+  source = "DIA-NN",
+  auto_export = FALSE
+)
+```
+
+Use built-in examples to verify parser/package behavior; do not treat their protein/sample counts as expected values for your experiment.
+
+## Shared handoff and schema v4
+
+Legacy stage files such as `Step2_remove_unreliable_peptide.rda` remain available for compatibility/recovery, but the active `ProtVis_dataset` is the primary state. Schema v4 records each import/search as a run with dependencies, artifacts and provenance.
+
+Before continuing, check **Project Dashboard** and confirm the project has the expected samples, a real protein matrix (unless still in Raw search staging), and correct grouping metadata.

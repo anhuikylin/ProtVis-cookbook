@@ -1,0 +1,139 @@
+---
+title: "ProtVis_dataset schema v4"
+description: "Understand the canonical S4 project object, append-only run registry, workflow graph, artifact index, assay registry and provenance model in ProtVis 0.9.1."
+---
+
+## Why ProtVis uses one project object
+
+`ProtVis_dataset` is the canonical state container for the current application. It keeps the active quantitative matrix aligned with sample/protein metadata while preserving annotations, search evidence, analysis runs, artifacts, workflow dependencies and provenance.
+
+The object does not inherit from `mass_dataset`. Legacy workspaces can be migrated where supported, but new analyses use `ProtVis_dataset` directly.
+
+## Physical S4 slots
+
+| Slot | Main role |
+|---|---|
+| `expression_data` | active protein-by-sample matrix |
+| `sample_info` | aligned sample metadata |
+| `variable_info` | aligned protein/feature metadata |
+| `sample_info_note` / `variable_info_note` | column documentation |
+| `annotation` | `eggnog_output`, `GO_annotation`, `KEGG_annotation` |
+| `analysis_results` | analysis/search outputs and schema-v4 run store |
+| `process_info` | process state/history |
+| `metadata` | source, schema version, provenance, registry/workflow/artifacts |
+| `other_files` | registered auxiliary/result files |
+| `checkpoint_info` | checkpoint/export metadata |
+| `version` | object version |
+| `activated` | active data layer/result |
+
+## Schema v4 logical fields
+
+Schema v4 keeps the S4 slot layout backward compatible while adding three project-wide logical structures:
+
+- **result registry** → `metadata$result_registry`;
+- **workflow graph** → `metadata$workflow`;
+- **artifact index** → `metadata$artifacts`.
+
+The canonical immutable run store is:
+
+```r
+dataset$analysis_results$v4$runs
+```
+
+Module-local/latest views are still available for compatibility, but they are mirrored into the append-only history rather than replacing previous runs.
+
+## Append-only analysis history
+
+Every analysis execution receives a run ID and stores its method, category, status, parameters, tables/statistics/plot data, files and dependencies. Re-running a module does not delete the previous execution.
+
+Core matrix-changing modules—noise correction, transformation, imputation and normalization—retain complete matrix snapshots with aligned metadata. Ordinary analyses retain their results and plotting/statistical context without duplicating the entire active matrix.
+
+Useful APIs:
+
+```r
+protvis_result_registry(dataset)
+protvis_latest_result(dataset, "normalization")
+protvis_result_history(dataset, "normalization")
+protvis_result(dataset, run_id)
+```
+
+To activate a historical preprocessing matrix:
+
+```r
+dataset <- protvis_activate_result(dataset, run_id)
+```
+
+Custom extensions can append results with:
+
+```r
+dataset <- record_protvis_output(
+  dataset,
+  module = "custom_analysis",
+  tables = list(result = my_table),
+  plot_data = list(volcano = volcano_df),
+  parameters = list(method = "my_method")
+)
+```
+
+## Workflow dependencies
+
+The workflow graph records nodes and edges between upstream/downstream runs. Re-running an upstream stage can mark dependent downstream nodes as invalidated. Invalidated results remain in history for auditability but should not be treated as current evidence.
+
+Use [Project Dashboard](Project_Dashboard.qmd) to inspect the run registry, workflow nodes/edges and current state.
+
+## Assay registry
+
+Search workflows can retain PSM- and peptide-level assays separately from the active protein matrix. This allows Sage/FragPipe evidence and PSM Explorer workflows to coexist with protein-level quantitation without forcing every evidence type into `expression_data`.
+
+## Provenance
+
+Structured provenance can include:
+
+- R/ProtVis/package versions;
+- Sage or FragPipe runtime/version and parameters;
+- timestamps and run status/errors;
+- MD5 fingerprints of input/output files;
+- parent object/run lineage;
+- generated artifacts and paths.
+
+Portable exports can include `provenance.json`, `provenance.rds`, `workflow_status.csv`, result-registry tables and per-run RDS files.
+
+## Create a project programmatically
+
+```r
+library(ProtVis)
+
+expr <- data.frame(
+  S1 = c(10, 20, 30),
+  S2 = c(12, 18, 33),
+  row.names = c("P1", "P2", "P3")
+)
+
+samples <- data.frame(
+  sample_id = c("S1", "S2"),
+  group = c("Control", "Treatment"),
+  row.names = c("S1", "S2")
+)
+
+ds <- create_protvis_dataset(
+  expression_data = expr,
+  sample_info = samples
+)
+```
+
+## QFeatures interoperability
+
+Optional helpers `as_QFeatures()` and `from_QFeatures()` connect ProtVis with the Bioconductor QFeatures ecosystem when those packages are installed. The conversion is optional; `ProtVis_dataset` remains the primary GUI/project state.
+
+## Raw-search staging
+
+A Raw project is a deliberate exception to the normal non-empty expression-matrix rule. Project init can create a search staging object before protein quantitation exists. Search finalizes the project once Sage LFQ or a compatible FragPipe protein report has been parsed.
+
+## Compatibility checkpoints
+
+Stage files such as `Step1_project_init.rda` through `Step7_differential_analysis.rda` remain useful for older workflows and recovery. They are compatibility snapshots, not the canonical run registry.
+
+::: {.callout-important}
+## Current state versus history
+`expression_data` points to the active matrix. Historical matrices/results remain available through the run registry. Always verify the active run/node before exporting a final figure or table.
+:::

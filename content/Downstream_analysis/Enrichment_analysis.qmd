@@ -1,0 +1,52 @@
+---
+title: "Enrichment analysis"
+description: "Run standard GO/KEGG over-representation analysis or reproduce directional KEGG enrichment from archived B73-Y12 DEP evidence."
+---
+
+## Two enrichment workspaces
+
+ProtVis 0.9.1 preserves the standard GO/KEGG workflow and adds a separate **Directional KEGG** reproduction workspace. They answer different questions and should not be mixed.
+
+## Standard GO/KEGG enrichment
+
+### Gene/protein list
+
+Input priority is uploaded list, pasted list, then IDs from a selected stored DEP comparison. Use an `ID` column whenever possible.
+
+### Background workbook
+
+Upload one `.xlsx` workbook containing:
+
+```text
+GO_background
+KEGG_background
+```
+
+Each sheet must contain `TERM`, `GENE`, and `NAME`. Click **Check File** and review both previews before analysis.
+
+### Run and outputs
+
+Choose taxonomic group, GO and/or KEGG, then run **Analysis**. Each analysis provides a result table plus Bar/Dot/Circle plots, Top-N control, colors, PDF figure export and CSV table export.
+
+Keep the exact background workbook with the project because enrichment p-values depend on the tested universe.
+
+## Directional KEGG
+
+The newer **Directional KEGG** tab is designed for the archived maize/teosinte Figure 3 enrichment logic. It separates directional DEP evidence, can load the archived comparison context, and calculates KEGG pathway enrichment from the supplied/bundled background rather than embedding a static pre-rendered result table.
+
+The current layout provides selection/evidence controls, comparison/background settings, plot controls and configurable blue-gradient colors. The archived gene-membership support lives under `inst/extdata/figure3_archive/` so the historical figure can be reproduced from the analysis inputs rather than from a stored picture.
+
+Use this workspace when exact historical directional membership is the target. For a new dataset, use the standard enrichment tab unless the directional design is explicitly part of the analysis plan.
+
+::: {.callout-important}
+## Reproduction mode is not a new significance recommendation
+The archived Figure 3 settings exist for reproducibility. Do not adopt its gene membership or presentation thresholds as generic defaults for another experiment.
+:::
+
+## Troubleshooting
+
+**Valid table but empty plot.** Check term significance/filtering and confirm IDs match the background namespace.
+
+**No DEP list appears.** Run/store DEP first or upload a gene list explicitly.
+
+**Pathways differ from an older figure.** Confirm comparison direction, exact background database/version, DEP membership definition and whether the directional archived membership was selected.
